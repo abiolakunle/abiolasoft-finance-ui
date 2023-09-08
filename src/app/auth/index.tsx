@@ -11,7 +11,7 @@ import { SidebarContext } from 'contexts/SidebarContext';
 // Custom Chakra theme
 export default function Auth() {
 	// states and functions
-	const [ toggleSidebar, setToggleSidebar ] = useState(false); 
+	const [ toggleSidebar, setToggleSidebar ] = useState(false);
 	const getRoute = () => {
 		return window.location.pathname !== '/auth/full-screen-maps';
 	};
@@ -55,8 +55,7 @@ export default function Auth() {
 						<Box mx='auto' minH='100vh'>
 							<Switch>
 								{getRoutes(routes)}
-								<Redirect from='/auth' to='/auth/sign-in/default
-                  ' />
+								<Redirect from='/auth' to='/auth/sign-in/default' />
 							</Switch>
 						</Box>
 					) : null}

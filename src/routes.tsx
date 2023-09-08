@@ -9,7 +9,7 @@ import DataTables from 'views/admin/dataTables';
 import RTL from 'views/admin/rtl';
 
 // Auth Imports
-import SignInCentered from 'views/auth/signIn';
+import SignInCentered from 'views/auth/signIn/SignIn';
 
 const routes = [
 	{
