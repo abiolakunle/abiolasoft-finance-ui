@@ -41,7 +41,7 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import { HSeparator } from "components/separator/Separator";
-import DefaultAuth from "app/auth/Default";
+import DefaultAuth from "app/landing-pages/Default";
 // Assets
 import illustration from "assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";

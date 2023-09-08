@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './assets/css/App.css';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import AuthLayout from './app/auth';
+import AuthLayout from './app/landing-pages';
 import AdminLayout from './app/admin';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './theme/theme';
