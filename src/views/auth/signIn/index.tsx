@@ -1,11 +1,11 @@
 /* eslint-disable */
 /*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
+  _   _  ___  ____  ___ ________  _   _   _   _ ___
+ | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _|
+ | |_| | | | | |_) || |  / / | | |  \| | | | | || |
  |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
  |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
+
 =========================================================
 * Horizon UI - v1.1.0
 =========================================================
@@ -41,7 +41,7 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import { HSeparator } from "components/separator/Separator";
-import DefaultAuth from "layouts/auth/Default";
+import DefaultAuth from "app/auth/Default";
 // Assets
 import illustration from "assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
