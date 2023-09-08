@@ -41,9 +41,7 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 import { HSeparator } from "components/separator/Separator";
-import DefaultAuth from "app/landing-pages/Default";
 // Assets
-import illustration from "assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
@@ -68,7 +66,6 @@ function SignIn() {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   return (
-    <DefaultAuth illustrationBackground={illustration} image={illustration}>
       <Flex
         maxW={{ base: "100%", md: "max-content" }}
         w='100%'
@@ -232,7 +229,7 @@ function SignIn() {
           </Flex>
         </Flex>
       </Flex>
-    </DefaultAuth>
+
   );
 }
 
