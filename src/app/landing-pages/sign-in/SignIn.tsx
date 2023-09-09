@@ -47,6 +47,8 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 import axios from "axios";
 import { apiBaseUrl } from "environment";
+import { useDispatch } from "react-redux";
+import { hideProgress, showProgress } from "state/slices/progressSlice";
 
 function SignIn() {
     // Chakra color mode
@@ -66,13 +68,17 @@ function SignIn() {
         { bg: "whiteAlpha.200" }
     );
     const [show, setShow] = React.useState(false);
+
     const handleClick = () => setShow(!show);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
+    const dispatch = useDispatch();
+
     const handleSignIn = async () => {
+        dispatch(showProgress());
         try {
             const response = await axios.post(
                 apiBaseUrl + "api/UserManagement/Login",
@@ -82,13 +88,17 @@ function SignIn() {
                 }
             );
 
+            dispatch(hideProgress());
+
             if (response.data.status) {
                 // Save the token to local storage
+                //dispatch(hideProgress());
                 localStorage.setItem("token", response.data.data.token);
 
                 // Redirect or perform any other actions on successful login
             } else {
                 // Handle error messages if needed
+                //dispatch(hideProgress());
                 setErrorMessage("Login failed. Please check your credentials.");
             }
         } catch (error) {

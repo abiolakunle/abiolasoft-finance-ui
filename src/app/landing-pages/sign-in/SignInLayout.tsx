@@ -1,23 +1,13 @@
 import { useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import routes from "routes";
-// Chakra imports
 import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import Footer from "components/footer/FooterAuth";
 import FixedPlugin from "components/fixedPlugin/FixedPlugin";
-// Custom components
 import { NavLink } from "react-router-dom";
-// Assets
 import { FaChevronLeft } from "react-icons/fa";
-
 import illustration from "assets/img/auth/auth.png";
-
-// Layout components
 import { SidebarContext } from "contexts/SidebarContext";
 import SignIn from "./SignIn";
 
-// Custom Chakra theme
 export default function Auth() {
     // states and functions
     const [toggleSidebar, setToggleSidebar] = useState(false);
