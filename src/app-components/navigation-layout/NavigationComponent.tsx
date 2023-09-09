@@ -18,7 +18,6 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
     let brandColor = useColorModeValue("brand.500", "brand.400");
 
     const { routes } = props;
-    let { pathname } = useLocation();
 
     // verifies if routeName is the one active (in browser input)
     const activeRoute = (routeName: string) => {

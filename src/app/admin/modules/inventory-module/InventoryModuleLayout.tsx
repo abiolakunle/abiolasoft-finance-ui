@@ -31,8 +31,8 @@ const InventoryModuleLayout = () => {
     return (
         <NavigationComponent baseRoute="/admin/modules/inventory" routes={inventoryRoutes}>
             <Routes>
-                {inventoryRoutes.map((route) => {
-                    return <Route path={route.path} element={route.component} />;
+                {inventoryRoutes.map((route, idx) => {
+                    return <Route key={idx} path={route.path} element={route.component} />;
                 })}
             </Routes>
         </NavigationComponent>
