@@ -1,15 +1,14 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import InventoryModuleLayout from "./modules/inventory-module/InventoryModuleLayout";
 import SelectAModule from "./SelectAModule";
 
 const AdminLayoutComponent = () => {
-    let { pathname } = useLocation();
-
     return (
         <Routes>
-            <Route path={`${pathname}/modules`} element={<SelectAModule />} />
+            <Route path="/" element={<SelectAModule />} />
+            <Route path="/modules" element={<SelectAModule />} />
             <Route
-                path={`${pathname}/modules/inventory`}
+                path="modules/inventory/*"
                 element={<InventoryModuleLayout />}
             />
         </Routes>

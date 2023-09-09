@@ -11,16 +11,10 @@ const InventoryModuleLayout = () => {
     return (
         <NavigationComponent routes={inventoryRoutes}>
             <Routes>
+                <Route path="/" element={<InventoryDashboardComponent />} />
+                <Route path="items" element={<ItemsComponent />} />
                 <Route
-                    path={`${pathname}`}
-                    element={<InventoryDashboardComponent />}
-                />
-                <Route
-                    path={`${pathname}/items`}
-                    element={<ItemsComponent />}
-                />
-                <Route
-                    path={`${pathname}/inventory-adjustments`}
+                    path="inventory-adjustments"
                     element={<InventoryAdjustmentsComponent />}
                 />
             </Routes>

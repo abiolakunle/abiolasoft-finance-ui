@@ -22,7 +22,7 @@
 */
 
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 // Chakra imports
 import {
     Box,
@@ -68,6 +68,7 @@ function SignIn() {
         { bg: "whiteAlpha.200" }
     );
     const [show, setShow] = React.useState(false);
+    let navigate = useNavigate();
 
     const handleClick = () => setShow(!show);
 
@@ -91,19 +92,13 @@ function SignIn() {
             dispatch(hideProgress());
 
             if (response.data.status) {
-                // Save the token to local storage
-                //dispatch(hideProgress());
                 localStorage.setItem("token", response.data.data.token);
-
-                // Redirect or perform any other actions on successful login
+                navigate("/admin");
             } else {
-                // Handle error messages if needed
-                //dispatch(hideProgress());
                 setErrorMessage("Login failed. Please check your credentials.");
             }
         } catch (error) {
             console.error("An error occurred:", error);
-            // Handle network or other errors
         }
     };
     return (

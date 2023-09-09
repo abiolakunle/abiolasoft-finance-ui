@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 //import ReactDOM from "react-dom";
 import "./assets/css/App.css";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthLayout from "./app/landing-pages/sign-in/SignInLayout";
 import AdminLayout from "./app/admin/AdminLayoutComponent";
 import { ChakraProvider, Progress } from "@chakra-ui/react";
@@ -33,37 +33,24 @@ const App = () => {
                     zIndex="10"
                 />
             )}
-            <Routes>
-                <Route path={`/auth`} element={<AuthLayout />} />
-                <Route path={`/admin`} element={<AdminLayout />} />
-                {/* <Redirect from="/" to="/admin" /> */}
-            </Routes>
+            <Router>
+                <Routes>
+                    <Route path="auth" element={<AuthLayout />} />
+                    <Route path="admin/*" element={<AdminLayout />} />
+                    {/* <Redirect from="/" to="/admin" /> */}
+                </Routes>
+            </Router>
         </>
     );
 };
-
-// ReactDOM.render(
-//     <ChakraProvider theme={theme}>
-//         <React.StrictMode>
-//             <HashRouter>
-//                 <Provider store={store}>
-//                     <App />
-//                 </Provider>
-//             </HashRouter>
-//         </React.StrictMode>
-//     </ChakraProvider>,
-//     document.getElementById("root")
-// );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <ChakraProvider theme={theme}>
         <React.StrictMode>
-            <HashRouter>
-                <Provider store={store}>
-                    <App />
-                </Provider>
-            </HashRouter>
+            <Provider store={store}>
+                <App />
+            </Provider>
         </React.StrictMode>
     </ChakraProvider>
 );
