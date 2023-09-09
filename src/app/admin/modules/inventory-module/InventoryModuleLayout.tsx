@@ -1,27 +1,29 @@
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import InventoryAdjustmentsComponent from "./inventory-adjustments/InventoryAdjustmentsComponent";
 import InventoryDashboardComponent from "./inventory-dashboard/InventoryDashboardComponent";
 import inventoryRoutes from "./inventory-routes";
 import ItemsComponent from "./items/ItemsComponent";
 
 const InventoryModuleLayout = () => {
-    let { path } = useRouteMatch();
+    let { pathname } = useLocation();
 
     return (
         <NavigationComponent routes={inventoryRoutes}>
-            <Switch>
+            <Routes>
                 <Route
-                    exact
-                    path={`${path}`}
-                    component={InventoryDashboardComponent}
+                    path={`${pathname}`}
+                    element={<InventoryDashboardComponent />}
                 />
-                <Route path={`${path}/items`} component={ItemsComponent} />
                 <Route
-                    path={`${path}/inventory-adjustments`}
-                    component={InventoryAdjustmentsComponent}
+                    path={`${pathname}/items`}
+                    element={<ItemsComponent />}
                 />
-            </Switch>
+                <Route
+                    path={`${pathname}/inventory-adjustments`}
+                    element={<InventoryAdjustmentsComponent />}
+                />
+            </Routes>
         </NavigationComponent>
     );
 };

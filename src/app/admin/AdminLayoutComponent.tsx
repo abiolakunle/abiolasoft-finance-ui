@@ -1,18 +1,18 @@
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import InventoryModuleLayout from "./modules/inventory-module/InventoryModuleLayout";
 import SelectAModule from "./SelectAModule";
 
 const AdminLayoutComponent = () => {
-    let { path } = useRouteMatch();
+    let { pathname } = useLocation();
 
     return (
-        <Switch>
-            <Route exact path={`${path}/modules`} component={SelectAModule} />
+        <Routes>
+            <Route path={`${pathname}/modules`} element={<SelectAModule />} />
             <Route
-                path={`${path}/modules/inventory`}
-                component={InventoryModuleLayout}
+                path={`${pathname}/modules/inventory`}
+                element={<InventoryModuleLayout />}
             />
-        </Switch>
+        </Routes>
     );
 };
 
