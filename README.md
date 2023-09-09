@@ -9,7 +9,7 @@ Install AbiolaSoft UI by running either of the following:
 Clone the repository with the following command:
 
 ```bash
-git clone https://github.com/horizon-ui/horizon-ui-chakra-ts.git
+git clone https://github.com/abiolakunle/abiolasoft-finance-ui.git
 ```
 
 Run in terminal this command:

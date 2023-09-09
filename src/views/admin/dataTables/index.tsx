@@ -9,8 +9,8 @@
 * AbiolaSoft UI - v1.1.0
 =========================================================
 
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2022 AbiolaSoft UI (https://www.horizon-ui.com/)
+* Product Page: https://www.abiolasoft-ui.com/
+* Copyright 2022 AbiolaSoft UI (https://www.abiolasoft-ui.com/)
 
 * Designed and Coded by AbiolaSoft
 

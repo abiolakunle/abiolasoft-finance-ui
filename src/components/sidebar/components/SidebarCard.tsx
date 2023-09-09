@@ -32,7 +32,7 @@ export default function SidebarDocs() {
                     Improve your development process and start doing more with AbiolaSoft UI PRO!
                 </Text>
             </Flex>
-            <Link href="https://horizon-ui.com/pro">
+            <Link href="https://abiolasoft-ui.com/pro">
                 <Button
                     bg="whiteAlpha.300"
                     _hover={{ bg: "whiteAlpha.200" }}

@@ -4,7 +4,7 @@ import Footer from "components/footer/FooterAuth";
 import FixedPlugin from "components/fixedPlugin/FixedPlugin";
 import { NavLink } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
-import illustration from "assets/img/auth/auth.png";
+import illustration from "assets/img/auth/auth.svg";
 import { SidebarContext } from "contexts/SidebarContext";
 import SignIn from "./SignIn";
 
@@ -74,7 +74,8 @@ export default function Auth() {
                                         align="end"
                                         w="100%"
                                         h="100%"
-                                        bgSize="cover"
+                                        bgSize="contain"
+                                        bgRepeat="no-repeat"
                                         bgPosition="50%"
                                         position="absolute"
                                         borderBottomLeftRadius={{

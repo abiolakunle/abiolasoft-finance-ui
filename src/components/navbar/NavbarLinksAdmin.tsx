@@ -109,19 +109,19 @@ export default function HeaderLinks(props: { secondary: boolean }) {
                     minW={{ base: "unset" }}
                     maxW={{ base: "360px", md: "unset" }}
                 >
-                    <Image src={navImage} borderRadius="16px" mb="28px" />
+                    <Image src={navImage} borderRadius="16px" mb="28px" maxH={"200px"} />
                     <Flex flexDirection="column">
-                        <Link w="100%" href="https://horizon-ui.com/pro">
+                        <Link w="100%" href="https://abiolasoft-ui.com/pro">
                             <Button w="100%" h="44px" mb="10px" variant="brand">
                                 Buy AbiolaSoft UI PRO
                             </Button>
                         </Link>
-                        <Link w="100%" href="https://horizon-ui.com/documentation/docs/introduction">
+                        <Link w="100%" href="https://abiolasoft-ui.com/documentation/docs/introduction">
                             <Button w="100%" h="44px" mb="10px" border="1px solid" bg="transparent" borderColor={borderButton}>
                                 See Documentation
                             </Button>
                         </Link>
-                        <Link w="100%" href="https://github.com/horizon-ui/horizon-ui-chakra-ts">
+                        <Link w="100%" href="https://github.com/abiolasoft-ui/abiolasoft-ui-chakra-ts">
                             <Button w="100%" h="44px" variant="no-hover" color={textColor} bg="transparent">
                                 Try Horizon Free
                             </Button>
