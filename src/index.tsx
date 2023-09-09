@@ -1,7 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
+//import ReactDOM from "react-dom";
 import "./assets/css/App.css";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import AuthLayout from "./app/landing-pages/sign-in/SignInLayout";
 import AdminLayout from "./app/admin/AdminLayoutComponent";
 import { ChakraProvider, Progress } from "@chakra-ui/react";
@@ -41,7 +42,21 @@ const App = () => {
     );
 };
 
-ReactDOM.render(
+// ReactDOM.render(
+//     <ChakraProvider theme={theme}>
+//         <React.StrictMode>
+//             <HashRouter>
+//                 <Provider store={store}>
+//                     <App />
+//                 </Provider>
+//             </HashRouter>
+//         </React.StrictMode>
+//     </ChakraProvider>,
+//     document.getElementById("root")
+// );
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
     <ChakraProvider theme={theme}>
         <React.StrictMode>
             <HashRouter>
@@ -50,6 +65,5 @@ ReactDOM.render(
                 </Provider>
             </HashRouter>
         </React.StrictMode>
-    </ChakraProvider>,
-    document.getElementById("root")
+    </ChakraProvider>
 );
