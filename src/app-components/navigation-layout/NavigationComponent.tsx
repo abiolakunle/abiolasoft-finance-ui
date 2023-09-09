@@ -8,7 +8,7 @@ import { SidebarContext } from "contexts/SidebarContext";
 import { useState } from "react";
 
 // Custom Chakra theme
-export default function NavigationComponent(props: { [x: string]: any }) {
+export default function NavigationComponent(props: { baseRoute: string; [x: string]: any }) {
     const { ...rest } = props;
 
     const { routes } = props;
@@ -19,11 +19,7 @@ export default function NavigationComponent(props: { [x: string]: any }) {
     const getActiveRoute = (routes: RoutesType[]): string => {
         let activeRoute = "Default Brand Text";
         for (let i = 0; i < routes.length; i++) {
-            if (
-                window.location.href.indexOf(
-                    routes[i].layout + routes[i].path
-                ) !== -1
-            ) {
+            if (window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1) {
                 return routes[i].name;
             }
         }
@@ -32,11 +28,7 @@ export default function NavigationComponent(props: { [x: string]: any }) {
     const getActiveNavbar = (routes: RoutesType[]): boolean => {
         let activeNavbar = false;
         for (let i = 0; i < routes.length; i++) {
-            if (
-                window.location.href.indexOf(
-                    routes[i].layout + routes[i].path
-                ) !== -1
-            ) {
+            if (window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1) {
                 return routes[i].secondary;
             }
         }
@@ -45,11 +37,7 @@ export default function NavigationComponent(props: { [x: string]: any }) {
     const getActiveNavbarText = (routes: RoutesType[]): string | boolean => {
         let activeNavbar = false;
         for (let i = 0; i < routes.length; i++) {
-            if (
-                window.location.href.indexOf(
-                    routes[i].layout + routes[i].path
-                ) !== -1
-            ) {
+            if (window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1) {
                 return routes[i].name;
             }
         }
@@ -85,7 +73,7 @@ export default function NavigationComponent(props: { [x: string]: any }) {
                         <Box>
                             <Navbar
                                 onOpen={onOpen}
-                                logoText={"Horizon UI Dashboard PRO"}
+                                logoText={"AbiolaSoft Finance"}
                                 brandText={getActiveRoute(routes)}
                                 secondary={getActiveNavbar(routes)}
                                 message={getActiveNavbarText(routes)}
@@ -94,13 +82,7 @@ export default function NavigationComponent(props: { [x: string]: any }) {
                             />
                         </Box>
                     </Portal>
-                    <Box
-                        mx="auto"
-                        p={{ base: "20px", md: "30px" }}
-                        pe="20px"
-                        minH="100vh"
-                        pt="50px"
-                    >
+                    <Box mx="auto" p={{ base: "20px", md: "30px" }} pe="20px" minH="100vh" pt="50px">
                         {props.children}
                     </Box>
                     <Box>

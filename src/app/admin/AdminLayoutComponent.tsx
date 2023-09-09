@@ -7,10 +7,7 @@ const AdminLayoutComponent = () => {
         <Routes>
             <Route path="/" element={<SelectAModule />} />
             <Route path="/modules" element={<SelectAModule />} />
-            <Route
-                path="modules/inventory/*"
-                element={<InventoryModuleLayout />}
-            />
+            <Route path="modules/inventory/*" element={<InventoryModuleLayout />} />
         </Routes>
     );
 };
