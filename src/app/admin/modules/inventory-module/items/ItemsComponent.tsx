@@ -36,7 +36,7 @@ const ItemsComponent = () => {
                 }}
                 gap="20px"
             >
-                <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
+                <Button onClick={() => console.log("")} leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                     Add
                 </Button>
             </Flex>
