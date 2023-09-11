@@ -1,38 +1,33 @@
-import {
-    Flex,
-    Box,
-    Table,
-    Checkbox,
-    Tbody,
-    Td,
-    Text,
-    Th,
-    Thead,
-    Tr,
-    useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
 
-import {
-    createColumnHelper,
-    flexRender,
-    getCoreRowModel,
-    getSortedRowModel,
-    SortingState,
-    useReactTable,
-} from "@tanstack/react-table";
+import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 
 // Custom components
 import Card from "components/card/Card";
-import Menu from "components/menu/MainMenu";
 
 type RowObj = {
     name: [string, boolean];
     sku: string;
     stockOnHand: number;
-    reorderLevel: string;
-    date: string;
+    reorderPoint: string;
+    createdAt: string;
 };
+
+function formatDate(inputDateString: string) {
+    const inputDate = new Date(inputDateString);
+    const options = {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+    };
+
+    return inputDate.toLocaleString("en-US", options as any);
+}
 
 const columnHelper = createColumnHelper<RowObj>();
 
@@ -47,24 +42,15 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("name", {
             id: "name",
             header: () => (
-                <Text
-                    justifyContent="space-between"
-                    align="center"
-                    fontSize={{ sm: "10px", lg: "12px" }}
-                    color="gray.400"
-                >
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     NAME
                 </Text>
             ),
             cell: (info: any) => (
                 <Flex align="center">
-                    <Checkbox
-                        defaultChecked={info.getValue()[1]}
-                        colorScheme="brandScheme"
-                        me="10px"
-                    />
+                    <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        {info.getValue()[0]}
+                        {info.getValue()}
                     </Text>
                 </Flex>
             ),
@@ -72,12 +58,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("sku", {
             id: "sku",
             header: () => (
-                <Text
-                    justifyContent="space-between"
-                    align="center"
-                    fontSize={{ sm: "10px", lg: "12px" }}
-                    color="gray.400"
-                >
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     SKU
                 </Text>
             ),
@@ -90,12 +71,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("stockOnHand", {
             id: "stockOnHand",
             header: () => (
-                <Text
-                    justifyContent="space-between"
-                    align="center"
-                    fontSize={{ sm: "10px", lg: "12px" }}
-                    color="gray.400"
-                >
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     STOCK ON HAND
                 </Text>
             ),
@@ -105,15 +81,10 @@ export default function ItemsTableComponent(props: { tableData: any }) {
                 </Text>
             ),
         }),
-        columnHelper.accessor("reorderLevel", {
-            id: "reorderLevel",
+        columnHelper.accessor("reorderPoint", {
+            id: "reorderPoint",
             header: () => (
-                <Text
-                    justifyContent="space-between"
-                    align="center"
-                    fontSize={{ sm: "10px", lg: "12px" }}
-                    color="gray.400"
-                >
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     REORDER LEVEL
                 </Text>
             ),
@@ -123,21 +94,16 @@ export default function ItemsTableComponent(props: { tableData: any }) {
                 </Text>
             ),
         }),
-        columnHelper.accessor("date", {
-            id: "date",
+        columnHelper.accessor("createdAt", {
+            id: "createdAt",
             header: () => (
-                <Text
-                    justifyContent="space-between"
-                    align="center"
-                    fontSize={{ sm: "10px", lg: "12px" }}
-                    color="gray.400"
-                >
-                    DATE
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    DATE CREATED
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatDate(info.getValue())}
                 </Text>
             ),
         }),
@@ -155,12 +121,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         debugTable: true,
     });
     return (
-        <Card
-            flexDirection="column"
-            w="100%"
-            px="0px"
-            overflowX={{ sm: "scroll", lg: "hidden" }}
-        >
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
             {/* <Flex
                 px="25px"
                 mb="8px"
@@ -201,17 +162,11 @@ export default function ItemsTableComponent(props: { tableData: any }) {
                                                 }}
                                                 color="gray.400"
                                             >
-                                                {flexRender(
-                                                    header.column.columnDef
-                                                        .header,
-                                                    header.getContext()
-                                                )}
+                                                {flexRender(header.column.columnDef.header, header.getContext())}
                                                 {{
                                                     asc: "",
                                                     desc: "",
-                                                }[
-                                                    header.column.getIsSorted() as string
-                                                ] ?? null}
+                                                }[header.column.getIsSorted() as string] ?? null}
                                             </Flex>
                                         </Th>
                                     );
@@ -238,11 +193,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
                                                     }}
                                                     borderColor="transparent"
                                                 >
-                                                    {flexRender(
-                                                        cell.column.columnDef
-                                                            .cell,
-                                                        cell.getContext()
-                                                    )}
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </Td>
                                             );
                                         })}

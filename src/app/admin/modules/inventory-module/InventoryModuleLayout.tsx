@@ -1,7 +1,7 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
-import { MdBarChart, MdHome, MdList, MdOutlineShoppingCart } from "react-icons/md";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { MdBarChart, MdHome, MdList } from "react-icons/md";
+import { Route, Routes } from "react-router-dom";
 import InventoryAdjustmentsComponent from "./inventory-adjustments/InventoryAdjustmentsComponent";
 import InventoryDashboardComponent from "./inventory-dashboard/InventoryDashboardComponent";
 import ItemsComponent from "./items/ItemsComponent";
