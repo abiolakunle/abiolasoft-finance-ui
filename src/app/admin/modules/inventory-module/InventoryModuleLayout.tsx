@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import InventoryAdjustmentsComponent from "./inventory-adjustments/InventoryAdjustmentsComponent";
 import InventoryDashboardComponent from "./inventory-dashboard/InventoryDashboardComponent";
 import ItemsComponent from "./items/ItemsComponent";
+import NewItemComponent from "./new-item/NewItemComponent";
 
 const inventoryRoutes = [
     {
@@ -18,6 +19,12 @@ const inventoryRoutes = [
         path: "/items",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <ItemsComponent />,
+    },
+    {
+        name: "New Item",
+        path: "/items/new",
+        component: <NewItemComponent />,
+        excludeFromSideNav: true,
     },
     {
         name: "Inventory Adjustments",
