@@ -5,3 +5,4 @@ const InventoryAdjustmentsComponent = () => {
 };
 
 export default InventoryAdjustmentsComponent;
+
