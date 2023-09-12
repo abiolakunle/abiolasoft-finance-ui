@@ -1,8 +1,52 @@
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon, Select, Text, Textarea } from "@chakra-ui/react";
+import axios from "axios";
 import Card from "components/card/Card";
-import React from "react";
+import { apiBaseUrl } from "environment";
+import React, { useEffect, useState } from "react";
 
 const NewItemComponent = () => {
+    const [formData, setFormData] = useState({
+        name: "",
+        description: "",
+        sku: "",
+        sellingPrice: 0,
+        sellingDescription: "",
+        costPrice: 0,
+        costDescription: "",
+        openingStock: 0,
+        openingStockRatePerUnit: 0,
+        reorderPoint: 0,
+        unit: "Pcs",
+    });
+
+    const handleInputChange = (e: any) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    useEffect(() => {
+        console.log(formData); // This will log the updated formData state
+    }, [formData]);
+
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.post(apiBaseUrl + "api/Inventory/CreateItem", formData);
+
+            if (response.status === 200) {
+                // Item created successfully, you can add further actions here
+                console.log("Item created successfully");
+            } else {
+                // Handle errors here, e.g., show an error message to the user
+                console.error("Error creating item");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     return (
         <>
             <Flex
@@ -28,7 +72,7 @@ const NewItemComponent = () => {
                                 <FormLabel color="red">Name*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input isRequired={true} width="100%" variant="outline" borderRadius="8px" />
+                                <Input name="name" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.name} onChange={handleInputChange} />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -39,7 +83,7 @@ const NewItemComponent = () => {
                                 <FormLabel>SKU</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input width="100%" variant="outline" borderRadius="8px" />
+                                <Input width="100%" variant="outline" borderRadius="8px" name="sku" value={formData.sku} onChange={handleInputChange} />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -50,7 +94,7 @@ const NewItemComponent = () => {
                                 <FormLabel color="red">Unit*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Select placeholder="Select a unit">
+                                <Select placeholder="Select a unit" name="unit" value={formData.unit} onChange={handleInputChange}>
                                     <option>Pcs</option>
                                     <option>Packs</option>
                                     <option>Pallet</option>
@@ -67,7 +111,7 @@ const NewItemComponent = () => {
                             <Box width="100%" className="afu-input">
                                 <InputGroup>
                                     <InputLeftAddon children="NGN" borderRadius="8px" />
-                                    <Input type="number" borderRadius="8px" />
+                                    <Input type="number" borderRadius="8px" name="sellingPrice" value={formData.sellingPrice} onChange={handleInputChange} />
                                 </InputGroup>
                             </Box>
                         </Flex>
@@ -79,7 +123,7 @@ const NewItemComponent = () => {
                                 <FormLabel>Selling Description</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Textarea size="sm" />
+                                <Textarea size="sm" name="sellingDescription" value={formData.sellingDescription} onChange={handleInputChange} />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -92,7 +136,7 @@ const NewItemComponent = () => {
                             <Box width="100%" className="afu-input">
                                 <InputGroup>
                                     <InputLeftAddon children="NGN" borderRadius="8px" />
-                                    <Input type="number" borderRadius="8px" />
+                                    <Input type="number" borderRadius="8px" name="costPrice" value={formData.costPrice} onChange={handleInputChange} />
                                 </InputGroup>
                             </Box>
                         </Flex>
@@ -104,7 +148,7 @@ const NewItemComponent = () => {
                                 <FormLabel>Cost Description</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Textarea size="sm" />
+                                <Textarea size="sm" name="costDescription" value={formData.costDescription} onChange={handleInputChange} />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -115,7 +159,15 @@ const NewItemComponent = () => {
                                 <FormLabel>Opening Stock</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input type="number" width="100%" variant="outline" borderRadius="8px" />
+                                <Input
+                                    type="number"
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    name="openingStock"
+                                    value={formData.openingStock}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -126,7 +178,15 @@ const NewItemComponent = () => {
                                 <FormLabel color="red">Opening Stock Rate per Unit*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input type="number" width="100%" variant="outline" borderRadius="8px" />
+                                <Input
+                                    type="number"
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    name="openingStockRatePerUnit"
+                                    value={formData.openingStockRatePerUnit}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -137,7 +197,15 @@ const NewItemComponent = () => {
                                 <FormLabel>Reorder Point</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input type="number" width="100%" variant="outline" borderRadius="8px" />
+                                <Input
+                                    type="number"
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    name="reorderPoint"
+                                    value={formData.reorderPoint}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -151,7 +219,9 @@ const NewItemComponent = () => {
                         }}
                         gap="20px"
                     >
-                        <Button variant="brand">Save</Button>
+                        <Button variant="brand" onClick={handleSubmit}>
+                            Save
+                        </Button>
                         <Button variant="outline">Cancel</Button>
                     </Flex>
                 </Card>

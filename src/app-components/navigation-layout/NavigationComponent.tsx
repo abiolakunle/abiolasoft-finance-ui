@@ -21,6 +21,10 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
 
     // verifies if routeName is the one active (in browser input)
     const activeRoute = (routeName: string) => {
+        if (routeName !== "/") {
+            return location.pathname.includes(props.baseRoute + routeName);
+        }
+
         return location.pathname === props.baseRoute + routeName;
     };
 
