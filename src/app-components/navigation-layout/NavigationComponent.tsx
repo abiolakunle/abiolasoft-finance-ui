@@ -21,13 +21,17 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
 
     // verifies if routeName is the one active (in browser input)
     const activeRoute = (routeName: string) => {
+        if (routeName !== "/") {
+            return location.pathname.includes(props.baseRoute + routeName);
+        }
+
         return location.pathname === props.baseRoute + routeName;
     };
 
     // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
     const createLinks = (routes: any[]) => {
         return routes.map((route: any, index: number) => {
-            return (
+            return !route.excludeFromSideNav ? (
                 <NavLink key={index} to={props.baseRoute + route.path}>
                     {route.icon ? (
                         <Box>
@@ -62,7 +66,7 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
                         </Box>
                     )}
                 </NavLink>
-            );
+            ) : null;
         });
     };
     //  BRAND
