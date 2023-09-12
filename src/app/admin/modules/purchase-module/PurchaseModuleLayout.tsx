@@ -1,10 +1,12 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
-import { MdBarChart, MdHome, MdList } from "react-icons/md";
+import { MdBarChart, MdBlurCircular, MdHome, MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
 import AllPurchaseComponent from "./all-purchase/AllPurchaseComponent";
 import PaymentMadeComponent from "./paymentmade/PaymentMadeComponent"
-import PaymentReceiptsComponent from "./paymentreceipts/PaymentReceiptsComponent";
+import PurchaseReceiptsComponent from "./purchasereceipts/PurchaseReceiptsComponent";
+import VendorsComponent from "./vendors/VendorsComponent";
+import PurchaseReceivedComponent from "./purchasereceived/PurchaseReceivedComponent";
 
 const purchaseRoutes = [
     {
@@ -14,16 +16,28 @@ const purchaseRoutes = [
         component: <AllPurchaseComponent />,
     },
     {
-        name: "Payment Made",
+        name: "Purchase Received",
+        path: "/purchasereceived",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <PurchaseReceivedComponent />,
+    },
+    {
+        name: "Payment Made For Purchase",
         path: "/paymentmade",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <PaymentMadeComponent />,
     },
     {
-        name: "Receipts",
-        path: "/paymentreceipts",
+        name: "Purchase Receipts",
+        path: "/purchasereceipts",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <PaymentReceiptsComponent />,
+        component: <PurchaseReceiptsComponent />,
+    },
+    {
+        name: "Vendors",
+        path: "/vendors",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <VendorsComponent />,
     },
 ];
 
