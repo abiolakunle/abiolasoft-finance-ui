@@ -1,11 +1,14 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon, Select, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon, Select, Textarea } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { Link as ChakraLink } from "@chakra-ui/react";
+import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 
 const NewItemComponent = () => {
     const [formData, setFormData] = useState({
+        id: "",
         name: "",
         description: "",
         sku: "",
@@ -19,6 +22,39 @@ const NewItemComponent = () => {
         unit: "Pcs",
     });
 
+    const { id } = useParams();
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        if (id) {
+            axios
+                .get(apiBaseUrl + `api/Inventory/GetItemById?id=${id}`)
+                .then((response) => {
+                    // Assuming the API response is in the expected format
+                    const data = response?.data?.data;
+                    if (!!data) {
+                        setFormData({
+                            id,
+                            name: data.name,
+                            description: data.description,
+                            sku: data.sku,
+                            sellingPrice: data.sellingPrice,
+                            sellingDescription: data.sellingDescription,
+                            costPrice: data.costPrice,
+                            costDescription: data.costDescription,
+                            openingStock: data.openingStock,
+                            openingStockRatePerUnit: data.openingStockRatePerUnit,
+                            reorderPoint: data.reorderPoint,
+                            unit: data.unit,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+    }, [id]);
+
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
         setFormData({
@@ -27,19 +63,21 @@ const NewItemComponent = () => {
         });
     };
 
-    useEffect(() => {
-        console.log(formData); // This will log the updated formData state
-    }, [formData]);
-
     const handleSubmit = async () => {
         try {
-            const response = await axios.post(apiBaseUrl + "api/Inventory/CreateItem", formData);
+            let addOrEditPath = "api/Inventory/CreateItem";
+
+            if (id) addOrEditPath = "api/Inventory/EditItem";
+
+            const response = await axios.put(apiBaseUrl + addOrEditPath, formData);
 
             if (response.status === 200) {
-                // Item created successfully, you can add further actions here
-                console.log("Item created successfully");
+                if (id) {
+                    navigate(`/admin/modules/inventory/items/${id}`);
+                } else {
+                    navigate("/admin/modules/inventory/items");
+                }
             } else {
-                // Handle errors here, e.g., show an error message to the user
                 console.error("Error creating item");
             }
         } catch (error) {
@@ -84,6 +122,17 @@ const NewItemComponent = () => {
                             </Box>
                             <Box width="100%" className="afu-input">
                                 <Input width="100%" variant="outline" borderRadius="8px" name="sku" value={formData.sku} onChange={handleInputChange} />
+                            </Box>
+                        </Flex>
+                    </FormControl>
+
+                    <FormControl>
+                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="baseline" className="afu-label-input">
+                            <Box className="afu-label" minWidth="250px">
+                                <FormLabel>Description</FormLabel>
+                            </Box>
+                            <Box width="100%" className="afu-input">
+                                <Textarea size="sm" name="description" value={formData.description} onChange={handleInputChange} />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -222,7 +271,9 @@ const NewItemComponent = () => {
                         <Button variant="brand" onClick={handleSubmit}>
                             Save
                         </Button>
-                        <Button variant="outline">Cancel</Button>
+                        <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/inventory/items/${id}` : "/admin/modules/inventory/items"}>
+                            <Button variant="outline">Cancel</Button>
+                        </ChakraLink>
                     </Flex>
                 </Card>
             </Box>
