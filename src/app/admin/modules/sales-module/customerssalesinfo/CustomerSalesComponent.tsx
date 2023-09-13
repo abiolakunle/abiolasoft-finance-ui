@@ -37,7 +37,7 @@ const CustomerSalesComponent = () => {
                     xl: "flex-end",
                 }}
                 gap="20px"
-            >y
+            >
                 <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/new`}>
                     <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                         Add New Customer
