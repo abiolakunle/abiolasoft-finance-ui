@@ -11,11 +11,9 @@ const ItemsComponent = () => {
     const [tableData, setTableData] = useState(null);
 
     useEffect(() => {
-        // Make an Axios GET request to the API endpoint
         axios
             .get(apiBaseUrl + "api/Inventory/GetAllItems")
             .then((response) => {
-                // Assuming the API response is in the expected format
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);
                 }
