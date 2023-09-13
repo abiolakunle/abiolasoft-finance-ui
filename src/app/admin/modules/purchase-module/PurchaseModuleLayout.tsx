@@ -13,8 +13,8 @@ const purchaseRoutes = [
 
     {
         name: "Dashboard",
-        path: "/purchases-dashboard",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        path: "/",
+        icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
         component: <PurchasesDashboardComponent />,
     },
     {

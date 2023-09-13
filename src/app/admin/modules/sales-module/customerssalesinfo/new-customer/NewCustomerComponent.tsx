@@ -3,18 +3,21 @@ import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
 import React, { useEffect, useState } from "react";
+import { Link as ChakraLink } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 
 
 const NewCustomerComponent = () => {
     const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        phoneNumber: "",
-        Address: "",
+        customerFirstName: "",
+        customerLastName: "",
+        companyName: "",
+        customerDisplayName: "",
+        customerEmail: "",
+        customerPhone: "",
+        customerAddress: "",
         
-        next: "",
-        phoneNext: "",
         
     });
 
@@ -33,7 +36,7 @@ const NewCustomerComponent = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post(apiBaseUrl + "api/Sales/RegNewCustomer", formData);
+            const response = await axios.post(apiBaseUrl + "api/Sales/CreateCustomer", formData);
 
             if (response.status === 200) {
                 
@@ -72,10 +75,21 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Name*</FormLabel>
+                            <FormLabel color="red" >First Name*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input type="string" name="name" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.name} onChange={handleInputChange} />
+                            <Input  name="customerFirstName" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.customerFirstName} onChange={handleInputChange} />
+                        </Box>
+                    </Flex>
+                </FormControl>
+
+                <FormControl>
+                    <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                        <Box className="afu-label" minWidth="250px">
+                            <FormLabel color="red" >Last Name*</FormLabel>
+                        </Box>
+                        <Box width="100%" className="afu-input">
+                            <Input  name="customerLastName" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.customerLastName} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -83,10 +97,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Email Address</FormLabel>
+                            <FormLabel>Company Name</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input type="string" width="100%" variant="outline" borderRadius="8px" name="email" value={formData.email} onChange={handleInputChange} />
+                            <Input  width="100%" variant="outline" borderRadius="8px" name="companyName" value={formData.companyName} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -94,10 +108,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Phone Number*</FormLabel>
+                            <FormLabel  color="red"  >Display Name*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input type="number" isRequired={true} width="100%" variant="outline" borderRadius="8px" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
+                            <Input  isRequired={true} width="100%" variant="outline" borderRadius="8px" name="customerDisplayName" value={formData.customerDisplayName} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -105,10 +119,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Home Address*</FormLabel>
+                            <FormLabel  color="red" >Emain Address*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input  type="string" isRequired={true} width="100%" variant="outline" borderRadius="8px" name="address" value={formData.Address} onChange={handleInputChange} />
+                            <Input   isRequired={true} width="100%" variant="outline" borderRadius="8px" name="customerEmail" value={formData.customerEmail} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -117,10 +131,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Next Of Kin*</FormLabel>
+                            <FormLabel color="red" >Phone Number*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input type="string" isRequired={true} width="100%" variant="outline" borderRadius="8px" name="next" value={formData.next} onChange={handleInputChange} />
+                            <Input type="number" isRequired={true} width="100%" variant="outline" borderRadius="8px" name="customerPhone" value={formData.customerPhone} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -128,10 +142,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Next OF Kin's Phone Number*</FormLabel>
+                            <FormLabel color="red" >Home Address*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input type="number" isRequired={true} width="100%" variant="outline" borderRadius="8px" name="phoneNext" value={formData.phoneNext} onChange={handleInputChange} />
+                            <Input  isRequired={true} width="100%" variant="outline" borderRadius="8px" name="customerAddress" value={formData.customerAddress} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -145,10 +159,15 @@ const NewCustomerComponent = () => {
                     }}
                     gap="20px"
                 >
+                    
                     <Button variant="brand" onClick={handleSubmit}>
                         Submit
                     </Button>
-                    <Button variant="outline">Cancel</Button>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customerssalesinfo/`}>
+                        <Button variant="outline">Cancel</Button>
+                    </ChakraLink>
+                    
+                    
                 </Flex>
 
 
