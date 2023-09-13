@@ -4,8 +4,9 @@ import { MdBarChart, MdHome, MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
 import InventoryAdjustmentsComponent from "./inventory-adjustments/InventoryAdjustmentsComponent";
 import InventoryDashboardComponent from "./inventory-dashboard/InventoryDashboardComponent";
+import ItemComponent from "./item/ItemComponent";
 import ItemsComponent from "./items/ItemsComponent";
-import NewItemComponent from "./new-item/NewItemComponent";
+import NewItemComponent from "./item-form/ItemFormComponent";
 
 const inventoryRoutes = [
     {
@@ -21,8 +22,21 @@ const inventoryRoutes = [
         component: <ItemsComponent />,
     },
     {
+        name: "Items",
+        path: "/items/:id",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <ItemComponent />,
+        excludeFromSideNav: true,
+    },
+    {
         name: "New Item",
         path: "/items/new",
+        component: <NewItemComponent />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "New Item",
+        path: "/items/:id/edit/",
         component: <NewItemComponent />,
         excludeFromSideNav: true,
     },
