@@ -2,17 +2,26 @@ import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdBarChart, MdHome, MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
-import AllSalesComponent from "./allsales/AllSalesComponent";
+import SalesDashboardComponent from "./sales-dashboard/SalesDashboardComponent"
 import PendingOrdersComponent from "./customerpendingorders/PendingOrdersComponent"
 import CustomerInvoiceComponent from "./customerinvoice/CustomerInvoiceComponent";
 import SalesReceiptsComponent from "./salesreceipts/SalesReceiptsComponent";
 import ShipmentsComponent from "./shipped/ShipmentsComponent";
 import CustomerSalesComponent from "./customerssalesinfo/CustomerSalesComponent";
+import NewCustomerComponent from "./customerssalesinfo/new-customer/NewCustomerComponent";
+import AllSalesComponent from "./allsales/AllSalesComponent";
 
 const salesRoutes = [
+
+    {
+        name: "Dashboard",
+        path: "/",
+        icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+        component: <SalesDashboardComponent />,
+    },
     {
         name: "All Sales",
-        path: "/",
+        path: "/allsales",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <AllSalesComponent />,
     },
@@ -21,6 +30,12 @@ const salesRoutes = [
         path: "/customerssalesinfo",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <CustomerSalesComponent />,
+    },
+    {
+        name: "New Customer",
+        path: "/customers/new",
+        component: <NewCustomerComponent />,
+        excludeFromSideNav: true,
     },
     {
         name: "Customer Pending Orders",

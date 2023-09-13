@@ -64,7 +64,7 @@ const NewCustomerComponent = () => {
             gap="20px"
         >
             <Heading as="h4" size="md">
-                New Item
+                New Customer
             </Heading>
         </Flex>
         <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
@@ -72,10 +72,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel color="red">Name*</FormLabel>
+                            <FormLabel>Name*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input name="name" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.name} onChange={handleInputChange} />
+                            <Input type="string" name="name" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.name} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -86,7 +86,7 @@ const NewCustomerComponent = () => {
                             <FormLabel>Email Address</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input width="100%" variant="outline" borderRadius="8px" name="email" value={formData.email} onChange={handleInputChange} />
+                            <Input type="string" width="100%" variant="outline" borderRadius="8px" name="email" value={formData.email} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -94,10 +94,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Phone Number</FormLabel>
+                            <FormLabel>Phone Number*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input width="100%" variant="outline" borderRadius="8px" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
+                            <Input type="number" isRequired={true} width="100%" variant="outline" borderRadius="8px" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -105,10 +105,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Address</FormLabel>
+                            <FormLabel>Home Address*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input width="100%" variant="outline" borderRadius="8px" name="address" value={formData.Address} onChange={handleInputChange} />
+                            <Input  type="string" isRequired={true} width="100%" variant="outline" borderRadius="8px" name="address" value={formData.Address} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -117,10 +117,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Who To Contact If We Cannnot Reach You</FormLabel>
+                            <FormLabel>Next Of Kin*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input width="100%" variant="outline" borderRadius="8px" name="next" value={formData.next} onChange={handleInputChange} />
+                            <Input type="string" isRequired={true} width="100%" variant="outline" borderRadius="8px" name="next" value={formData.next} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>
@@ -128,10 +128,10 @@ const NewCustomerComponent = () => {
                 <FormControl>
                     <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                         <Box className="afu-label" minWidth="250px">
-                            <FormLabel>Phone Number</FormLabel>
+                            <FormLabel>Next OF Kin's Phone Number*</FormLabel>
                         </Box>
                         <Box width="100%" className="afu-input">
-                            <Input width="100%" variant="outline" borderRadius="8px" name="phoneNext" value={formData.phoneNext} onChange={handleInputChange} />
+                            <Input type="number" isRequired={true} width="100%" variant="outline" borderRadius="8px" name="phoneNext" value={formData.phoneNext} onChange={handleInputChange} />
                         </Box>
                     </Flex>
                 </FormControl>

@@ -13,7 +13,7 @@ const CustomerSalesComponent = () => {
     useEffect(() => {
         // Make an Axios GET request to the API endpoint
         axios
-            .get(apiBaseUrl + "api/Sales/GetAllCustomers")
+            .get(apiBaseUrl + "api/Sales/GetAllCustomers/")
             .then((response) => {
                 // Assuming the API response is in the expected format
                 if (response.data && response.data.data) {
@@ -37,8 +37,8 @@ const CustomerSalesComponent = () => {
                     xl: "flex-end",
                 }}
                 gap="20px"
-            >
-                <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customerssalesinfo/new`}>
+            >y
+                <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/new`}>
                     <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                         Add New Customer
                     </Button>
