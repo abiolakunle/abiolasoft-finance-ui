@@ -1,5 +1,5 @@
 import { Card, Text, Flex, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
-import { Link as ReactRouterLink, useParams } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
@@ -9,6 +9,8 @@ import { HSeparator } from "components/separator/Separator";
 
 const ItemComponent = () => {
     const { id } = useParams();
+
+    let navigate = useNavigate();
 
     const [item, setItem] = useState({
         id: "",
@@ -30,7 +32,6 @@ const ItemComponent = () => {
             axios
                 .get(apiBaseUrl + `api/Inventory/GetItemById?id=${id}`)
                 .then((response) => {
-                    // Assuming the API response is in the expected format
                     const data = response?.data?.data;
                     if (!!data) {
                         setItem({
@@ -55,6 +56,10 @@ const ItemComponent = () => {
         }
     }, [id]);
 
+    const gotoAdjustStock = () => {
+        navigate(`/admin/modules/inventory/items/${id}/inventory-adjustment`, { state: { itemName: item.name } });
+    };
+
     return (
         <>
             <Flex
@@ -76,9 +81,11 @@ const ItemComponent = () => {
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${id}/adjust-inventory`}>
-                        <Button variant="brand">Adjust Stock</Button>
-                    </ChakraLink>
+
+                    <Button variant="brand" onClick={gotoAdjustStock}>
+                        Adjust Stock
+                    </Button>
+
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items`}>
                         <CloseButton size="lg" />
                     </ChakraLink>

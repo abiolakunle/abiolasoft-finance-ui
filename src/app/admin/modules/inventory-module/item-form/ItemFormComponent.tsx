@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 
-const NewItemComponent = () => {
+const ItemFormComponent = () => {
     const [formData, setFormData] = useState({
         id: "",
         name: "",
@@ -30,7 +30,6 @@ const NewItemComponent = () => {
             axios
                 .get(apiBaseUrl + `api/Inventory/GetItemById?id=${id}`)
                 .then((response) => {
-                    // Assuming the API response is in the expected format
                     const data = response?.data?.data;
                     if (!!data) {
                         setFormData({
@@ -65,11 +64,7 @@ const NewItemComponent = () => {
 
     const handleSubmit = async () => {
         try {
-            let addOrEditPath = "api/Inventory/CreateItem";
-
-            if (id) addOrEditPath = "api/Inventory/EditItem";
-
-            const response = await axios.put(apiBaseUrl + addOrEditPath, formData);
+            const response = await (id ? axios.put(apiBaseUrl + "api/Inventory/EditItem", formData) : axios.post(apiBaseUrl + "api/Inventory/CreateItem", formData));
 
             if (response.status === 200) {
                 if (id) {
@@ -282,4 +277,4 @@ const NewItemComponent = () => {
     );
 };
 
-export default NewItemComponent;
+export default ItemFormComponent;

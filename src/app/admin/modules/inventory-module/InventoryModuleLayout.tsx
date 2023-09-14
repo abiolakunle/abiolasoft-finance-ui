@@ -6,7 +6,8 @@ import InventoryAdjustmentsComponent from "./inventory-adjustments/InventoryAdju
 import InventoryDashboardComponent from "./inventory-dashboard/InventoryDashboardComponent";
 import ItemComponent from "./item/ItemComponent";
 import ItemsComponent from "./items/ItemsComponent";
-import NewItemComponent from "./item-form/ItemFormComponent";
+import ItemFormComponent from "./item-form/ItemFormComponent";
+import InventoryAdjustmentFormComponent from "./inventory-adjustment-form/InventoryAdjustmentFormComponent";
 
 const inventoryRoutes = [
     {
@@ -31,13 +32,13 @@ const inventoryRoutes = [
     {
         name: "New Item",
         path: "/items/new",
-        component: <NewItemComponent />,
+        component: <ItemFormComponent />,
         excludeFromSideNav: true,
     },
     {
         name: "New Item",
         path: "/items/:id/edit/",
-        component: <NewItemComponent />,
+        component: <ItemFormComponent />,
         excludeFromSideNav: true,
     },
     {
@@ -45,6 +46,13 @@ const inventoryRoutes = [
         path: "/inventory-adjustments",
         icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
         component: <InventoryAdjustmentsComponent />,
+    },
+    {
+        name: "Inventory Adjustment",
+        path: "/items/:id/inventory-adjustment",
+        icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+        component: <InventoryAdjustmentFormComponent />,
+        excludeFromSideNav: true,
     },
 ];
 
