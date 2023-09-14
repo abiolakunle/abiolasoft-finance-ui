@@ -6,7 +6,7 @@ import AllPurchaseComponent from "./all-purchases/AllPurchaseComponent";
 import PaymentMadeComponent from "./paymentmade/PaymentMadeComponent"
 import PurchaseReceiptsComponent from "./purchasereceipts/PurchaseReceiptsComponent";
 import VendorsComponent from "./vendors/VendorsComponent";
-import PurchaseReceivedComponent from "./purchasereceived/PurchaseReceivedComponent";
+import PurchaseReceivesComponent from "./purchasereceives/PurchaseReceivesComponent";
 import PurchasesDashboardComponent from "./purchase-dashboard/PurchasesDashboardComponent"
 
 const purchaseRoutes = [
@@ -24,10 +24,10 @@ const purchaseRoutes = [
         component: <AllPurchaseComponent />,
     },
     {
-        name: "Purchase Received",
-        path: "/purchasereceived",
+        name: "Purchase Receives",
+        path: "/purchasereceives",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <PurchaseReceivedComponent />,
+        component: <PurchaseReceivesComponent />,
     },
     {
         name: "Payment Made For Purchase",
