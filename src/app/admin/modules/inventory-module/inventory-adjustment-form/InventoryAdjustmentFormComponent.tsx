@@ -11,15 +11,19 @@ const InventoryAdjustmentFormComponent = () => {
     const location = useLocation();
 
     const [formData, setFormData] = useState({
-        itemId: id,
+        items: [
+            {
+                itemId: id,
+                quantityAdjusted: 0,
+                adjustedValue: 0,
+                costPrice: 0,
+            },
+        ],
         dateAdjusted: "",
         reason: "",
         description: "",
         status: "",
         type: "Quantity",
-        quantityAdjusted: 0,
-        adjustedValue: 0,
-        costPrice: 0,
     });
 
     let navigate = useNavigate();
@@ -29,6 +33,14 @@ const InventoryAdjustmentFormComponent = () => {
         setFormData({
             ...formData,
             [name]: value,
+        });
+    };
+
+    const handleItemInputChange = (e: any) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            items: [{ ...formData.items[0], [name]: value }],
         });
     };
 
@@ -110,7 +122,7 @@ const InventoryAdjustmentFormComponent = () => {
                                     <FormLabel color="red">Quantity Adjusted*</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
-                                    <Input type="number" borderRadius="8px" name="quantityAdjusted" value={formData.quantityAdjusted} onChange={handleInputChange} />
+                                    <Input type="number" borderRadius="8px" name="quantityAdjusted" value={formData.items[0].quantityAdjusted} onChange={handleItemInputChange} />
                                 </Box>
                             </Flex>
                         </FormControl>
@@ -123,7 +135,7 @@ const InventoryAdjustmentFormComponent = () => {
                                     <FormLabel color="red">Adjusted Value*</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
-                                    <Input type="number" borderRadius="8px" name="adjustedValue" value={formData.adjustedValue} onChange={handleInputChange} />
+                                    <Input type="number" borderRadius="8px" name="adjustedValue" value={formData.items[0].adjustedValue} onChange={handleItemInputChange} />
                                 </Box>
                             </Flex>
                         </FormControl>
@@ -136,7 +148,7 @@ const InventoryAdjustmentFormComponent = () => {
                                     <FormLabel>Cost Price</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
-                                    <Input type="number" borderRadius="8px" name="costPrice" value={formData.costPrice} onChange={handleInputChange} />
+                                    <Input type="number" borderRadius="8px" name="costPrice" value={formData.items[0].costPrice} onChange={handleItemInputChange} />
                                 </Box>
                             </Flex>
                         </FormControl>

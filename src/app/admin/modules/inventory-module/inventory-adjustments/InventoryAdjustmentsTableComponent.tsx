@@ -6,8 +6,10 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 
 // Custom components
 import Card from "components/card/Card";
+import { formatDate } from "utils/dateUtils";
 
 type RowObj = {
+    id: string;
     dateAdjusted: string;
     reason: string;
     description: number;
@@ -18,21 +20,6 @@ type RowObj = {
     modifiedBy: string;
     modifiedAt: string;
 };
-
-function formatDate(inputDateString: string, showTime?: boolean) {
-    const inputDate = new Date(inputDateString);
-    let options = {
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-    } as any;
-
-    if (showTime) {
-        options = { ...options, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true };
-    }
-
-    return inputDate.toLocaleString("en-US", options as any);
-}
 
 const columnHelper = createColumnHelper<RowObj>();
 
@@ -55,9 +42,7 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${info.row.original.id}`}>
-                            {info.getValue() ? formatDate(info.getValue()) : "--"}
-                        </ChakraLink>
+                        {info.getValue() ? formatDate(info.getValue()) : "--"}
                     </Text>
                 </Flex>
             ),
@@ -253,7 +238,9 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
                                                     }}
                                                     borderColor="transparent"
                                                 >
-                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/inventory-adjustments/${row.original.id}`}>
+                                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                    </ChakraLink>
                                                 </Td>
                                             );
                                         })}
