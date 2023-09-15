@@ -7,7 +7,6 @@ import CustomerInvoiceComponent from "./invoices/InvoicesComponent";
 import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
 import CustomerSalesComponent from "./customers/CustomersComponent";
 import NewCustomerComponent from "./customer-form/CustomerFormComponent";
-import AllSalesComponent from "./allsales/AllSalesComponent";
 import NewInvoiceComponent from "./invoice-form/InvoiceFormComponent";
 
 const salesRoutes = [
@@ -16,12 +15,6 @@ const salesRoutes = [
         path: "/",
         icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
         component: <SalesDashboardComponent />,
-    },
-    {
-        name: "All Sales",
-        path: "/allsales",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <AllSalesComponent />,
     },
     {
         name: "Customers",
