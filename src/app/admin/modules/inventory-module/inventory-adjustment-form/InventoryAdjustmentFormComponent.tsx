@@ -48,7 +48,7 @@ const InventoryAdjustmentFormComponent = () => {
         formData.status = status;
 
         try {
-            const response = await axios.put(apiBaseUrl + "api/Inventory/AdjustStock", formData);
+            const response = await axios.put(apiBaseUrl + "Inventory/AdjustStock", formData);
 
             if (response.status === 200) {
                 navigate(`/admin/modules/inventory/items/${id}`);

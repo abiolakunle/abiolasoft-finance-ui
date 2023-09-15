@@ -29,7 +29,7 @@ const InventoryAdjustmentComponent = () => {
     useEffect(() => {
         if (id) {
             axios
-                .get(apiBaseUrl + `api/Inventory/GetInventoryAdjustmentById?id=${id}`)
+                .get(apiBaseUrl + `Inventory/GetInventoryAdjustmentById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {

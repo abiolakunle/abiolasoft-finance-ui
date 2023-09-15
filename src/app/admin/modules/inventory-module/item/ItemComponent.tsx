@@ -30,7 +30,7 @@ const ItemComponent = () => {
     useEffect(() => {
         if (id) {
             axios
-                .get(apiBaseUrl + `api/Inventory/GetItemById?id=${id}`)
+                .get(apiBaseUrl + `Inventory/GetItemById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {

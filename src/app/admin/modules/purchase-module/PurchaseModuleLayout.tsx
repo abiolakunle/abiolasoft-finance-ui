@@ -1,9 +1,9 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
-import { MdBarChart, MdHome, MdList } from "react-icons/md";
+import { MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
 import AllPurchaseComponent from "./all-purchase/AllPurchaseComponent";
-import PaymentMadeComponent from "./paymentmade/PaymentMadeComponent"
+import PaymentMadeComponent from "./paymentmade/PaymentMadeComponent";
 import PaymentReceiptsComponent from "./paymentreceipts/PaymentReceiptsComponent";
 
 const purchaseRoutes = [
@@ -36,7 +36,7 @@ const PurchaseModuleLayout = () => {
                 })}
             </Routes>
         </NavigationComponent>
-    ); 
+    );
 };
 
 export default PurchaseModuleLayout;

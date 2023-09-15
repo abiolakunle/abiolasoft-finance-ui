@@ -61,7 +61,7 @@ function SignIn() {
     const handleSignIn = async () => {
         dispatch(showProgress());
         try {
-            const response = await axios.post(apiBaseUrl + "api/UserManagement/Login", {
+            const response = await axios.post(apiBaseUrl + "UserManagement/Login", {
                 email,
                 password,
             });

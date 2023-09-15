@@ -12,7 +12,7 @@ const ItemsComponent = () => {
 
     useEffect(() => {
         axios
-            .get(apiBaseUrl + "api/Inventory/GetAllItems")
+            .get(apiBaseUrl + "Inventory/GetAllItems?PageIndex=1&PageSize=50")
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);

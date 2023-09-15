@@ -164,31 +164,28 @@ export default function ItemsTableComponent(props: { tableData: any }) {
                         ))}
                     </Thead>
                     <Tbody>
-                        {table
-                            .getRowModel()
-                            .rows.slice(0, 5)
-                            .map((row) => {
-                                return (
-                                    <Tr key={row.id}>
-                                        {row.getVisibleCells().map((cell) => {
-                                            return (
-                                                <Td
-                                                    key={cell.id}
-                                                    fontSize={{ sm: "14px" }}
-                                                    minW={{
-                                                        sm: "150px",
-                                                        md: "200px",
-                                                        lg: "auto",
-                                                    }}
-                                                    borderColor="transparent"
-                                                >
-                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                </Td>
-                                            );
-                                        })}
-                                    </Tr>
-                                );
-                            })}
+                        {table.getRowModel().rows.map((row) => {
+                            return (
+                                <Tr key={row.id}>
+                                    {row.getVisibleCells().map((cell) => {
+                                        return (
+                                            <Td
+                                                key={cell.id}
+                                                fontSize={{ sm: "14px" }}
+                                                minW={{
+                                                    sm: "150px",
+                                                    md: "200px",
+                                                    lg: "auto",
+                                                }}
+                                                borderColor="transparent"
+                                            >
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </Td>
+                                        );
+                                    })}
+                                </Tr>
+                            );
+                        })}
                     </Tbody>
                 </Table>
             </Box>
