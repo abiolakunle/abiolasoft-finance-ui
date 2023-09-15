@@ -28,7 +28,7 @@ const ItemFormComponent = () => {
     useEffect(() => {
         if (id) {
             axios
-                .get(apiBaseUrl + `api/Inventory/GetItemById?id=${id}`)
+                .get(apiBaseUrl + `Inventory/GetItemById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -64,7 +64,7 @@ const ItemFormComponent = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await (id ? axios.put(apiBaseUrl + "api/Inventory/EditItem", formData) : axios.post(apiBaseUrl + "api/Inventory/CreateItem", formData));
+            const response = await (id ? axios.put(apiBaseUrl + "Inventory/EditItem", formData) : axios.post(apiBaseUrl + "Inventory/CreateItem", formData));
 
             if (response.status === 200) {
                 if (id) {

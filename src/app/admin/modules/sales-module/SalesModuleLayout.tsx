@@ -10,6 +10,7 @@ import ShipmentsComponent from "./shipped/ShipmentsComponent";
 import CustomerSalesComponent from "./customerssalesinfo/CustomerSalesComponent";
 import NewCustomerComponent from "./customerssalesinfo/new-customer/NewCustomerComponent";
 import AllSalesComponent from "./allsales/AllSalesComponent";
+import NewInvoiceComponent from "./customerinvoice/new-invoice/NewInvoiceComponent";
 
 const salesRoutes = [
 
@@ -35,6 +36,12 @@ const salesRoutes = [
         name: "New Customer",
         path: "/customers/new",
         component: <NewCustomerComponent />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "New Customer Invoice",
+        path: "/customerinvoice/new",
+        component: <NewInvoiceComponent />,
         excludeFromSideNav: true,
     },
     {
