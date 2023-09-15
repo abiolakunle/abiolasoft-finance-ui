@@ -1,12 +1,12 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
-import { MdBarChart, MdBlurCircular, MdHome, MdList } from "react-icons/md";
+import { MdHome, MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
-import AllPurchaseComponent from "./sales-dashboard/AllPurchaseComponent";
+import AllPurchaseComponent from "./sales-dashboard/PurchasesDashboardComponent";
 import PaymentMadeComponent from "./payment-made/PaymentMadeComponent";
 import PurchaseReceiptsComponent from "./purchase-receipts/PurchaseReceiptsComponent";
 import VendorsComponent from "./vendors/VendorsComponent";
-import PurchaseReceivesComponent from "./purchasereceives/PurchaseReceivesComponent";
+import PurchaseReceivesComponent from "./purchase-receives/PurchaseReceivesComponent";
 import PurchasesDashboardComponent from "./purchase-dashboard/PurchasesDashboardComponent";
 
 const purchaseRoutes = [
