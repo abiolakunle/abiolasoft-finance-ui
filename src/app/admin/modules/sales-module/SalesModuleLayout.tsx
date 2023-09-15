@@ -18,7 +18,7 @@ const salesRoutes = [
     },
     {
         name: "Customers",
-        path: "/customerssalesinfo",
+        path: "/customers",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <CustomerSalesComponent />,
     },
@@ -30,7 +30,7 @@ const salesRoutes = [
     },
     {
         name: "New Customer Invoice",
-        path: "/customerinvoice/new",
+        path: "/customer-invoice/new",
         component: <NewInvoiceComponent />,
         excludeFromSideNav: true,
     },

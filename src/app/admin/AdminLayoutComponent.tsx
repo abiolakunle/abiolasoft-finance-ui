@@ -3,6 +3,7 @@ import InventoryModuleLayout from "./modules/inventory-module/InventoryModuleLay
 import SelectAModule from "./SelectAModule";
 import PurchaseModuleLayout from "./modules/purchases-module/PurchaseModuleLayout";
 import SalesModuleLayout from "./modules/sales-module/SalesModuleLayout";
+import UserManagementModuleLayout from "./modules/user-management/UserManagementModuleLayout";
 
 const AdminLayoutComponent = () => {
     return (
@@ -11,6 +12,7 @@ const AdminLayoutComponent = () => {
             <Route path="/modules" element={<SelectAModule />} />
             <Route path="modules/inventory/*" element={<InventoryModuleLayout />} />
             <Route path="modules/purchases/*" element={<PurchaseModuleLayout />} />
+            <Route path="modules/user-management/*" element={<UserManagementModuleLayout />} />
             <Route path="modules/sales/*" element={<SalesModuleLayout />} />
         </Routes>
     );
