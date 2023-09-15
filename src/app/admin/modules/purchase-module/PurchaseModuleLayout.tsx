@@ -2,15 +2,14 @@ import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdBarChart, MdBlurCircular, MdHome, MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
-import AllPurchaseComponent from "./all-purchases/AllPurchaseComponent";
-import PaymentMadeComponent from "./paymentmade/PaymentMadeComponent"
-import PurchaseReceiptsComponent from "./purchasereceipts/PurchaseReceiptsComponent";
+import AllPurchaseComponent from "./sales-dashboard/AllPurchaseComponent";
+import PaymentMadeComponent from "./payment-made/PaymentMadeComponent";
+import PurchaseReceiptsComponent from "./purchase-receipts/PurchaseReceiptsComponent";
 import VendorsComponent from "./vendors/VendorsComponent";
 import PurchaseReceivesComponent from "./purchasereceives/PurchaseReceivesComponent";
-import PurchasesDashboardComponent from "./purchase-dashboard/PurchasesDashboardComponent"
+import PurchasesDashboardComponent from "./purchase-dashboard/PurchasesDashboardComponent";
 
 const purchaseRoutes = [
-
     {
         name: "Dashboard",
         path: "/",
@@ -58,7 +57,7 @@ const PurchaseModuleLayout = () => {
                 })}
             </Routes>
         </NavigationComponent>
-    ); 
+    );
 };
 
 export default PurchaseModuleLayout;
