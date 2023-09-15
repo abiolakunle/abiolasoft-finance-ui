@@ -1,19 +1,16 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
-import { MdBarChart, MdHome, MdList } from "react-icons/md";
+import { MdHome, MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
-import SalesDashboardComponent from "./sales-dashboard/SalesDashboardComponent"
-import PendingOrdersComponent from "./customerpendingorders/PendingOrdersComponent"
-import CustomerInvoiceComponent from "./customerinvoice/CustomerInvoiceComponent";
-import SalesReceiptsComponent from "./salesreceipts/SalesReceiptsComponent";
-import ShipmentsComponent from "./shipped/ShipmentsComponent";
-import CustomerSalesComponent from "./customerssalesinfo/CustomerSalesComponent";
-import NewCustomerComponent from "./customerssalesinfo/new-customer/NewCustomerComponent";
+import SalesDashboardComponent from "./sales-dashboard/SalesDashboardComponent";
+import CustomerInvoiceComponent from "./invoices/InvoicesComponent";
+import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
+import CustomerSalesComponent from "./customers/CustomersComponent";
+import NewCustomerComponent from "./customer-form/CustomerFormComponent";
 import AllSalesComponent from "./allsales/AllSalesComponent";
-import NewInvoiceComponent from "./customerinvoice/new-invoice/NewInvoiceComponent";
+import NewInvoiceComponent from "./invoice-form/InvoiceFormComponent";
 
 const salesRoutes = [
-
     {
         name: "Dashboard",
         path: "/",
@@ -45,12 +42,6 @@ const salesRoutes = [
         excludeFromSideNav: true,
     },
     {
-        name: "Customer Pending Orders",
-        path: "/customerpendingorders",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <PendingOrdersComponent />,
-    },
-    {
         name: "Customer's Invoices",
         path: "/customerinvoice",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
@@ -61,13 +52,6 @@ const salesRoutes = [
         path: "/salesreceipts",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesReceiptsComponent />,
-    },
-    
-    {
-        name: "Shipments",
-        path: "/shipped",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <ShipmentsComponent />,
     },
 ];
 
@@ -80,7 +64,7 @@ const SalesModuleLayout = () => {
                 })}
             </Routes>
         </NavigationComponent>
-    ); 
+    );
 };
 
 export default SalesModuleLayout;

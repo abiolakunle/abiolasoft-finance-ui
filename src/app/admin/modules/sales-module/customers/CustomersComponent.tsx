@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
-import CustomerSalesInfoTableComponent from "./CustomerSalesInfoTableComponent";
+import CustomerSalesInfoTableComponent from "./CustomersTableComponent";
 import axios from "axios";
 import { apiBaseUrl } from "environment";
 import { MdAdd } from "react-icons/md";
@@ -43,7 +43,7 @@ const CustomerSalesComponent = () => {
                         Add New Customer
                     </Button>
                 </ChakraLink>
-                
+
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
