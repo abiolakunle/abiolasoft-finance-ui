@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import InventoryModuleLayout from "./modules/inventory-module/InventoryModuleLayout";
 import SelectAModule from "./SelectAModule";
-import PurchaseModuleLayout from "./modules/purchase-module/PurchaseModuleLayout";
+import PurchaseModuleLayout from "./modules/purchases-module/PurchaseModuleLayout";
 import SalesModuleLayout from "./modules/sales-module/SalesModuleLayout";
 
 const AdminLayoutComponent = () => {

@@ -2,12 +2,12 @@ import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdHome, MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
-import AllPurchaseComponent from "./sales-dashboard/PurchasesDashboardComponent";
 import PaymentMadeComponent from "./payment-made/PaymentMadeComponent";
 import PurchaseReceiptsComponent from "./purchase-receipts/PurchaseReceiptsComponent";
 import VendorsComponent from "./vendors/VendorsComponent";
 import PurchaseReceivesComponent from "./purchase-receives/PurchaseReceivesComponent";
-import PurchasesDashboardComponent from "./purchase-dashboard/PurchasesDashboardComponent";
+import PurchaseOrdersComponent from "./purchase-orders/PurchaseOrdersComponent";
+import PurchasesDashboardComponent from "./purchases-dashboard/PurchasesDashboardComponent";
 
 const purchaseRoutes = [
     {
@@ -17,26 +17,26 @@ const purchaseRoutes = [
         component: <PurchasesDashboardComponent />,
     },
     {
-        name: "All Purchase Orders",
-        path: "/all-purchases",
+        name: "Purchase Orders",
+        path: "/purchases-orders",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <AllPurchaseComponent />,
+        component: <PurchaseOrdersComponent />,
     },
     {
         name: "Purchase Receives",
-        path: "/purchasereceives",
+        path: "/purchase-receives",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <PurchaseReceivesComponent />,
     },
     {
-        name: "Payment Made For Purchase",
-        path: "/paymentmade",
+        name: "Payments Made",
+        path: "/payment-made",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <PaymentMadeComponent />,
     },
     {
         name: "Purchase Receipts",
-        path: "/purchasereceipts",
+        path: "/purchase-receipts",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <PurchaseReceiptsComponent />,
     },
