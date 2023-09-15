@@ -12,7 +12,7 @@ const InventoryAdjustmentsComponent = () => {
 
     useEffect(() => {
         axios
-            .get(apiBaseUrl + "Inventory/GetInventoryAdjustments")
+            .get(apiBaseUrl + "Inventory/GetInventoryAdjustments?PageIndex=1&PageSize=50")
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);

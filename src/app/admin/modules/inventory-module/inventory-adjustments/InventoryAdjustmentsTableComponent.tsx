@@ -220,33 +220,30 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
                         ))}
                     </Thead>
                     <Tbody>
-                        {table
-                            .getRowModel()
-                            .rows.slice(0, 5)
-                            .map((row) => {
-                                return (
-                                    <Tr key={row.id}>
-                                        {row.getVisibleCells().map((cell) => {
-                                            return (
-                                                <Td
-                                                    key={cell.id}
-                                                    fontSize={{ sm: "14px" }}
-                                                    minW={{
-                                                        sm: "150px",
-                                                        md: "200px",
-                                                        lg: "auto",
-                                                    }}
-                                                    borderColor="transparent"
-                                                >
-                                                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/inventory-adjustments/${row.original.id}`}>
-                                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                    </ChakraLink>
-                                                </Td>
-                                            );
-                                        })}
-                                    </Tr>
-                                );
-                            })}
+                        {table.getRowModel().rows.map((row) => {
+                            return (
+                                <Tr key={row.id}>
+                                    {row.getVisibleCells().map((cell) => {
+                                        return (
+                                            <Td
+                                                key={cell.id}
+                                                fontSize={{ sm: "14px" }}
+                                                minW={{
+                                                    sm: "150px",
+                                                    md: "200px",
+                                                    lg: "auto",
+                                                }}
+                                                borderColor="transparent"
+                                            >
+                                                <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/inventory-adjustments/${row.original.id}`}>
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                </ChakraLink>
+                                            </Td>
+                                        );
+                                    })}
+                                </Tr>
+                            );
+                        })}
                     </Tbody>
                 </Table>
             </Box>
