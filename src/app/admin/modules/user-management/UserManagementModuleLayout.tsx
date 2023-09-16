@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import RolesComponent from "./roles/RolesComponent";
 import UserFormComponent from "./user-form/UserForm";
 import UserManagementDashboard from "./user-management-dashboard/UserManagementDashboard";
+import UserComponent from "./user/UserComponent";
 import UsersComponent from "./users/UsersComponent";
 
 const salesRoutes = [
@@ -28,10 +29,17 @@ const salesRoutes = [
         excludeFromSideNav: true,
     },
     {
-        name: "Users",
-        path: "/users/:id",
+        name: "Edit Users",
+        path: "/users/:id/edit",
         icon: <Icon as={MdOutlineSupervisedUserCircle} width="20px" height="20px" color="inherit" />,
         component: <UserFormComponent />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "View User",
+        path: "/users/:id",
+        icon: <Icon as={MdOutlineSupervisedUserCircle} width="20px" height="20px" color="inherit" />,
+        component: <UserComponent />,
         excludeFromSideNav: true,
     },
     {

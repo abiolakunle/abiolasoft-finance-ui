@@ -13,6 +13,7 @@ const UserFormComponent = () => {
         firstName: "",
         lastName: "",
         email: "",
+        password: "",
     });
 
     const { id } = useParams();
@@ -31,6 +32,7 @@ const UserFormComponent = () => {
                             lastName: data.lastName,
                             phoneNumber: data.phoneNumber,
                             email: data.email,
+                            password: "",
                         });
                     }
                 })
@@ -115,16 +117,18 @@ const UserFormComponent = () => {
                         </Flex>
                     </FormControl>
 
-                    <FormControl>
-                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
-                            <Box className="afu-label" minWidth="250px">
-                                <FormLabel>Email</FormLabel>
-                            </Box>
-                            <Box width="100%" className="afu-input">
-                                <Input width="100%" type="email" variant="outline" borderRadius="8px" name="email" value={formData.email} onChange={handleInputChange} />
-                            </Box>
-                        </Flex>
-                    </FormControl>
+                    {!id && (
+                        <FormControl>
+                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                                <Box className="afu-label" minWidth="250px">
+                                    <FormLabel color="red">Email*</FormLabel>
+                                </Box>
+                                <Box width="100%" className="afu-input">
+                                    <Input width="100%" type="email" variant="outline" borderRadius="8px" name="email" value={formData.email} onChange={handleInputChange} />
+                                </Box>
+                            </Flex>
+                        </FormControl>
+                    )}
 
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="baseline" className="afu-label-input">
@@ -132,10 +136,23 @@ const UserFormComponent = () => {
                                 <FormLabel>Phone Number</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input width="100%" variant="outline" borderRadius="8px" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
+                                <Input width="100%" type="tel" variant="outline" borderRadius="8px" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
                             </Box>
                         </Flex>
                     </FormControl>
+
+                    {!id && (
+                        <FormControl>
+                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="baseline" className="afu-label-input">
+                                <Box className="afu-label" minWidth="250px">
+                                    <FormLabel color="red">Password*</FormLabel>
+                                </Box>
+                                <Box width="100%" className="afu-input">
+                                    <Input width="100%" variant="outline" borderRadius="8px" name="password" value={formData.password} onChange={handleInputChange} />
+                                </Box>
+                            </Flex>
+                        </FormControl>
+                    )}
 
                     <Flex
                         pt={{ base: "16px", md: "16px", xl: "16px" }}

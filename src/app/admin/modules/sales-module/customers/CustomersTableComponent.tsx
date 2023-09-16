@@ -1,13 +1,9 @@
-
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
 
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 
 import Card from "components/card/Card";
-
-
-
 
 type RowObj = {
     name: [string, boolean];
@@ -32,11 +28,9 @@ function formatDate(inputDateString: string) {
     return inputDate.toLocaleString("en-US", options as any);
 }
 
-
 const columnHelper = createColumnHelper<RowObj>();
 
-function CustomerSalesInfoTableComponent( props: { tableData: any }) {
-
+function CustomerSalesInfoTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -116,9 +110,7 @@ function CustomerSalesInfoTableComponent( props: { tableData: any }) {
                 </Text>
             ),
         }),
-
-
-    ]
+    ];
 
     const [data, setData] = React.useState(() => [...defaultData]);
 
@@ -134,10 +126,9 @@ function CustomerSalesInfoTableComponent( props: { tableData: any }) {
         debugTable: true,
     });
 
-
-  return (
-    <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
-        <Box>
+    return (
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+            <Box>
                 <Table variant="simple" color="gray.500" mb="24px" mt="12px">
                     <Thead>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -202,8 +193,8 @@ function CustomerSalesInfoTableComponent( props: { tableData: any }) {
                     </Tbody>
                 </Table>
             </Box>
-    </Card>
-  )
+        </Card>
+    );
 }
 
-export default CustomerSalesInfoTableComponent
+export default CustomerSalesInfoTableComponent;

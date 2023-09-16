@@ -26,11 +26,11 @@ export default function UsersTableComponent(props: { tableData: any }) {
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
     let defaultData = tableData;
     const columns = [
-        columnHelper.accessor("firstName", {
-            id: "firstName",
+        columnHelper.accessor("email", {
+            id: "email",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    FIRST NAME
+                    EMAIL
                 </Text>
             ),
             cell: (info: any) => (
@@ -44,11 +44,12 @@ export default function UsersTableComponent(props: { tableData: any }) {
                 </Flex>
             ),
         }),
-        columnHelper.accessor("lastName", {
-            id: "lastName",
+
+        columnHelper.accessor("firstName", {
+            id: "firstName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    LAST NAME
+                    FIRST NAME
                 </Text>
             ),
             cell: (info) => (
@@ -57,11 +58,11 @@ export default function UsersTableComponent(props: { tableData: any }) {
                 </Text>
             ),
         }),
-        columnHelper.accessor("email", {
-            id: "email",
+        columnHelper.accessor("lastName", {
+            id: "lastName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    EMAIL
+                    LAST NAME
                 </Text>
             ),
             cell: (info) => (
@@ -97,7 +98,8 @@ export default function UsersTableComponent(props: { tableData: any }) {
             ),
         }),
     ];
-    const [data, setData] = React.useState(() => [...defaultData]);
+
+    const [data, _setData] = React.useState(() => [...defaultData]);
     const table = useReactTable({
         data,
         columns,
@@ -109,6 +111,7 @@ export default function UsersTableComponent(props: { tableData: any }) {
         getSortedRowModel: getSortedRowModel(),
         debugTable: true,
     });
+
     return (
         <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
             {/* <Flex

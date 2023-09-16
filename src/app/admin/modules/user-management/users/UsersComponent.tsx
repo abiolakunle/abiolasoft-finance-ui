@@ -12,7 +12,7 @@ const UsersComponent = () => {
 
     useEffect(() => {
         axios
-            .get(apiBaseUrl + "UserManagement/GetAllUsers?PageIndex=1&PageSize=50")
+            .get(apiBaseUrl + "UserManagement/GetAllUsers?PageIndex=1&PageSize=60")
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);

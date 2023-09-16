@@ -156,7 +156,7 @@ const NewCustomerComponent = () => {
                             </Box>
                             <Box width="100%" className="afu-input">
                                 <Input
-                                    type="number"
+                                    type="tel"
                                     isRequired={true}
                                     width="100%"
                                     variant="outline"
