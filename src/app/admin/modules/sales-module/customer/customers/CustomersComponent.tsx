@@ -12,7 +12,7 @@ const CustomersComponent = () => {
 
     useEffect(() => {
         axios
-            .get(apiBaseUrl + "Sales/GetAllCustomers")
+            .get(apiBaseUrl + "Sales/GetAllCustomers?PageIndex=1&PageSize=50")
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);

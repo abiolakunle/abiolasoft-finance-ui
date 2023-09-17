@@ -31,7 +31,7 @@ const CustomerComponent = () => {
                     const data = response?.data?.data;
                     if (!!data) {
                         setCustomer({
-                            id: data.id,
+                            id,
                             customerFirstName: data.customerFirstName,
                             customerLastName: data.customerLastName,
                             companyName: data.companyName,
@@ -67,7 +67,7 @@ const CustomerComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    {customer.customerFirstName}"   " {customer.customerLastName}
+                    {customer.customerFirstName}      {customer.customerLastName}
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
