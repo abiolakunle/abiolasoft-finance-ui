@@ -6,36 +6,41 @@ import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, Sor
 
 import Card from "components/card/Card";
 
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
+
 
 
 
 type RowObj = {
-    name: [string, boolean];
-    phoneNumber: number;
-    recentSale: number;
-    totalSale: number;
-    outstanding: number;
+    customerFirstName: [string, boolean];
+    customerLastName: [string, boolean];
+    customerPhone: number;
+    customerDisplayName: string;
+    companyName: string;
+    
+    
 };
 
-function formatDate(inputDateString: string) {
-    const inputDate = new Date(inputDateString);
-    const options = {
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-    };
+// function formatDate(inputDateString: string) {
+//     const inputDate = new Date(inputDateString);
+//     const options = {
+//         year: "numeric",
+//         month: "short",
+//         day: "2-digit",
+//         hour: "2-digit",
+//         minute: "2-digit",
+//         second: "2-digit",
+//         hour12: true,
+//     };
 
-    return inputDate.toLocaleString("en-US", options as any);
-}
+//     return inputDate.toLocaleString("en-US", options as any);
+// }
 
 
 const columnHelper = createColumnHelper<RowObj>();
 
-function CustomerSalesInfoTableComponent( props: { tableData: any }) {
+function CustomersTableComponent( props: { tableData: any }) {
 
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -44,25 +49,55 @@ function CustomerSalesInfoTableComponent( props: { tableData: any }) {
     let defaultData = tableData;
 
     const columns = [
-        columnHelper.accessor("name", {
-            id: "name",
+        columnHelper.accessor("customerFirstName", {
+            id: "customerFirstName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    NAME OF CUSTOMER
+                    FIRST NAME
                 </Text>
             ),
             cell: (info: any) => (
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        {info.getValue()}
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customer/${info.row.original.id}`}>
+                            {info.getValue()}
+                        </ChakraLink>
                     </Text>
                 </Flex>
             ),
         }),
 
-        columnHelper.accessor("phoneNumber", {
-            id: "phoneNumber",
+        columnHelper.accessor("customerLastName", {
+            id: "customerLastName",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    LAST NAME
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+
+        columnHelper.accessor("customerDisplayName", {
+            id: "customerDisplayName",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    DISPLAY NAME
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+
+        columnHelper.accessor("customerPhone", {
+            id: "customerPhone",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     PHONE NUMBER
@@ -75,11 +110,11 @@ function CustomerSalesInfoTableComponent( props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("recentSale", {
-            id: "recentSale",
+        columnHelper.accessor("companyName", {
+            id: "companyName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    RECENT SALE (NGN)
+                    COMPANY'S NAME
                 </Text>
             ),
             cell: (info) => (
@@ -89,33 +124,33 @@ function CustomerSalesInfoTableComponent( props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("totalSale", {
-            id: "totalSale",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    TOTAL SALES (NGN)
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
+        // columnHelper.accessor("totalSale", {
+        //     id: "totalSale",
+        //     header: () => (
+        //         <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+        //             TOTAL SALES (NGN)
+        //         </Text>
+        //     ),
+        //     cell: (info) => (
+        //         <Text color={textColor} fontSize="sm" fontWeight="700">
+        //             {info.getValue()}
+        //         </Text>
+        //     ),
+        // }),
 
-        columnHelper.accessor("outstanding", {
-            id: "outstanding",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    OUTSTANDING AMOUNT (NGN)
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
+        // columnHelper.accessor("outstanding", {
+        //     id: "outstanding",
+        //     header: () => (
+        //         <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+        //             OUTSTANDING AMOUNT (NGN)
+        //         </Text>
+        //     ),
+        //     cell: (info) => (
+        //         <Text color={textColor} fontSize="sm" fontWeight="700">
+        //             {info.getValue()}
+        //         </Text>
+        //     ),
+        // }),
 
 
     ]
@@ -206,4 +241,4 @@ function CustomerSalesInfoTableComponent( props: { tableData: any }) {
   )
 }
 
-export default CustomerSalesInfoTableComponent
+export default CustomersTableComponent
