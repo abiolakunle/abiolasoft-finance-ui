@@ -53,6 +53,10 @@ const UserComponent = () => {
         navigate(`/admin/modules/user-management/user/${id}/change-password`);
     };
 
+    const manageRoles = () => {
+        navigate(`/admin/modules/user-management/user/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
+    };
+
     return (
         <>
             <Flex
@@ -79,7 +83,7 @@ const UserComponent = () => {
                         Change Password
                     </Button>
 
-                    <Button variant="brand" onClick={changePassword}>
+                    <Button variant="brand" onClick={manageRoles}>
                         Manage Roles
                     </Button>
 
@@ -142,13 +146,11 @@ const UserComponent = () => {
                         </Text>
 
                         <Box>
-                            {user.roles.map((r) => {
+                            {user.roles.map((r, i) => {
                                 return (
-                                    <>
-                                        <Badge mr="8px" fontSize="sm" mb="8px" display="inline-block" variant="outline" colorScheme="purple">
-                                            {r.name}
-                                        </Badge>
-                                    </>
+                                    <Badge mr="8px" key={i} fontSize="sm" mb="8px" display="inline-block" variant="outline" colorScheme="purple">
+                                        {r.name}
+                                    </Badge>
                                 );
                             })}
                         </Box>

@@ -1,10 +1,11 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon, Select, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon, InputLeftElement, Select, Textarea } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import { PhoneIcon } from "@chakra-ui/icons";
 
 const UserFormComponent = () => {
     const [formData, setFormData] = useState({
@@ -136,7 +137,20 @@ const UserFormComponent = () => {
                                 <FormLabel>Phone Number</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input width="100%" type="tel" variant="outline" borderRadius="8px" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
+                                <InputGroup>
+                                    <InputLeftElement pointerEvents="none">
+                                        <PhoneIcon color="gray.300" />
+                                    </InputLeftElement>
+                                    <Input
+                                        width="100%"
+                                        type="tel"
+                                        variant="outline"
+                                        borderRadius="8px"
+                                        name="phoneNumber"
+                                        value={formData.phoneNumber}
+                                        onChange={handleInputChange}
+                                    />
+                                </InputGroup>
                             </Box>
                         </Flex>
                     </FormControl>

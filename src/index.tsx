@@ -16,23 +16,11 @@ const App = () => {
         return state.progress.show;
     });
     // Set the default headers for axios
-    axios.defaults.headers.common[
-        "Authorization"
-    ] = `Bearer ${localStorage.getItem("token")}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
 
     return (
         <>
-            {showProgress && (
-                <Progress
-                    size="sm"
-                    isIndeterminate
-                    width="full"
-                    position="fixed"
-                    top="0"
-                    left="0"
-                    zIndex="10"
-                />
-            )}
+            {showProgress && <Progress size="sm" isIndeterminate width="full" position="fixed" top="0" left="0" zIndex="10" />}
             <Router>
                 <Routes>
                     <Route path="auth" element={<AuthLayout />} />

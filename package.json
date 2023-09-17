@@ -1,5 +1,4 @@
 {
-    "homepage": "https://abiolasoft-ui.com/abiolasoft-ui-chakra-ts",
     "name": "abiolasoft-ui-chakra-typescript",
     "version": "1.1.0",
     "private": true,
@@ -11,6 +10,7 @@
         "@emotion/cache": "^11.7.1",
         "@emotion/react": "^11.11.1",
         "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.14.9",
         "@reduxjs/toolkit": "^1.9.5",
         "@tanstack/react-table": "^8.5.13",
         "@testing-library/jest-dom": "^5.14.1",
@@ -23,6 +23,7 @@
         "apexcharts": "^3.35.2",
         "axios": "^1.5.0",
         "framer-motion": "^6.5.1",
+        "jwt-decode": "^3.1.2",
         "react": "^18.2.0",
         "react-apexcharts": "^1.4.0",
         "react-calendar": "^3.7.0",
@@ -70,6 +71,5 @@
         "@types/react-calendar": "^3.5.2",
         "@types/react-router-dom": "^5.3.3",
         "gh-pages": "^3.2.3"
-        
     }
 }
