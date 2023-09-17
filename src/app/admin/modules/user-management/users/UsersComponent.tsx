@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, Link, SimpleGrid } from "@chakra-ui/react";
-import ItemsTableComponent from "./ItemsTableComponent";
+import UsersTableComponent from "./UsersTableComponent";
 import axios from "axios";
 import { apiBaseUrl } from "environment";
 import { MdAdd } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
-const ItemsComponent = () => {
+const UsersComponent = () => {
     const [tableData, setTableData] = useState(null);
 
     useEffect(() => {
         axios
-            .get(apiBaseUrl + "Inventory/GetAllItems?PageIndex=1&PageSize=50")
+            .get(apiBaseUrl + "UserManagement/GetAllUsers?PageIndex=1&PageSize=60")
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);
@@ -36,7 +36,7 @@ const ItemsComponent = () => {
                 }}
                 gap="20px"
             >
-                <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/new`}>
+                <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/new`}>
                     <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                         New
                     </Button>
@@ -44,11 +44,11 @@ const ItemsComponent = () => {
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
-                    {tableData && <ItemsTableComponent tableData={tableData} />}
+                    {tableData && <UsersTableComponent tableData={tableData} />}
                 </SimpleGrid>
             </Box>
         </>
     );
 };
 
-export default ItemsComponent;
+export default UsersComponent;

@@ -1,10 +1,11 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon, Select, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon, InputLeftElement, Select, Text, Textarea } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
 import React, { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
+import { PhoneIcon } from "@chakra-ui/icons";
 
 const NewCustomerComponent = () => {
     const [formData, setFormData] = useState({
@@ -155,16 +156,21 @@ const NewCustomerComponent = () => {
                                 <FormLabel color="red">Phone Number*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input
-                                    type="number"
-                                    isRequired={true}
-                                    width="100%"
-                                    variant="outline"
-                                    borderRadius="8px"
-                                    name="customerPhone"
-                                    value={formData.customerPhone}
-                                    onChange={handleInputChange}
-                                />
+                                <InputGroup>
+                                    <InputLeftElement pointerEvents="none">
+                                        <PhoneIcon color="gray.300" />
+                                    </InputLeftElement>
+                                    <Input
+                                        type="tel"
+                                        isRequired={true}
+                                        width="100%"
+                                        variant="outline"
+                                        borderRadius="8px"
+                                        name="customerPhone"
+                                        value={formData.customerPhone}
+                                        onChange={handleInputChange}
+                                    />
+                                </InputGroup>
                             </Box>
                         </Flex>
                     </FormControl>

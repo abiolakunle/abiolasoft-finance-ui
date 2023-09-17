@@ -38,7 +38,7 @@ const inventoryRoutes = [
     },
     {
         name: "New Item",
-        path: "/items/:id/edit/",
+        path: "/items/:id/edit",
         component: <ItemFormComponent />,
         excludeFromSideNav: true,
     },
