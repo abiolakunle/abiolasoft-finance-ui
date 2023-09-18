@@ -5,9 +5,10 @@ import { Route, Routes } from "react-router-dom";
 import SalesDashboardComponent from "./sales-dashboard/SalesDashboardComponent";
 import CustomerInvoiceComponent from "./invoices/InvoicesComponent";
 import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
-import CustomerSalesComponent from "./customers/CustomersComponent";
+import CustomersComponent from "./customers/CustomersComponent";
 import NewCustomerComponent from "./customer-form/CustomerFormComponent";
 import NewInvoiceComponent from "./invoice-form/InvoiceFormComponent";
+import CustomerComponent from "./customer/CustomerComponent";
 
 const salesRoutes = [
     {
@@ -20,7 +21,7 @@ const salesRoutes = [
         name: "Customers",
         path: "/customers",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <CustomerSalesComponent />,
+        component: <CustomersComponent />,
     },
     {
         name: "New Customer",
@@ -28,6 +29,14 @@ const salesRoutes = [
         component: <NewCustomerComponent />,
         excludeFromSideNav: true,
     },
+
+    {
+        name: "New Customer",
+        path: "/customers/:id/edit",
+        component: <NewCustomerComponent />,
+        excludeFromSideNav: true,
+    },
+
     {
         name: "New Customer Invoice",
         path: "/customer-invoice/new",
@@ -35,16 +44,23 @@ const salesRoutes = [
         excludeFromSideNav: true,
     },
     {
-        name: "Customer's Invoices",
-        path: "/customerinvoice",
+        name: "Invoices",
+        path: "/customer-invoice",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <CustomerInvoiceComponent />,
     },
     {
         name: "Sales Receipts",
-        path: "/salesreceipts",
+        path: "/sales-receipts",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesReceiptsComponent />,
+    },
+    {
+        name: "Customer",
+        path: "/customer/:id",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <CustomerComponent />,
+        excludeFromSideNav: true,
     },
 ];
 
