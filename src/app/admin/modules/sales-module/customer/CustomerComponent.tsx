@@ -26,7 +26,7 @@ const CustomerComponent = () => {
     useEffect(() => {
         if (id) {
             axios
-                .get(apiBaseUrl + `Sales/GetCustomersById?id=${id}`)
+                .get(apiBaseUrl + `Sales/GetCustomerById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -39,7 +39,6 @@ const CustomerComponent = () => {
                             customerEmail: data.customerEmail,
                             customerPhone: data.customerPhone,
                             customerAddress: data.customerAddress,
-                            
                         });
                     }
                 })
@@ -48,8 +47,6 @@ const CustomerComponent = () => {
                 });
         }
     }, [id]);
-
-    
 
     return (
         <>
@@ -65,15 +62,13 @@ const CustomerComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    {customer.customerFirstName}      {customer.customerLastName}
+                    {customer.customerFirstName} {customer.customerLastName}
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
-
-                    
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers`}>
                         <CloseButton size="lg" />
@@ -119,10 +114,6 @@ const CustomerComponent = () => {
                             </Stat>
                         </Box>
                     </Flex>
-
-                   
-
-                    
                 </Card>
             </Box>
         </>
