@@ -44,14 +44,14 @@ const salesRoutes = [
         excludeFromSideNav: true,
     },
     {
-        name: "Customer's Invoices",
+        name: "Invoices",
         path: "/customer-invoice",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <CustomerInvoiceComponent />,
     },
     {
         name: "Sales Receipts",
-        path: "/salesreceipts",
+        path: "/sales-receipts",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesReceiptsComponent />,
     },
