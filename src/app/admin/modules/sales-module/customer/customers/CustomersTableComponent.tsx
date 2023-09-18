@@ -22,20 +22,7 @@ type RowObj = {
     
 };
 
-// function formatDate(inputDateString: string) {
-//     const inputDate = new Date(inputDateString);
-//     const options = {
-//         year: "numeric",
-//         month: "short",
-//         day: "2-digit",
-//         hour: "2-digit",
-//         minute: "2-digit",
-//         second: "2-digit",
-//         hour12: true,
-//     };
 
-//     return inputDate.toLocaleString("en-US", options as any);
-// }
 
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -124,33 +111,10 @@ function CustomersTableComponent( props: { tableData: any }) {
             ),
         }),
 
-        // columnHelper.accessor("totalSale", {
-        //     id: "totalSale",
-        //     header: () => (
-        //         <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-        //             TOTAL SALES (NGN)
-        //         </Text>
-        //     ),
-        //     cell: (info) => (
-        //         <Text color={textColor} fontSize="sm" fontWeight="700">
-        //             {info.getValue()}
-        //         </Text>
-        //     ),
-        // }),
+        
+        
 
-        // columnHelper.accessor("outstanding", {
-        //     id: "outstanding",
-        //     header: () => (
-        //         <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-        //             OUTSTANDING AMOUNT (NGN)
-        //         </Text>
-        //     ),
-        //     cell: (info) => (
-        //         <Text color={textColor} fontSize="sm" fontWeight="700">
-        //             {info.getValue()}
-        //         </Text>
-        //     ),
-        // }),
+        
 
 
     ]

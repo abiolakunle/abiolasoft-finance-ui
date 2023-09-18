@@ -49,9 +49,7 @@ const CustomerComponent = () => {
         }
     }, [id]);
 
-    // const gotoAdjustStock = () => {
-    //     navigate(`/admin/modules/inventory/items/${id}/inventory-adjustment`, { state: { itemName: item.name } });
-    // };
+    
 
     return (
         <>
@@ -71,15 +69,13 @@ const CustomerComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${id}/edit`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
 
-                    {/* <Button variant="brand" onClick={gotoAdjustStock}>
-                        Adjust Stock
-                    </Button> */}
+                    
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customerssalesinfo`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
@@ -124,52 +120,9 @@ const CustomerComponent = () => {
                         </Box>
                     </Flex>
 
-                    {/* <Flex mb="16px" minH="80px">
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>Reorder Point</StatLabel>
-                                <StatNumber>{item.reorderPoint}</StatNumber>
-                            </Stat>
-                        </Box>
-                    </Flex>
+                   
 
-                    <HSeparator mb="16px" />
-                    <Flex mb="16px">
-                        <Box w="45%">
-                            <Text fontSize="lg" mb="18px">
-                                Sales Information
-                            </Text>
-
-                            <Flex direction="column">
-                                <Stat mb="16px" minH="80px">
-                                    <StatLabel>Selling Price</StatLabel>
-                                    <StatNumber>{item.sellingPrice}</StatNumber>
-                                </Stat>
-
-                                <Stat mb="16px" minH="80px">
-                                    <StatLabel>Selling Price Description</StatLabel>
-                                    <StatNumber>{item.sellingDescription || "--"}</StatNumber>
-                                </Stat>
-                            </Flex>
-                        </Box>
-                        <Box w="40%">
-                            <Text fontSize="lg" mb="18px">
-                                Purchase Information
-                            </Text>
-
-                            <Flex direction="column">
-                                <Stat mb="16px" minH="80px">
-                                    <StatLabel>Cost Price</StatLabel>
-                                    <StatNumber>{item.costPrice}</StatNumber>
-                                </Stat>
-
-                                <Stat mb="16px" minH="80px">
-                                    <StatLabel>Cost Price Description</StatLabel>
-                                    <StatNumber>{item.costDescription || "--"}</StatNumber>
-                                </Stat>
-                            </Flex>
-                        </Box>
-                    </Flex> */}
+                    
                 </Card>
             </Box>
         </>
