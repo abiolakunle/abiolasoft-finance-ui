@@ -4,7 +4,6 @@ import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, Sor
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
-// Custom components
 import Card from "components/card/Card";
 import { formatDate } from "utils/dateUtils";
 

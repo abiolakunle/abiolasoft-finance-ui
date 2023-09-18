@@ -1,8 +1,7 @@
-// Chakra imports
 import { Avatar, Box, Flex, FormLabel, Icon, Select, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
-// Assets
+
 import Usa from "assets/img/dashboards/usa.png";
-// Custom components
+
 import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
@@ -19,7 +18,6 @@ import tableDataCheck from "views/admin/rtl/variables/tableDataCheck";
 import tableDataComplex from "views/admin/rtl/variables/tableDataComplex";
 
 export default function UserReports() {
-    // Chakra Color Mode
     const brandColor = useColorModeValue("brand.500", "white");
     const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
     return (

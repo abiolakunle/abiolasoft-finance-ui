@@ -7,11 +7,11 @@ import {
 	SortingState,
 	useReactTable
 } from '@tanstack/react-table';
-// Custom components
+
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
-// Assets
+
 import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
 
 
@@ -19,7 +19,7 @@ import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
 type RowObj = {
 	name: string;
 	status: string;
-	date: string; 
+	date: string;
 	progress: number;
 };
 
@@ -91,7 +91,7 @@ export default function ComplexTable(props: { tableData: any }) {
 				<Text color={textColor} fontSize='sm' fontWeight='700'>
 					{info.getValue()}
 				</Text>
-			</Flex> 
+			</Flex>
 			)
 		}),
 		columnHelper.accessor('date', {
@@ -203,4 +203,3 @@ export default function ComplexTable(props: { tableData: any }) {
 		</Card>
 	);
 }
- 

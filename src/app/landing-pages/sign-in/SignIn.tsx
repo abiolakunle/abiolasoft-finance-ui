@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-// Chakra imports
+
 import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Icon, Input, InputGroup, InputRightElement, Text, useColorModeValue } from "@chakra-ui/react";
-// Custom components
+
 import { HSeparator } from "components/separator/Separator";
-// Assets
+
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
