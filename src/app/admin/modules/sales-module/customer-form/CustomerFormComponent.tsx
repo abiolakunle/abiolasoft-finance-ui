@@ -26,16 +26,11 @@ const NewCustomerComponent = () => {
         });
     };
 
-    useEffect(() => {
-        console.log(formData); // This will log the updated formData state
-    }, [formData]);
-
     const handleSubmit = async () => {
         try {
             const response = await axios.post(apiBaseUrl + "api/Sales/CreateCustomer", formData);
 
             if (response.status === 200) {
-                console.log("new customer registered successfully");
             } else {
                 console.error("Error creating item");
             }
