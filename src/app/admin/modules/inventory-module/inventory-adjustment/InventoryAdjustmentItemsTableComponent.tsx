@@ -19,7 +19,6 @@ const columnHelper = createColumnHelper<RowObj>();
 // const columns = columnsDataCheck;
 export default function InventoryAdjustmentItemsTableComponent(props: { tableData: any; adjustmentType: "Quantity" | "Value" }) {
     const { tableData, adjustmentType } = props;
-    console.log("d", tableData);
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");

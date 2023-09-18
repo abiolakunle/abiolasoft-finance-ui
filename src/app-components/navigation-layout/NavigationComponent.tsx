@@ -1,4 +1,4 @@
-import { Portal, Box, Flex, Stack, useDisclosure, HStack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Portal, Box, Flex, Stack, useDisclosure, Button, Image, Link, HStack, Text, useColorModeValue, Icon } from "@chakra-ui/react";
 import Footer from "components/footer/FooterAdmin";
 import Navbar from "components/navbar/NavbarAdmin";
 import { SidebarContext } from "contexts/SidebarContext";
@@ -7,6 +7,8 @@ import Scrollbars from "react-custom-scrollbars-2";
 import { renderThumb, renderTrack, renderView } from "components/scrollbar/Scrollbar";
 import Brand from "components/sidebar/components/Brand";
 import { NavLink, useLocation } from "react-router-dom";
+import SidebarCard from "components/sidebar/components/SidebarCard";
+import { MdOutlineViewModule } from "react-icons/md";
 
 export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
     //   Chakra color mode
@@ -83,7 +85,33 @@ function SidebarContent(props: { baseRoute: string; routes: any[] }) {
                     <SidebarLinks {...props} />
                 </Box>
             </Stack>
+
+            <Box ps="20px" pe={{ lg: "16px", "2xl": "20px" }} mt="60px" mb="40px" borderRadius="30px">
+                <GeneralLinks />
+            </Box>
         </Flex>
+    );
+}
+
+export function GeneralLinks() {
+    let textColor = useColorModeValue("secondaryGray.500", "white");
+
+    return (
+        <NavLink to="/admin/modules">
+            <Box>
+                <HStack spacing="26px" py="5px" ps="10px">
+                    <Flex w="100%" alignItems="center" justifyContent="center">
+                        <Box color={textColor} me="18px">
+                            <Icon as={MdOutlineViewModule} width="20px" height="20px" color="inherit" />
+                        </Box>
+                        <Text me="auto" color={textColor} fontWeight="normal">
+                            Modules
+                        </Text>
+                    </Flex>
+                    <Box h="36px" w="4px" bg="transparent" borderRadius="5px" />
+                </HStack>
+            </Box>
+        </NavLink>
     );
 }
 

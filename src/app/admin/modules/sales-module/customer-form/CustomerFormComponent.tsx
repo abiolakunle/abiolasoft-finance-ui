@@ -16,7 +16,6 @@ const ItemFormComponent = () => {
         companyName: "",
         customerEmail: "",
         customerAddress: "",
-      
     });
 
     const { id } = useParams();
@@ -25,7 +24,7 @@ const ItemFormComponent = () => {
     useEffect(() => {
         if (id) {
             axios
-                .get(apiBaseUrl + `Sales/GetCustomersById?id=${id}`)
+                .get(apiBaseUrl + `Sales/GetCustomerById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -38,7 +37,6 @@ const ItemFormComponent = () => {
                             companyName: data.companyName,
                             customerAddress: data.customerAddress,
                             customerEmail: data.customerEmail,
-                            
                         });
                     }
                 })
@@ -67,7 +65,7 @@ const ItemFormComponent = () => {
                     navigate("/admin/modules/sales/customers");
                 }
             } else {
-                console.error("Error creating item"); 
+                console.error("Error creating item");
             }
         } catch (error) {
             console.error("Error:", error);
@@ -99,7 +97,15 @@ const ItemFormComponent = () => {
                                 <FormLabel color="red">FIRST NAME*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input name="name" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.customerFirstName} onChange={handleInputChange} />
+                                <Input
+                                    name="name"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.customerFirstName}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -110,7 +116,15 @@ const ItemFormComponent = () => {
                                 <FormLabel color="red">LAST NAME*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input name="name" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.customerLastName} onChange={handleInputChange} />
+                                <Input
+                                    name="name"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.customerLastName}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -121,7 +135,15 @@ const ItemFormComponent = () => {
                                 <FormLabel color="red">PHONE NUMBER*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input name="name" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.customerPhone} onChange={handleInputChange} />
+                                <Input
+                                    name="name"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.customerPhone}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -129,7 +151,7 @@ const ItemFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="250px">
-                                <FormLabel >EMAIL ADDRESS</FormLabel>
+                                <FormLabel>EMAIL ADDRESS</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
                                 <Input name="name" width="100%" variant="outline" borderRadius="8px" value={formData.customerEmail} onChange={handleInputChange} />
@@ -143,7 +165,15 @@ const ItemFormComponent = () => {
                                 <FormLabel color="red">DISPLAY NAME*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input name="name" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.customerDisplayName} onChange={handleInputChange} />
+                                <Input
+                                    name="name"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.customerDisplayName}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -154,7 +184,15 @@ const ItemFormComponent = () => {
                                 <FormLabel color="red">HOME ADDRESS*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Input name="name" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.customerAddress} onChange={handleInputChange} />
+                                <Input
+                                    name="name"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.customerAddress}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
