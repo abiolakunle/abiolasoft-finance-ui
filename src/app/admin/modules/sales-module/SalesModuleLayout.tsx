@@ -9,6 +9,7 @@ import CustomersComponent from "./customer/customers/CustomersComponent";
 import NewCustomerComponent from "./customer-form/CustomerFormComponent";
 import NewInvoiceComponent from "./invoice-form/InvoiceFormComponent";
 import CustomerComponent from "./customer/CustomerComponent";
+import SalesOrderComponent from "./sales-orders/SalesOrdersComponent";
 
 const salesRoutes = [
     {
@@ -43,6 +44,9 @@ const salesRoutes = [
         component: <NewInvoiceComponent />,
         excludeFromSideNav: true,
     },
+
+    
+
     {
         name: "Customer's Invoices",
         path: "/customerinvoice",
@@ -54,6 +58,13 @@ const salesRoutes = [
         path: "/salesreceipts",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesReceiptsComponent />,
+    },
+
+    {
+        name: "Sales Orders",
+        path: "/salesorders",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesOrderComponent />,
     },
     {
         name: "Customer",

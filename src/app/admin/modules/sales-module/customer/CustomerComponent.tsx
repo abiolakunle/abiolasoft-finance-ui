@@ -26,7 +26,7 @@ const CustomerComponent = () => {
     useEffect(() => {
         if (id) {
             axios
-                .get(apiBaseUrl + `Sales/GetCustomersById?id=${id}`)
+                .get(apiBaseUrl + `Sales/GetCustomerById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
