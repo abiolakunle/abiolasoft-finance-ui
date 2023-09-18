@@ -27,7 +27,7 @@ const SelectAModule = () => {
             <SimpleGrid columns={{ base: 1, md: 2, lg: 2, "2xl": 2 }} gap="20px" mb="20px">
                 {modules.map((module, idx) => {
                     return (
-                        <ChakraLink as={ReactRouterLink} to={`modules/${module.path}`} key={idx}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/${module.path}`} key={idx}>
                             <Card minH="150px" py="25px">
                                 <Flex
                                     my="0px"
