@@ -1,10 +1,13 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
-import { MdHome, MdList, MdOutlineSupervisedUserCircle, MdVerifiedUser } from "react-icons/md";
+import { MdHome, MdList, MdOutlineSupervisedUserCircle } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
+import ManageRolePermissionsComponent from "./manage-role-permissions/ManageRolePermissionsComponent";
 import ManageUserRolesComponent from "./manage-user-roles/ManageUserRolesComponent";
+import RoleFormComponent from "./role-form/RoleFormComponent";
+import RoleComponent from "./role/RoleComponent";
 import RolesComponent from "./roles/RolesComponent";
-import UserFormComponent from "./user-form/UserForm";
+import UserFormComponent from "./user-form/UserFormComponent";
 import UserManagementDashboard from "./user-management-dashboard/UserManagementDashboard";
 import UserComponent from "./user/UserComponent";
 import UsersComponent from "./users/UsersComponent";
@@ -45,6 +48,34 @@ const salesRoutes = [
         path: "/roles",
         component: <RolesComponent />,
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    },
+    {
+        name: "Role",
+        path: "/roles/new",
+        component: <RoleFormComponent />,
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "View Role",
+        path: "/roles/:id",
+        component: <RoleComponent />,
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "View Role",
+        path: "/roles/:id/edit",
+        component: <RoleFormComponent />,
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "Manage Role Permissions",
+        path: "/roles/:id/manage-permissions",
+        component: <ManageRolePermissionsComponent />,
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        excludeFromSideNav: true,
     },
     {
         name: "Manage Roles",
