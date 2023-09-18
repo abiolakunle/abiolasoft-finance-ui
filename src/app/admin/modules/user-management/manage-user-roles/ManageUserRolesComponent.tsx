@@ -1,4 +1,4 @@
-import { Box, Heading, Flex, Card, CloseButton } from "@chakra-ui/react";
+import { Box, Heading, Flex, Card, CloseButton, Text } from "@chakra-ui/react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -12,6 +12,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 const ManageUserRolesComponent = () => {
     const [roles, setRoles] = useState([]);
     const [userRoles, setUserRoles] = useState([]);
+    const [intialRoles, setInitialRoles] = useState([]);
 
     const location = useLocation();
     const { id: userId } = useParams();
@@ -22,7 +23,9 @@ const ManageUserRolesComponent = () => {
                 .then((response) => {
                     const user = response[0].data?.data;
                     const allRoles: any[] = response[1].data?.data;
-                    setUserRoles(allRoles.filter((d: any) => user.roles.some((a: any) => a.id === d.id)));
+                    const usrRoles = allRoles.filter((d: any) => user.roles.some((a: any) => a.id === d.id));
+                    setUserRoles(usrRoles);
+                    setInitialRoles(usrRoles);
                     setRoles(allRoles);
                 })
                 .catch((error) => {
@@ -32,17 +35,23 @@ const ManageUserRolesComponent = () => {
     }, [userId]);
 
     const onUserRolesChanged = async (newValue: any[]) => {
-        if (newValue.length > userRoles.length) {
-            await addRole();
-        } else {
-            await removeRole();
+        if (newValue.length === 0) {
+            await removeRoles(userRoles.map((r) => r.name));
+            return;
         }
 
-        async function removeRole() {
-            const removed = userRoles.filter((r) => !newValue.some((v) => v.id === r.id));
+        const removed = userRoles.find((r) => !newValue.some((v) => v.id === r.id));
+        if (removed) {
+            await removeRoles([removed.name]);
+        } else {
+            addRole(newValue);
+        }
 
+        setUserRoles(newValue);
+
+        async function removeRoles(roleNames: any[]) {
             try {
-                const response = await axios.put(apiBaseUrl + "UserManagement/RemoveUserFromRole", { roleName: removed[0].name, userId });
+                const response = await axios.put(apiBaseUrl + "UserManagement/RemoveUserFromRoles", { roleNames, userId });
 
                 if (response.status === 200) {
                     // Handle success
@@ -54,8 +63,8 @@ const ManageUserRolesComponent = () => {
             }
         }
 
-        async function addRole() {
-            const role = newValue[newValue.length - 1];
+        async function addRole(newVal: any[]) {
+            const role = newVal[newVal.length - 1];
 
             try {
                 const response = await axios.put(apiBaseUrl + "UserManagement/AssignRoleToUser", { roleName: role.name, userId });
@@ -97,21 +106,23 @@ const ManageUserRolesComponent = () => {
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" py="16px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <ThemeProvider theme={createTheme()}>
-                        {userRoles.length ? (
+                        {roles.length ? (
                             <Autocomplete
                                 multiple
                                 id="tags-outlined"
                                 options={roles}
                                 getOptionLabel={(option) => option.name}
-                                defaultValue={userRoles}
+                                defaultValue={intialRoles}
                                 isOptionEqualToValue={(opt, val) => val.id === opt.id}
                                 filterSelectedOptions
-                                onChange={(event, newValue) => {
+                                onChange={(_event, newValue) => {
                                     onUserRolesChanged(newValue);
                                 }}
-                                renderInput={(params) => <TextField {...params} />}
+                                renderInput={(params) => <TextField placeholder="Add role" {...params} />}
                             />
-                        ) : null}
+                        ) : (
+                            <Text>Roles not configured yet</Text>
+                        )}
                     </ThemeProvider>
                 </Card>
             </Box>
