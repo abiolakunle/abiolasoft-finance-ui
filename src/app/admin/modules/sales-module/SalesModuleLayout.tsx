@@ -10,6 +10,9 @@ import NewCustomerComponent from "./customer-form/CustomerFormComponent";
 import NewInvoiceComponent from "./invoice-form/InvoiceFormComponent";
 import CustomerComponent from "./customer/CustomerComponent";
 import SalesOrderComponent from "./sales-orders/SalesOrdersComponent";
+import SalesOrdersFormComponent from "./sales-order-form/SalesOrdersFormComponent";
+import OrderComponent from "./Order/OrderComponent";
+
 
 const salesRoutes = [
     {
@@ -45,6 +48,12 @@ const salesRoutes = [
         excludeFromSideNav: true,
     },
 
+    {
+        name: "New Sales Order",
+        path: "/sales-order/new",
+        component: <SalesOrdersFormComponent />,
+        excludeFromSideNav: true,
+    },
     
 
     {
@@ -62,10 +71,19 @@ const salesRoutes = [
 
     {
         name: "Sales Orders",
-        path: "/salesorders",
+        path: "/sales-orders",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesOrderComponent />,
     },
+
+    {
+        name: "Sales",
+        path: "/sale-order/:id",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <OrderComponent />,
+        excludeFromSideNav: true,
+    },
+
     {
         name: "Customer",
         path: "/customer/:id",

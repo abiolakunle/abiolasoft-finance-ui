@@ -21,7 +21,7 @@ const CustomerInvoiceComponent = () => {
             >
                 <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customer-invoice/new`}>
                     <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
-                        Add New Customer Invoice
+                        New
                     </Button>
                 </ChakraLink>
             </Flex>
