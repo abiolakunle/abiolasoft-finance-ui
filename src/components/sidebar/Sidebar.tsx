@@ -1,6 +1,5 @@
 import React from "react";
 
-// chakra imports
 import { Box, Flex, Drawer, DrawerBody, Icon, useColorModeValue, DrawerOverlay, useDisclosure, DrawerContent, DrawerCloseButton } from "@chakra-ui/react";
 import Content from "components/sidebar/components/Content";
 import { renderThumb, renderTrack, renderView } from "components/scrollbar/Scrollbar";

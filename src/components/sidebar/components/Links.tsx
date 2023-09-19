@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { NavLink, useLocation } from "react-router-dom";
-// chakra imports
+
 import { Box, Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
 export function SidebarLinks(props: { routes: RoutesType[] }) {
