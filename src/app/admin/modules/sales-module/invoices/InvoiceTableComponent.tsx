@@ -14,8 +14,12 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 
 type RowObj = {
     date: string;
-    reference: string;
-    status: number;
+    number: string;
+    customerName: string;
+    status: string;
+    dueDate: string;
+    orderNumber: string
+
    
     
     
@@ -26,7 +30,7 @@ type RowObj = {
 
 const columnHelper = createColumnHelper<RowObj>();
 
-function OrdersTableComponent( props: { tableData: any }) {
+function InvoiceTableComponent( props: { tableData: any }) {
 
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -46,7 +50,7 @@ function OrdersTableComponent( props: { tableData: any }) {
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sale-order/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoice/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>
@@ -54,11 +58,40 @@ function OrdersTableComponent( props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("reference", {
-            id: "reference",
+        columnHelper.accessor("number", {
+            id: "number",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    REFERENCE ID
+                    INVOICE ID
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+
+        columnHelper.accessor("customerName", {
+            id: "customerName",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    CUSTOMER NAME
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+
+
+        columnHelper.accessor("orderNumber", {
+            id: "orderNumber",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    ORDER NUMBER
                 </Text>
             ),
             cell: (info) => (
@@ -82,11 +115,20 @@ function OrdersTableComponent( props: { tableData: any }) {
             ),
         }),
 
-       
         
-        
-
-        
+        columnHelper.accessor("dueDate", {
+            id: "dueDate",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    DUE DATE
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
 
 
     ]
@@ -177,4 +219,4 @@ function OrdersTableComponent( props: { tableData: any }) {
   )
 }
 
-export default OrdersTableComponent
+export default InvoiceTableComponent

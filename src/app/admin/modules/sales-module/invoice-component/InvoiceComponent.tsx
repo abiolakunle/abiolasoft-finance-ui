@@ -7,7 +7,7 @@ import { apiBaseUrl } from "environment";
 import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
 
-const OrderComponent = () => {
+const InvoiceComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
@@ -15,30 +15,31 @@ const OrderComponent = () => {
     const [order, setOrder] = useState({
         id: "",
         date: "",
-        reference: 0,
-        salesPersonName: "",
+        number: "",
         customerName: "",
         status: "",
-        discount: "",
-        customerNotes: "",
+        dueDate: "",
+        orderNumber: "",
+        salesPersonName: ""
     });
 
     useEffect(() => {
         if (id) {
             axios
-                .get(apiBaseUrl + `Sales/GetSalesOrdersById?id=${id}`)
+                .get(apiBaseUrl + `Sales/GetInvoicesById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;  
                     if (!!data) {
                         setOrder({
                             id,
                             date: data.date,
-                            reference: data.reference,
-                            salesPersonName: data.SalesPersonName,
+                            number: data.number,
+                            customerName: data.customerName,
                             status: data.status,
-                            discount: data.discount,
-                            customerNotes: data.customerNotes,
-                            customerName: data.customerName
+                            dueDate: data.dueDate,
+                            orderNumber: data.orderNumber,
+                            salesPersonName: data.salesPersonName,
+                            
                         });
                     }
                 })
@@ -62,15 +63,15 @@ const OrderComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    SALES ORDER
+                    INVOICE
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-orders`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoice`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
@@ -88,8 +89,8 @@ const OrderComponent = () => {
 
                         <Box w="40%">
                             <Stat>
-                                <StatLabel>REFERENCE ID</StatLabel>
-                                <StatNumber>{order.reference || "--"}</StatNumber>
+                                <StatLabel>INVOICE ID</StatLabel>
+                                <StatNumber>{order.number || "--"}</StatNumber>
                             </Stat>
                         </Box>
 
@@ -117,8 +118,8 @@ const OrderComponent = () => {
                     <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>DISCOUNT</StatLabel>
-                                <StatNumber>{order.discount || "--"}</StatNumber>
+                                <StatLabel>ORDER NUMBER</StatLabel>
+                                <StatNumber>{order.orderNumber || "--"}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
@@ -127,8 +128,8 @@ const OrderComponent = () => {
 
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>CUSTOMER NOTE</StatLabel>
-                                <StatNumber>{order.customerNotes || "--"}</StatNumber>
+                                <StatLabel>DUE DATE</StatLabel>
+                                <StatNumber>{order.dueDate || "--"}</StatNumber>
                             </Stat>
                         </Box>
 
@@ -140,4 +141,4 @@ const OrderComponent = () => {
     );
 };
 
-export default OrderComponent;
+export default InvoiceComponent;

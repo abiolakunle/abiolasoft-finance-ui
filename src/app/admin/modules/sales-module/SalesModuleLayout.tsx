@@ -3,7 +3,7 @@ import NavigationComponent from "app-components/navigation-layout/NavigationComp
 import { MdHome, MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
 import SalesDashboardComponent from "./sales-dashboard/SalesDashboardComponent";
-import CustomerInvoiceComponent from "./invoices/InvoicesComponent";
+import InvoicesComponent from "./invoices/InvoicesComponent";
 import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
 import CustomersComponent from "./customers/CustomersComponent";
 import NewCustomerComponent from "./customer-form/CustomerFormComponent";
@@ -12,6 +12,7 @@ import CustomerComponent from "./customer/CustomerComponent";
 import SalesOrderComponent from "./sales-orders/SalesOrdersComponent";
 import SalesOrdersFormComponent from "./sales-order-form/SalesOrdersFormComponent";
 import OrderComponent from "./Order/OrderComponent";
+import InvoiceComponent from "./invoice-component/InvoiceComponent";
 
 
 const salesRoutes = [
@@ -43,10 +44,11 @@ const salesRoutes = [
 
     {
         name: "New Customer Invoice",
-        path: "/customer-invoice/new",
+        path: "/invoice/new",
         component: <NewInvoiceComponent />,
         excludeFromSideNav: true,
     },
+    
 
     {
         name: "New Sales Order",
@@ -60,8 +62,17 @@ const salesRoutes = [
         name: "Invoices",
         path: "/customer-invoice",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <CustomerInvoiceComponent />,
+        component: <InvoicesComponent />,
     },
+
+    {
+        name: "Invoice",
+        path: "/invoice/:id",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <InvoiceComponent />,
+        excludeFromSideNav: true,
+    },
+
     {
         name: "Sales Receipts",
         path: "/sales-receipts",
