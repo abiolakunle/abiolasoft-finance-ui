@@ -1,19 +1,16 @@
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
-// Custom components
 import Card from "components/card/Card";
 import { formatDate } from "utils/dateUtils";
 
 type RowObj = {
-    firstName: string;
-    lastName: string;
-    email: number;
-    phoneNumber: string;
+    name: string;
     createdAt: string;
+    modifiedAt: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -24,75 +21,52 @@ export default function UsersTableComponent(props: { tableData: any }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
+    let navigate = useNavigate();
+
     let defaultData = tableData;
+
     const columns = [
-        columnHelper.accessor("firstName", {
-            id: "firstName",
+        columnHelper.accessor("name", {
+            id: "name",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    FIRST NAME
+                    NAME
                 </Text>
             ),
             cell: (info: any) => (
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>
                 </Flex>
             ),
         }),
-        columnHelper.accessor("lastName", {
-            id: "lastName",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    LAST NAME
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
-        columnHelper.accessor("email", {
-            id: "email",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    EMAIL
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
-        columnHelper.accessor("phoneNumber", {
-            id: "phoneNumber",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    EMAIL
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
         columnHelper.accessor("createdAt", {
             id: "createdAt",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    DATE CREATED
+                    CREATED TIME
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
                     {formatDate(info.getValue(), true)}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor("modifiedAt", {
+            id: "modifiedAt",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    LAST MODIFIED TIME
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue() ? formatDate(info.getValue(), true) : "--"}
                 </Text>
             ),
         }),

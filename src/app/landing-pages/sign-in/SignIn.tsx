@@ -1,33 +1,12 @@
 /* eslint-disable */
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _|
- | |_| | | | | |_) || |  / / | | |  \| | | | | || |
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-
-=========================================================
-* AbiolaSoft UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.abiolasoft-ui.com/
-* Copyright 2022 AbiolaSoft UI (https://www.abiolasoft-ui.com/)
-
-* Designed and Coded by AbiolaSoft
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-// Chakra imports
+
 import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Icon, Input, InputGroup, InputRightElement, Text, useColorModeValue } from "@chakra-ui/react";
-// Custom components
+
 import { HSeparator } from "components/separator/Separator";
-// Assets
+
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";

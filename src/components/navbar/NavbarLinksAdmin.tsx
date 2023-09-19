@@ -6,7 +6,7 @@ import { SearchBar } from "components/navbar/searchBar/SearchBar";
 import { SidebarResponsive } from "components/sidebar/Sidebar";
 import PropTypes from "prop-types";
 import React from "react";
-// Assets
+
 import navImage from "assets/img/layout/Navbar.png";
 import { MdNotificationsNone, MdInfoOutline } from "react-icons/md";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
@@ -15,7 +15,7 @@ import routes from "routes";
 export default function HeaderLinks(props: { secondary: boolean }) {
     const { secondary } = props;
     const { colorMode, toggleColorMode } = useColorMode();
-    // Chakra Color Mode
+
     const navbarIcon = useColorModeValue("gray.400", "white");
     let menuBg = useColorModeValue("white", "navy.800");
     const textColor = useColorModeValue("secondaryGray.900", "white");

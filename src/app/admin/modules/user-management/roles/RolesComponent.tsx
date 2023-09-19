@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Flex, Icon, Link, SimpleGrid } from "@chakra-ui/react";
-import UsersTableComponent from "./RolesTableComponent";
+import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
+import RolesTableComponent from "./RolesTableComponent";
 import axios from "axios";
 import { apiBaseUrl } from "environment";
 import { MdAdd } from "react-icons/md";
@@ -12,10 +12,10 @@ const RolesComponent = () => {
 
     useEffect(() => {
         axios
-            .get(apiBaseUrl + "UserManagement/GetAllUsers?PageIndex=1&PageSize=50")
+            .get(apiBaseUrl + "UserManagement/GetAllRoles")
             .then((response) => {
                 if (response.data && response.data.data) {
-                    setTableData(response.data.data.items);
+                    setTableData(response.data.data);
                 }
             })
             .catch((error) => {
@@ -36,7 +36,7 @@ const RolesComponent = () => {
                 }}
                 gap="20px"
             >
-                <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/new`}>
+                <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles/new`}>
                     <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                         New
                     </Button>
@@ -44,7 +44,7 @@ const RolesComponent = () => {
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
-                    {tableData && <UsersTableComponent tableData={tableData} />}
+                    {tableData && <RolesTableComponent tableData={tableData} />}
                 </SimpleGrid>
             </Box>
         </>
