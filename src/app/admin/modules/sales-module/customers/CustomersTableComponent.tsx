@@ -1,4 +1,3 @@
-
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
 
@@ -9,26 +8,17 @@ import Card from "components/card/Card";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
-
-
-
 type RowObj = {
     customerFirstName: [string, boolean];
     customerLastName: [string, boolean];
     customerPhone: number;
     customerDisplayName: string;
     companyName: string;
-    
-    
 };
-
-
-
 
 const columnHelper = createColumnHelper<RowObj>();
 
-function CustomersTableComponent( props: { tableData: any }) {
-
+function CustomersTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -110,14 +100,7 @@ function CustomersTableComponent( props: { tableData: any }) {
                 </Text>
             ),
         }),
-
-        
-        
-
-        
-
-
-    ]
+    ];
 
     const [data, setData] = React.useState(() => [...defaultData]);
 
@@ -133,10 +116,9 @@ function CustomersTableComponent( props: { tableData: any }) {
         debugTable: true,
     });
 
-
-  return (
-    <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
-        <Box>
+    return (
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+            <Box>
                 <Table variant="simple" color="gray.500" mb="24px" mt="12px">
                     <Thead>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -173,36 +155,33 @@ function CustomersTableComponent( props: { tableData: any }) {
                         ))}
                     </Thead>
                     <Tbody>
-                        {table
-                            .getRowModel()
-                            .rows.slice(0, 5)
-                            .map((row) => {
-                                return (
-                                    <Tr key={row.id}>
-                                        {row.getVisibleCells().map((cell) => {
-                                            return (
-                                                <Td
-                                                    key={cell.id}
-                                                    fontSize={{ sm: "14px" }}
-                                                    minW={{
-                                                        sm: "150px",
-                                                        md: "200px",
-                                                        lg: "auto",
-                                                    }}
-                                                    borderColor="transparent"
-                                                >
-                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                </Td>
-                                            );
-                                        })}
-                                    </Tr>
-                                );
-                            })}
+                        {table.getRowModel().rows.map((row) => {
+                            return (
+                                <Tr key={row.id}>
+                                    {row.getVisibleCells().map((cell) => {
+                                        return (
+                                            <Td
+                                                key={cell.id}
+                                                fontSize={{ sm: "14px" }}
+                                                minW={{
+                                                    sm: "150px",
+                                                    md: "200px",
+                                                    lg: "auto",
+                                                }}
+                                                borderColor="transparent"
+                                            >
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </Td>
+                                        );
+                                    })}
+                                </Tr>
+                            );
+                        })}
                     </Tbody>
                 </Table>
             </Box>
-    </Card>
-  )
+        </Card>
+    );
 }
 
-export default CustomersTableComponent
+export default CustomersTableComponent;
