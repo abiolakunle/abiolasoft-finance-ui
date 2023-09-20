@@ -56,7 +56,7 @@ const ItemFormComponent = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await (id ? axios.put(apiBaseUrl + "Sales/EditCustomers", formData) : axios.post(apiBaseUrl + "Inventory/CreateCustomer", formData));
+            const response = await (id ? axios.put(apiBaseUrl + "Sales/EditCustomers", formData) : axios.post(apiBaseUrl + "Sales/CreateCustomer", formData));
 
             if (response.status === 200) {
                 if (id) {

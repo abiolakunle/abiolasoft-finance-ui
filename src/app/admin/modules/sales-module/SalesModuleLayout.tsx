@@ -44,7 +44,7 @@ const salesRoutes = [
 
     {
         name: "New Customer Invoice",
-        path: "/invoice/new",
+        path: "/invoices/new",
         component: <NewInvoiceComponent />,
         excludeFromSideNav: true,
     },
@@ -52,7 +52,7 @@ const salesRoutes = [
 
     {
         name: "New Sales Order",
-        path: "/sales-order/new",
+        path: "/sales-orders/new",
         component: <SalesOrdersFormComponent />,
         excludeFromSideNav: true,
     },
