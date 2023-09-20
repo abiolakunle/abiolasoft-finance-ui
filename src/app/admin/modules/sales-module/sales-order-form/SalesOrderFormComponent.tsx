@@ -5,6 +5,7 @@ import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import SalesOrderFormItemsTableComponent from "./SalesOrderFormItemsTableComponent";
 
 const SalesOrderFormComponent = () => {
     const [customers, setCustomers] = useState([]);
@@ -20,6 +21,16 @@ const SalesOrderFormComponent = () => {
         customerId: "",
         customerNote: "",
         salesPersonId: "",
+        items: [
+            {
+                itemId: "",
+                itemName: "",
+                description: "",
+                quantity: 0,
+                rate: 0,
+                tax: 0,
+            },
+        ],
     });
 
     const { id } = useParams();
@@ -58,6 +69,12 @@ const SalesOrderFormComponent = () => {
             ...formData,
             [name]: value,
         });
+    };
+
+    const lineInputChanged = (event: any, index: string) => {
+        const { name, value } = event.target;
+        (formData.items[+index] as any)[name] = value;
+        setFormData({ ...formData });
     };
 
     const handleSubmit = async () => {
@@ -230,6 +247,8 @@ const SalesOrderFormComponent = () => {
                             </Box>
                         </Flex>
                     </FormControl>
+
+                    <SalesOrderFormItemsTableComponent tableData={formData} items={items} lineInputChanged={lineInputChanged} />
 
                     <Flex
                         pt={{ base: "16px", md: "16px", xl: "16px" }}
