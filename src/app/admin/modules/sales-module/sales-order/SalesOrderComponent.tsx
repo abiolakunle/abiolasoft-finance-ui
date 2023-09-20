@@ -7,7 +7,7 @@ import { apiBaseUrl } from "environment";
 import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
 
-const OrderComponent = () => {
+const SalesOrderComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
@@ -28,7 +28,7 @@ const OrderComponent = () => {
             axios
                 .get(apiBaseUrl + `Sales/GetSalesOrdersById?id=${id}`)
                 .then((response) => {
-                    const data = response?.data?.data;  
+                    const data = response?.data?.data;
                     if (!!data) {
                         setOrder({
                             id,
@@ -38,7 +38,7 @@ const OrderComponent = () => {
                             status: data.status,
                             discount: data.discount,
                             customerNotes: data.customerNotes,
-                            customerName: data.customerName
+                            customerName: data.customerName,
                         });
                     }
                 })
@@ -78,7 +78,6 @@ const OrderComponent = () => {
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <Flex mb="16px" minH="80px">
-
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>CUSTOMER NAME</StatLabel>
@@ -124,15 +123,12 @@ const OrderComponent = () => {
                     </Flex>
                     <HSeparator mb="16px" />
                     <Flex mb="16px" minH="80px">
-
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>CUSTOMER NOTE</StatLabel>
                                 <StatNumber>{order.customerNotes || "--"}</StatNumber>
                             </Stat>
                         </Box>
-
-                        
                     </Flex>
                 </Card>
             </Box>
@@ -140,4 +136,4 @@ const OrderComponent = () => {
     );
 };
 
-export default OrderComponent;
+export default SalesOrderComponent;

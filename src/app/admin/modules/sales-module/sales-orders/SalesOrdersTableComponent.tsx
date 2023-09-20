@@ -1,4 +1,3 @@
-
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
 
@@ -9,25 +8,15 @@ import Card from "components/card/Card";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
-
-
-
 type RowObj = {
     date: string;
     reference: string;
     status: number;
-   
-    
-    
 };
-
-
-
 
 const columnHelper = createColumnHelper<RowObj>();
 
-function OrdersTableComponent( props: { tableData: any }) {
-
+function SalesOrdersTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -81,15 +70,7 @@ function OrdersTableComponent( props: { tableData: any }) {
                 </Text>
             ),
         }),
-
-       
-        
-        
-
-        
-
-
-    ]
+    ];
 
     const [data, setData] = React.useState(() => [...defaultData]);
 
@@ -105,10 +86,9 @@ function OrdersTableComponent( props: { tableData: any }) {
         debugTable: true,
     });
 
-
-  return (
-    <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
-        <Box>
+    return (
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+            <Box>
                 <Table variant="simple" color="gray.500" mb="24px" mt="12px">
                     <Thead>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -173,8 +153,8 @@ function OrdersTableComponent( props: { tableData: any }) {
                     </Tbody>
                 </Table>
             </Box>
-    </Card>
-  )
+        </Card>
+    );
 }
 
-export default OrdersTableComponent
+export default SalesOrdersTableComponent;

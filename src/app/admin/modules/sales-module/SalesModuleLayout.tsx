@@ -10,10 +10,9 @@ import NewCustomerComponent from "./customer-form/CustomerFormComponent";
 import NewInvoiceComponent from "./invoice-form/InvoiceFormComponent";
 import CustomerComponent from "./customer/CustomerComponent";
 import SalesOrderComponent from "./sales-orders/SalesOrdersComponent";
-import SalesOrdersFormComponent from "./sales-order-form/SalesOrdersFormComponent";
-import OrderComponent from "./Order/OrderComponent";
-import InvoiceComponent from "./invoice-component/InvoiceComponent";
-
+import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
+import InvoiceComponent from "./invoice/InvoiceComponent";
+import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
 
 const salesRoutes = [
     {
@@ -48,15 +47,13 @@ const salesRoutes = [
         component: <NewInvoiceComponent />,
         excludeFromSideNav: true,
     },
-    
 
     {
         name: "New Sales Order",
         path: "/sales-orders/new",
-        component: <SalesOrdersFormComponent />,
+        component: <SalesOrderFormComponent />,
         excludeFromSideNav: true,
     },
-    
 
     {
         name: "Invoices",
@@ -84,14 +81,14 @@ const salesRoutes = [
         name: "Sales Orders",
         path: "/sales-orders",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesOrderComponent />,
+        component: <SalesOrdersComponent />,
     },
 
     {
-        name: "Sales",
+        name: "Sales Order",
         path: "/sale-order/:id",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <OrderComponent />,
+        component: <SalesOrderComponent />,
         excludeFromSideNav: true,
     },
 

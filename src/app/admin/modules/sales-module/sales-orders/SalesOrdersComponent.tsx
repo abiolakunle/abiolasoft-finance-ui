@@ -5,18 +5,17 @@ import { apiBaseUrl } from "environment";
 import { MdAdd } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import OrdersTableComponent from "./OrdersTableComponent";
+import SalesOrdersTableComponent from "./SalesOrdersTableComponent";
 
 const SalesOrdersComponent = () => {
-
-  const [Data, setData] = useState(null);
+    const [Data, setData] = useState(null);
 
     useEffect(() => {
         axios
             .get(apiBaseUrl + "Sales/GetAllSalesOrders?PageIndex=1&PageSize=50")
             .then((response) => {
                 if (response.data && response.data.data) {
-                  setData(response.data.data.items);
+                    setData(response.data.data.items);
                 }
             })
             .catch((error) => {
@@ -24,32 +23,32 @@ const SalesOrdersComponent = () => {
             });
     }, []);
 
-  return (
-    <>
+    return (
+        <>
             <Flex
-              pt={{ base: "130px", md: "80px", xl: "80px" }}
-              my="0px"
-              h="fit-content"
-              align={{ base: "center", xl: "center" }}
-              justify={{
-                  base: "flex-end",
-                  xl: "flex-end",
-              }}
-              gap="20px"
+                pt={{ base: "130px", md: "80px", xl: "80px" }}
+                my="0px"
+                h="fit-content"
+                align={{ base: "center", xl: "center" }}
+                justify={{
+                    base: "flex-end",
+                    xl: "flex-end",
+                }}
+                gap="20px"
             >
-              <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/new`}>
-                  <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
-                      New
-                  </Button>
-              </ChakraLink>
-            </Flex>  
+                <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/new`}>
+                    <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
+                        New
+                    </Button>
+                </ChakraLink>
+            </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
-                    {Data && <OrdersTableComponent tableData={Data} />}
+                    {Data && <SalesOrdersTableComponent tableData={Data} />}
                 </SimpleGrid>
             </Box>
-    </>
-  )
-}
+        </>
+    );
+};
 
-export default SalesOrdersComponent
+export default SalesOrdersComponent;
