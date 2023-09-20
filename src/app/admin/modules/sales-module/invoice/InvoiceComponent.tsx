@@ -7,38 +7,39 @@ import { apiBaseUrl } from "environment";
 import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
 
-const CustomerComponent = () => {
+const InvoiceComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
 
-    const [customer, setCustomer] = useState({
+    const [order, setOrder] = useState({
         id: "",
-        customerFirstName: "",
-        customerLastName: "",
-        companyName: "",
-        customerDisplayName: "",
-        customerEmail: "",
-        customerPhone: "",
-        customerAddress: "",
+        date: "",
+        number: "",
+        customerName: "",
+        status: "",
+        dueDate: "",
+        orderNumber: "",
+        salesPersonName: ""
     });
 
     useEffect(() => {
         if (id) {
             axios
-                .get(apiBaseUrl + `Sales/GetCustomerById?id=${id}`)
+                .get(apiBaseUrl + `Sales/GetInvoicesById?id=${id}`)
                 .then((response) => {
-                    const data = response?.data?.data;
+                    const data = response?.data?.data;  
                     if (!!data) {
-                        setCustomer({
+                        setOrder({
                             id,
-                            customerFirstName: data.customerFirstName,
-                            customerLastName: data.customerLastName,
-                            companyName: data.companyName,
-                            customerDisplayName: data.customerDisplayName,
-                            customerEmail: data.customerEmail,
-                            customerPhone: data.customerPhone,
-                            customerAddress: data.customerAddress,
+                            date: data.date,
+                            number: data.number,
+                            customerName: data.customerName,
+                            status: data.status,
+                            dueDate: data.dueDate,
+                            orderNumber: data.orderNumber,
+                            salesPersonName: data.salesPersonName,
+                            
                         });
                     }
                 })
@@ -62,15 +63,15 @@ const CustomerComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    CUSTOMER
+                    INVOICE
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoice`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
@@ -81,29 +82,44 @@ const CustomerComponent = () => {
 
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>FIRST NAME</StatLabel>
-                                <StatNumber>{customer.customerFirstName || "--"}</StatNumber>
+                                <StatLabel>CUSTOMER NAME</StatLabel>
+                                <StatNumber>{order.customerName || "--"}</StatNumber>
+                            </Stat>
+                        </Box>
+
+                        <Box w="40%">
+                            <Stat>
+                                <StatLabel>INVOICE ID</StatLabel>
+                                <StatNumber>{order.number || "--"}</StatNumber>
                             </Stat>
                         </Box>
 
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>LAST NAME</StatLabel>
-                                <StatNumber>{customer.customerLastName || "--"}</StatNumber>
+                                <StatLabel>STATUS</StatLabel>
+                                <StatNumber>{order.status || "--"}</StatNumber>
                             </Stat>
                         </Box>
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>DISPLAY NAME</StatLabel>
-                                <StatNumber>{customer.customerDisplayName || "--"}</StatNumber>
+                                <StatLabel>DATE</StatLabel>
+                                <StatNumber>{order.date || "--"}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
                     <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>COMPANY NAME</StatLabel>
-                                <StatNumber>{customer.companyName || "--"}</StatNumber>
+                                <StatLabel>SALES PERSON NAME</StatLabel>
+                                <StatNumber>{order.salesPersonName || "--"}</StatNumber>
+                            </Stat>
+                        </Box>
+                    </Flex>
+                    <Flex mb="16px" minH="80px">
+                        <Box w="45%">
+                            <Stat>
+                                <StatLabel>ORDER NUMBER</StatLabel>
+                                <StatNumber>{order.orderNumber || "--"}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
@@ -112,23 +128,12 @@ const CustomerComponent = () => {
 
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>PHONE NUMBER</StatLabel>
-                                <StatNumber>{customer.customerPhone || "--"}</StatNumber>
+                                <StatLabel>DUE DATE</StatLabel>
+                                <StatNumber>{order.dueDate || "--"}</StatNumber>
                             </Stat>
                         </Box>
 
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>E-MAIL</StatLabel>
-                                <StatNumber>{customer.customerEmail}</StatNumber>
-                            </Stat>
-                        </Box>
-                        <Box w="40%">
-                            <Stat>
-                                <StatLabel>ADDRESS</StatLabel>
-                                <StatNumber>{customer.customerAddress}</StatNumber>
-                            </Stat>
-                        </Box>
+                        
                     </Flex>
                 </Card>
             </Box>
@@ -136,4 +141,4 @@ const CustomerComponent = () => {
     );
 };
 
-export default CustomerComponent;
+export default InvoiceComponent;

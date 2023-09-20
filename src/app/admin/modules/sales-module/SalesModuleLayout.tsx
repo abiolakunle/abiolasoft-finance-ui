@@ -3,12 +3,16 @@ import NavigationComponent from "app-components/navigation-layout/NavigationComp
 import { MdHome, MdList } from "react-icons/md";
 import { Route, Routes } from "react-router-dom";
 import SalesDashboardComponent from "./sales-dashboard/SalesDashboardComponent";
-import CustomerInvoiceComponent from "./invoices/InvoicesComponent";
+import InvoicesComponent from "./invoices/InvoicesComponent";
 import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
 import CustomersComponent from "./customers/CustomersComponent";
 import NewCustomerComponent from "./customer-form/CustomerFormComponent";
 import NewInvoiceComponent from "./invoice-form/InvoiceFormComponent";
 import CustomerComponent from "./customer/CustomerComponent";
+import SalesOrderComponent from "./sales-orders/SalesOrdersComponent";
+import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
+import InvoiceComponent from "./invoice/InvoiceComponent";
+import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
 
 const salesRoutes = [
     {
@@ -39,22 +43,55 @@ const salesRoutes = [
 
     {
         name: "New Customer Invoice",
-        path: "/customer-invoice/new",
+        path: "/invoices/new",
         component: <NewInvoiceComponent />,
         excludeFromSideNav: true,
     },
+
+    {
+        name: "New Sales Order",
+        path: "/sales-orders/new",
+        component: <SalesOrderFormComponent />,
+        excludeFromSideNav: true,
+    },
+
     {
         name: "Invoices",
         path: "/customer-invoice",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <CustomerInvoiceComponent />,
+        component: <InvoicesComponent />,
     },
+
+    {
+        name: "Invoice",
+        path: "/invoice/:id",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <InvoiceComponent />,
+        excludeFromSideNav: true,
+    },
+
     {
         name: "Sales Receipts",
         path: "/sales-receipts",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesReceiptsComponent />,
     },
+
+    {
+        name: "Sales Orders",
+        path: "/sales-orders",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesOrdersComponent />,
+    },
+
+    {
+        name: "Sales Order",
+        path: "/sale-order/:id",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesOrderComponent />,
+        excludeFromSideNav: true,
+    },
+
     {
         name: "Customer",
         path: "/customer/:id",
