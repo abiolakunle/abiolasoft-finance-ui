@@ -16,6 +16,7 @@ const SalesOrderFormComponent = () => {
         referenceNumber: "",
         date: "",
         expectedShipmentDate: "",
+        paymentTermsDays: "",
         customerId: "",
         customerNote: "",
         salesPersonId: "",
@@ -102,7 +103,7 @@ const SalesOrderFormComponent = () => {
                                 <FormLabel color="red">Customer Name*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Select name="id" placeholder="Select a Company Name" value={formData.id} onChange={handleInputChange}>
+                                <Select name="id" placeholder="Select a customer" value={formData.id} onChange={handleInputChange}>
                                     {customers.map((customer, index) => (
                                         <option key={index} value={customer.id}>
                                             {customer.customerDisplayName}
@@ -119,7 +120,16 @@ const SalesOrderFormComponent = () => {
                                 <FormLabel color="red">Sales Order#*</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Input name="number" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.number} onChange={handleInputChange} />
+                                <Input
+                                    name="number"
+                                    type="text"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.number}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -132,6 +142,7 @@ const SalesOrderFormComponent = () => {
                             <Box width="40%" className="afu-input">
                                 <Input
                                     name="referenceNumber"
+                                    type="text"
                                     isRequired={true}
                                     width="100%"
                                     variant="outline"
@@ -179,6 +190,43 @@ const SalesOrderFormComponent = () => {
                                     value={formData.expectedShipmentDate}
                                     onChange={handleInputChange}
                                 />
+                            </Box>
+                        </Flex>
+                    </FormControl>
+
+                    <FormControl>
+                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Box className="afu-label" minWidth="200px">
+                                <FormLabel>Payment Term Days</FormLabel>
+                            </Box>
+                            <Box width="40%" className="afu-input">
+                                <Input
+                                    type="number"
+                                    name="paymentTermsDays"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.paymentTermsDays}
+                                    onChange={handleInputChange}
+                                />
+                            </Box>
+                        </Flex>
+                    </FormControl>
+
+                    <FormControl>
+                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Box className="afu-label" minWidth="200px">
+                                <FormLabel>Salesperson</FormLabel>
+                            </Box>
+                            <Box width="40%" className="afu-input">
+                                <Select name="id" placeholder="Select a salesperson" value={formData.salesPersonId} onChange={handleInputChange}>
+                                    {salesPersons.map((person, index) => (
+                                        <option key={index} value={person.id}>
+                                            {person.name}
+                                        </option>
+                                    ))}
+                                </Select>
                             </Box>
                         </Flex>
                     </FormControl>
