@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Select } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Select } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
@@ -8,11 +8,14 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 
 const SalesOrderFormComponent = () => {
     const [customers, setCustomers] = useState([]);
+    const [items, setItems] = useState([]);
     const [salesPersons, setSalesPersons] = useState([]);
     const [formData, setFormData] = useState({
         id: "",
+        number: "",
+        referenceNumber: "",
         date: "",
-        reference: 0,
+        expectedShipmentDate: "",
         customerId: "",
         customerNote: "",
         salesPersonId: "",
@@ -25,6 +28,7 @@ const SalesOrderFormComponent = () => {
         const initialRequests = [
             axios.get(apiBaseUrl + `Sales/GetAllCustomers?PageIndex=1&PageSize=5000`),
             axios.get(apiBaseUrl + `Sales/GetAllSalesPersons?PageIndex=1&PageSize=5000`),
+            axios.get(apiBaseUrl + `Inventory/GetAllItems?PageIndex=1&PageSize=5000`),
         ];
 
         if (id) {
@@ -33,14 +37,12 @@ const SalesOrderFormComponent = () => {
 
         Promise.all(initialRequests)
             .then((response) => {
-                const customers = response[0].data?.data?.items;
-                const salesPersons: any[] = response[1].data?.data?.items;
-
-                setCustomers(customers);
-                setSalesPersons(salesPersons);
+                setCustomers(response[0].data?.data?.items);
+                setSalesPersons(response[1].data?.data?.items);
+                setItems(response[2].data?.data?.items);
 
                 if (id) {
-                    const salesOrder = response[2].data?.data;
+                    const salesOrder = response[3].data?.data;
                     setFormData({ ...formData });
                 }
             })
@@ -107,6 +109,76 @@ const SalesOrderFormComponent = () => {
                                         </option>
                                     ))}
                                 </Select>
+                            </Box>
+                        </Flex>
+                    </FormControl>
+
+                    <FormControl>
+                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Box className="afu-label" minWidth="200px">
+                                <FormLabel color="red">Sales Order#*</FormLabel>
+                            </Box>
+                            <Box width="40%" className="afu-input">
+                                <Input name="number" isRequired={true} width="100%" variant="outline" borderRadius="8px" value={formData.number} onChange={handleInputChange} />
+                            </Box>
+                        </Flex>
+                    </FormControl>
+
+                    <FormControl>
+                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Box className="afu-label" minWidth="200px">
+                                <FormLabel>Reference#</FormLabel>
+                            </Box>
+                            <Box width="40%" className="afu-input">
+                                <Input
+                                    name="referenceNumber"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.referenceNumber}
+                                    onChange={handleInputChange}
+                                />
+                            </Box>
+                        </Flex>
+                    </FormControl>
+
+                    <FormControl>
+                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Box className="afu-label" minWidth="200px">
+                                <FormLabel color="red">Date*</FormLabel>
+                            </Box>
+                            <Box width="40%" className="afu-input">
+                                <Input
+                                    type="date"
+                                    name="date"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.date}
+                                    onChange={handleInputChange}
+                                />
+                            </Box>
+                        </Flex>
+                    </FormControl>
+
+                    <FormControl>
+                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Box className="afu-label" minWidth="200px">
+                                <FormLabel>Expected Shipment Date</FormLabel>
+                            </Box>
+                            <Box width="40%" className="afu-input">
+                                <Input
+                                    type="date"
+                                    name="expectedShipmentDate"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.expectedShipmentDate}
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
