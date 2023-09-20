@@ -5,6 +5,8 @@ import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import { hideProgress, showProgress } from "state/slices/progressSlice";
+import { useDispatch } from "react-redux";
 
 const ItemFormComponent = () => {
     const [formData, setFormData] = useState({
@@ -24,6 +26,7 @@ const ItemFormComponent = () => {
 
     const { id } = useParams();
     let navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (id) {
@@ -63,9 +66,10 @@ const ItemFormComponent = () => {
     };
 
     const handleSubmit = async () => {
+        dispatch(showProgress());
         try {
             const response = await (id ? axios.put(apiBaseUrl + "Inventory/EditItem", formData) : axios.post(apiBaseUrl + "Inventory/CreateItem", formData));
-
+            dispatch(hideProgress());
             if (response.status === 200) {
                 if (id) {
                     navigate(`/admin/modules/inventory/items/${id}`);
@@ -76,6 +80,7 @@ const ItemFormComponent = () => {
                 console.error("Error creating item");
             }
         } catch (error) {
+            dispatch(hideProgress());
             console.error("Error:", error);
         }
     };
