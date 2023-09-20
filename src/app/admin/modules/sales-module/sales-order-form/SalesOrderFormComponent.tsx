@@ -7,70 +7,47 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 
 const SalesOrderFormComponent = () => {
-    const [companyNames, setCompanyNames] = useState([]);
-    const [selectedCompany, setSelectedCompany] = useState("");
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await axios.get(apiBaseUrl + `Sales/GetAllCustomers`);
-                const data = response.data.data.items;
-
-                const companyNames = data.map((item: { companyName: any }) => item.companyName);
-                setCompanyNames(companyNames);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-
-        fetchData();
-    }, []);
-
+    const [customers, setCustomers] = useState([]);
+    const [salesPersons, setSalesPersons] = useState([]);
     const [formData, setFormData] = useState({
         id: "",
         date: "",
         reference: 0,
-        customerName: "",
+        customerId: "",
         customerNote: "",
-        salesPersonName: "",
+        salesPersonId: "",
     });
 
     const { id } = useParams();
     let navigate = useNavigate();
 
     useEffect(() => {
+        const initialRequests = [
+            axios.get(apiBaseUrl + `Sales/GetAllCustomers?PageIndex=1&PageSize=5000`),
+            axios.get(apiBaseUrl + `Sales/GetAllSalesPersons?PageIndex=1&PageSize=5000`),
+        ];
+
         if (id) {
-            axios
-                .get(apiBaseUrl + `Sales/GetSalesOrdersById?id=${id}`)
-                .then((response) => {
-                    const data = response?.data?.data;
-                    if (!!data) {
-                        setFormData({
-                            id,
-                            customerName: data.customerName,
-                            reference: data.reference,
-                            customerNote: data.customerNote,
-                            date: data.date,
-
-                            salesPersonName: data.salePersonName,
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching data:", error);
-                });
+            initialRequests.push(axios.get(apiBaseUrl + `Sales/GetSalesOrderById?id=${id}`));
         }
+
+        Promise.all(initialRequests)
+            .then((response) => {
+                const customers = response[0].data?.data?.items;
+                const salesPersons: any[] = response[1].data?.data?.items;
+
+                setCustomers(customers);
+                setSalesPersons(salesPersons);
+
+                if (id) {
+                    const salesOrder = response[2].data?.data;
+                    setFormData({ ...formData });
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
     }, []);
-
-    // type RowObj = {
-    //     id: string;
-    //     companyName: string
-    //     customerName: string;
-    //     customerAddress: string;
-    //     customerPhone: 0;
-    //     customerEmail: string
-
-    // };
 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
@@ -112,21 +89,21 @@ const SalesOrderFormComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    Sales Order
+                    New Sales Order
                 </Heading>
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
-                            <Box className="afu-label" minWidth="250px">
-                                <FormLabel color="red">SELECT COMPANY NAME*</FormLabel>
+                            <Box className="afu-label" minWidth="200px">
+                                <FormLabel color="red">Customer Name*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Select placeholder="Select a Company Name" value={selectedCompany} onChange={handleInputChange}>
-                                    {companyNames.map((companyName, index) => (
-                                        <option key={index} value={companyName}>
-                                            {companyName}
+                                <Select name="id" placeholder="Select a Company Name" value={formData.id} onChange={handleInputChange}>
+                                    {customers.map((customer, index) => (
+                                        <option key={index} value={customer.id}>
+                                            {customer.customerDisplayName}
                                         </option>
                                     ))}
                                 </Select>
