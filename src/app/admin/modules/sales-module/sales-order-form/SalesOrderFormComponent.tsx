@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Select } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import SalesOrderFormItemsTableComponent from "./SalesOrderFormItemsTableComponent";
+import { HSeparator } from "components/separator/Separator";
 
 const SalesOrderFormComponent = () => {
     const [customers, setCustomers] = useState([]);
@@ -69,12 +70,6 @@ const SalesOrderFormComponent = () => {
             ...formData,
             [name]: value,
         });
-    };
-
-    const lineInputChanged = (event: any, index: string) => {
-        const { name, value } = event.target;
-        (formData.items[+index] as any)[name] = value;
-        setFormData({ ...formData });
     };
 
     const handleSubmit = async () => {
@@ -248,7 +243,44 @@ const SalesOrderFormComponent = () => {
                         </Flex>
                     </FormControl>
 
-                    <SalesOrderFormItemsTableComponent tableData={formData} items={items} lineInputChanged={lineInputChanged} />
+                    <SalesOrderFormItemsTableComponent tableData={formData.items} items={items} />
+
+                    <Flex
+                        pt={{ base: "16px", md: "16px", xl: "16px" }}
+                        align={{ base: "end", xl: "end" }}
+                        justify={{
+                            base: "space-between",
+                            xl: "space-between",
+                        }}
+                        gap="20px"
+                    >
+                        <Flex mb="0px" direction="column" justifyContent="flex-start" width="45%" gap="0px" alignItems="baseline" className="afu-label-input">
+                            <Box className="afu-label" minWidth="50px">
+                                <FormLabel>Customer Notes</FormLabel>
+                            </Box>
+                            <Box width="100%" className="afu-input">
+                                <FormControl>
+                                    <Textarea
+                                        size="sm"
+                                        placeholder="Enter any notes to be displayed in your transaction"
+                                        name="description"
+                                        value={formData.customerNote}
+                                        onChange={handleInputChange}
+                                    />
+                                </FormControl>
+                            </Box>
+                        </Flex>
+
+                        <Stack minH="250px" padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
+                            <Flex width="100%" justifyContent="space-between">
+                                <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">0.00</Text>
+                            </Flex>
+                            <HSeparator mt="16px" />
+                            <Flex width="100%" justifyContent="space-between">
+                                <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">0.00</Text>
+                            </Flex>
+                        </Stack>
+                    </Flex>
 
                     <Flex
                         pt={{ base: "16px", md: "16px", xl: "16px" }}

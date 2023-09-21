@@ -1,4 +1,4 @@
-import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input } from "@chakra-ui/react";
+import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input } from "@chakra-ui/react";
 import * as React from "react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 
@@ -15,22 +15,16 @@ type RowObj = {
 const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
-export default function SalesOrderFormItemsTableComponent(props: { tableData: any; items: any[]; lineInputChanged: Function }) {
-    const { tableData, items, lineInputChanged } = props;
+export default function SalesOrderFormItemsTableComponent(props: { tableData: any; items: any[] }) {
+    const { tableData, items } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
-    let defaultData = tableData.items;
+    let defaultData = tableData;
 
     const [data, setData] = React.useState(() => [...defaultData]);
 
-    const inputChanged = (e: any, i: number) => {
-        const { name, value } = e.target;
-        data[+i][name] = value;
-
-        setData(() => [...data]);
-        lineInputChanged(e, i);
-    };
+    const inputChanged = (e: any, i: number) => {};
 
     const columns = [
         columnHelper.accessor("itemId", {
@@ -119,7 +113,7 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {data[+info.row.id].quantity * data[+info.row.id].rate}
+                    {info.getValue()}
                 </Text>
             ),
         }),
