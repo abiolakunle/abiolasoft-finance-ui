@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, InputRightAddon, InputGroup } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
@@ -20,8 +20,11 @@ const SalesOrderFormComponent = () => {
         expectedShipmentDate: "",
         paymentTermsDays: "",
         customerId: "",
-        customerNote: "",
+        customerNotes: "",
+        termsAndConditions: "",
         salesPersonId: "",
+        discount: "",
+        status: "",
         items: [
             {
                 itemId: "",
@@ -72,7 +75,8 @@ const SalesOrderFormComponent = () => {
         });
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (status: "Confirmed" | "Draft") => {
+        formData.status = status;
         try {
             const response = await (id ? axios.put(apiBaseUrl + "Sales/EditSalesOrders", formData) : axios.post(apiBaseUrl + "Sales/CreateSalesOrder", formData));
 
@@ -80,7 +84,7 @@ const SalesOrderFormComponent = () => {
                 if (id) {
                     navigate(`/admin/modules/sales/sales-orders/${id}`);
                 } else {
-                    navigate("/admin/modules/sales/sales-order");
+                    navigate("/admin/modules/sales/sales-orders");
                 }
             } else {
                 console.error("Error creating item");
@@ -115,7 +119,7 @@ const SalesOrderFormComponent = () => {
                                 <FormLabel color="red">Customer Name*</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Select name="id" placeholder="Select a customer" value={formData.id} onChange={handleInputChange}>
+                                <Select name="customerId" placeholder="Select a customer" value={formData.customerId} onChange={handleInputChange}>
                                     {customers.map((customer, index) => (
                                         <option key={index} value={customer.id}>
                                             {customer.customerDisplayName}
@@ -232,7 +236,7 @@ const SalesOrderFormComponent = () => {
                                 <FormLabel>Salesperson</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Select name="id" placeholder="Select a salesperson" value={formData.salesPersonId} onChange={handleInputChange}>
+                                <Select name="salesPersonId" placeholder="Select a salesperson" value={formData.salesPersonId} onChange={handleInputChange}>
                                     {salesPersons.map((person, index) => (
                                         <option key={index} value={person.id}>
                                             {person.name}
@@ -254,26 +258,69 @@ const SalesOrderFormComponent = () => {
                         }}
                         gap="20px"
                     >
-                        <Flex mb="0px" direction="column" justifyContent="flex-start" width="45%" gap="0px" alignItems="baseline" className="afu-label-input">
-                            <Box className="afu-label" minWidth="50px">
-                                <FormLabel>Customer Notes</FormLabel>
-                            </Box>
-                            <Box width="100%" className="afu-input">
-                                <FormControl>
-                                    <Textarea
-                                        size="sm"
-                                        placeholder="Enter any notes to be displayed in your transaction"
-                                        name="description"
-                                        value={formData.customerNote}
-                                        onChange={handleInputChange}
-                                    />
-                                </FormControl>
-                            </Box>
+                        <Flex mb="0px" direction="column" justifyContent="flex-start" width="45%" gap="20px" alignItems="baseline" className="afu-label-input">
+                            <Flex mb="0px" direction="column" justifyContent="flex-start" width="100%" gap="0px" alignItems="baseline" className="afu-label-input">
+                                <Box className="afu-label" minWidth="50px">
+                                    <FormLabel>Terms & Conditions</FormLabel>
+                                </Box>
+                                <Box width="100%" className="afu-input">
+                                    <FormControl>
+                                        <Textarea
+                                            size="sm"
+                                            placeholder="Enter the terms and conditions of your business to be displayed in your transaction"
+                                            name="termsAndConditions"
+                                            value={formData.termsAndConditions}
+                                            onChange={handleInputChange}
+                                        />
+                                    </FormControl>
+                                </Box>
+                            </Flex>
+                            <Flex mb="0px" direction="column" justifyContent="flex-start" width="100%" gap="0px" alignItems="baseline" className="afu-label-input">
+                                <Box className="afu-label" minWidth="50px">
+                                    <FormLabel>Customer Notes</FormLabel>
+                                </Box>
+                                <Box width="100%" className="afu-input">
+                                    <FormControl>
+                                        <Textarea
+                                            size="sm"
+                                            placeholder="Enter any notes to be displayed in your transaction"
+                                            name="customerNotes"
+                                            value={formData.customerNotes}
+                                            onChange={handleInputChange}
+                                        />
+                                    </FormControl>
+                                </Box>
+                            </Flex>
                         </Flex>
 
-                        <Stack minH="250px" padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
+                        <Stack padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
                             <Flex width="100%" justifyContent="space-between">
                                 <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">0.00</Text>
+                            </Flex>
+
+                            <Flex width="100%" justifyContent="space-between" alignItems="baseline">
+                                <Flex justifyContent="space-between" alignItems="baseline">
+                                    <Text minW="120px" fontWeight="bold">
+                                        Discount
+                                    </Text>
+                                    <FormControl>
+                                        <InputGroup size="md">
+                                            <Input
+                                                maxW="100px"
+                                                name="discount"
+                                                type="number"
+                                                isRequired={true}
+                                                width="100%"
+                                                variant="outline"
+                                                borderRadius="8px"
+                                                value={formData.discount}
+                                                onChange={handleInputChange}
+                                            />
+                                            <InputRightAddon children="%" borderRightRadius="8px" />
+                                        </InputGroup>
+                                    </FormControl>
+                                </Flex>
+                                <Text fontWeight="bold">0.00</Text>
                             </Flex>
                             <HSeparator mt="16px" />
                             <Flex width="100%" justifyContent="space-between">
@@ -291,7 +338,10 @@ const SalesOrderFormComponent = () => {
                         }}
                         gap="20px"
                     >
-                        <Button variant="brand" onClick={handleSubmit}>
+                        <Button variant="outline" onClick={() => handleSubmit("Draft")}>
+                            Save as Draft
+                        </Button>
+                        <Button variant="brand" onClick={() => handleSubmit("Confirmed")}>
                             Save
                         </Button>
                         <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/customer/${id}` : "/admin/modules/sales/customers"}>
