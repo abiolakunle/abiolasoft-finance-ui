@@ -7,9 +7,9 @@ import InvoicesComponent from "./invoices/InvoicesComponent";
 import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
 import CustomersComponent from "./customers/CustomersComponent";
 import NewCustomerComponent from "./customer-form/CustomerFormComponent";
-import NewInvoiceComponent from "./invoice-form/InvoiceFormComponent";
+import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
 import CustomerComponent from "./customer/CustomerComponent";
-import SalesOrderComponent from "./sales-orders/SalesOrdersComponent";
+import SalesOrderComponent from "./sales-order/SalesOrderComponent";
 import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
 import InvoiceComponent from "./invoice/InvoiceComponent";
 import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
@@ -44,7 +44,14 @@ const salesRoutes = [
     {
         name: "New Customer Invoice",
         path: "/invoices/new",
-        component: <NewInvoiceComponent />,
+        component: <InvoiceFormComponent />,
+        excludeFromSideNav: true,
+    },
+
+    {
+        name: "Edit Customer Invoice",
+        path: "/invoices/:id/edit",
+        component: <InvoiceFormComponent />,
         excludeFromSideNav: true,
     },
 
@@ -56,8 +63,15 @@ const salesRoutes = [
     },
 
     {
+        name: "Edit Sales Order",
+        path: "/sale-order/:id/edit",
+        component: <SalesOrderFormComponent />,
+        excludeFromSideNav: true,
+    },
+
+    {
         name: "Invoices",
-        path: "/customer-invoice",
+        path: "/customer-invoices",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <InvoicesComponent />,
     },

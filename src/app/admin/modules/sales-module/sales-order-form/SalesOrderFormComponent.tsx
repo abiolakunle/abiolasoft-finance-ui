@@ -173,7 +173,7 @@ const SalesOrderFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="200px">
-                                <FormLabel color="red">Date*</FormLabel>
+                                <FormLabel color="red">Sales Order Date*</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
                                 <Input
@@ -344,7 +344,7 @@ const SalesOrderFormComponent = () => {
                         <Button variant="brand" onClick={() => handleSubmit("Confirmed")}>
                             Save
                         </Button>
-                        <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/customer/${id}` : "/admin/modules/sales/customers"}>
+                        <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/sale-order/${id}` : "/admin/modules/sales/sales-orders"}>
                             <Button variant="outline">Cancel</Button>
                         </ChakraLink>
                     </Flex>
