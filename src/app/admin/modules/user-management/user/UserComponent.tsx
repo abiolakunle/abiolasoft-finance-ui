@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { apiBaseUrl } from "environment";
 import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
-import { formatDate } from "utils/dateUtils";
+import { formatDateTime } from "utils/dateUtils";
 
 const UserComponent = () => {
     const { id } = useParams();
@@ -128,13 +128,13 @@ const UserComponent = () => {
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>Last Modified Date</StatLabel>
-                                <StatNumber>{user.modifiedAt ? formatDate(user.modifiedAt, true) : "--"}</StatNumber>
+                                <StatNumber>{user.modifiedAt ? formatDateTime(user.modifiedAt, true) : "--"}</StatNumber>
                             </Stat>
                         </Box>
                         <Box w="40%">
                             <Stat>
                                 <StatLabel>Date Created</StatLabel>
-                                <StatNumber>{user.createdAt ? formatDate(user.createdAt, true) : "--"}</StatNumber>
+                                <StatNumber>{user.createdAt ? formatDateTime(user.createdAt, true) : "--"}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>

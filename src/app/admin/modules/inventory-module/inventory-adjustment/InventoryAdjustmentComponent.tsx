@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { apiBaseUrl } from "environment";
 import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
-import { formatDate } from "utils/dateUtils";
+import { formatDateTime } from "utils/dateUtils";
 import InventoryAdjustmentItemsTableComponent from "./InventoryAdjustmentItemsTableComponent";
 
 const InventoryAdjustmentComponent = () => {
@@ -84,7 +84,7 @@ const InventoryAdjustmentComponent = () => {
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>Date</StatLabel>
-                                <StatNumber>{adjustment.dateAdjusted ? formatDate(adjustment.dateAdjusted) : "--"}</StatNumber>
+                                <StatNumber>{adjustment.dateAdjusted ? formatDateTime(adjustment.dateAdjusted) : "--"}</StatNumber>
                             </Stat>
                         </Box>
                         <Box w="40%">
@@ -118,7 +118,7 @@ const InventoryAdjustmentComponent = () => {
                         <Box w="40%">
                             <Stat>
                                 <StatLabel>Created Time</StatLabel>
-                                <StatNumber>{adjustment.createdAt ? formatDate(adjustment.createdAt, true) : "--"}</StatNumber>
+                                <StatNumber>{adjustment.createdAt ? formatDateTime(adjustment.createdAt, true) : "--"}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>

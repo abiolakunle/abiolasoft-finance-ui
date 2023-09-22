@@ -5,7 +5,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 import Card from "components/card/Card";
-import { formatDate } from "utils/dateUtils";
+import { formatDateTime } from "utils/dateUtils";
 
 type RowObj = {
     id: string;
@@ -41,7 +41,7 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        {info.getValue() ? formatDate(info.getValue()) : "--"}
+                        {info.getValue() ? formatDateTime(info.getValue()) : "--"}
                     </Text>
                 </Flex>
             ),
@@ -120,7 +120,7 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue() ? formatDate(info.getValue(), true) : "--"}
+                    {info.getValue() ? formatDateTime(info.getValue(), true) : "--"}
                 </Text>
             ),
         }),
@@ -147,7 +147,7 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue() ? formatDate(info.getValue(), true) : "--"}
+                    {info.getValue() ? formatDateTime(info.getValue(), true) : "--"}
                 </Text>
             ),
         }),

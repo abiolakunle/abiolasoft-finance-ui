@@ -7,10 +7,13 @@ import Card from "components/card/Card";
 
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { formatDateTime } from "utils/dateUtils";
 
 type RowObj = {
     date: string;
-    reference: string;
+    number: string;
+    customerName: string;
+    referenceNumber: string;
     status: number;
 };
 
@@ -36,18 +39,45 @@ function SalesOrdersTableComponent(props: { tableData: any }) {
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sale-order/${info.row.original.id}`}>
-                            {info.getValue()}
+                            {formatDateTime(info.getValue())}
                         </ChakraLink>
                     </Text>
                 </Flex>
             ),
         }),
-
-        columnHelper.accessor("reference", {
-            id: "reference",
+        columnHelper.accessor("number", {
+            id: "number",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    REFERENCE ID
+                    SALES ORDER#
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+
+        columnHelper.accessor("referenceNumber", {
+            id: "referenceNumber",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    REFERENCE#
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+
+        columnHelper.accessor("customerName", {
+            id: "customerName",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    CUSTOMER NAME
                 </Text>
             ),
             cell: (info) => (
@@ -61,7 +91,7 @@ function SalesOrdersTableComponent(props: { tableData: any }) {
             id: "status",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    STATUS
+                    ORDER STATUS
                 </Text>
             ),
             cell: (info) => (
@@ -72,7 +102,7 @@ function SalesOrdersTableComponent(props: { tableData: any }) {
         }),
     ];
 
-    const [data, setData] = React.useState(() => [...defaultData]);
+    const [data, _setData] = React.useState(() => [...defaultData]);
 
     const table = useReactTable({
         data,
@@ -125,31 +155,28 @@ function SalesOrdersTableComponent(props: { tableData: any }) {
                         ))}
                     </Thead>
                     <Tbody>
-                        {table
-                            .getRowModel()
-                            .rows.slice(0, 5)
-                            .map((row) => {
-                                return (
-                                    <Tr key={row.id}>
-                                        {row.getVisibleCells().map((cell) => {
-                                            return (
-                                                <Td
-                                                    key={cell.id}
-                                                    fontSize={{ sm: "14px" }}
-                                                    minW={{
-                                                        sm: "150px",
-                                                        md: "200px",
-                                                        lg: "auto",
-                                                    }}
-                                                    borderColor="transparent"
-                                                >
-                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                </Td>
-                                            );
-                                        })}
-                                    </Tr>
-                                );
-                            })}
+                        {table.getRowModel().rows.map((row) => {
+                            return (
+                                <Tr key={row.id}>
+                                    {row.getVisibleCells().map((cell) => {
+                                        return (
+                                            <Td
+                                                key={cell.id}
+                                                fontSize={{ sm: "14px" }}
+                                                minW={{
+                                                    sm: "150px",
+                                                    md: "200px",
+                                                    lg: "auto",
+                                                }}
+                                                borderColor="transparent"
+                                            >
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </Td>
+                                        );
+                                    })}
+                                </Tr>
+                            );
+                        })}
                     </Tbody>
                 </Table>
             </Box>
