@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Flex, Icon, Link, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import axios from "axios";
 import { apiBaseUrl } from "environment";
 import { MdAdd } from "react-icons/md";
@@ -8,7 +8,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import SalesOrdersTableComponent from "./SalesOrdersTableComponent";
 
 const SalesOrdersComponent = () => {
-    const [Data, setData] = useState(null);
+    const [data, setData] = useState(null);
 
     useEffect(() => {
         axios
@@ -44,7 +44,7 @@ const SalesOrdersComponent = () => {
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
-                    {Data && <SalesOrdersTableComponent tableData={Data} />}
+                    {data && <SalesOrdersTableComponent tableData={data} />}
                 </SimpleGrid>
             </Box>
         </>

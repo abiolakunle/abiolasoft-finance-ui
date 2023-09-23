@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, InputRightAddon, InputGroup } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, InputRightAddon, InputGroup, CloseButton } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
@@ -103,15 +103,23 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 h="fit-content"
                 align={{ base: "center", xl: "center" }}
                 justify={{
-                    base: "flex-start",
-                    xl: "flex-start",
+                    base: "space-between",
+                    xl: "space-between",
                 }}
                 gap="20px"
             >
                 {!viewOnly && (
-                    <Heading as="h4" size="md">
-                        New Sales Order
-                    </Heading>
+                    <>
+                        <Heading as="h4" size="md">
+                            {id ? "Edit Sales Order" : "New Sales Order"}
+                        </Heading>
+
+                        <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/sales-orders/${id}` : `/admin/modules/sales/sales-orders`}>
+                                <CloseButton size="lg" />
+                            </ChakraLink>
+                        </Flex>
+                    </>
                 )}
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
@@ -376,7 +384,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             <Button variant="brand" onClick={() => handleSubmit("Confirmed")}>
                                 Save
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/sale-order/${id}` : "/admin/modules/sales/sales-orders"}>
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/sales-orders/${id}` : "/admin/modules/sales/sales-orders"}>
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>

@@ -38,7 +38,7 @@ function SalesOrdersTableComponent(props: { tableData: any }) {
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sale-order/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/${info.row.original.id}`}>
                             {formatDateTime(info.getValue())}
                         </ChakraLink>
                     </Text>

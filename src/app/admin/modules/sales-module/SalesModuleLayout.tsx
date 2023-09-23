@@ -64,7 +64,7 @@ const salesRoutes = [
 
     {
         name: "Edit Sales Order",
-        path: "/sale-order/:id/edit",
+        path: "/sales-orders/:id/edit",
         component: <SalesOrderFormComponent />,
         excludeFromSideNav: true,
     },
@@ -100,7 +100,7 @@ const salesRoutes = [
 
     {
         name: "Sales Order",
-        path: "/sale-order/:id",
+        path: "/sales-orders/:id",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesOrderComponent />,
         excludeFromSideNav: true,
