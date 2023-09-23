@@ -35,7 +35,7 @@ const navRoutes = [
     },
     {
         name: "Invoices",
-        path: "/customer-invoices",
+        path: "/invoices",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <InvoicesComponent />,
     },
@@ -49,7 +49,6 @@ const navRoutes = [
 
 const salesRoutes = [
     ...navRoutes,
-
     {
         name: "New Customer",
         path: "/customers/new",
@@ -77,29 +76,25 @@ const salesRoutes = [
         component: <InvoiceFormComponent />,
         excludeFromSideNav: true,
     },
-
     {
         name: "New Sales Order",
         path: "/sales-orders/new",
         component: <SalesOrderFormComponent />,
         excludeFromSideNav: true,
     },
-
     {
         name: "Edit Sales Order",
         path: "/sales-orders/:id/edit",
         component: <SalesOrderFormComponent />,
         excludeFromSideNav: true,
     },
-
     {
         name: "Invoice",
-        path: "/invoice/:id",
+        path: "/invoices/:id",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <InvoiceComponent />,
         excludeFromSideNav: true,
     },
-
     {
         name: "Sales Order",
         path: "/sales-orders/:id",

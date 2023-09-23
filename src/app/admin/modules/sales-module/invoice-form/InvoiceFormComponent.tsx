@@ -22,7 +22,7 @@ const InvoiceOrderFormComponent = () => {
         customerNotes: "",
         termsAndConditions: "",
         status: "",
-        discount:"",
+        discount: "",
         invoiceNumber: "",
         dueDate: "",
         items: [
@@ -82,9 +82,9 @@ const InvoiceOrderFormComponent = () => {
 
             if (response.status === 200) {
                 if (id) {
-                    navigate(`/admin/modules/sales/invoice/${id}`);
+                    navigate(`/admin/modules/sales/invoices/${id}`);
                 } else {
-                    navigate("/admin/modules/sales/customer-invoice");
+                    navigate("/admin/modules/sales/invoices");
                 }
             } else {
                 console.error("Error creating item");
@@ -156,16 +156,7 @@ const InvoiceOrderFormComponent = () => {
                                 <FormLabel>Order Number</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Input
-                                    name="orderNumber"
-                                    type="text"
-                                    
-                                    width="100%"
-                                    variant="outline"
-                                    borderRadius="8px"
-                                    value={formData.number}
-                                    onChange={handleInputChange}
-                                />
+                                <Input name="orderNumber" type="text" width="100%" variant="outline" borderRadius="8px" value={formData.number} onChange={handleInputChange} />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -196,21 +187,10 @@ const InvoiceOrderFormComponent = () => {
                                 <FormLabel>Due Date</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Input
-                                    type="date"
-                                    name="dueDate"
-                                    
-                                    width="100%"
-                                    variant="outline"
-                                    borderRadius="8px"
-                                    value={formData.dueDate}
-                                    onChange={handleInputChange}
-                                />
+                                <Input type="date" name="dueDate" width="100%" variant="outline" borderRadius="8px" value={formData.dueDate} onChange={handleInputChange} />
                             </Box>
                         </Flex>
                     </FormControl>
-
-                    
 
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
@@ -326,7 +306,7 @@ const InvoiceOrderFormComponent = () => {
                         <Button variant="brand" onClick={() => handleSubmit("Confirmed")}>
                             Save
                         </Button>
-                        <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoice/${id}` : "/admin/modules/sales/customer-invoices"}>
+                        <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : "/admin/modules/sales/invoices"}>
                             <Button variant="outline">Cancel</Button>
                         </ChakraLink>
                     </Flex>
