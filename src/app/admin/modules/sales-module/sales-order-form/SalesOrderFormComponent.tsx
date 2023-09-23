@@ -79,7 +79,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const handleSubmit = async (status: "Confirmed" | "Draft") => {
         formData.status = status;
         try {
-            const response = await (id ? axios.put(apiBaseUrl + "Sales/EditSalesOrders", formData) : axios.post(apiBaseUrl + "Sales/CreateSalesOrder", formData));
+            const response = await (id ? axios.put(apiBaseUrl + "Sales/EditSalesOrder", formData) : axios.post(apiBaseUrl + "Sales/CreateSalesOrder", formData));
 
             if (response.status === 200) {
                 if (id) {

@@ -14,7 +14,7 @@ import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent"
 import InvoiceComponent from "./invoice/InvoiceComponent";
 import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
 
-const salesRoutes = [
+const navRoutes = [
     {
         name: "Dashboard",
         path: "/",
@@ -27,6 +27,29 @@ const salesRoutes = [
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <CustomersComponent />,
     },
+    {
+        name: "Sales Orders",
+        path: "/sales-orders",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesOrdersComponent />,
+    },
+    {
+        name: "Invoices",
+        path: "/customer-invoices",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <InvoicesComponent />,
+    },
+    {
+        name: "Sales Receipts",
+        path: "/sales-receipts",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesReceiptsComponent />,
+    },
+];
+
+const salesRoutes = [
+    ...navRoutes,
+
     {
         name: "New Customer",
         path: "/customers/new",
@@ -70,32 +93,11 @@ const salesRoutes = [
     },
 
     {
-        name: "Invoices",
-        path: "/customer-invoices",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <InvoicesComponent />,
-    },
-
-    {
         name: "Invoice",
         path: "/invoice/:id",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <InvoiceComponent />,
         excludeFromSideNav: true,
-    },
-
-    {
-        name: "Sales Receipts",
-        path: "/sales-receipts",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesReceiptsComponent />,
-    },
-
-    {
-        name: "Sales Orders",
-        path: "/sales-orders",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesOrdersComponent />,
     },
 
     {
@@ -105,7 +107,6 @@ const salesRoutes = [
         component: <SalesOrderComponent />,
         excludeFromSideNav: true,
     },
-
     {
         name: "Customer",
         path: "/customer/:id",
