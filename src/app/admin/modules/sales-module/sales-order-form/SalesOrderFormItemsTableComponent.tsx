@@ -3,6 +3,7 @@ import * as React from "react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 
 import Card from "components/card/Card";
+import { ChangeEvent, useEffect, useState } from "react";
 
 type RowObj = {
     itemId: string;
@@ -14,15 +15,43 @@ type RowObj = {
 
 const columnHelper = createColumnHelper<RowObj>();
 
+export const TableCell = ({ getValue, row, column, table, type, name }: any) => {
+    const initialValue = getValue();
+    const tableMeta = table.options.meta;
+    const [value, setValue] = useState(initialValue);
+
+    useEffect(() => {
+        setValue(initialValue);
+    }, [initialValue]);
+
+    const onBlur = () => {
+        tableMeta?.updateData(row.index, column.id, value);
+    };
+
+    return (
+        <Flex align="center">
+            <Input type={type} name={name} isRequired={true} variant="outline" borderRadius="8px" value={value} onBlur={onBlur} onChange={(e) => setValue(e.target.value)} />
+        </Flex>
+    );
+};
+
 // const columns = columnsDataCheck;
-export default function SalesOrderFormItemsTableComponent(props: { tableData: any; items: any[] }) {
-    const { tableData, items } = props;
-    const [sorting, setSorting] = React.useState<SortingState>([]);
+export default function SalesOrderFormItemsTableComponent(props: { tableData: any; items: any[]; onTableUpdate: Function }) {
+    const { tableData, items, onTableUpdate } = props;
+    const [sorting, setSorting] = useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
     let defaultData = tableData;
 
-    const [data, setData] = React.useState(() => [...defaultData]);
+    const [data, setData] = useState(() => [...defaultData]);
+
+    useEffect(() => {
+        onTableUpdate(
+            data.reduce((pre, curr) => {
+                return pre + curr.rate * curr.quantity;
+            }, 0)
+        );
+    }, [data]);
 
     const inputChanged = (e: any, i: number) => {};
 
@@ -55,19 +84,7 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
                     QUANTITY
                 </Text>
             ),
-            cell: (info: any) => (
-                <Flex align="center">
-                    <Input
-                        type="number"
-                        name="quantity"
-                        isRequired={true}
-                        variant="outline"
-                        borderRadius="8px"
-                        value={info.getValue()}
-                        onChange={(e) => inputChanged(e, info.row.id)}
-                    />
-                </Flex>
-            ),
+            cell: (info: any) => <TableCell type="number" name="quantity" {...info} />,
         }),
 
         columnHelper.accessor("rate", {
@@ -77,19 +94,7 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
                     RATE
                 </Text>
             ),
-            cell: (info: any) => (
-                <Flex align="center">
-                    <Input
-                        type="number"
-                        name="rate"
-                        isRequired={true}
-                        variant="outline"
-                        borderRadius="8px"
-                        value={info.getValue()}
-                        onChange={(e) => inputChanged(e, info.row.id)}
-                    />
-                </Flex>
-            ),
+            cell: (info: any) => <TableCell type="number" name="rate" {...info} />,
         }),
         columnHelper.accessor("tax", {
             id: "tax",
@@ -113,7 +118,7 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {+info.row.original.quantity * +info.row.original.rate}
                 </Text>
             ),
         }),
@@ -124,6 +129,22 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
         columns,
         state: {
             sorting,
+        },
+        meta: {
+            updateData: (rowIndex: number, columnId: string, value: string) => {
+                setData((old) => {
+                    return old.map((row, index) => {
+                        if (index === rowIndex) {
+                            return {
+                                ...old[rowIndex],
+                                [columnId]: value,
+                            };
+                        }
+
+                        return row;
+                    });
+                });
+            },
         },
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
