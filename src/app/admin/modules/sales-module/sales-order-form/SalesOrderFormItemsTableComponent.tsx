@@ -1,9 +1,9 @@
-import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input } from "@chakra-ui/react";
-import * as React from "react";
+import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input, Icon, Button } from "@chakra-ui/react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
-
 import Card from "components/card/Card";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { MdAdd } from "react-icons/md";
+import { defaultItem } from "./SalesOrderFormComponent";
 
 type RowObj = {
     itemId: string;
@@ -15,7 +15,7 @@ type RowObj = {
 
 const columnHelper = createColumnHelper<RowObj>();
 
-export const TableCell = ({ getValue, row, column, table, type, name }: any) => {
+export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
     const initialValue = getValue();
     const tableMeta = table.options.meta;
     const [value, setValue] = useState(initialValue);
@@ -30,30 +30,56 @@ export const TableCell = ({ getValue, row, column, table, type, name }: any) => 
 
     return (
         <Flex align="center">
-            <Input type={type} name={name} isRequired={true} variant="outline" borderRadius="8px" value={value} onBlur={onBlur} onChange={(e) => setValue(e.target.value)} />
+            <Input type={type} name={column.id} isRequired={true} variant="outline" borderRadius="8px" value={value} onBlur={onBlur} onChange={(e) => setValue(e.target.value)} />
         </Flex>
     );
 };
 
-// const columns = columnsDataCheck;
-export default function SalesOrderFormItemsTableComponent(props: { tableData: any; items: any[]; onTableUpdate: Function }) {
-    const { tableData, items, onTableUpdate } = props;
+export const TableCellSelect = ({ getValue, row, column, table, options }: any) => {
+    const initialValue = getValue();
+    const tableMeta = table.options.meta;
+    const [value, setValue] = useState(initialValue);
+
+    useEffect(() => {
+        setValue(initialValue);
+    }, [initialValue]);
+
+    const onSelect = (value: any) => {
+        tableMeta?.updateData(row.index, column.id, value);
+        setValue(value);
+    };
+
+    return (
+        <Flex align="center">
+            {/* <Input type={type} name={name} isRequired={true} variant="outline" borderRadius="8px" value={value} onBlur={onBlur} onChange={(e) => setValue(e.target.value)} /> */}
+            <Select name="itemId" placeholder="Select an item" required={true} value={value} onChange={(e) => onSelect(e.target.value)}>
+                {options.map((option: any, index: number) => (
+                    <option key={index} value={option.id}>
+                        {option.name}
+                    </option>
+                ))}
+            </Select>
+        </Flex>
+    );
+};
+
+export default function SalesOrderFormItemsTableComponent(props: { tableLines: any; viewOnly: boolean; items: any[]; onTableLineUpdate: Function; onTableLineAdded: Function }) {
+    const { tableLines, items, onTableLineUpdate, viewOnly, onTableLineAdded } = props;
     const [sorting, setSorting] = useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
-    let defaultData = tableData;
 
-    const [data, setData] = useState(() => [...defaultData]);
+    const [data, setData] = useState(() => [...tableLines]);
+
+    const addRow = () => {
+        const setFunc = (old: any[]) => [...old, { ...defaultItem }];
+        onTableLineAdded();
+        setData(setFunc);
+    };
 
     useEffect(() => {
-        onTableUpdate(
-            data.reduce((pre, curr) => {
-                return pre + curr.rate * curr.quantity;
-            }, 0)
-        );
-    }, [data]);
-
-    const inputChanged = (e: any, i: number) => {};
+        setData([...tableLines]);
+    }, [tableLines]);
 
     const columns = [
         columnHelper.accessor("itemId", {
@@ -63,19 +89,7 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
                     ITEM DETAILS
                 </Text>
             ),
-            cell: (info: any) => {
-                return (
-                    <Flex align="center">
-                        <Select name="itemId" placeholder="Select an item" value={info.getValue()} onChange={(e) => inputChanged(e, info.row.id)}>
-                            {items.map((item, index) => (
-                                <option key={index} value={item.id}>
-                                    {item.name}
-                                </option>
-                            ))}
-                        </Select>
-                    </Flex>
-                );
-            },
+            cell: (info: any) => <TableCellSelect options={items} {...info} />,
         }),
         columnHelper.accessor("quantity", {
             id: "quantity",
@@ -84,7 +98,7 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
                     QUANTITY
                 </Text>
             ),
-            cell: (info: any) => <TableCell type="number" name="quantity" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" name="quantity" {...info} />,
         }),
 
         columnHelper.accessor("rate", {
@@ -94,21 +108,21 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
                     RATE
                 </Text>
             ),
-            cell: (info: any) => <TableCell type="number" name="rate" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" name="rate" {...info} />,
         }),
-        columnHelper.accessor("tax", {
-            id: "tax",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    TAX
-                </Text>
-            ),
-            cell: (info: any) => (
-                <Flex align="center">
-                    <Input type="number" name="tax" isRequired={true} variant="outline" borderRadius="8px" value={info.getValue()} onChange={(e) => inputChanged(e, info.row.id)} />
-                </Flex>
-            ),
-        }),
+        // columnHelper.accessor("tax", {
+        //     id: "tax",
+        //     header: () => (
+        //         <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+        //             TAX
+        //         </Text>
+        //     ),
+        //     cell: (info: any) => (
+        //         <Flex align="center">
+        //             <Input type="number" name="tax" isRequired={true} variant="outline" borderRadius="8px" value={info.getValue()} onChange={(e) => inputChanged(e, info.row.id)} />
+        //         </Flex>
+        //     ),
+        // }),
         columnHelper.accessor("amount", {
             id: "amount",
             header: () => (
@@ -135,12 +149,12 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
                 setData((old) => {
                     return old.map((row, index) => {
                         if (index === rowIndex) {
+                            onTableLineUpdate({ name: columnId, value }, rowIndex);
                             return {
                                 ...old[rowIndex],
                                 [columnId]: value,
                             };
                         }
-
                         return row;
                     });
                 });
@@ -152,7 +166,7 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
         debugTable: true,
     });
     return (
-        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+        <Card pointerEvents={viewOnly ? "none" : "all"} flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
             <Box>
                 <Table variant="simple" color="gray.500" mb="24px">
                     <Thead>
@@ -217,6 +231,13 @@ export default function SalesOrderFormItemsTableComponent(props: { tableData: an
                     </Tbody>
                 </Table>
             </Box>
+            <Flex>
+                {!viewOnly && (
+                    <Button onClick={addRow} leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />}>
+                        Add Another line
+                    </Button>
+                )}
+            </Flex>
         </Card>
     );
 }
