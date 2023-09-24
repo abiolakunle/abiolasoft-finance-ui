@@ -118,8 +118,20 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         });
     };
 
+    const onTableLineRemoved = (rowIndex: number) => {
+        setFormData({
+            ...formData,
+            items: [...formData.items.filter((_l, i) => i !== rowIndex)],
+        });
+    };
+
     const handleSubmit = async (status: "Confirmed" | "Draft") => {
         formData.status = status;
+
+        formData.items = formData.items.map((item) => {
+            const itemName = items.find((i) => i.id === item.itemId).name;
+            return { ...item, description: "", itemName };
+        });
         try {
             const response = await (id ? axios.put(apiBaseUrl + "Sales/EditSalesOrder", formData) : axios.post(apiBaseUrl + "Sales/CreateSalesOrder", formData));
 
@@ -328,6 +340,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         items={items}
                         onTableLineUpdate={lineInputChanged}
                         onTableLineAdded={onTableLineAdded}
+                        onTableLineRemoved={onTableLineRemoved}
                     />
 
                     <Flex

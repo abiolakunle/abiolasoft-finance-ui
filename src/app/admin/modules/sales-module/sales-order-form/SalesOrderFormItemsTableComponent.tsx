@@ -1,4 +1,5 @@
-import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input, Icon, Button } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
+import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input, Icon, Button, IconButton } from "@chakra-ui/react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
@@ -11,6 +12,7 @@ type RowObj = {
     tax: string;
     rate: number;
     amount: string;
+    action: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -51,7 +53,6 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
 
     return (
         <Flex align="center">
-            {/* <Input type={type} name={name} isRequired={true} variant="outline" borderRadius="8px" value={value} onBlur={onBlur} onChange={(e) => setValue(e.target.value)} /> */}
             <Select name="itemId" placeholder="Select an item" required={true} value={value} onChange={(e) => onSelect(e.target.value)}>
                 {options.map((option: any, index: number) => (
                     <option key={index} value={option.id}>
@@ -63,8 +64,15 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
     );
 };
 
-export default function SalesOrderFormItemsTableComponent(props: { tableLines: any; viewOnly: boolean; items: any[]; onTableLineUpdate: Function; onTableLineAdded: Function }) {
-    const { tableLines, items, onTableLineUpdate, viewOnly, onTableLineAdded } = props;
+export default function SalesOrderFormItemsTableComponent(props: {
+    tableLines: any;
+    viewOnly: boolean;
+    items: any[];
+    onTableLineUpdate: Function;
+    onTableLineAdded: Function;
+    onTableLineRemoved: Function;
+}) {
+    const { tableLines, items, onTableLineUpdate, viewOnly, onTableLineAdded, onTableLineRemoved } = props;
     const [sorting, setSorting] = useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
@@ -136,7 +144,28 @@ export default function SalesOrderFormItemsTableComponent(props: { tableLines: a
                 </Text>
             ),
         }),
-    ];
+        !viewOnly &&
+            columnHelper.accessor("action", {
+                id: "action",
+                header: () => <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400"></Text>,
+                cell: (info: any) => {
+                    return (
+                        <IconButton
+                            onClick={() => {
+                                info.table.options.meta?.removeRow(info.row.index);
+                            }}
+                            size="sm"
+                            isRound={true}
+                            variant="outline"
+                            colorScheme="teal"
+                            aria-label="Remove"
+                            fontSize="10px"
+                            icon={<CloseIcon />}
+                        />
+                    );
+                },
+            }),
+    ].filter((v) => v);
 
     const table = useReactTable({
         data,
@@ -158,6 +187,11 @@ export default function SalesOrderFormItemsTableComponent(props: { tableLines: a
                         return row;
                     });
                 });
+            },
+            removeRow: (rowIndex: number) => {
+                const setFilterFunc = (old: any[]) => old.filter((_row: any, index: number) => index !== rowIndex);
+                setData(setFilterFunc);
+                onTableLineRemoved(rowIndex);
             },
         },
         onSortingChange: setSorting,
