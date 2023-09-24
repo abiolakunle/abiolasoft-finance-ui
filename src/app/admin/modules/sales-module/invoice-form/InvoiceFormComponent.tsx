@@ -25,7 +25,7 @@ const InvoiceOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         customerNotes: "",
         termsAndConditions: "",
         status: "",
-        discount:"",
+        discount: "",
         orderNumber: "",
         dueDate: "",
         items: [
@@ -106,9 +106,9 @@ const InvoiceOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
             if (response.status === 200) {
                 if (id) {
-                    navigate(`/admin/modules/sales/invoice/${id}`);
+                    navigate(`/admin/modules/sales/invoices/${id}`);
                 } else {
-                    navigate("/admin/modules/sales/customer-invoice");
+                    navigate("/admin/modules/sales/invoices");
                 }
             } else {
                 console.error("Error creating item");
@@ -212,16 +212,13 @@ const InvoiceOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Box>
                             <Box width="40%" className="afu-input">
                                 <Input
-
-                                    
-                                    pointerEvents={viewOnly ? "none" : "all"}
-                                    name="ordernumber"
+                                    name="orderNumber"
                                     type="text"
-                                    readOnly
+                                    
                                     width="100%"
                                     variant="outline"
                                     borderRadius="8px"
-                                    value={formData.orderNumber}
+                                    value={formData.number}
                                     onChange={handleInputChange}
                                 />
                             </Box>
@@ -258,22 +255,18 @@ const InvoiceOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Box>
                             <Box width="40%" className="afu-input">
                                 <Input
-                                    
-                                    pointerEvents={viewOnly ? "none" : "all"}
                                     type="date"
                                     name="dueDate"
-                                    readOnly
+                                    
                                     width="100%"
                                     variant="outline"
                                     borderRadius="8px"
-                                    value={formatDate(formData.dueDate)}
+                                    value={formData.dueDate}
                                     onChange={handleInputChange}
                                 />
                             </Box>
                         </Flex>
                     </FormControl>
-
-                    
 
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
@@ -405,7 +398,7 @@ const InvoiceOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         <Button variant="brand" onClick={() => handleSubmit("Confirmed")}>
                             Save
                         </Button>
-                        <ChakraLink as={ReactRouterLink} to={"/admin/modules/sales/customer-invoices"}>
+                        <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoice/${id}` : "/admin/modules/sales/customer-invoices"}>
                             <Button variant="outline">Cancel</Button>
                         </ChakraLink>
                     </Flex>

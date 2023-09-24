@@ -1,4 +1,6 @@
-export function formatDate(inputDateString: string, showTime?: boolean) {
+export function formatDateTime(inputDateString: string, showTime?: boolean) {
+    if (!inputDateString) return "--";
+
     const inputDate = new Date(inputDateString);
     let options = {
         year: "numeric",
@@ -12,3 +14,9 @@ export function formatDate(inputDateString: string, showTime?: boolean) {
 
     return inputDate.toLocaleString("en-US", options as any);
 }
+
+export const formatDate = (dateString: string) => {
+    if (!dateString) return "--";
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0]; // Converts to YYYY-MM-DD format
+};

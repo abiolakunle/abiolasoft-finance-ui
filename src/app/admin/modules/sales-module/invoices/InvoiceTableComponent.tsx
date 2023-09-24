@@ -1,4 +1,3 @@
-
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
 
@@ -9,29 +8,18 @@ import Card from "components/card/Card";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
-
-
-
 type RowObj = {
     date: string;
     number: string;
     customerName: string;
     status: string;
     dueDate: string;
-    orderNumber: string
-
-   
-    
-    
+    orderNumber: string;
 };
-
-
-
 
 const columnHelper = createColumnHelper<RowObj>();
 
-function InvoiceTableComponent( props: { tableData: any }) {
-
+function InvoiceTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -50,7 +38,7 @@ function InvoiceTableComponent( props: { tableData: any }) {
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoice/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>
@@ -86,7 +74,6 @@ function InvoiceTableComponent( props: { tableData: any }) {
             ),
         }),
 
-
         columnHelper.accessor("orderNumber", {
             id: "orderNumber",
             header: () => (
@@ -115,7 +102,6 @@ function InvoiceTableComponent( props: { tableData: any }) {
             ),
         }),
 
-        
         columnHelper.accessor("dueDate", {
             id: "dueDate",
             header: () => (
@@ -129,9 +115,7 @@ function InvoiceTableComponent( props: { tableData: any }) {
                 </Text>
             ),
         }),
-
-
-    ]
+    ];
 
     const [data, setData] = React.useState(() => [...defaultData]);
 
@@ -147,10 +131,9 @@ function InvoiceTableComponent( props: { tableData: any }) {
         debugTable: true,
     });
 
-
-  return (
-    <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
-        <Box>
+    return (
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+            <Box>
                 <Table variant="simple" color="gray.500" mb="24px" mt="12px">
                     <Thead>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -215,8 +198,8 @@ function InvoiceTableComponent( props: { tableData: any }) {
                     </Tbody>
                 </Table>
             </Box>
-    </Card>
-  )
+        </Card>
+    );
 }
 
-export default InvoiceTableComponent
+export default InvoiceTableComponent;

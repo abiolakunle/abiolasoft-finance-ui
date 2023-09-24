@@ -15,7 +15,7 @@ import InvoiceComponent from "./invoice/InvoiceComponent";
 import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
 import NewInvoiceFormComponent from "./new-invoice/NewInvoiceFormComponent";
 
-const salesRoutes = [
+const navRoutes = [
     {
         name: "Dashboard",
         path: "/",
@@ -28,6 +28,28 @@ const salesRoutes = [
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <CustomersComponent />,
     },
+    {
+        name: "Sales Orders",
+        path: "/sales-orders",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesOrdersComponent />,
+    },
+    {
+        name: "Invoices",
+        path: "/invoices",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <InvoicesComponent />,
+    },
+    {
+        name: "Sales Receipts",
+        path: "/sales-receipts",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesReceiptsComponent />,
+    },
+];
+
+const salesRoutes = [
+    ...navRoutes,
     {
         name: "New Customer",
         path: "/customers/new",
@@ -55,66 +77,32 @@ const salesRoutes = [
         component: <NewInvoiceFormComponent />,
         excludeFromSideNav: true,
     },
-
-
-    // {
-    //     name: "Edit Customer Invoice",
-    //     path: "/invoices/:id/edit",
-    //     component: <InvoiceFormComponent />,
-    //     excludeFromSideNav: true,
-    // },
-
     {
         name: "New Sales Order",
         path: "/sales-orders/new",
         component: <SalesOrderFormComponent />,
         excludeFromSideNav: true,
     },
-
     {
         name: "Edit Sales Order",
-        path: "/sale-order/:id/edit",
+        path: "/sales-orders/:id/edit",
         component: <SalesOrderFormComponent />,
         excludeFromSideNav: true,
     },
-
-    {
-        name: "Invoices",
-        path: "/customer-invoices",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <InvoicesComponent />,
-    },
-
     {
         name: "Invoice",
-        path: "/invoice/:id",
+        path: "/invoices/:id",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <InvoiceFormComponent />,
         excludeFromSideNav: true,
     },
-
-    {
-        name: "Sales Receipts",
-        path: "/sales-receipts",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesReceiptsComponent />,
-    },
-
-    {
-        name: "Sales Orders",
-        path: "/sales-orders",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesOrdersComponent />,
-    },
-
     {
         name: "Sales Order",
-        path: "/sale-order/:id",
+        path: "/sales-orders/:id",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesOrderComponent />,
         excludeFromSideNav: true,
     },
-
     {
         name: "Customer",
         path: "/customer/:id",

@@ -5,7 +5,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 import Card from "components/card/Card";
-import { formatDate } from "utils/dateUtils";
+import { formatDateTime } from "utils/dateUtils";
 
 type RowObj = {
     firstName: string;
@@ -92,7 +92,7 @@ export default function UsersTableComponent(props: { tableData: any }) {
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {formatDate(info.getValue(), true)}
+                    {formatDateTime(info.getValue(), true)}
                 </Text>
             ),
         }),
