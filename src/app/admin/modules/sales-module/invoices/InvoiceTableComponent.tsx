@@ -62,7 +62,7 @@ function InvoiceTableComponent( props: { tableData: any }) {
             id: "number",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    INVOICE ID
+                    INVOICE NUMBER
                 </Text>
             ),
             cell: (info) => (

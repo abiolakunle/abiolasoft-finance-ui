@@ -15,7 +15,7 @@ type RowObj = {
 const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
-export default function InvoiceFormItemsTableComponent(props: { tableData: any; items: any[] }) {
+export default function NewInvoiceFormTableComponent(props: { tableData: any; items: any[] }) {
     const { tableData, items } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -37,7 +37,7 @@ export default function InvoiceFormItemsTableComponent(props: { tableData: any; 
             cell: (info: any) => {
                 return (
                     <Flex align="center">
-                        <Select name="itemId" disabled placeholder="Select an item" value={info.getValue()} onChange={(e) => inputChanged(e, info.row.id)}>
+                        <Select name="itemId" placeholder="Select an item" value={info.getValue()} onChange={(e) => inputChanged(e, info.row.id)}>
                             {items.map((item, index) => (
                                 <option key={index} value={item.id}>
                                     {item.name}
@@ -58,7 +58,7 @@ export default function InvoiceFormItemsTableComponent(props: { tableData: any; 
             cell: (info: any) => (
                 <Flex align="center">
                     <Input
-                        readOnly
+                        
                         type="number"
                         name="quantity"
                         isRequired={true}
@@ -81,7 +81,7 @@ export default function InvoiceFormItemsTableComponent(props: { tableData: any; 
             cell: (info: any) => (
                 <Flex align="center">
                     <Input
-                        readOnly
+                        
                         type="number"
                         name="rate"
                         isRequired={true}
@@ -102,7 +102,7 @@ export default function InvoiceFormItemsTableComponent(props: { tableData: any; 
             ),
             cell: (info: any) => (
                 <Flex align="center">
-                    <Input type="number" readOnly name="tax" isRequired={true} variant="outline" borderRadius="8px" value={info.getValue()} onChange={(e) => inputChanged(e, info.row.id)} />
+                    <Input type="number"  name="tax" isRequired={true} variant="outline" borderRadius="8px" value={info.getValue()} onChange={(e) => inputChanged(e, info.row.id)} />
                 </Flex>
             ),
         }),
