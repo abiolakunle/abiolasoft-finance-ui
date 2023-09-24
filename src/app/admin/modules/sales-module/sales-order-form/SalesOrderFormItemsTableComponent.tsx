@@ -157,7 +157,7 @@ export default function SalesOrderFormItemsTableComponent(props: {
                             size="sm"
                             isRound={true}
                             variant="outline"
-                            colorScheme="teal"
+                            colorScheme="red"
                             aria-label="Remove"
                             fontSize="10px"
                             icon={<CloseIcon />}
