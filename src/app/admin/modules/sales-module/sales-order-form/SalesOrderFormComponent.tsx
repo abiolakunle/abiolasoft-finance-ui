@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, InputRightAddon, InputGroup, CloseButton } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, CloseButton } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
@@ -8,6 +8,15 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import SalesOrderFormItemsTableComponent from "./SalesOrderFormItemsTableComponent";
 import { HSeparator } from "components/separator/Separator";
 import { formatDate } from "utils/dateUtils";
+
+export const defaultItem = {
+    itemId: "",
+    itemName: "",
+    description: "",
+    quantity: 1,
+    rate: 0,
+    tax: 0,
+};
 
 const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
@@ -24,18 +33,15 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         customerNotes: "",
         termsAndConditions: "",
         salesPersonId: "",
-        discount: "",
+        discount: 0,
         status: "",
-        items: [
-            {
-                itemId: "",
-                itemName: "",
-                description: "",
-                quantity: 0,
-                rate: 0,
-                tax: 0,
-            },
-        ],
+        items: [{ ...defaultItem }],
+    });
+
+    const [summary, setSummary] = useState({
+        subTotal: 0,
+        discount: 0,
+        total: 0,
     });
 
     const { id } = useParams();
@@ -54,14 +60,17 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
         Promise.all(initialRequests)
             .then((response) => {
+                if (id) {
+                    const salesOrder = response[3].data?.data;
+
+                    formData.items = salesOrder.items;
+
+                    const form = { ...formData, ...salesOrder };
+                    setFormData(form);
+                }
                 setCustomers(response[0].data?.data?.items);
                 setSalesPersons(response[1].data?.data?.items);
                 setItems(response[2].data?.data?.items);
-
-                if (id) {
-                    const salesOrder = response[3].data?.data;
-                    setFormData({ ...formData, ...salesOrder });
-                }
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
@@ -76,8 +85,53 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         });
     };
 
+    useEffect(() => {
+        const subTotal = formData.items.reduce((pre, curr) => {
+            return pre + curr.rate * curr.quantity;
+        }, 0);
+
+        const total = subTotal - formData.discount;
+        setSummary({
+            ...summary,
+            subTotal,
+            total,
+        });
+    }, [formData]);
+
+    const lineInputChanged = (event: any, index: string) => {
+        const { name, value } = event;
+
+        const updatedItems: any[] = [...formData.items];
+
+        updatedItems[+index][name] = value;
+
+        setFormData({
+            ...formData,
+            items: updatedItems,
+        });
+    };
+
+    const onTableLineAdded = () => {
+        setFormData({
+            ...formData,
+            items: [...formData.items, { ...defaultItem }],
+        });
+    };
+
+    const onTableLineRemoved = (rowIndex: number) => {
+        setFormData({
+            ...formData,
+            items: [...formData.items.filter((_l, i) => i !== rowIndex)],
+        });
+    };
+
     const handleSubmit = async (status: "Confirmed" | "Draft") => {
         formData.status = status;
+
+        formData.items = formData.items.map((item) => {
+            const itemName = items.find((i) => i.id === item.itemId).name;
+            return { ...item, description: "", itemName };
+        });
         try {
             const response = await (id ? axios.put(apiBaseUrl + "Sales/EditSalesOrder", formData) : axios.post(apiBaseUrl + "Sales/CreateSalesOrder", formData));
 
@@ -280,7 +334,14 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </Flex>
                     </FormControl>
 
-                    <SalesOrderFormItemsTableComponent tableData={formData.items} items={items} />
+                    <SalesOrderFormItemsTableComponent
+                        viewOnly={viewOnly}
+                        tableLines={formData.items}
+                        items={items}
+                        onTableLineUpdate={lineInputChanged}
+                        onTableLineAdded={onTableLineAdded}
+                        onTableLineRemoved={onTableLineRemoved}
+                    />
 
                     <Flex
                         pt={{ base: "16px", md: "16px", xl: "16px" }}
@@ -332,10 +393,10 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
                         <Stack padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
                             <Flex width="100%" justifyContent="space-between">
-                                <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">0.00</Text>
+                                <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{summary.subTotal}</Text>
                             </Flex>
 
-                            <Flex width="100%" justifyContent="space-between" alignItems="baseline">
+                            {/* <Flex width="100%" justifyContent="space-between" alignItems="baseline">
                                 <Flex justifyContent="space-between" alignItems="baseline">
                                     <Text minW="120px" fontWeight="bold">
                                         Discount
@@ -359,11 +420,11 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         </InputGroup>
                                     </FormControl>
                                 </Flex>
-                                <Text fontWeight="bold">0.00</Text>
-                            </Flex>
+                                <Text fontWeight="bold">{summary.discount}</Text>
+                            </Flex> */}
                             <HSeparator mt="16px" />
                             <Flex width="100%" justifyContent="space-between">
-                                <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">0.00</Text>
+                                <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">{summary.total}</Text>
                             </Flex>
                         </Stack>
                     </Flex>
