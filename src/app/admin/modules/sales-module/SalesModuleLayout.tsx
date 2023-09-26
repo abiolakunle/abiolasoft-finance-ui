@@ -7,13 +7,13 @@ import InvoicesComponent from "./invoices/InvoicesComponent";
 import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
 import CustomersComponent from "./customers/CustomersComponent";
 import NewCustomerComponent from "./customer-form/CustomerFormComponent";
-import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
+import InvoiceComponent from "./invoice/InvoiceComponent";
 import CustomerComponent from "./customer/CustomerComponent";
 import SalesOrderComponent from "./sales-order/SalesOrderComponent";
 import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
-import InvoiceComponent from "./invoice/InvoiceComponent";
+
 import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
-import NewInvoiceFormComponent from "./new-invoice/NewInvoiceFormComponent";
+import NewInvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
 
 const navRoutes = [
     {
@@ -93,7 +93,7 @@ const salesRoutes = [
         name: "Invoice",
         path: "/invoices/:id",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <InvoiceFormComponent />,
+        component: <InvoiceComponent />,
         excludeFromSideNav: true,
     },
     {
