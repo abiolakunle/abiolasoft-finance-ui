@@ -8,6 +8,7 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 
 import { HSeparator } from "components/separator/Separator";
 import InvoiceFormItemsTableComponent from "./InvoiceFormItemsTableComponents";
+import axiosRequest from "utils/api";
 
 const InvoiceOrderFormComponent = () => {
     const [customers, setCustomers] = useState([]);
@@ -42,13 +43,13 @@ const InvoiceOrderFormComponent = () => {
 
     useEffect(() => {
         const initialRequests = [
-            axios.get(apiBaseUrl + `Sales/GetAllCustomers?PageIndex=1&PageSize=5000`),
-            axios.get(apiBaseUrl + `Sales/GetAllSalesPersons?PageIndex=1&PageSize=5000`),
-            axios.get(apiBaseUrl + `Inventory/GetAllItems?PageIndex=1&PageSize=5000`),
+            axiosRequest.get(`Sales/GetAllCustomers?PageIndex=1&PageSize=5000`),
+            axiosRequest.get(`Sales/GetAllSalesPersons?PageIndex=1&PageSize=5000`),
+            axiosRequest.get(`Inventory/GetAllItems?PageIndex=1&PageSize=5000`),
         ];
 
         if (id) {
-            initialRequests.push(axios.get(apiBaseUrl + `Sales/GetInvoiceById?id=${id}`));
+            initialRequests.push(axiosRequest.get(`Sales/GetInvoiceById?id=${id}`));
         }
 
         Promise.all(initialRequests)
@@ -78,7 +79,7 @@ const InvoiceOrderFormComponent = () => {
     const handleSubmit = async (status: "Confirmed" | "Draft") => {
         formData.status = status;
         try {
-            const response = await (id ? axios.put(apiBaseUrl + "Sales/EditInvoice", formData) : axios.post(apiBaseUrl + "Sales/CreateInvoice", formData));
+            const response = await (id ? axiosRequest.put("Sales/EditInvoice", formData) : axiosRequest.post("Sales/CreateInvoice", formData));
 
             if (response.status === 200) {
                 if (id) {

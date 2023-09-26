@@ -1,11 +1,10 @@
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import axios from "axios";
 import Card from "components/card/Card";
-import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { PhoneIcon } from "@chakra-ui/icons";
+import axiosRequest from "utils/api";
 
 const UserFormComponent = () => {
     const [formData, setFormData] = useState({
@@ -22,8 +21,8 @@ const UserFormComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `UserManagement/GetUserById?id=${id}`)
+            axiosRequest
+                .get(`UserManagement/GetUserById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -53,7 +52,7 @@ const UserFormComponent = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await (id ? axios.put(apiBaseUrl + "UserManagement/UpdateUser", formData) : axios.post(apiBaseUrl + "UserManagement/CreateUser", formData));
+            const response = await (id ? axiosRequest.put("UserManagement/UpdateUser", formData) : axiosRequest.post("UserManagement/CreateUser", formData));
 
             if (response.status === 200) {
                 if (id) {

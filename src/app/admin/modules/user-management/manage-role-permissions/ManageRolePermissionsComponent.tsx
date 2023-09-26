@@ -2,12 +2,11 @@ import { Box, Heading, Flex, Card, CloseButton, Text } from "@chakra-ui/react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import axios from "axios";
-import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import axiosRequest from "utils/api";
 
 const ManageRolePermissionsComponent = () => {
     const [permissions, setPermissions] = useState([]);
@@ -19,7 +18,7 @@ const ManageRolePermissionsComponent = () => {
 
     useEffect(() => {
         if (roleId) {
-            Promise.all([axios.get(apiBaseUrl + `UserManagement/GetRoleById?id=${roleId}`), axios.get(apiBaseUrl + `UserManagement/GetAllPermissions`)])
+            Promise.all([axiosRequest.get(`UserManagement/GetRoleById?id=${roleId}`), axiosRequest.get(`UserManagement/GetAllPermissions`)])
                 .then((response) => {
                     const role = response[0].data?.data;
                     const allPermissions: any[] = response[1].data?.data;
@@ -51,7 +50,7 @@ const ManageRolePermissionsComponent = () => {
 
         async function removePermissions(permissionValues: any[]) {
             try {
-                const response = await axios.put(apiBaseUrl + "UserManagement/RemovePermissionsFromRole", { permissionValues, roleId });
+                const response = await axiosRequest.put("UserManagement/RemovePermissionsFromRole", { permissionValues, roleId });
 
                 if (response.status === 200) {
                     // Handle success
@@ -67,7 +66,7 @@ const ManageRolePermissionsComponent = () => {
             const permissionValue = newVal[newVal.length - 1];
 
             try {
-                const response = await axios.put(apiBaseUrl + "UserManagement/AddPermissionToRole", { permissionValue, roleId });
+                const response = await axiosRequest.put("UserManagement/AddPermissionToRole", { permissionValue, roleId });
 
                 if (response.status === 200) {
                     // Handle success

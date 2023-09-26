@@ -6,13 +6,14 @@ import { apiBaseUrl } from "environment";
 import { MdAdd } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import axiosRequest from "utils/api";
 
 const UsersComponent = () => {
     const [tableData, setTableData] = useState(null);
 
     useEffect(() => {
-        axios
-            .get(apiBaseUrl + "UserManagement/GetAllUsers?PageIndex=1&PageSize=60")
+        axiosRequest
+            .get("UserManagement/GetAllUsers?PageIndex=1&PageSize=60")
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);

@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Flex, Icon, Link, SimpleGrid } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import InventoryAdjustmentsTableComponent from "./InventoryAdjustmentsTableComponent";
-import axios from "axios";
-import { apiBaseUrl } from "environment";
 import { MdAdd } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import axiosRequest from "utils/api";
 
 const InventoryAdjustmentsComponent = () => {
     const [tableData, setTableData] = useState(null);
 
     useEffect(() => {
-        axios
-            .get(apiBaseUrl + "Inventory/GetInventoryAdjustments?PageIndex=1&PageSize=50")
+        axiosRequest
+            .get("Inventory/GetInventoryAdjustments?PageIndex=1&PageSize=50")
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);

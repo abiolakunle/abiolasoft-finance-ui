@@ -1,11 +1,10 @@
-import { Card, Text, Flex, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { apiBaseUrl } from "environment";
-import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
+import axiosRequest from "utils/api";
 
 const CustomerComponent = () => {
     const { id } = useParams();
@@ -25,8 +24,8 @@ const CustomerComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `Sales/GetCustomerById?id=${id}`)
+            axiosRequest
+                .get(`Sales/GetCustomerById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -78,7 +77,6 @@ const CustomerComponent = () => {
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <Flex mb="16px" minH="80px">
-
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>FIRST NAME</StatLabel>
@@ -109,7 +107,6 @@ const CustomerComponent = () => {
                     </Flex>
                     <HSeparator mb="16px" />
                     <Flex mb="16px" minH="80px">
-
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>PHONE NUMBER</StatLabel>

@@ -1,11 +1,10 @@
-import { Card, Text, Flex, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { apiBaseUrl } from "environment";
-import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
+import axiosRequest from "utils/api";
 
 const InvoiceComponent = () => {
     const { id } = useParams();
@@ -20,15 +19,15 @@ const InvoiceComponent = () => {
         status: "",
         dueDate: "",
         orderNumber: "",
-        salesPersonName: ""
+        salesPersonName: "",
     });
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `Sales/GetInvoicesById?id=${id}`)
+            axiosRequest
+                .get(`Sales/GetInvoicesById?id=${id}`)
                 .then((response) => {
-                    const data = response?.data?.data;  
+                    const data = response?.data?.data;
                     if (!!data) {
                         setOrder({
                             id,
@@ -39,7 +38,6 @@ const InvoiceComponent = () => {
                             dueDate: data.dueDate,
                             orderNumber: data.orderNumber,
                             salesPersonName: data.salesPersonName,
-                            
                         });
                     }
                 })
@@ -79,7 +77,6 @@ const InvoiceComponent = () => {
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <Flex mb="16px" minH="80px">
-
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>CUSTOMER NAME</StatLabel>
@@ -125,15 +122,12 @@ const InvoiceComponent = () => {
                     </Flex>
                     <HSeparator mb="16px" />
                     <Flex mb="16px" minH="80px">
-
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>DUE DATE</StatLabel>
                                 <StatNumber>{order.dueDate || "--"}</StatNumber>
                             </Stat>
                         </Box>
-
-                        
                     </Flex>
                 </Card>
             </Box>

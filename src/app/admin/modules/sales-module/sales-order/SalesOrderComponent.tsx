@@ -4,8 +4,7 @@ import { MdEdit } from "react-icons/md";
 import SalesOrderFormComponent from "../sales-order-form/SalesOrderFormComponent";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { apiBaseUrl } from "environment";
-import axios from "axios";
+import axiosRequest from "utils/api";
 
 const SalesOrderComponent = () => {
     const { id } = useParams();
@@ -14,7 +13,7 @@ const SalesOrderComponent = () => {
 
     const instantInvoice = async () => {
         try {
-            const response = await axios.post(apiBaseUrl + "Sales/ConvertSalesOrderToInvoice", { orderId: id });
+            const response = await axiosRequest.post("Sales/ConvertSalesOrderToInvoice", { orderId: id });
 
             if (response.status === 200) {
                 navigate(`/admin/modules/sales/sales-orders/${id}`);
