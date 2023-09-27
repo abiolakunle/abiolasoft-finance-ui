@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, InputRightAddon, InputGroup, CloseButton } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, CloseButton } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
@@ -7,10 +7,9 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 
 import { HSeparator } from "components/separator/Separator";
-import NewInvoiceFormTableComponent from "../new-invoice/NewInvoiceFormTableComponent"
-import InvoiceFormItemsTableComponent from "./InvoiceFormItemsTableComponents";
 import { formatDate } from "utils/dateUtils";
 import axiosRequest from "utils/api";
+import InvoiceFormItemsTableComponent from "./InvoiceFormItemsTableComponents";
 
 
 export const defaultItem = {
@@ -22,7 +21,7 @@ export const defaultItem = {
     tax: 0,
 };
 
-const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
+const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
     const [salesPersons, setSalesPersons] = useState([]);
@@ -36,12 +35,11 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         customerNotes: "",
         termsAndConditions: "",
         status: "",
-        discount:0,
+        discount: 0,
         orderNumber: "",
         dueDate: "",
-        items: [{ ...defaultItem }]
+        items: [{ ...defaultItem }],
     });
-
 
     const [summary, setSummary] = useState({
         subTotal: 0,
@@ -49,6 +47,8 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         total: 0,
     });
 
+
+    
 
     const { id } = useParams();
     let navigate = useNavigate();
@@ -92,6 +92,13 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 setCustomers(response[0].data?.data?.items);
                 setSalesPersons(response[1].data?.data?.items);
                 setItems(response[2].data?.data?.items);
+
+                if (id) {
+                    const salesOrder = response[3].data?.data;
+                    setFormData({ ...formData, ...salesOrder });
+
+                    formData.items = salesOrder.items;
+                }
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
@@ -192,7 +199,7 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </Heading>
 
                         <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : `/admin/modules/sales/customer-invoice`}>
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : `/admin/modules/sales/invoices`}>
                                 <CloseButton size="lg" />
                             </ChakraLink>
                         </Flex>
@@ -207,13 +214,7 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Select
-                                    pointerEvents={viewOnly ? "none" : "all"}
-                                    name="customerId"
-                                    placeholder="Select a customer"
-                                    value={formData.customerId}
-                                    onChange={handleInputChange}
-                                >
+                                <Select name="customerId" placeholder="Select a customer" value={formData.customerId} onChange={handleInputChange}>
                                     {customers.map((customer, index) => (
                                         <option key={index} value={customer.id}>
                                             {customer.customerDisplayName}
@@ -252,16 +253,14 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <FormLabel color={viewOnly ? "" : "red"}>Order Number</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Input
+                                <Input 
                                     readOnly={viewOnly}
                                     pointerEvents={viewOnly ? "none" : "all"}
-                                    name="orderNumber"
-                                    type="text"
-                                    isRequired={true}
-                                    width="100%"
-                                    variant="outline"
-                                    borderRadius="8px"
-                                    value={formData.orderNumber}
+                                    name="orderNumber" 
+                                    type="text" 
+                                    width="100%" variant="outline" 
+                                    borderRadius="8px" 
+                                    value={formData.orderNumber} 
                                     onChange={handleInputChange}
                                 />
                             </Box>
@@ -271,7 +270,7 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="200px">
-                                <FormLabel color={viewOnly ? "" : "red"}>Invoice Date{viewOnly ? "" : "*"}</FormLabel>
+                                <FormLabel color={viewOnly ? "" : "red"}>Date{viewOnly ? "" : "*"}</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
                                 <Input
@@ -296,17 +295,16 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <FormLabel>Due Date</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Input
+                                <Input 
                                     readOnly={viewOnly}
                                     pointerEvents={viewOnly ? "none" : "all"}
-                                    type="dueDate"
-                                    name="expectedShipmentDate"
-                                    isRequired={true}
-                                    width="100%"
-                                    variant="outline"
-                                    borderRadius="8px"
-                                    value={formatDate(formData.dueDate)}
-                                    onChange={handleInputChange}
+                                    type="date" 
+                                    name="dueDate" 
+                                    width="100%" 
+                                    variant="outline" 
+                                    borderRadius="8px" 
+                                    value={formData.dueDate} 
+                                    onChange={handleInputChange} 
                                 />
                             </Box>
                         </Flex>
@@ -340,13 +338,7 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <FormLabel>Salesperson</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Select
-                                    pointerEvents={viewOnly ? "none" : "all"}
-                                    name="salesPersonId"
-                                    placeholder="Select a salesperson"
-                                    value={formData.salesPersonId}
-                                    onChange={handleInputChange}
-                                >
+                                <Select pointerEvents={viewOnly ? "none" : "all"} name="id" placeholder="Select a salesperson" value={formData.salesPersonId} onChange={handleInputChange}>
                                     {salesPersons.map((person, index) => (
                                         <option key={index} value={person.id}>
                                             {person.name}
@@ -360,7 +352,7 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                     <InvoiceFormItemsTableComponent
                         viewOnly={viewOnly}
                         tableLines={formData.items}
-                        items={items}
+                        items={items} 
                         onTableLineUpdate={lineInputChanged}
                         onTableLineAdded={onTableLineAdded}
                         onTableLineRemoved={onTableLineRemoved}
@@ -468,7 +460,7 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             <Button variant="brand" onClick={() => handleSubmit("Confirmed")}>
                                 Save
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : "/admin/modules/sales/customer-invoices"}>
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : "/admin/modules/sales/invoices"}>
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>
@@ -480,4 +472,4 @@ const NewInvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     );
 };
 
-export default NewInvoiceFormComponent;
+export default InvoiceFormComponent;

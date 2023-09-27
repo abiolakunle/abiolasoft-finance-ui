@@ -11,9 +11,10 @@ import InvoiceComponent from "./invoice/InvoiceComponent";
 import CustomerComponent from "./customer/CustomerComponent";
 import SalesOrderComponent from "./sales-order/SalesOrderComponent";
 import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
-
+import InvoiceFormComponent from "./invoice/InvoiceComponent";
 import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
-import NewInvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
+import SalesPersonsComponent from "./sales-persons/SalesPersonsComponent";
+import SalesPersonComponent from "./sales-person/SalesPersonComponent";
 
 const navRoutes = [
     {
@@ -46,6 +47,12 @@ const navRoutes = [
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesReceiptsComponent />,
     },
+    {
+        name: "Sales Persons",
+        path: "/sales-persons",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesPersonsComponent />,
+    },
 ];
 
 const salesRoutes = [
@@ -67,14 +74,14 @@ const salesRoutes = [
     {
         name: "New Customer Invoice",
         path: "/invoices/new",
-        component: <NewInvoiceFormComponent />,
+        component: <InvoiceFormComponent />,
         excludeFromSideNav: true,
     },
 
     {
         name: "Edit Customer Invoice",
         path: "/invoice/:id/edit",
-        component: <NewInvoiceFormComponent />,
+        component: <InvoiceFormComponent />,
         excludeFromSideNav: true,
     },
     {
@@ -94,6 +101,13 @@ const salesRoutes = [
         path: "/invoices/:id",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <InvoiceComponent />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "Invoice",
+        path: "/sales-persons/:id",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesPersonComponent />,
         excludeFromSideNav: true,
     },
     {

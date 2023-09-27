@@ -1,10 +1,11 @@
-import { Card, Text, Flex, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import { Card, Text, Flex, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdSettings } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const ItemComponent = () => {
     const { id } = useParams();
@@ -77,6 +78,20 @@ const ItemComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            <IconButton
+                                
+                                aria-label="Call Fred" 
+                                 
+                                icon={<MdSettings />} 
+                            />
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem >Delete</MenuItem>
+                            
+                        </MenuList>
+                    </Menu>
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>

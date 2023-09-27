@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import { defaultItem } from "./InvoiceFormComponent";
 
-
 type RowObj = {
     itemId: string;
     quantity: string;
