@@ -1,12 +1,11 @@
-import { Card, Text, Flex, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
-import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import { Card, Text, Flex, Box, Heading, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { apiBaseUrl } from "environment";
-import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
 import { formatDateTime } from "utils/dateUtils";
 import InventoryAdjustmentItemsTableComponent from "./InventoryAdjustmentItemsTableComponent";
+import axiosRequest from "utils/api";
 
 const InventoryAdjustmentComponent = () => {
     const { id } = useParams();
@@ -28,8 +27,8 @@ const InventoryAdjustmentComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `Inventory/GetInventoryAdjustmentById?id=${id}`)
+            axiosRequest
+                .get(`Inventory/GetInventoryAdjustmentById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {

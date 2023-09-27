@@ -1,10 +1,10 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon, Select, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
-import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import axiosRequest from "utils/api";
 
 const ItemFormComponent = () => {
     const [formData, setFormData] = useState({
@@ -23,8 +23,8 @@ const ItemFormComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `Sales/GetCustomerById?id=${id}`)
+            axiosRequest
+                .get(`Sales/GetCustomerById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -56,7 +56,7 @@ const ItemFormComponent = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await (id ? axios.put(apiBaseUrl + "Sales/EditCustomers", formData) : axios.post(apiBaseUrl + "Sales/CreateCustomer", formData));
+            const response = await (id ? axiosRequest.put("Sales/EditCustomers", formData) : axiosRequest.post("Sales/CreateCustomer", formData));
 
             if (response.status === 200) {
                 if (id) {
@@ -94,7 +94,7 @@ const ItemFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="250px">
-                                <FormLabel >FIRST NAME</FormLabel>
+                                <FormLabel>FIRST NAME</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
                                 <Input
@@ -113,7 +113,7 @@ const ItemFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="250px">
-                                <FormLabel >LAST NAME</FormLabel>
+                                <FormLabel>LAST NAME</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
                                 <Input
@@ -132,7 +132,7 @@ const ItemFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="250px">
-                                <FormLabel >PHONE NUMBER</FormLabel>
+                                <FormLabel>PHONE NUMBER</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
                                 <Input
@@ -151,7 +151,7 @@ const ItemFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="250px">
-                                <FormLabel >COMPANY NAME</FormLabel>
+                                <FormLabel>COMPANY NAME</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
                                 <Input
@@ -200,7 +200,7 @@ const ItemFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="250px">
-                                <FormLabel >HOME ADDRESS</FormLabel>
+                                <FormLabel>HOME ADDRESS</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
                                 <Input
@@ -215,8 +215,6 @@ const ItemFormComponent = () => {
                             </Box>
                         </Flex>
                     </FormControl>
-
-                    
 
                     <Flex
                         pt={{ base: "16px", md: "16px", xl: "16px" }}

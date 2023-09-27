@@ -5,6 +5,7 @@ import { apiBaseUrl } from "environment";
 import { useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import axiosRequest from "utils/api";
 
 const InventoryAdjustmentFormComponent = () => {
     const { id } = useParams();
@@ -48,7 +49,7 @@ const InventoryAdjustmentFormComponent = () => {
         formData.status = status;
 
         try {
-            const response = await axios.put(apiBaseUrl + "Inventory/AdjustStock", formData);
+            const response = await axiosRequest.put("Inventory/AdjustStock", formData);
 
             if (response.status === 200) {
                 navigate(`/admin/modules/inventory/items/${id}`);

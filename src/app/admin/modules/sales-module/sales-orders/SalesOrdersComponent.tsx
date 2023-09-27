@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import axios from "axios";
-import { apiBaseUrl } from "environment";
 import { MdAdd } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import SalesOrdersTableComponent from "./SalesOrdersTableComponent";
+import axiosRequest from "utils/api";
 
 const SalesOrdersComponent = () => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        axios
-            .get(apiBaseUrl + "Sales/GetAllSalesOrders?PageIndex=1&PageSize=50")
+        axiosRequest
+            .get("Sales/GetAllSalesOrders?PageIndex=1&PageSize=50")
             .then((response) => {
                 if (response.data && response.data.data) {
                     setData(response.data.data.items);

@@ -3,9 +3,8 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { apiBaseUrl } from "environment";
-import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
+import axiosRequest from "utils/api";
 
 const ItemComponent = () => {
     const { id } = useParams();
@@ -29,8 +28,8 @@ const ItemComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `Inventory/GetItemById?id=${id}`)
+            axiosRequest
+                .get(`Inventory/GetItemById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {

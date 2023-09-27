@@ -1,12 +1,12 @@
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, InputGroup, InputLeftAddon, Select, Textarea } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
-import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { hideProgress, showProgress } from "state/slices/progressSlice";
 import { useDispatch } from "react-redux";
+import axiosRequest from "utils/api";
 
 const ItemFormComponent = () => {
     const [formData, setFormData] = useState({
@@ -30,8 +30,8 @@ const ItemFormComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `Inventory/GetItemById?id=${id}`)
+            axiosRequest
+                .get(`Inventory/GetItemById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -68,7 +68,7 @@ const ItemFormComponent = () => {
     const handleSubmit = async () => {
         dispatch(showProgress());
         try {
-            const response = await (id ? axios.put(apiBaseUrl + "Inventory/EditItem", formData) : axios.post(apiBaseUrl + "Inventory/CreateItem", formData));
+            const response = await (id ? axiosRequest.put("Inventory/EditItem", formData) : axiosRequest.post("Inventory/CreateItem", formData));
             dispatch(hideProgress());
             if (response.status === 200) {
                 if (id) {

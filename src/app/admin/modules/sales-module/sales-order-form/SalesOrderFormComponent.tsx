@@ -8,6 +8,7 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import SalesOrderFormItemsTableComponent from "./SalesOrderFormItemsTableComponent";
 import { HSeparator } from "components/separator/Separator";
 import { formatDate } from "utils/dateUtils";
+import axiosRequest from "utils/api";
 
 export const defaultItem = {
     itemId: "",
@@ -49,13 +50,13 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
     useEffect(() => {
         const initialRequests = [
-            axios.get(apiBaseUrl + `Sales/GetAllCustomers?PageIndex=1&PageSize=5000`),
-            axios.get(apiBaseUrl + `Sales/GetAllSalesPersons?PageIndex=1&PageSize=5000`),
-            axios.get(apiBaseUrl + `Inventory/GetAllItems?PageIndex=1&PageSize=5000`),
+            axiosRequest.get(`Sales/GetAllCustomers?PageIndex=1&PageSize=500`),
+            axiosRequest.get(`Sales/GetAllSalesPersons?PageIndex=1&PageSize=500`),
+            axiosRequest.get(`Inventory/GetAllItems?PageIndex=1&PageSize=500`),
         ];
 
         if (id) {
-            initialRequests.push(axios.get(apiBaseUrl + `Sales/GetSalesOrderById?id=${id}`));
+            initialRequests.push(axiosRequest.get(`Sales/GetSalesOrderById?id=${id}`));
         }
 
         Promise.all(initialRequests)
@@ -133,7 +134,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             return { ...item, description: "", itemName };
         });
         try {
-            const response = await (id ? axios.put(apiBaseUrl + "Sales/EditSalesOrder", formData) : axios.post(apiBaseUrl + "Sales/CreateSalesOrder", formData));
+            const response = await (id ? axiosRequest.put("Sales/EditSalesOrder", formData) : axiosRequest.post("Sales/CreateSalesOrder", formData));
 
             if (response.status === 200) {
                 if (id) {

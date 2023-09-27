@@ -1,10 +1,9 @@
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
-import axios from "axios";
 import Card from "components/card/Card";
-import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import axiosRequest from "utils/api";
 
 const RoleFormComponent = () => {
     const [formData, setFormData] = useState({
@@ -35,7 +34,7 @@ const RoleFormComponent = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await (id ? axios.put(apiBaseUrl + "UserManagement/UpdateRoleName", formData) : axios.post(apiBaseUrl + "UserManagement/CreateRole", formData));
+            const response = await (id ? axiosRequest.put("UserManagement/UpdateRoleName", formData) : axiosRequest.post("UserManagement/CreateRole", formData));
 
             if (response.status === 200) {
                 if (id) {

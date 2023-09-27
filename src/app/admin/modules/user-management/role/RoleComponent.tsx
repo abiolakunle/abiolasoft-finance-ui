@@ -3,10 +3,9 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { apiBaseUrl } from "environment";
-import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
 import { formatDateTime } from "utils/dateUtils";
+import axiosRequest from "utils/api";
 
 const RoleComponent = () => {
     const { id } = useParams();
@@ -23,8 +22,8 @@ const RoleComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `UserManagement/GetRoleById?id=${id}`)
+            axiosRequest
+                .get(`UserManagement/GetRoleById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
