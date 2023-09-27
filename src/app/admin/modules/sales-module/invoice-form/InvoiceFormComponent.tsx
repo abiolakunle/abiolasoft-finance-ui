@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, InputRightAddon, InputGroup } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, CloseButton } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
 import { apiBaseUrl } from "environment";
@@ -7,15 +7,27 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 
 import { HSeparator } from "components/separator/Separator";
-import InvoiceFormItemsTableComponent from "./InvoiceFormItemsTableComponents";
+import { formatDate } from "utils/dateUtils";
 import axiosRequest from "utils/api";
+import InvoiceFormItemsTableComponent from "./InvoiceFormItemsTableComponents";
 
-const InvoiceOrderFormComponent = () => {
+
+export const defaultItem = {
+    itemId: "",
+    itemName: "",
+    description: "",
+    quantity: 1,
+    rate: 0,
+    tax: 0,
+};
+
+const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
     const [salesPersons, setSalesPersons] = useState([]);
     const [formData, setFormData] = useState({
         id: "",
+        customerDisplayName: "",
         customerId: "",
         number: "",
         date: "",
@@ -23,23 +35,38 @@ const InvoiceOrderFormComponent = () => {
         customerNotes: "",
         termsAndConditions: "",
         status: "",
-        discount: "",
-        invoiceNumber: "",
+        discount: 0,
+        orderNumber: "",
         dueDate: "",
-        items: [
-            {
-                itemId: "",
-                itemName: "",
-                description: "",
-                quantity: 0,
-                rate: 0,
-                tax: 0,
-            },
-        ],
+        items: [{ ...defaultItem }],
     });
+
+    const [summary, setSummary] = useState({
+        subTotal: 0,
+        discount: 0,
+        total: 0,
+    });
+
+
+    
 
     const { id } = useParams();
     let navigate = useNavigate();
+    
+
+    // const formData = "2023-03-27T20:27:04.2431926+00:00";
+
+    // const formatDate = (dateString: string) => {
+    //     const match = dateString.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/);
+
+    //     if (match) {
+    //         const datePart = match[1];
+    //         return datePart;
+    //     }
+
+    //     return "";
+    // };
+    
 
     useEffect(() => {
         const initialRequests = [
@@ -54,13 +81,23 @@ const InvoiceOrderFormComponent = () => {
 
         Promise.all(initialRequests)
             .then((response) => {
+                if (id) {
+                    const salesOrder = response[3].data?.data;
+
+                    formData.items = salesOrder.items;
+
+                    const form = { ...formData, ...salesOrder };
+                    setFormData(form);
+                }
                 setCustomers(response[0].data?.data?.items);
                 setSalesPersons(response[1].data?.data?.items);
                 setItems(response[2].data?.data?.items);
 
                 if (id) {
                     const salesOrder = response[3].data?.data;
-                    setFormData({ ...formData });
+                    setFormData({ ...formData, ...salesOrder });
+
+                    formData.items = salesOrder.items;
                 }
             })
             .catch((error) => {
@@ -68,7 +105,7 @@ const InvoiceOrderFormComponent = () => {
             });
     }, []);
 
-    const handleInputChange = (e: any) => {
+    const handleInputChange: any = (e: any) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -76,16 +113,63 @@ const InvoiceOrderFormComponent = () => {
         });
     };
 
+
+    useEffect(() => {
+        const subTotal = formData.items.reduce((pre, curr) => {
+            return pre + curr.rate * curr.quantity;
+        }, 0);
+
+        const total = subTotal - formData.discount;
+        setSummary({
+            ...summary,
+            subTotal,
+            total,
+        });
+    }, [formData]);
+
+    const lineInputChanged = (event: any, index: string) => {
+        const { name, value } = event;
+
+        const updatedItems: any[] = [...formData.items];
+
+        updatedItems[+index][name] = value;
+
+        setFormData({
+            ...formData,
+            items: updatedItems,
+        });
+    };
+
+    const onTableLineAdded = () => {
+        setFormData({
+            ...formData,
+            items: [...formData.items, { ...defaultItem }],
+        });
+    };
+
+    const onTableLineRemoved = (rowIndex: number) => {
+        setFormData({
+            ...formData,
+            items: [...formData.items.filter((_l, i) => i !== rowIndex)],
+        });
+    };
+
+
     const handleSubmit = async (status: "Confirmed" | "Draft") => {
         formData.status = status;
+
+        formData.items = formData.items.map((item) => {
+            const itemName = items.find((i) => i.id === item.itemId).name;
+            return { ...item, description: "", itemName };
+        });
         try {
             const response = await (id ? axiosRequest.put("Sales/EditInvoice", formData) : axiosRequest.post("Sales/CreateInvoice", formData));
 
             if (response.status === 200) {
                 if (id) {
-                    navigate(`/admin/modules/sales/invoices/${id}`);
+                    navigate(`/admin/modules/sales/invoice/${id}`);
                 } else {
-                    navigate("/admin/modules/sales/invoices");
+                    navigate("/admin/modules/sales/customer-invoices");
                 }
             } else {
                 console.error("Error creating item");
@@ -103,24 +187,34 @@ const InvoiceOrderFormComponent = () => {
                 h="fit-content"
                 align={{ base: "center", xl: "center" }}
                 justify={{
-                    base: "flex-start",
-                    xl: "flex-start",
+                    base: "space-between",
+                    xl: "space-between",
                 }}
                 gap="20px"
             >
-                <Heading as="h4" size="md">
-                    New Customer Invoice
-                </Heading>
+                {!viewOnly && (
+                    <>
+                        <Heading as="h4" size="md">
+                            {id ? "Edit Customer Invoice" : "New Customer Invoice"}
+                        </Heading>
+
+                        <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : `/admin/modules/sales/invoices`}>
+                                <CloseButton size="lg" />
+                            </ChakraLink>
+                        </Flex>
+                    </>
+                )}
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="200px">
-                                <FormLabel color="red">Customer Name*</FormLabel>
+                                <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
                             </Box>
                             <Box width="100%" className="afu-input">
-                                <Select name="id" placeholder="Select a customer" value={formData.id} onChange={handleInputChange}>
+                                <Select name="customerId" placeholder="Select a customer" value={formData.customerId} onChange={handleInputChange}>
                                     {customers.map((customer, index) => (
                                         <option key={index} value={customer.id}>
                                             {customer.customerDisplayName}
@@ -134,17 +228,19 @@ const InvoiceOrderFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="200px">
-                                <FormLabel color="red">Invoice#*</FormLabel>
+                                <FormLabel color={viewOnly ? "" : "red"}>Invoice#{viewOnly ? "" : "*"}</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
                                 <Input
+                                    readOnly={viewOnly}
+                                    pointerEvents={viewOnly ? "none" : "all"}
                                     name="number"
                                     type="text"
                                     isRequired={true}
                                     width="100%"
                                     variant="outline"
                                     borderRadius="8px"
-                                    value={formData.invoiceNumber}
+                                    value={formData.number}
                                     onChange={handleInputChange}
                                 />
                             </Box>
@@ -154,10 +250,19 @@ const InvoiceOrderFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="200px">
-                                <FormLabel>Order Number</FormLabel>
+                                <FormLabel color={viewOnly ? "" : "red"}>Order Number</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Input name="orderNumber" type="text" width="100%" variant="outline" borderRadius="8px" value={formData.number} onChange={handleInputChange} />
+                                <Input 
+                                    readOnly={viewOnly}
+                                    pointerEvents={viewOnly ? "none" : "all"}
+                                    name="orderNumber" 
+                                    type="text" 
+                                    width="100%" variant="outline" 
+                                    borderRadius="8px" 
+                                    value={formData.orderNumber} 
+                                    onChange={handleInputChange}
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
@@ -165,17 +270,19 @@ const InvoiceOrderFormComponent = () => {
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                             <Box className="afu-label" minWidth="200px">
-                                <FormLabel color="red">Invoice Date*</FormLabel>
+                                <FormLabel color={viewOnly ? "" : "red"}>Date{viewOnly ? "" : "*"}</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
                                 <Input
+                                    readOnly={viewOnly}
+                                    pointerEvents={viewOnly ? "none" : "all"}
                                     type="date"
                                     name="date"
                                     isRequired={true}
                                     width="100%"
                                     variant="outline"
                                     borderRadius="8px"
-                                    value={formData.date}
+                                    value={formatDate(formData.date)}
                                     onChange={handleInputChange}
                                 />
                             </Box>
@@ -188,10 +295,42 @@ const InvoiceOrderFormComponent = () => {
                                 <FormLabel>Due Date</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Input type="date" name="dueDate" width="100%" variant="outline" borderRadius="8px" value={formData.dueDate} onChange={handleInputChange} />
+                                <Input 
+                                    readOnly={viewOnly}
+                                    pointerEvents={viewOnly ? "none" : "all"}
+                                    type="date" 
+                                    name="dueDate" 
+                                    width="100%" 
+                                    variant="outline" 
+                                    borderRadius="8px" 
+                                    value={formData.dueDate} 
+                                    onChange={handleInputChange} 
+                                />
                             </Box>
                         </Flex>
                     </FormControl>
+
+                    {/* <FormControl>
+                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Box className="afu-label" minWidth="200px">
+                                <FormLabel>Payment Term Days</FormLabel>
+                            </Box>
+                            <Box width="40%" className="afu-input">
+                                <Input
+                                    readOnly={viewOnly}
+                                    pointerEvents={viewOnly ? "none" : "all"}
+                                    type="number"
+                                    name="paymentTermsDays"
+                                    isRequired={true}
+                                    width="100%"
+                                    variant="outline"
+                                    borderRadius="8px"
+                                    value={formData.paymentTermsDays}
+                                    onChange={handleInputChange}
+                                />
+                            </Box>
+                        </Flex>
+                    </FormControl> */}
 
                     <FormControl>
                         <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
@@ -199,7 +338,7 @@ const InvoiceOrderFormComponent = () => {
                                 <FormLabel>Salesperson</FormLabel>
                             </Box>
                             <Box width="40%" className="afu-input">
-                                <Select name="id" placeholder="Select a salesperson" value={formData.salesPersonId} onChange={handleInputChange}>
+                                <Select pointerEvents={viewOnly ? "none" : "all"} name="id" placeholder="Select a salesperson" value={formData.salesPersonId} onChange={handleInputChange}>
                                     {salesPersons.map((person, index) => (
                                         <option key={index} value={person.id}>
                                             {person.name}
@@ -210,7 +349,14 @@ const InvoiceOrderFormComponent = () => {
                         </Flex>
                     </FormControl>
 
-                    <InvoiceFormItemsTableComponent tableData={formData.items} items={items} />
+                    <InvoiceFormItemsTableComponent
+                        viewOnly={viewOnly}
+                        tableLines={formData.items}
+                        items={items} 
+                        onTableLineUpdate={lineInputChanged}
+                        onTableLineAdded={onTableLineAdded}
+                        onTableLineRemoved={onTableLineRemoved}
+                    />
 
                     <Flex
                         pt={{ base: "16px", md: "16px", xl: "16px" }}
@@ -229,8 +375,11 @@ const InvoiceOrderFormComponent = () => {
                                 <Box width="100%" className="afu-input">
                                     <FormControl>
                                         <Textarea
+                                            readOnly={viewOnly}
                                             size="sm"
-                                            placeholder="Enter the terms and conditions of your business to be displayed in your transaction"
+                                            placeholder={
+                                                viewOnly ? formData.customerNotes || "None" : "Enter the terms and conditions of your business to be displayed in your transaction"
+                                            }
                                             name="termsAndConditions"
                                             value={formData.termsAndConditions}
                                             onChange={handleInputChange}
@@ -245,8 +394,9 @@ const InvoiceOrderFormComponent = () => {
                                 <Box width="100%" className="afu-input">
                                     <FormControl>
                                         <Textarea
+                                            readOnly={viewOnly}
                                             size="sm"
-                                            placeholder="Enter any notes to be displayed in your transaction"
+                                            placeholder={viewOnly ? formData.customerNotes || "None" : "Enter any notes to be displayed in your transaction"}
                                             name="customerNotes"
                                             value={formData.customerNotes}
                                             onChange={handleInputChange}
@@ -258,10 +408,10 @@ const InvoiceOrderFormComponent = () => {
 
                         <Stack padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
                             <Flex width="100%" justifyContent="space-between">
-                                <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">0.00</Text>
+                                <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{summary.subTotal}</Text>
                             </Flex>
 
-                            <Flex width="100%" justifyContent="space-between" alignItems="baseline">
+                            {/* <Flex width="100%" justifyContent="space-between" alignItems="baseline">
                                 <Flex justifyContent="space-between" alignItems="baseline">
                                     <Text minW="120px" fontWeight="bold">
                                         Discount
@@ -269,6 +419,8 @@ const InvoiceOrderFormComponent = () => {
                                     <FormControl>
                                         <InputGroup size="md">
                                             <Input
+                                                readOnly={viewOnly}
+                                                pointerEvents={viewOnly ? "none" : "all"}
                                                 maxW="100px"
                                                 name="discount"
                                                 type="number"
@@ -283,34 +435,36 @@ const InvoiceOrderFormComponent = () => {
                                         </InputGroup>
                                     </FormControl>
                                 </Flex>
-                                <Text fontWeight="bold">0.00</Text>
-                            </Flex>
+                                <Text fontWeight="bold">{summary.discount}</Text>
+                            </Flex> */}
                             <HSeparator mt="16px" />
                             <Flex width="100%" justifyContent="space-between">
-                                <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">0.00</Text>
+                                <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">{summary.total}</Text>
                             </Flex>
                         </Stack>
                     </Flex>
 
-                    <Flex
-                        pt={{ base: "16px", md: "16px", xl: "16px" }}
-                        align={{ base: "center", xl: "center" }}
-                        justify={{
-                            base: "flex-end",
-                            xl: "flex-end",
-                        }}
-                        gap="20px"
-                    >
-                        <Button variant="outline" onClick={() => handleSubmit("Draft")}>
-                            Save as Draft
-                        </Button>
-                        <Button variant="brand" onClick={() => handleSubmit("Confirmed")}>
-                            Save
-                        </Button>
-                        <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : "/admin/modules/sales/invoices"}>
-                            <Button variant="outline">Cancel</Button>
-                        </ChakraLink>
-                    </Flex>
+                    {!viewOnly && (
+                        <Flex
+                            pt={{ base: "16px", md: "16px", xl: "16px" }}
+                            align={{ base: "center", xl: "center" }}
+                            justify={{
+                                base: "flex-end",
+                                xl: "flex-end",
+                            }}
+                            gap="20px"
+                        >
+                            <Button variant="outline" onClick={() => handleSubmit("Draft")}>
+                                Save as Draft
+                            </Button>
+                            <Button variant="brand" onClick={() => handleSubmit("Confirmed")}>
+                                Save
+                            </Button>
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : "/admin/modules/sales/invoices"}>
+                                <Button variant="outline">Cancel</Button>
+                            </ChakraLink>
+                        </Flex>
+                    )}
                 </Card>
             </Box>
             ;
@@ -318,4 +472,4 @@ const InvoiceOrderFormComponent = () => {
     );
 };
 
-export default InvoiceOrderFormComponent;
+export default InvoiceFormComponent;

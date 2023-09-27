@@ -7,20 +7,15 @@ import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
-const CustomerComponent = () => {
+const SalesPersonComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
 
-    const [customer, setCustomer] = useState({
+    const [salesPerson, setSalesPerson] = useState({
         id: "",
-        customerFirstName: "",
-        customerLastName: "",
-        companyName: "",
-        customerDisplayName: "",
-        customerEmail: "",
-        customerPhone: "",
-        customerAddress: "",
+        name: "",
+        email: "",
     });
 
     useEffect(() => {
@@ -28,18 +23,9 @@ const CustomerComponent = () => {
             axiosRequest
                 .get(`Sales/GetCustomerById?id=${id}`)
                 .then((response) => {
-                    const data = response?.data?.data;
+                    const data = response?.data?.data?.items;
                     if (!!data) {
-                        setCustomer({
-                            id,
-                            customerFirstName: data.customerFirstName,
-                            customerLastName: data.customerLastName,
-                            companyName: data.companyName,
-                            customerDisplayName: data.customerDisplayName,
-                            customerEmail: data.customerEmail,
-                            customerPhone: data.customerPhone,
-                            customerAddress: data.customerAddress,
-                        });
+                        setSalesPerson({...data, ...salesPerson});
                     }
                 })
                 .catch((error) => {
@@ -62,7 +48,7 @@ const CustomerComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    CUSTOMER
+                    Sales Person
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
@@ -96,51 +82,20 @@ const CustomerComponent = () => {
                     <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>FIRST NAME</StatLabel>
-                                <StatNumber>{customer.customerFirstName || "--"}</StatNumber>
+                                <StatLabel>Sales Person's Name</StatLabel>
+                                <StatNumber>{salesPerson.name || "--"}</StatNumber>
                             </Stat>
                         </Box>
 
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>LAST NAME</StatLabel>
-                                <StatNumber>{customer.customerLastName || "--"}</StatNumber>
-                            </Stat>
-                        </Box>
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>DISPLAY NAME</StatLabel>
-                                <StatNumber>{customer.customerDisplayName || "--"}</StatNumber>
-                            </Stat>
-                        </Box>
+                       
                     </Flex>
-                    <Flex mb="16px" minH="80px">
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>COMPANY NAME</StatLabel>
-                                <StatNumber>{customer.companyName || "--"}</StatNumber>
-                            </Stat>
-                        </Box>
-                    </Flex>
+                    
                     <HSeparator mb="16px" />
                     <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>PHONE NUMBER</StatLabel>
-                                <StatNumber>{customer.customerPhone || "--"}</StatNumber>
-                            </Stat>
-                        </Box>
-
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>E-MAIL</StatLabel>
-                                <StatNumber>{customer.customerEmail}</StatNumber>
-                            </Stat>
-                        </Box>
-                        <Box w="40%">
-                            <Stat>
-                                <StatLabel>ADDRESS</StatLabel>
-                                <StatNumber>{customer.customerAddress}</StatNumber>
+                                <StatLabel>Email Address</StatLabel>
+                                <StatNumber>{salesPerson.email || "--"}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
@@ -150,4 +105,4 @@ const CustomerComponent = () => {
     );
 };
 
-export default CustomerComponent;
+export default SalesPersonComponent;
