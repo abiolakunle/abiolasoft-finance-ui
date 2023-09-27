@@ -1,7 +1,5 @@
 import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, CloseButton } from "@chakra-ui/react";
-import axios from "axios";
 import Card from "components/card/Card";
-import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
