@@ -39,6 +39,7 @@ const App = () => {
                     status: "error",
                     duration: 5000,
                     isClosable: true,
+                    position: "bottom-right",
                 });
 
                 return Promise.reject(error);
