@@ -4,7 +4,7 @@ import * as React from "react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 
 import Card from "components/card/Card";
-import { formatDate } from "utils/dateUtils";
+import { formatDateTime } from "utils/dateUtils";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
@@ -39,7 +39,7 @@ function InvoiceTableComponent(props: { tableData: any }) {
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${info.row.original.id}`}>
-                            {formatDate(info.getValue())}
+                            {formatDateTime(info.getValue())}
                         </ChakraLink>
                     </Text>
                 </Flex>
