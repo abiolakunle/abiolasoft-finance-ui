@@ -107,7 +107,7 @@ const InvoiceComponent = () => {
                     <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>SALES PERSON NAME</StatLabel>
+                                <StatLabel>SALESPERSON NAME</StatLabel>
                                 <StatNumber>{order.salesPersonName || "--"}</StatNumber>
                             </Stat>
                         </Box>

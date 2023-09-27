@@ -13,7 +13,7 @@ import axiosRequest from "utils/api";
 const InvoiceOrderFormComponent = () => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
-    const [salesPersons, setSalesPersons] = useState([]);
+    const [salespersons, setSalespersons] = useState([]);
     const [formData, setFormData] = useState({
         id: "",
         customerId: "",
@@ -44,7 +44,7 @@ const InvoiceOrderFormComponent = () => {
     useEffect(() => {
         const initialRequests = [
             axiosRequest.get(`Sales/GetAllCustomers?PageIndex=1&PageSize=5000`),
-            axiosRequest.get(`Sales/GetAllSalesPersons?PageIndex=1&PageSize=5000`),
+            axiosRequest.get(`Sales/GetAllSalespersons?PageIndex=1&PageSize=5000`),
             axiosRequest.get(`Inventory/GetAllItems?PageIndex=1&PageSize=5000`),
         ];
 
@@ -55,7 +55,7 @@ const InvoiceOrderFormComponent = () => {
         Promise.all(initialRequests)
             .then((response) => {
                 setCustomers(response[0].data?.data?.items);
-                setSalesPersons(response[1].data?.data?.items);
+                setSalespersons(response[1].data?.data?.items);
                 setItems(response[2].data?.data?.items);
 
                 if (id) {
@@ -200,7 +200,7 @@ const InvoiceOrderFormComponent = () => {
                             </Box>
                             <Box width="40%" className="afu-input">
                                 <Select name="id" placeholder="Select a salesperson" value={formData.salesPersonId} onChange={handleInputChange}>
-                                    {salesPersons.map((person, index) => (
+                                    {salespersons.map((person, index) => (
                                         <option key={index} value={person.id}>
                                             {person.name}
                                         </option>
