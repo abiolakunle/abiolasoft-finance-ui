@@ -167,38 +167,40 @@ export default function SalesOrderFormItemsTableComponent(props: {
             }),
     ].filter((v) => v);
 
+    const meta = {
+        updateData: (rowIndex: number, columnId: string, value: string) => {
+            setData((old) => {
+                return old.map((row, index) => {
+                    if (index === rowIndex) {
+                        onTableLineUpdate({ name: columnId, value }, rowIndex);
+
+                        const rowUpdate = {
+                            ...old[rowIndex],
+                            [columnId]: value,
+                        };
+
+                        setItemPriceOnRow(columnId, rowUpdate, value, rowIndex);
+
+                        return rowUpdate;
+                    }
+                    return row;
+                });
+            });
+        },
+        removeRow: (rowIndex: number) => {
+            const setFilterFunc = (old: any[]) => old.filter((_row: any, index: number) => index !== rowIndex);
+            setData(setFilterFunc);
+            onTableLineRemoved(rowIndex);
+        },
+    };
+
     const table = useReactTable({
         data,
         columns,
         state: {
             sorting,
         },
-        meta: {
-            updateData: (rowIndex: number, columnId: string, value: string) => {
-                setData((old) => {
-                    return old.map((row, index) => {
-                        if (index === rowIndex) {
-                            onTableLineUpdate({ name: columnId, value }, rowIndex);
-
-                            const rowUpdate = {
-                                ...old[rowIndex],
-                                [columnId]: value,
-                            };
-
-                            setItemPriceOnRow(columnId, rowUpdate, value, rowIndex);
-
-                            return rowUpdate;
-                        }
-                        return row;
-                    });
-                });
-            },
-            removeRow: (rowIndex: number) => {
-                const setFilterFunc = (old: any[]) => old.filter((_row: any, index: number) => index !== rowIndex);
-                setData(setFilterFunc);
-                onTableLineRemoved(rowIndex);
-            },
-        },
+        meta,
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
