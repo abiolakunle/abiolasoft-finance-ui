@@ -179,10 +179,15 @@ export default function SalesOrderFormItemsTableComponent(props: {
                     return old.map((row, index) => {
                         if (index === rowIndex) {
                             onTableLineUpdate({ name: columnId, value }, rowIndex);
-                            return {
+
+                            const rowUpdate = {
                                 ...old[rowIndex],
                                 [columnId]: value,
                             };
+
+                            setItemPriceOnRow(columnId, rowUpdate, value, rowIndex);
+
+                            return rowUpdate;
                         }
                         return row;
                     });
@@ -274,4 +279,11 @@ export default function SalesOrderFormItemsTableComponent(props: {
             </Flex>
         </Card>
     );
+
+    function setItemPriceOnRow(columnId: string, rowUpdate: any, value: string, rowIndex: number) {
+        if (columnId === "itemId") {
+            rowUpdate.rate = items.find((i) => i.id === value).sellingPrice;
+            onTableLineUpdate({ name: "rate", value: rowUpdate.rate }, rowIndex);
+        }
+    }
 }
