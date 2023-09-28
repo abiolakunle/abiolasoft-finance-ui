@@ -362,7 +362,7 @@ const ItemFormComponent = () => {
                             }}
                             gap="20px"
                         >
-                            <Button variant="brand" type="submit" isDisabled={!form.isValid}>
+                            <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting}>
                                 Save
                             </Button>
                             <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/inventory/items/${id}` : "/admin/modules/inventory/items"}>

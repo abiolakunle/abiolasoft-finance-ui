@@ -102,7 +102,7 @@ const RoleFormComponent = () => {
                             }}
                             gap="20px"
                         >
-                            <Button isDisabled={!form.isValid} variant="brand" type="submit">
+                            <Button isDisabled={!form.isValid || form.isSubmitting} variant="brand" type="submit">
                                 Save
                             </Button>
                             <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/user-management/roles/${id}` : "/admin/modules/user-management/roles"}>
