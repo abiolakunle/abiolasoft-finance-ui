@@ -62,26 +62,19 @@ const CustomerComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    CUSTOMER
+                    Customer
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                            <IconButton
-                                
-                                aria-label="Call Fred" 
-                                 
-                                icon={<MdSettings />} 
-                            />
+                            <IconButton aria-label="Call Fred" icon={<MdSettings />} />
                         </MenuButton>
                         <MenuList>
-                            <MenuItem >Delete</MenuItem>
-                            
+                            <MenuItem>Delete</MenuItem>
                         </MenuList>
                     </Menu>
-                    
+
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
@@ -107,14 +100,15 @@ const CustomerComponent = () => {
                                 <StatNumber>{customer.customerLastName || "--"}</StatNumber>
                             </Stat>
                         </Box>
+                    </Flex>
+
+                    <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>DISPLAY NAME</StatLabel>
                                 <StatNumber>{customer.customerDisplayName || "--"}</StatNumber>
                             </Stat>
                         </Box>
-                    </Flex>
-                    <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>COMPANY NAME</StatLabel>
@@ -122,6 +116,7 @@ const CustomerComponent = () => {
                             </Stat>
                         </Box>
                     </Flex>
+
                     <HSeparator mb="16px" />
                     <Flex mb="16px" minH="80px">
                         <Box w="45%">
@@ -137,6 +132,9 @@ const CustomerComponent = () => {
                                 <StatNumber>{customer.customerEmail}</StatNumber>
                             </Stat>
                         </Box>
+                    </Flex>
+
+                    <Flex mb="16px" minH="80px">
                         <Box w="40%">
                             <Stat>
                                 <StatLabel>ADDRESS</StatLabel>

@@ -1,4 +1,20 @@
-import { Card, Text, Flex, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import {
+    Card,
+    Text,
+    Flex,
+    Box,
+    Heading,
+    IconButton,
+    Button,
+    CloseButton,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+} from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit, MdSettings } from "react-icons/md";
@@ -80,16 +96,10 @@ const ItemComponent = () => {
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                            <IconButton
-                                
-                                aria-label="Call Fred" 
-                                 
-                                icon={<MdSettings />} 
-                            />
+                            <IconButton aria-label="Call Fred" icon={<MdSettings />} />
                         </MenuButton>
                         <MenuList>
-                            <MenuItem >Delete</MenuItem>
-                            
+                            <MenuItem>Delete</MenuItem>
                         </MenuList>
                     </Menu>
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${id}/edit`}>
@@ -107,7 +117,7 @@ const ItemComponent = () => {
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <Flex mb="16px" minH="80px">
+                    <Flex mb="16px" justifyContent="space-between" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>SKU</StatLabel>
@@ -155,7 +165,7 @@ const ItemComponent = () => {
                     </Flex>
 
                     <HSeparator mb="16px" />
-                    <Flex mb="16px">
+                    <Flex mb="16px" justifyContent="space-between">
                         <Box w="45%">
                             <Text fontSize="lg" mb="18px">
                                 Sales Information
