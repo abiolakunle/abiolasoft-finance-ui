@@ -5,12 +5,12 @@ import { MdAdd } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
+import { pageSize } from "variables/constant-values";
 
 const VendorsComponent = () => {
     const [tableData, setTableData] = useState(null);
     const [pageIndex, setPageIndex] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const pageSize = 15;
 
     useEffect(() => {
         axiosRequest

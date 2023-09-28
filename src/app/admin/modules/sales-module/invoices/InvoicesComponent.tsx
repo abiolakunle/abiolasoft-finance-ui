@@ -6,12 +6,12 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import InvoiceTableComponent from "./InvoiceTableComponent";
 import axiosRequest from "utils/api";
+import { pageSize } from "variables/constant-values";
 
 const InvoicesComponent = () => {
     const [tableData, setTableData] = useState(null);
     const [pageIndex, setPageIndex] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const pageSize = 15;
 
     useEffect(() => {
         axiosRequest
@@ -68,6 +68,3 @@ const InvoicesComponent = () => {
 };
 
 export default InvoicesComponent;
-
-
-
