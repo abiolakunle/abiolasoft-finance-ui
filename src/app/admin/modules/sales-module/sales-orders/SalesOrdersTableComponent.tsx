@@ -8,6 +8,7 @@ import Card from "components/card/Card";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { formatDateTime } from "utils/dateUtils";
+import { useEffect } from "react";
 
 type RowObj = {
     date: string;
@@ -24,7 +25,6 @@ function SalesOrdersTableComponent(props: { tableData: any }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
-    let defaultData = tableData;
 
     const columns = [
         columnHelper.accessor("date", {
@@ -102,7 +102,11 @@ function SalesOrdersTableComponent(props: { tableData: any }) {
         }),
     ];
 
-    const [data, _setData] = React.useState(() => [...defaultData]);
+    const [data, setData] = React.useState(() => [...tableData]);
+
+    useEffect(() => {
+        setData(tableData);
+    }, [tableData]);
 
     const table = useReactTable({
         data,

@@ -1,54 +1,55 @@
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
+
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
-import { Link as ReactRouterLink } from "react-router-dom";
-import { Link as ChakraLink } from "@chakra-ui/react";
 
 import Card from "components/card/Card";
-import { formatDateTime } from "utils/dateUtils";
+
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 type RowObj = {
-    name: [string, boolean];
-    sku: string;
-    stockOnHand: number;
-    reorderPoint: string;
-    createdAt: string;
+    primaryContactFirstName: [string, boolean];
+    primaryContactLastName: [string, boolean];
+    vendorPhone: number;
+    vendorDisplayName: string;
+    companyName: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
 
-// const columns = columnsDataCheck;
-export default function ItemsTableComponent(props: { tableData: any }) {
+function VendorsTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
 
     const columns = [
-        columnHelper.accessor("name", {
-            id: "name",
+        columnHelper.accessor("primaryContactFirstName", {
+            id: "primaryContactFirstName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    NAME
+                    FIRST NAME
                 </Text>
             ),
             cell: (info: any) => (
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendor/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>
                 </Flex>
             ),
         }),
-        columnHelper.accessor("sku", {
-            id: "sku",
+
+        columnHelper.accessor("primaryContactLastName", {
+            id: "primaryContactLastName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    SKU
+                    LAST NAME
                 </Text>
             ),
             cell: (info) => (
@@ -57,11 +58,12 @@ export default function ItemsTableComponent(props: { tableData: any }) {
                 </Text>
             ),
         }),
-        columnHelper.accessor("stockOnHand", {
-            id: "stockOnHand",
+
+        columnHelper.accessor("vendorDisplayName", {
+            id: "vendorDisplayName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    STOCK ON HAND
+                    DISPLAY NAME
                 </Text>
             ),
             cell: (info) => (
@@ -70,11 +72,12 @@ export default function ItemsTableComponent(props: { tableData: any }) {
                 </Text>
             ),
         }),
-        columnHelper.accessor("reorderPoint", {
-            id: "reorderPoint",
+
+        columnHelper.accessor("vendorPhone", {
+            id: "vendorPhone",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    REORDER LEVEL
+                    PHONE NUMBER
                 </Text>
             ),
             cell: (info) => (
@@ -83,20 +86,22 @@ export default function ItemsTableComponent(props: { tableData: any }) {
                 </Text>
             ),
         }),
-        columnHelper.accessor("createdAt", {
-            id: "createdAt",
+
+        columnHelper.accessor("companyName", {
+            id: "companyName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    DATE CREATED
+                    COMPANY'S NAME
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {formatDateTime(info.getValue(), true)}
+                    {info.getValue()}
                 </Text>
             ),
         }),
     ];
+
     const [data, setData] = React.useState(() => [...tableData]);
 
     useEffect(() => {
@@ -114,24 +119,9 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         getSortedRowModel: getSortedRowModel(),
         debugTable: true,
     });
+
     return (
         <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
-            {/* <Flex
-                px="25px"
-                mb="8px"
-                justifyContent="space-between"
-                align="center"
-            >
-                <Text
-                    color={textColor}
-                    fontSize="22px"
-                    fontWeight="700"
-                    lineHeight="100%"
-                >
-                    Check Table
-                </Text>
-                <Menu />
-            </Flex> */}
             <Box>
                 <Table variant="simple" color="gray.500" mb="24px" mt="12px">
                     <Thead>
@@ -197,3 +187,5 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         </Card>
     );
 }
+
+export default VendorsTableComponent;

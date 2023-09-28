@@ -4,7 +4,7 @@ import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, Sor
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
-import { defaultItem } from "./InvoiceFormComponent";
+import { defaultItem } from "../../app/admin/modules/sales-module/sales-order-form/SalesOrderFormComponent";
 
 type RowObj = {
     itemId: string;
@@ -32,7 +32,16 @@ export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
 
     return (
         <Flex align="center">
-            <Input type={type} name={column.id} isRequired={true} variant="outline" borderRadius="8px" value={value} onBlur={onBlur} onChange={(e) => setValue(e.target.value)} />
+            <Input
+                type={type}
+                name={column.id}
+                isRequired={true}
+                variant="outline"
+                borderRadius="8px"
+                value={value}
+                onBlur={onBlur}
+                onChange={(e) => setValue(e.target.value)}
+            />
         </Flex>
     );
 };
@@ -64,7 +73,7 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
     );
 };
 
-export default function InvoiceFormItemsTableComponent(props: {
+export default function LineItemsTableComponent(props: {
     tableLines: any;
     viewOnly: boolean;
     items: any[];
@@ -167,33 +176,40 @@ export default function InvoiceFormItemsTableComponent(props: {
             }),
     ].filter((v) => v);
 
+    const meta = {
+        updateData: (rowIndex: number, columnId: string, value: string) => {
+            setData((old) => {
+                return old.map((row, index) => {
+                    if (index === rowIndex) {
+                        onTableLineUpdate({ name: columnId, value }, rowIndex);
+
+                        const rowUpdate = {
+                            ...old[rowIndex],
+                            [columnId]: value,
+                        };
+
+                        setItemPriceOnRow(columnId, rowUpdate, value, rowIndex);
+
+                        return rowUpdate;
+                    }
+                    return row;
+                });
+            });
+        },
+        removeRow: (rowIndex: number) => {
+            const setFilterFunc = (old: any[]) => old.filter((_row: any, index: number) => index !== rowIndex);
+            setData(setFilterFunc);
+            onTableLineRemoved(rowIndex);
+        },
+    };
+
     const table = useReactTable({
         data,
         columns,
         state: {
             sorting,
         },
-        meta: {
-            updateData: (rowIndex: number, columnId: string, value: string) => {
-                setData((old) => {
-                    return old.map((row, index) => {
-                        if (index === rowIndex) {
-                            onTableLineUpdate({ name: columnId, value }, rowIndex);
-                            return {
-                                ...old[rowIndex],
-                                [columnId]: value,
-                            };
-                        }
-                        return row;
-                    });
-                });
-            },
-            removeRow: (rowIndex: number) => {
-                const setFilterFunc = (old: any[]) => old.filter((_row: any, index: number) => index !== rowIndex);
-                setData(setFilterFunc);
-                onTableLineRemoved(rowIndex);
-            },
-        },
+        meta,
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
@@ -274,4 +290,11 @@ export default function InvoiceFormItemsTableComponent(props: {
             </Flex>
         </Card>
     );
+
+    function setItemPriceOnRow(columnId: string, rowUpdate: any, value: string, rowIndex: number) {
+        if (columnId === "itemId") {
+            rowUpdate.rate = items.find((i) => i.id === value).sellingPrice;
+            onTableLineUpdate({ name: "rate", value: rowUpdate.rate }, rowIndex);
+        }
+    }
 }
