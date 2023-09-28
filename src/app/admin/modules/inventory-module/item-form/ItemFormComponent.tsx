@@ -1,10 +1,8 @@
 import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputLeftAddon, Select, Textarea } from "@chakra-ui/react";
 import Card from "components/card/Card";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
-import { hideProgress, showProgress } from "state/slices/progressSlice";
-import { useDispatch } from "react-redux";
 import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
