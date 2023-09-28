@@ -86,7 +86,7 @@ const CustomerComponent = () => {
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <Flex mb="16px" minH="80px">
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>FIRST NAME</StatLabel>
@@ -102,7 +102,7 @@ const CustomerComponent = () => {
                         </Box>
                     </Flex>
 
-                    <Flex mb="16px" minH="80px">
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>DISPLAY NAME</StatLabel>
@@ -118,7 +118,7 @@ const CustomerComponent = () => {
                     </Flex>
 
                     <HSeparator mb="16px" />
-                    <Flex mb="16px" minH="80px">
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>PHONE NUMBER</StatLabel>
@@ -134,7 +134,7 @@ const CustomerComponent = () => {
                         </Box>
                     </Flex>
 
-                    <Flex mb="16px" minH="80px">
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="40%">
                             <Stat>
                                 <StatLabel>ADDRESS</StatLabel>
