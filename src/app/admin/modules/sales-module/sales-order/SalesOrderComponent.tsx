@@ -1,6 +1,6 @@
 import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { MdEdit, MdSettings } from "react-icons/md";
+import { MdEdit, MdMenu, MdSettings } from "react-icons/md";
 import SalesOrderFormComponent from "../sales-order-form/SalesOrderFormComponent";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
@@ -54,13 +54,17 @@ const SalesOrderComponent = () => {
                                 
                                 aria-label="Call Fred" 
                                  
-                                icon={<MdSettings />} 
+                                icon={<MdMenu />} 
                             />
                         </MenuButton>
-                        
                         <MenuList>
+                            <MenuItem onClick={convertToInvoice} >Convert to Invoice</MenuItem>
+                            <MenuItem onClick={instantInvoice} >Instant Invoice</MenuItem>
                             <MenuItem >Delete</MenuItem>
                         </MenuList>
+                        
+                        
+
                     </Menu>
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
