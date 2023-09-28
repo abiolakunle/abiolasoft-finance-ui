@@ -25,7 +25,6 @@ const VendorsComponent = () => {
     return (
         <>
             <Flex
-                pt={{ base: "130px", md: "80px", xl: "80px" }}
                 my="0px"
                 h="fit-content"
                 align={{ base: "center", xl: "center" }}
