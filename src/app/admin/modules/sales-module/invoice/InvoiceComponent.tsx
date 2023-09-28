@@ -25,7 +25,7 @@ const InvoiceComponent = () => {
     useEffect(() => {
         if (id) {
             axiosRequest
-                .get(`Sales/GetInvoicesById?id=${id}`)
+                .get(`Sales/GetInvoiceById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -69,7 +69,7 @@ const InvoiceComponent = () => {
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoice`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

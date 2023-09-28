@@ -3,7 +3,7 @@ import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
-import SalesOrderFormItemsTableComponent from "./SalesOrderFormItemsTableComponent";
+import LineItemsTableComponent from "../../../../../app-components/line-items-table/SalesOrderFormItemsTableComponent";
 import { HSeparator } from "components/separator/Separator";
 import { formatDate } from "utils/dateUtils";
 import axiosRequest from "utils/api";
@@ -219,7 +219,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         name="number"
                                         type="text"
-                                        isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
@@ -243,7 +242,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         name="referenceNumber"
                                         type="text"
-                                        isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
@@ -265,7 +263,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         type="date"
                                         name="date"
-                                        isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
@@ -289,7 +286,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         type="date"
                                         name="expectedShipmentDate"
-                                        isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
@@ -311,7 +307,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         type="number"
                                         name="paymentTermsDays"
-                                        isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
@@ -351,7 +346,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex>
                         </FormControl>
 
-                        <SalesOrderFormItemsTableComponent
+                        <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
                             items={items}
@@ -454,7 +449,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                                 maxW="100px"
                                                 name="discount"
                                                 type="number"
-                                                isRequired={true}
+
                                                 width="100%"
                                                 variant="outline"
                                                 borderRadius="8px"

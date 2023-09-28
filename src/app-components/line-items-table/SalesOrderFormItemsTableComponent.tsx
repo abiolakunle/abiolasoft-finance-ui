@@ -4,7 +4,7 @@ import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, Sor
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
-import { defaultItem } from "./SalesOrderFormComponent";
+import { defaultItem } from "../../app/admin/modules/sales-module/sales-order-form/SalesOrderFormComponent";
 
 type RowObj = {
     itemId: string;
@@ -32,7 +32,16 @@ export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
 
     return (
         <Flex align="center">
-            <Input type={type} name={column.id} isRequired={true} variant="outline" borderRadius="8px" value={value} onBlur={onBlur} onChange={(e) => setValue(e.target.value)} />
+            <Input
+                type={type}
+                name={column.id}
+                isRequired={true}
+                variant="outline"
+                borderRadius="8px"
+                value={value}
+                onBlur={onBlur}
+                onChange={(e) => setValue(e.target.value)}
+            />
         </Flex>
     );
 };
@@ -64,7 +73,7 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
     );
 };
 
-export default function SalesOrderFormItemsTableComponent(props: {
+export default function LineItemsTableComponent(props: {
     tableLines: any;
     viewOnly: boolean;
     items: any[];
