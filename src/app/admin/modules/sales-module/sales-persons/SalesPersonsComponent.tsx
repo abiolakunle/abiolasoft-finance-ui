@@ -5,23 +5,30 @@ import { MdAdd, MdSettings } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const SalesPersonsComponent = () => {
     const [tableData, setTableData] = useState(null);
+    const [pageIndex, setPageIndex] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const pageSize = 15;
 
     useEffect(() => {
         axiosRequest
-            .get("Sales/GetAllSalesPersons?PageIndex=1&PageSize=50")
+            .get(`Sales/GetAllSalesPersons?PageIndex=${pageIndex}&PageSize=${pageSize}`)
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);
+                    setTotalPages(response.data.data.totalPages);
                 }
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
             });
-    }, []);
+    }, [pageIndex]);
+
+    const handlePageChange = (newPageIndex: number) => {
+        setPageIndex(newPageIndex);
+    };
 
     return (
         <>
@@ -39,15 +46,15 @@ const SalesPersonsComponent = () => {
                 {/* <Menu>
                     <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                         <IconButton
-                            
-                            aria-label="Call Fred" 
-                                
-                            icon={<MdSettings />} 
+
+                            aria-label="Call Fred"
+
+                            icon={<MdSettings />}
                         />
                     </MenuButton>
                     <MenuList>
                         <MenuItem >Delete</MenuItem>
-                        
+
                     </MenuList>
                 </Menu> */}
                 <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/new`}>
@@ -60,6 +67,14 @@ const SalesPersonsComponent = () => {
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
                     {tableData && <SalesPersonsTableComponent tableData={tableData} />}
                 </SimpleGrid>
+            </Box>
+
+            <Box display="flex" justifyContent="center" marginTop="20px">
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <Button key={index} variant={pageIndex === index + 1 ? "brand" : "outline"} onClick={() => handlePageChange(index + 1)} mr="2">
+                        {index + 1}
+                    </Button>
+                ))}
             </Box>
         </>
     );
