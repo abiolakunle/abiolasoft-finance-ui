@@ -48,27 +48,27 @@ const SalesOrderComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <Menu>
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                            <IconButton
-                                
-                                aria-label="Call Fred" 
-                                 
-                                icon={<MdMenu />} 
-                            />
-                        </MenuButton>
-                        <MenuList>
-                            <MenuItem onClick={convertToInvoice} >Convert to Invoice</MenuItem>
-                            <MenuItem onClick={instantInvoice} >Instant Invoice</MenuItem>
-                            <MenuItem >Delete</MenuItem>
-                        </MenuList>
-                        
-                        
-
-                    </Menu>
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            Convert
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={convertToInvoice}>Convert to Invoice</MenuItem>
+                            <MenuItem onClick={instantInvoice}>Instant Invoice</MenuItem>
+                        </MenuList>
+                    </Menu>
+
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            More
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem>Delete</MenuItem>
+                        </MenuList>
+                    </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-orders`}>
                         <CloseButton size="lg" />
