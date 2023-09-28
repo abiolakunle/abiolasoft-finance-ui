@@ -13,6 +13,7 @@ import {
     InputRightAddon,
     InputGroup,
     FormErrorMessage,
+    CloseButton,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "components/card/Card";
@@ -64,7 +65,7 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             customerNotes: "",
             termsAndConditions: "",
             status: "",
-            discount: "",
+            discount: 0,
             orderNumber: "",
             dueDate: "",
             items: [{ ...defaultItem }],
@@ -97,6 +98,19 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
     const { id } = useParams();
     let navigate = useNavigate();
+
+    useEffect(() => {
+        const subTotal = form.values.items.reduce((pre, curr) => {
+            return pre + curr.rate * curr.quantity;
+        }, 0);
+
+        const total = subTotal - form.values.discount;
+        setSummary({
+            ...summary,
+            subTotal,
+            total,
+        });
+    }, [form.values]);
 
     useEffect(() => {
         const initialRequests = [
@@ -164,242 +178,263 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 h="fit-content"
                 align={{ base: "center", xl: "center" }}
                 justify={{
-                    base: "flex-start",
-                    xl: "flex-start",
+                    base: "space-between",
+                    xl: "space-between",
                 }}
                 gap="20px"
             >
-                <Heading as="h4" size="md">
-                    New Customer Invoice
-                </Heading>
+                {!viewOnly && (
+                    <>
+                        <Heading as="h4" size="md">
+                            {id ? "Edit Invoice" : "New Invoice"}
+                        </Heading>
+
+                        <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : `/admin/modules/sales/invoices`}>
+                                <CloseButton size="lg" />
+                            </ChakraLink>
+                        </Flex>
+                    </>
+                )}
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <FormControl isInvalid={form.touched.customerId && !!form.errors.customerId}>
-                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
-                            <Box className="afu-label" minWidth="200px">
-                                <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
-                            </Box>
-                            <Box width="100%" className="afu-input">
-                                <Select
-                                    pointerEvents={viewOnly ? "none" : "all"}
-                                    name="customerId"
-                                    placeholder="Select a customer"
-                                    value={form.values.customerId}
-                                    onChange={form.handleChange}
-                                    onBlur={form.handleBlur}
-                                >
-                                    {customers.map((customer, index) => (
-                                        <option key={index} value={customer.id}>
-                                            {customer.customerDisplayName}
-                                        </option>
-                                    ))}
-                                </Select>
-                                {form.touched.customerId && !!form.errors.customerId ? <FormErrorMessage>{form.errors.customerId}</FormErrorMessage> : ""}
-                            </Box>
-                        </Flex>
-                    </FormControl>
+                    <form noValidate onSubmit={form.handleSubmit}>
+                        <FormControl isInvalid={form.touched.customerId && !!form.errors.customerId}>
+                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                                <Box className="afu-label" minWidth="200px">
+                                    <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
+                                </Box>
+                                <Box width="100%" className="afu-input">
+                                    <Select
+                                        pointerEvents={viewOnly ? "none" : "all"}
+                                        name="customerId"
+                                        placeholder="Select a customer"
+                                        value={form.values.customerId}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                    >
+                                        {customers.map((customer, index) => (
+                                            <option key={index} value={customer.id}>
+                                                {customer.customerDisplayName}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                    {form.touched.customerId && !!form.errors.customerId ? <FormErrorMessage>{form.errors.customerId}</FormErrorMessage> : ""}
+                                </Box>
+                            </Flex>
+                        </FormControl>
 
-                    <FormControl isInvalid={form.touched.number && !!form.errors.number}>
-                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
-                            <Box className="afu-label" minWidth="200px">
-                                <FormLabel color={viewOnly ? "" : "red"}>Invoice#{viewOnly ? "" : "*"}</FormLabel>
-                            </Box>
-                            <Box width="40%" className="afu-input">
-                                <Input
-                                    readOnly={viewOnly}
-                                    pointerEvents={viewOnly ? "none" : "all"}
-                                    name="number"
-                                    type="text"
-                                    isRequired={true}
-                                    width="100%"
-                                    variant="outline"
-                                    borderRadius="8px"
-                                    value={form.values.number}
-                                    onChange={form.handleChange}
-                                    onBlur={form.handleBlur}
-                                />
-                                {form.touched.number && !!form.errors.number ? <FormErrorMessage>{form.errors.number}</FormErrorMessage> : ""}
-                            </Box>
-                        </Flex>
-                    </FormControl>
+                        <FormControl isInvalid={form.touched.number && !!form.errors.number}>
+                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                                <Box className="afu-label" minWidth="200px">
+                                    <FormLabel color={viewOnly ? "" : "red"}>Invoice#{viewOnly ? "" : "*"}</FormLabel>
+                                </Box>
+                                <Box width="40%" className="afu-input">
+                                    <Input
+                                        readOnly={viewOnly}
+                                        pointerEvents={viewOnly ? "none" : "all"}
+                                        name="number"
+                                        type="text"
+                                        isRequired={true}
+                                        width="100%"
+                                        variant="outline"
+                                        borderRadius="8px"
+                                        value={form.values.number}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                    />
+                                    {form.touched.number && !!form.errors.number ? <FormErrorMessage>{form.errors.number}</FormErrorMessage> : ""}
+                                </Box>
+                            </Flex>
+                        </FormControl>
 
-                    <FormControl>
-                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
-                            <Box className="afu-label" minWidth="200px">
-                                <FormLabel>Order Number</FormLabel>
-                            </Box>
-                            <Box width="40%" className="afu-input">
-                                <Input
-                                    readOnly={viewOnly}
-                                    pointerEvents={viewOnly ? "none" : "all"}
-                                    name="orderNumber"
-                                    type="text"
-                                    isRequired={true}
-                                    width="100%"
-                                    variant="outline"
-                                    borderRadius="8px"
-                                    value={form.values.orderNumber}
-                                    onChange={form.handleChange}
-                                />
-                            </Box>
-                        </Flex>
-                    </FormControl>
+                        <FormControl>
+                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                                <Box className="afu-label" minWidth="200px">
+                                    <FormLabel>Order Number</FormLabel>
+                                </Box>
+                                <Box width="40%" className="afu-input">
+                                    <Input
+                                        readOnly={viewOnly}
+                                        pointerEvents={viewOnly ? "none" : "all"}
+                                        name="orderNumber"
+                                        type="text"
+                                        isRequired={true}
+                                        width="100%"
+                                        variant="outline"
+                                        borderRadius="8px"
+                                        value={form.values.orderNumber}
+                                        onChange={form.handleChange}
+                                    />
+                                </Box>
+                            </Flex>
+                        </FormControl>
 
-                    <FormControl isInvalid={form.touched.date && !!form.errors.date}>
-                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
-                            <Box className="afu-label" minWidth="200px">
-                                <FormLabel color={viewOnly ? "" : "red"}>Invoice Date{viewOnly ? "" : "*"}</FormLabel>
-                            </Box>
-                            <Box width="40%" className="afu-input">
-                                <Input
-                                    readOnly={viewOnly}
-                                    pointerEvents={viewOnly ? "none" : "all"}
-                                    type="date"
-                                    name="date"
-                                    width="100%"
-                                    variant="outline"
-                                    borderRadius="8px"
-                                    value={formatDate(form.values.date)}
-                                    onChange={form.handleChange}
-                                    onBlur={form.handleBlur}
-                                />
-                                {form.touched.date && !!form.errors.date ? <FormErrorMessage>{form.errors.date}</FormErrorMessage> : ""}
-                            </Box>
-                        </Flex>
-                    </FormControl>
+                        <FormControl isInvalid={form.touched.date && !!form.errors.date}>
+                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                                <Box className="afu-label" minWidth="200px">
+                                    <FormLabel color={viewOnly ? "" : "red"}>Invoice Date{viewOnly ? "" : "*"}</FormLabel>
+                                </Box>
+                                <Box width="40%" className="afu-input">
+                                    <Input
+                                        readOnly={viewOnly}
+                                        pointerEvents={viewOnly ? "none" : "all"}
+                                        type="date"
+                                        name="date"
+                                        width="100%"
+                                        variant="outline"
+                                        borderRadius="8px"
+                                        value={formatDate(form.values.date)}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                    />
+                                    {form.touched.date && !!form.errors.date ? <FormErrorMessage>{form.errors.date}</FormErrorMessage> : ""}
+                                </Box>
+                            </Flex>
+                        </FormControl>
 
-                    <FormControl>
-                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
-                            <Box className="afu-label" minWidth="200px">
-                                <FormLabel>Due Date</FormLabel>
-                            </Box>
-                            <Box width="40%" className="afu-input">
-                                <Input
-                                    readOnly={viewOnly}
-                                    pointerEvents={viewOnly ? "none" : "all"}
-                                    type="date"
-                                    name="dueDate"
-                                    width="100%"
-                                    variant="outline"
-                                    borderRadius="8px"
-                                    value={formatDate(form.values.dueDate)}
-                                    onChange={form.handleChange}
-                                />
-                            </Box>
-                        </Flex>
-                    </FormControl>
+                        <FormControl>
+                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                                <Box className="afu-label" minWidth="200px">
+                                    <FormLabel>Due Date</FormLabel>
+                                </Box>
+                                <Box width="40%" className="afu-input">
+                                    <Input
+                                        readOnly={viewOnly}
+                                        pointerEvents={viewOnly ? "none" : "all"}
+                                        type="date"
+                                        name="dueDate"
+                                        width="100%"
+                                        variant="outline"
+                                        borderRadius="8px"
+                                        value={formatDate(form.values.dueDate)}
+                                        onChange={form.handleChange}
+                                    />
+                                </Box>
+                            </Flex>
+                        </FormControl>
 
-                    <FormControl isInvalid={form.touched.salespersonId && !!form.errors.salespersonId}>
-                        <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
-                            <Box className="afu-label" minWidth="200px">
-                                <FormLabel>Salesperson</FormLabel>
-                            </Box>
-                            <Box width="40%" className="afu-input">
-                                <Select
-                                    pointerEvents={viewOnly ? "none" : "all"}
-                                    name="salespersonId"
-                                    placeholder="Select a salesperson"
-                                    value={form.values.salespersonId}
-                                    onChange={form.handleChange}
-                                    onBlur={form.handleBlur}
-                                >
-                                    {salespersons.map((person, index) => (
-                                        <option key={index} value={person.id}>
-                                            {person.name}
-                                        </option>
-                                    ))}
-                                </Select>
-                                {form.touched.salespersonId && !!form.errors.salespersonId ? (
-                                    <FormErrorMessage>{form.errors.salespersonId}</FormErrorMessage>
-                                ) : (
-                                    ""
-                                )}
-                            </Box>
-                        </Flex>
-                    </FormControl>
+                        <FormControl isInvalid={form.touched.salespersonId && !!form.errors.salespersonId}>
+                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                                <Box className="afu-label" minWidth="200px">
+                                    <FormLabel>Salesperson</FormLabel>
+                                </Box>
+                                <Box width="40%" className="afu-input">
+                                    <Select
+                                        pointerEvents={viewOnly ? "none" : "all"}
+                                        name="salespersonId"
+                                        placeholder="Select a salesperson"
+                                        value={form.values.salespersonId}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                    >
+                                        {salespersons.map((person, index) => (
+                                            <option key={index} value={person.id}>
+                                                {person.name}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                    {form.touched.salespersonId && !!form.errors.salespersonId ? (
+                                        <FormErrorMessage>{form.errors.salespersonId}</FormErrorMessage>
+                                    ) : (
+                                        ""
+                                    )}
+                                </Box>
+                            </Flex>
+                        </FormControl>
 
-                    <LineItemsTableComponent
-                        viewOnly={viewOnly}
-                        tableLines={form.values.items}
-                        items={items}
-                        onTableLineUpdate={lineInputChanged}
-                        onTableLineAdded={onTableLineAdded}
-                        onTableLineRemoved={onTableLineRemoved}
-                    />
+                        <LineItemsTableComponent
+                            viewOnly={viewOnly}
+                            tableLines={form.values.items}
+                            items={items}
+                            onTableLineUpdate={lineInputChanged}
+                            onTableLineAdded={onTableLineAdded}
+                            onTableLineRemoved={onTableLineRemoved}
+                        />
 
-                    <Flex
-                        pt={{ base: "16px", md: "16px", xl: "16px" }}
-                        align={{ base: "end", xl: "end" }}
-                        justify={{
-                            base: "space-between",
-                            xl: "space-between",
-                        }}
-                        gap="20px"
-                    >
-                        <Flex mb="0px" direction="column" justifyContent="flex-start" width="45%" gap="20px" alignItems="baseline" className="afu-label-input">
+                        <Flex
+                            pt={{ base: "16px", md: "16px", xl: "16px" }}
+                            align={{ base: "end", xl: "end" }}
+                            justify={{
+                                base: "space-between",
+                                xl: "space-between",
+                            }}
+                            gap="20px"
+                        >
                             <Flex
                                 mb="0px"
                                 direction="column"
                                 justifyContent="flex-start"
-                                width="100%"
-                                gap="0px"
+                                width="45%"
+                                gap="20px"
                                 alignItems="baseline"
                                 className="afu-label-input"
                             >
-                                <Box className="afu-label" minWidth="50px">
-                                    <FormLabel>Terms & Conditions</FormLabel>
-                                </Box>
-                                <Box width="100%" className="afu-input">
-                                    <FormControl>
-                                        <Textarea
-                                            readOnly={viewOnly}
-                                            size="sm"
-                                            placeholder={
-                                                viewOnly
-                                                    ? form.values.customerNotes || "None"
-                                                    : "Enter the terms and conditions of your business to be displayed in your transaction"
-                                            }
-                                            name="termsAndConditions"
-                                            value={form.values.termsAndConditions}
-                                            onChange={form.handleChange}
-                                        />
-                                    </FormControl>
-                                </Box>
+                                <Flex
+                                    mb="0px"
+                                    direction="column"
+                                    justifyContent="flex-start"
+                                    width="100%"
+                                    gap="0px"
+                                    alignItems="baseline"
+                                    className="afu-label-input"
+                                >
+                                    <Box className="afu-label" minWidth="50px">
+                                        <FormLabel>Terms & Conditions</FormLabel>
+                                    </Box>
+                                    <Box width="100%" className="afu-input">
+                                        <FormControl>
+                                            <Textarea
+                                                readOnly={viewOnly}
+                                                size="sm"
+                                                placeholder={
+                                                    viewOnly
+                                                        ? form.values.customerNotes || "None"
+                                                        : "Enter the terms and conditions of your business to be displayed in your transaction"
+                                                }
+                                                name="termsAndConditions"
+                                                value={form.values.termsAndConditions}
+                                                onChange={form.handleChange}
+                                            />
+                                        </FormControl>
+                                    </Box>
+                                </Flex>
+                                <Flex
+                                    mb="0px"
+                                    direction="column"
+                                    justifyContent="flex-start"
+                                    width="100%"
+                                    gap="0px"
+                                    alignItems="baseline"
+                                    className="afu-label-input"
+                                >
+                                    <Box className="afu-label" minWidth="50px">
+                                        <FormLabel>Customer Notes</FormLabel>
+                                    </Box>
+                                    <Box width="100%" className="afu-input">
+                                        <FormControl>
+                                            <Textarea
+                                                readOnly={viewOnly}
+                                                size="sm"
+                                                placeholder={
+                                                    viewOnly ? form.values.customerNotes || "None" : "Enter any notes to be displayed in your transaction"
+                                                }
+                                                name="customerNotes"
+                                                value={form.values.customerNotes}
+                                                onChange={form.handleChange}
+                                            />
+                                        </FormControl>
+                                    </Box>
+                                </Flex>
                             </Flex>
-                            <Flex
-                                mb="0px"
-                                direction="column"
-                                justifyContent="flex-start"
-                                width="100%"
-                                gap="0px"
-                                alignItems="baseline"
-                                className="afu-label-input"
-                            >
-                                <Box className="afu-label" minWidth="50px">
-                                    <FormLabel>Customer Notes</FormLabel>
-                                </Box>
-                                <Box width="100%" className="afu-input">
-                                    <FormControl>
-                                        <Textarea
-                                            readOnly={viewOnly}
-                                            size="sm"
-                                            placeholder={viewOnly ? form.values.customerNotes || "None" : "Enter any notes to be displayed in your transaction"}
-                                            name="customerNotes"
-                                            value={form.values.customerNotes}
-                                            onChange={form.handleChange}
-                                        />
-                                    </FormControl>
-                                </Box>
-                            </Flex>
-                        </Flex>
 
-                        <Stack padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
-                            <Flex width="100%" justifyContent="space-between">
-                                <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{summary.subTotal}</Text>
-                            </Flex>
+                            <Stack padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
+                                <Flex width="100%" justifyContent="space-between">
+                                    <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{summary.subTotal}</Text>
+                                </Flex>
 
-                            {/* <Flex width="100%" justifyContent="space-between" alignItems="baseline">
+                                {/* <Flex width="100%" justifyContent="space-between" alignItems="baseline">
                                 <Flex justifyContent="space-between" alignItems="baseline">
                                     <Text minW="120px" fontWeight="bold">
                                         Discount
@@ -425,34 +460,45 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 </Flex>
                                 <Text fontWeight="bold">{summary.discount}</Text>
                             </Flex> */}
-                            <HSeparator mt="16px" />
-                            <Flex width="100%" justifyContent="space-between">
-                                <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">{summary.total}</Text>
-                            </Flex>
-                        </Stack>
-                    </Flex>
-
-                    {!viewOnly && (
-                        <Flex
-                            pt={{ base: "16px", md: "16px", xl: "16px" }}
-                            align={{ base: "center", xl: "center" }}
-                            justify={{
-                                base: "flex-end",
-                                xl: "flex-end",
-                            }}
-                            gap="20px"
-                        >
-                            <Button variant="outline" type="submit" isDisabled={!form.isValid || form.isSubmitting} onClick={() => setSubmitStatus("Draft")}>
-                                Save as Draft
-                            </Button>
-                            <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting} onClick={() => setSubmitStatus("Confirmed")}>
-                                Save
-                            </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : "/admin/modules/sales/invoices"}>
-                                <Button variant="outline">Cancel</Button>
-                            </ChakraLink>
+                                <HSeparator mt="16px" />
+                                <Flex width="100%" justifyContent="space-between">
+                                    <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">{summary.total}</Text>
+                                </Flex>
+                            </Stack>
                         </Flex>
-                    )}
+
+                        {!viewOnly && (
+                            <Flex
+                                pt={{ base: "16px", md: "16px", xl: "16px" }}
+                                align={{ base: "center", xl: "center" }}
+                                justify={{
+                                    base: "flex-end",
+                                    xl: "flex-end",
+                                }}
+                                gap="20px"
+                            >
+                                <Button
+                                    variant="outline"
+                                    type="submit"
+                                    isDisabled={!form.isValid || form.isSubmitting}
+                                    onClick={() => setSubmitStatus("Draft")}
+                                >
+                                    Save as Draft
+                                </Button>
+                                <Button
+                                    variant="brand"
+                                    type="submit"
+                                    isDisabled={!form.isValid || form.isSubmitting}
+                                    onClick={() => setSubmitStatus("Confirmed")}
+                                >
+                                    Save
+                                </Button>
+                                <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : "/admin/modules/sales/invoices"}>
+                                    <Button variant="outline">Cancel</Button>
+                                </ChakraLink>
+                            </Flex>
+                        )}
+                    </form>
                 </Card>
             </Box>
             ;
