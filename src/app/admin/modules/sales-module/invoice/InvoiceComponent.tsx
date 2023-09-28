@@ -4,12 +4,6 @@ import { MdEdit, MdSettings } from "react-icons/md";
 import InvoiceFormComponent from "../invoice-form/InvoiceFormComponent";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import axiosRequest from "utils/api";
-import { Flex, Heading, IconButton, CloseButton } from "@chakra-ui/react";
-import { Link as ReactRouterLink, useParams } from "react-router-dom";
-import { Link as ChakraLink } from "@chakra-ui/react";
-import { MdEdit } from "react-icons/md";
-import InvoiceFormComponent from "../invoice-form/InvoiceFormComponent";
 
 const InvoiceComponent = () => {
     const { id } = useParams();
