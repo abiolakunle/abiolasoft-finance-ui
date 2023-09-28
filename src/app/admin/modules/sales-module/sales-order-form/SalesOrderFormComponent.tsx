@@ -53,7 +53,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             values.status = submitStatus;
 
             values.items = values.items.map((item) => {
-                const itemName = items.find((i) => i.id === item.itemId).name;
+                const itemName = items.find((i) => i.id === item.itemId)?.name;
                 return { ...item, description: "", itemName };
             });
             try {

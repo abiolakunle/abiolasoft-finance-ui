@@ -11,10 +11,10 @@ import InvoiceComponent from "./invoice/InvoiceComponent";
 import CustomerComponent from "./customer/CustomerComponent";
 import SalesOrderComponent from "./sales-order/SalesOrderComponent";
 import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
-import InvoiceFormComponent from "./invoice/InvoiceComponent";
 import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
 import SalesPersonsComponent from "./sales-persons/SalesPersonsComponent";
 import SalesPersonComponent from "./sales-person/SalesPersonComponent";
+import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
 
 const navRoutes = [
     {
@@ -80,7 +80,7 @@ const salesRoutes = [
 
     {
         name: "Edit Customer Invoice",
-        path: "/invoice/:id/edit",
+        path: "/invoices/:id/edit",
         component: <InvoiceFormComponent />,
         excludeFromSideNav: true,
     },
