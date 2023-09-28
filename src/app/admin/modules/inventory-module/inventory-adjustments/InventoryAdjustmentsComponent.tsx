@@ -8,19 +8,27 @@ import axiosRequest from "utils/api";
 
 const InventoryAdjustmentsComponent = () => {
     const [tableData, setTableData] = useState(null);
+    const [pageIndex, setPageIndex] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const pageSize = 15;
 
     useEffect(() => {
         axiosRequest
-            .get("Inventory/GetInventoryAdjustments?PageIndex=1&PageSize=50")
+            .get(`Inventory/GetInventoryAdjustments?PageIndex=${pageIndex}&PageSize=${pageSize}`)
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);
+                    setTotalPages(response.data.data.totalPages);
                 }
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
             });
-    }, []);
+    }, [pageIndex]);
+
+    const handlePageChange = (newPageIndex: number) => {
+        setPageIndex(newPageIndex);
+    };
 
     return (
         <>
@@ -45,6 +53,14 @@ const InventoryAdjustmentsComponent = () => {
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
                     {tableData && <InventoryAdjustmentsTableComponent tableData={tableData} />}
                 </SimpleGrid>
+            </Box>
+
+            <Box display="flex" justifyContent="center" marginTop="20px">
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <Button key={index} variant={pageIndex === index + 1 ? "brand" : "outline"} onClick={() => handlePageChange(index + 1)} mr="2">
+                        {index + 1}
+                    </Button>
+                ))}
             </Box>
         </>
     );
