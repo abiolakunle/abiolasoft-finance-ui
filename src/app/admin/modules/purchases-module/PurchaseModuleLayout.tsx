@@ -8,8 +8,10 @@ import VendorsComponent from "./vendors/VendorsComponent";
 import PurchaseReceivesComponent from "./purchase-receives/PurchaseReceivesComponent";
 import PurchaseOrdersComponent from "./purchase-orders/PurchaseOrdersComponent";
 import PurchasesDashboardComponent from "./purchases-dashboard/PurchasesDashboardComponent";
+import PurchaseOrderFormComponent from "./purchase-order-form/PurchaseOrderFormComponent";
+import PurchaseOrderComponent from "./purchase-order/PurchaseOrderComponent";
 
-const purchaseRoutes = [
+const navRoutes = [
     {
         name: "Dashboard",
         path: "/",
@@ -18,33 +20,58 @@ const purchaseRoutes = [
     },
     {
         name: "Purchase Orders",
-        path: "/purchases-orders",
+        path: "/purchase-orders",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <PurchaseOrdersComponent />,
     },
-    {
-        name: "Purchase Receives",
-        path: "/purchase-receives",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <PurchaseReceivesComponent />,
-    },
-    {
-        name: "Payments Made",
-        path: "/payment-made",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <PaymentMadeComponent />,
-    },
-    {
-        name: "Purchase Receipts",
-        path: "/purchase-receipts",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <PurchaseReceiptsComponent />,
-    },
+    // {
+    //     name: "Purchase Receives",
+    //     path: "/purchase-receives",
+    //     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    //     component: <PurchaseReceivesComponent />,
+    // },
+    // {
+    //     name: "Payments Made",
+    //     path: "/payment-made",
+    //     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    //     component: <PaymentMadeComponent />,
+    // },
+    // {
+    //     name: "Purchase Receipts",
+    //     path: "/purchase-receipts",
+    //     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    //     component: <PurchaseReceiptsComponent />,
+    // },
     {
         name: "Vendors",
         path: "/vendors",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <VendorsComponent />,
+    },
+];
+
+const purchaseRoutes = [
+    ...navRoutes,
+    {
+        name: "New Purchase Order",
+        path: "/purchase-orders/new",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <PurchaseOrderFormComponent />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "New Purchase Order",
+        path: "/purchase-orders/:id/edit",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <PurchaseOrderFormComponent />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "Purchase Order",
+        path: "/purchase-orders/:id",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <PurchaseOrderComponent />,
+        excludeFromSideNav: true,
     },
 ];
 

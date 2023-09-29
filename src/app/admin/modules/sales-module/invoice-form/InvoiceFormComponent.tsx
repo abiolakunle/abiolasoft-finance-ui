@@ -15,10 +15,7 @@ import {
     FormErrorMessage,
     CloseButton,
 } from "@chakra-ui/react";
-
-import axios from "axios";
 import Card from "components/card/Card";
-import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
@@ -27,16 +24,7 @@ import * as Yup from "yup";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { formatDate } from "utils/dateUtils";
-import LineItemsTableComponent from "app-components/line-items-table/SalesOrderFormItemsTableComponent";
-
-export const defaultItem = {
-    itemId: "",
-    itemName: "",
-    description: "",
-    quantity: 1,
-    rate: 0,
-    tax: 0,
-};
+import LineItemsTableComponent, { defaultItem } from "app-components/line-items-table/LineItemsTableComponent";
 
 const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);

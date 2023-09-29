@@ -1,53 +1,55 @@
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
+
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
+
 import Card from "components/card/Card";
+
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { formatDateTime } from "utils/dateUtils";
 import { useEffect } from "react";
 
 type RowObj = {
-    primaryContactFirstName: [string, boolean];
-    primaryContactLastName: [string, boolean];
-    vendorPhone: number;
-    vendorDisplayName: string;
-    companyName: string;
-    vendorEmail: string;
+    date: string;
+    number: string;
+    vendorName: string;
+    referenceNumber: string;
+    status: number;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
 
-function VendorsTableComponent(props: { tableData: any }) {
+function PurchaseOrdersTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
 
     const columns = [
-        columnHelper.accessor("vendorDisplayName", {
-            id: "vendorDisplayName",
+        columnHelper.accessor("date", {
+            id: "date",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    NAME
+                    DATE
                 </Text>
             ),
             cell: (info: any) => (
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendor/${info.row.original.id}`}>
-                            {info.getValue()}
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/${info.row.original.id}`}>
+                            {formatDateTime(info.getValue())}
                         </ChakraLink>
                     </Text>
                 </Flex>
             ),
         }),
-
-        columnHelper.accessor("companyName", {
-            id: "companyName",
+        columnHelper.accessor("number", {
+            id: "number",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    COMPANY NAME
+                    PURCHASE ORDER#
                 </Text>
             ),
             cell: (info) => (
@@ -57,11 +59,11 @@ function VendorsTableComponent(props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("vendorEmail", {
-            id: "vendorEmail",
+        columnHelper.accessor("referenceNumber", {
+            id: "referenceNumber",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    Email
+                    REFERENCE#
                 </Text>
             ),
             cell: (info) => (
@@ -71,11 +73,25 @@ function VendorsTableComponent(props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("vendorPhone", {
-            id: "vendorPhone",
+        columnHelper.accessor("vendorName", {
+            id: "vendorName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    PHONE NUMBER
+                    VENDOR NAME
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+
+        columnHelper.accessor("status", {
+            id: "status",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    STATUS
                 </Text>
             ),
             cell: (info) => (
@@ -172,4 +188,4 @@ function VendorsTableComponent(props: { tableData: any }) {
     );
 }
 
-export default VendorsTableComponent;
+export default PurchaseOrdersTableComponent;
