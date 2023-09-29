@@ -1,4 +1,4 @@
-import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber, Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
+import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber, Menu, MenuButton, Button, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit, MdSettings } from "react-icons/md";
@@ -6,22 +6,34 @@ import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+  } from "@chakra-ui/react"
 
 const SalesPersonComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
 
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
     const [salesPerson, setSalesPerson] = useState({
         id: "",
         name: "",
         email: "",
+        createdAt: "",
     });
 
     useEffect(() => {
         if (id) {
             axiosRequest
-                .get(`Sales/GetCustomerById?id=${id}`)
+                .get(`Sales/GetSalespersonById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data?.items;
                     if (!!data) {
@@ -53,26 +65,40 @@ const SalesPersonComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     
-                    <Menu>
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                            <IconButton
-                                
-                                aria-label="Call Fred" 
-                                 
-                                icon={<MdSettings />} 
-                            />
-                        </MenuButton>
-                        <MenuList>
-                            <MenuItem >Delete</MenuItem>
-                            
-                        </MenuList>
-                    </Menu>
                     
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
+                    
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers`}>
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            More
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={onOpen}>Delete</MenuItem>
+                        </MenuList>
+
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Delete Salesperson</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>
+                                    Are You Sure You Want To Delete?
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button variant="ghost" onClick={onClose}>
+                                    Cancel
+                                    </Button>
+                                    <Button colorScheme="brand" mr={3}>Delete</Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
+
+                    </Menu>
+
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

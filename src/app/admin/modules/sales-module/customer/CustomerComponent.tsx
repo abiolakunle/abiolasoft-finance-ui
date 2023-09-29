@@ -1,4 +1,4 @@
-import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber, Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
+import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber, Menu, MenuButton, Button, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit, MdSettings } from "react-icons/md";
@@ -6,11 +6,22 @@ import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+  } from "@chakra-ui/react"
 
 const CustomerComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const [customer, setCustomer] = useState({
         id: "",
@@ -67,24 +78,38 @@ const CustomerComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     
-                    <Menu>
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                            <IconButton
-                                
-                                aria-label="Call Fred" 
-                                 
-                                icon={<MdSettings />} 
-                            />
-                        </MenuButton>
-                        <MenuList>
-                            <MenuItem >Delete</MenuItem>
-                            
-                        </MenuList>
-                    </Menu>
+                   
                     
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
+
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            More
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={onOpen}>Delete</MenuItem>
+                        </MenuList>
+
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Delete Customer</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>
+                                    Are You Sure You Want To Delete?
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button variant="ghost" onClick={onClose}>
+                                    Cancel
+                                    </Button>
+                                    <Button colorScheme="brand" mr={3}>Delete</Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
+
+                    </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers`}>
                         <CloseButton size="lg" />
