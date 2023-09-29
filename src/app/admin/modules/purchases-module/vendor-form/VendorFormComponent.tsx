@@ -7,35 +7,35 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import axiosRequest from "utils/api";
 
-const CustomerFormComponent = () => {
+const VendorFormComponent = () => {
     const { id } = useParams();
     let navigate = useNavigate();
 
     const validationSchema = Yup.object().shape({
-        customerDisplayName: Yup.string().required("Display Name is required"),
+        vendorDisplayName: Yup.string().required("Display Name is required"),
     });
 
     const form = useFormik({
         initialValues: {
             id: "",
-            customerFirstName: "",
-            customerPhone: 0,
-            customerLastName: "",
-            customerDisplayName: "",
+            primaryContactFirstName: "",
+            vendorPhone: 0,
+            primaryContactLastName: "",
+            vendorDisplayName: "",
             companyName: "",
-            customerEmail: "",
-            customerAddress: "",
+            vendorEmail: "",
+            vendorAddress: "",
         },
         validationSchema,
         onSubmit: async (values) => {
             try {
-                const response = await (id ? axiosRequest.put("Sales/EditCustomer", values) : axiosRequest.post("Sales/CreateCustomer", values));
+                const response = await (id ? axiosRequest.put("Purchases/EditVendor", values) : axiosRequest.post("Purchases/CreateVendor", values));
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/modules/sales/customer/${id}`);
+                        navigate(`/admin/modules/purchases/vendors/${id}`);
                     } else {
-                        navigate("/admin/modules/sales/customers");
+                        navigate("/admin/modules/purchases/vendors");
                     }
                 } else {
                     console.error("Error creating item");
@@ -49,19 +49,19 @@ const CustomerFormComponent = () => {
     useEffect(() => {
         if (id) {
             axiosRequest
-                .get(`Sales/GetCustomerById?id=${id}`)
+                .get(`Purchases/GetVendorById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
                         form.setValues({
                             id,
-                            customerFirstName: data.customerFirstName,
-                            customerLastName: data.customerLastName,
-                            customerPhone: data.customerPhone,
-                            customerDisplayName: data.customerDisplayName,
+                            primaryContactFirstName: data.primaryContactFirstName,
+                            primaryContactLastName: data.primaryContactLastName,
+                            vendorPhone: data.vendorPhone,
+                            vendorDisplayName: data.vendorDisplayName,
                             companyName: data.companyName,
-                            customerAddress: data.customerAddress,
-                            customerEmail: data.customerEmail,
+                            vendorAddress: data.vendorAddress,
+                            vendorEmail: data.vendorEmail,
                         });
                     }
                 })
@@ -85,7 +85,7 @@ const CustomerFormComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    New Item
+                    {id ? "Edit Vendor" : "New Vendor"}
                 </Heading>
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
@@ -98,12 +98,12 @@ const CustomerFormComponent = () => {
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
-                                        name="customerFirstName"
+                                        name="primaryContactFirstName"
                                         isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
-                                        value={form.values.customerFirstName}
+                                        value={form.values.primaryContactFirstName}
                                         onChange={form.handleChange}
                                     />
                                 </Box>
@@ -117,12 +117,12 @@ const CustomerFormComponent = () => {
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
-                                        name="customerLastName"
+                                        name="primaryContactLastName"
                                         isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
-                                        value={form.values.customerLastName}
+                                        value={form.values.primaryContactLastName}
                                         onChange={form.handleChange}
                                         onBlur={form.handleBlur}
                                     />
@@ -137,12 +137,12 @@ const CustomerFormComponent = () => {
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
-                                        name="customerPhone"
+                                        name="vendorPhone"
                                         isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
-                                        value={form.values.customerPhone}
+                                        value={form.values.vendorPhone}
                                         onChange={form.handleChange}
                                         onBlur={form.handleBlur}
                                     />
@@ -177,11 +177,11 @@ const CustomerFormComponent = () => {
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
-                                        name="customerEmail"
+                                        name="vendorEmail"
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
-                                        value={form.values.customerEmail}
+                                        value={form.values.vendorEmail}
                                         onChange={form.handleChange}
                                         onBlur={form.handleBlur}
                                     />
@@ -189,24 +189,24 @@ const CustomerFormComponent = () => {
                             </Flex>
                         </FormControl>
 
-                        <FormControl isInvalid={form.touched.customerDisplayName && !!form.errors.customerDisplayName}>
+                        <FormControl isInvalid={form.touched.vendorDisplayName && !!form.errors.vendorDisplayName}>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
                                     <FormLabel color="red">DISPLAY NAME*</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
-                                        name="customerDisplayName"
+                                        name="vendorDisplayName"
                                         isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
-                                        value={form.values.customerDisplayName}
+                                        value={form.values.vendorDisplayName}
                                         onChange={form.handleChange}
                                         onBlur={form.handleBlur}
                                     />
-                                    {form.touched.customerDisplayName && !!form.errors.customerDisplayName ? (
-                                        <FormErrorMessage>{form.errors.customerDisplayName}</FormErrorMessage>
+                                    {form.touched.vendorDisplayName && !!form.errors.vendorDisplayName ? (
+                                        <FormErrorMessage>{form.errors.vendorDisplayName}</FormErrorMessage>
                                     ) : (
                                         ""
                                     )}
@@ -221,12 +221,12 @@ const CustomerFormComponent = () => {
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
-                                        name="customerAddress"
+                                        name="vendorAddress"
                                         isRequired={true}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
-                                        value={form.values.customerAddress}
+                                        value={form.values.vendorAddress}
                                         onChange={form.handleChange}
                                         onBlur={form.handleBlur}
                                     />
@@ -246,7 +246,7 @@ const CustomerFormComponent = () => {
                             <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting}>
                                 Save
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/customer/${id}` : "/admin/modules/sales/customers"}>
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/purchases/vendors/${id}` : "/admin/modules/purchases/vendors"}>
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>
@@ -258,4 +258,4 @@ const CustomerFormComponent = () => {
     );
 };
 
-export default CustomerFormComponent;
+export default VendorFormComponent;
