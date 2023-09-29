@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, FormLabel, Icon, Select, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import { Avatar, Box, Flex, FormLabel, Heading, Icon, Select, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
 import Usa from "assets/img/dashboards/usa.png";
 import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
@@ -23,6 +23,7 @@ export default function SalesDashboardComponent() {
         totalSalesOrderToday: 0,
         totalSalesOrderThisWeek: 0,
         totalSalesOrderThisMonth: 0,
+        topSellingItems: [],
     });
 
     useEffect(() => {
@@ -39,20 +40,29 @@ export default function SalesDashboardComponent() {
 
     return (
         <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3, "2xl": 3 }} gap="20px" mb="20px">
+            <Heading as="h4" size="md" mt="32px" mb="16px">
+                Total Sales Orders
+            </Heading>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }} gap="20px" mb="20px">
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
-                    name="Total Sales Orders Today"
+                    name="Today"
                     value={`₦${info.totalSalesOrderToday}`}
                 />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
-                    name="Total Sales Orders this Week"
+                    name="This Week"
                     value={`₦${info.totalSalesOrderThisWeek}`}
                 />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
-                    name="Total Sales Orders this Month"
+                    name="This Month"
+                    value={`₦${info.totalSalesOrderThisMonth}`}
+                />
+
+                <MiniStatistics
+                    startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
+                    name="All Time"
                     value={`₦${info.totalSalesOrderThisMonth}`}
                 />
                 {/* <MiniStatistics
@@ -88,6 +98,22 @@ export default function SalesDashboardComponent() {
                     name="Total Projects"
                     value="2935"
                 /> */}
+            </SimpleGrid>
+
+            <Heading as="h4" size="md" mt="32px" mb="16px">
+                Top Selling Items
+            </Heading>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }} gap="20px" mb="20px">
+                {info.topSellingItems.map((d, idx) => {
+                    return (
+                        <MiniStatistics
+                            key={idx}
+                            startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdFileCopy} color={brandColor} />} />}
+                            name={d.name}
+                            value={d.quantity}
+                        />
+                    );
+                })}
             </SimpleGrid>
 
             {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
