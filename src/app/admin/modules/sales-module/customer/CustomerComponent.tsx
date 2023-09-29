@@ -24,6 +24,8 @@ const CustomerComponent = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    
+
     const [customer, setCustomer] = useState({
         id: "",
         customerFirstName: "",
@@ -60,9 +62,9 @@ const CustomerComponent = () => {
         }
     }, [id]);
 
-    const submit =  () => {
+    const submit = async  () => {
         try {
-            axiosRequest.delete(`Sales/DeleteCustomer/${id}`  )
+            await axiosRequest.delete(`Sales/DeleteCustomer`, {data:{id}}  )
         }catch (error) {
             console.error("Error:", error);
         }

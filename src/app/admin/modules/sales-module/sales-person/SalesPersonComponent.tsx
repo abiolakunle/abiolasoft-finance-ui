@@ -35,7 +35,7 @@ const SalesPersonComponent = () => {
             axiosRequest
                 .get(`Sales/GetSalespersonById?id=${id}`)
                 .then((response) => {
-                    const data = response?.data?.data?.items;
+                    const data = response?.data?.data;
                     if (!!data) {
                         setSalesPerson({...data, ...salesPerson});
                     }
