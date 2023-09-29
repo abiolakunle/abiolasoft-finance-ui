@@ -6,6 +6,7 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
+import { toast } from "react-toastify";
 
 const SalesOrderComponent = () => {
     const { id } = useParams();
@@ -30,6 +31,17 @@ const SalesOrderComponent = () => {
 
     const convertToInvoice = () => {
         navigate("/admin/modules/sales/invoices/new", { state: { saleOrderId: id } });
+    };
+
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Sales/DeleteSalesOrder`, { data: { id } });
+            toast.success("Deleted Successfully")
+            navigate(`/admin/modules/sales/sales-orders`)
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
     return (
@@ -76,13 +88,13 @@ const SalesOrderComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Sales Order</ModalHeader>
-                                <ModalCloseButton />
+                                
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>
+                                    <Button colorScheme="red" onClick={submit} mr={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>

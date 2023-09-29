@@ -2,7 +2,7 @@ import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuL
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { MdEdit, MdSettings } from "react-icons/md";
 import InvoiceFormComponent from "../invoice-form/InvoiceFormComponent";
-import { Link as ReactRouterLink, useParams } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import {
     Modal,
@@ -13,11 +13,26 @@ import {
     ModalBody,
     ModalCloseButton,
   } from "@chakra-ui/react"
+import axiosRequest from "utils/api";
+import { toast } from "react-toastify";
 
 const InvoiceComponent = () => {
     const { id } = useParams();
 
+    const navigate = useNavigate()
+
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Sales/DeleteInvoice`, { data: { id } });
+            toast.success("Deleted Successfully")
+            navigate(`/admin/modules/sales/invoices`)
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     return (
         <>
@@ -55,7 +70,7 @@ const InvoiceComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Invoice</ModalHeader>
-                                <ModalCloseButton />
+                                
                                 <ModalBody>
                                     Are You Sure You Want To Delete?
                                 </ModalBody>
@@ -63,7 +78,7 @@ const InvoiceComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                     Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>Delete</Button>
+                                    <Button colorScheme="red" onClick={submit} mr={3}>Delete</Button>
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>

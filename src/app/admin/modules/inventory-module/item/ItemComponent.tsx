@@ -24,6 +24,7 @@ import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
+import { toast } from "react-toastify";
 
 const ItemComponent = () => {
     const { id } = useParams();
@@ -80,6 +81,17 @@ const ItemComponent = () => {
         navigate(`/admin/modules/inventory/items/${id}/inventory-adjustment`, { state: { itemName: item.name } });
     };
 
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Inventory/DeleteItem`, { data: { id } });
+            toast.success("Deleted Successfully")
+            navigate(`/admin/modules/inventory/items`)
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     return (
         <>
             <Flex
@@ -124,7 +136,7 @@ const ItemComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>
+                                    <Button  onClick={submit} colorScheme="red" mr={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>

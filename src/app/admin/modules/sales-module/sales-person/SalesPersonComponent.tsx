@@ -5,6 +5,7 @@ import { MdEdit, MdSettings } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
+import { toast } from "react-toastify";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
     Modal,
@@ -14,7 +15,7 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-  } from "@chakra-ui/react"
+ } from "@chakra-ui/react"
 
 const SalesPersonComponent = () => {
     const { id } = useParams();
@@ -45,6 +46,17 @@ const SalesPersonComponent = () => {
                 });
         }
     }, [id]);
+
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Sales/DeleteSalesperson`, { data: { id } });
+            toast.success("Deleted Successfully")
+            navigate(`/admin/modules/sales/sales-persons`)
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     return (
         <>
@@ -83,7 +95,7 @@ const SalesPersonComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Salesperson</ModalHeader>
-                                <ModalCloseButton />
+                                
                                 <ModalBody>
                                     Are You Sure You Want To Delete?
                                 </ModalBody>
@@ -91,7 +103,7 @@ const SalesPersonComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                     Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>Delete</Button>
+                                    <Button onClick={submit} colorScheme='red' mr={3}>Delete</Button>
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>

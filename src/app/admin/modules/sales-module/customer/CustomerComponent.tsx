@@ -14,6 +14,7 @@ import {
     MenuList,
     MenuItem,
     useDisclosure,
+    Toast,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
@@ -24,6 +25,7 @@ import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const CustomerComponent = () => {
     const { id } = useParams();
@@ -71,6 +73,9 @@ const CustomerComponent = () => {
     const submit = async () => {
         try {
             await axiosRequest.delete(`Sales/DeleteCustomer`, { data: { id } });
+            toast.success("Deleted Successfully")
+            navigate(`/admin/modules/sales/customers`)
+
         } catch (error) {
             console.error("Error:", error);
         }
@@ -110,13 +115,13 @@ const CustomerComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Customer</ModalHeader>
-                                <ModalCloseButton />
+                                
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3} onClick={submit}>
+                                    <Button colorScheme="red" mr={3} onClick={submit}>
                                         Delete
                                     </Button>
                                 </ModalFooter>

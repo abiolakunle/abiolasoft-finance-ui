@@ -7,7 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import axiosRequest from "utils/api";
 
-const CustomerFormComponent = () => {
+const SalesPersonFormComponent = () => {
     const { id } = useParams();
     let navigate = useNavigate();
 
@@ -18,13 +18,13 @@ const CustomerFormComponent = () => {
     const form = useFormik({
         initialValues: {
             id: "",
-            customerFirstName: "",
+            name: "",
             customerPhone: 0,
             customerLastName: "",
             customerDisplayName: "",
             companyName: "",
-            customerEmail: "",
-            customerAddress: "",
+            email: "",
+            createdAt: "",
         },
         validationSchema,
         onSubmit: async (values) => {
@@ -33,9 +33,9 @@ const CustomerFormComponent = () => {
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/modules/sales/customer/${id}`);
+                        navigate(`/admin/modules/sales/salespersons/${id}`);
                     } else {
-                        navigate("/admin/modules/sales/customers");
+                        navigate("/admin/modules/sales/salespersons");
                     }
                 } else {
                     console.error("Error creating item");
@@ -258,4 +258,4 @@ const CustomerFormComponent = () => {
     );
 };
 
-export default CustomerFormComponent;
+export default SalesPersonFormComponent;
