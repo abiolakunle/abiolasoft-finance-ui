@@ -4,9 +4,10 @@ import * as React from "react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 
 import Card from "components/card/Card";
-
+import { formatDateTime } from "utils/dateUtils";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 type RowObj = {
     date: string;
@@ -24,7 +25,6 @@ function InvoiceTableComponent(props: { tableData: any }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
-    let defaultData = tableData;
 
     const columns = [
         columnHelper.accessor("date", {
@@ -39,7 +39,7 @@ function InvoiceTableComponent(props: { tableData: any }) {
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${info.row.original.id}`}>
-                            {info.getValue()}
+                            {formatDateTime(info.getValue())}
                         </ChakraLink>
                     </Text>
                 </Flex>
@@ -50,7 +50,7 @@ function InvoiceTableComponent(props: { tableData: any }) {
             id: "number",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    INVOICE ID
+                    INVOICE NUMBER
                 </Text>
             ),
             cell: (info) => (
@@ -117,7 +117,11 @@ function InvoiceTableComponent(props: { tableData: any }) {
         }),
     ];
 
-    const [data, setData] = React.useState(() => [...defaultData]);
+    const [data, setData] = React.useState(() => [...tableData]);
+
+    useEffect(() => {
+        setData(tableData);
+    }, [tableData]);
 
     const table = useReactTable({
         data,

@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Icon, Input, InputGroup, InputRightElement, Text, useColorModeValue } from "@chakra-ui/react";
@@ -10,10 +10,9 @@ import { HSeparator } from "components/separator/Separator";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
-import axios from "axios";
-import { apiBaseUrl } from "environment";
 import { useDispatch } from "react-redux";
 import { hideProgress, showProgress } from "state/slices/progressSlice";
+import axiosRequest from "utils/api";
 
 function SignIn() {
     // Chakra color mode
@@ -26,7 +25,7 @@ function SignIn() {
     const googleText = useColorModeValue("navy.700", "white");
     const googleHover = useColorModeValue({ bg: "gray.200" }, { bg: "whiteAlpha.300" });
     const googleActive = useColorModeValue({ bg: "secondaryGray.300" }, { bg: "whiteAlpha.200" });
-    const [show, setShow] = React.useState(false);
+    const [show, setShow] = useState(false);
     let navigate = useNavigate();
 
     const handleClick = () => setShow(!show);
@@ -40,7 +39,7 @@ function SignIn() {
     const handleSignIn = async () => {
         dispatch(showProgress());
         try {
-            const response = await axios.post(apiBaseUrl + "UserManagement/Login", {
+            const response = await axiosRequest.post("UserManagement/Login", {
                 email,
                 password,
             });

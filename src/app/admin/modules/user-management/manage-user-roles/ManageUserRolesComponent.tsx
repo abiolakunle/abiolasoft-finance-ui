@@ -2,12 +2,11 @@ import { Box, Heading, Flex, Card, CloseButton, Text } from "@chakra-ui/react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import axios from "axios";
-import { apiBaseUrl } from "environment";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import axiosRequest from "utils/api";
 
 const ManageUserRolesComponent = () => {
     const [roles, setRoles] = useState([]);
@@ -19,7 +18,7 @@ const ManageUserRolesComponent = () => {
 
     useEffect(() => {
         if (userId) {
-            Promise.all([axios.get(apiBaseUrl + `UserManagement/GetUserById?id=${userId}`), axios.get(apiBaseUrl + `UserManagement/GetAllRoles`)])
+            Promise.all([axiosRequest.get(`UserManagement/GetUserById?id=${userId}`), axiosRequest.get(`UserManagement/GetAllRoles`)])
                 .then((response) => {
                     const user = response[0].data?.data;
                     const allRoles: any[] = response[1].data?.data;
@@ -51,7 +50,7 @@ const ManageUserRolesComponent = () => {
 
         async function removeRoles(roleNames: any[]) {
             try {
-                const response = await axios.put(apiBaseUrl + "UserManagement/RemoveUserFromRoles", { roleNames, userId });
+                const response = await axiosRequest.put("UserManagement/RemoveUserFromRoles", { roleNames, userId });
 
                 if (response.status === 200) {
                     // Handle success
@@ -67,7 +66,7 @@ const ManageUserRolesComponent = () => {
             const role = newVal[newVal.length - 1];
 
             try {
-                const response = await axios.put(apiBaseUrl + "UserManagement/AssignRoleToUser", { roleName: role.name, userId });
+                const response = await axiosRequest.put("UserManagement/AssignRoleToUser", { roleName: role.name, userId });
 
                 if (response.status === 200) {
                     // Handle success

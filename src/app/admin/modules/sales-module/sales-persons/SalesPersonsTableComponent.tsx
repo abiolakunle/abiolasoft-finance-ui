@@ -1,25 +1,22 @@
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
+
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
-import { Link as ReactRouterLink } from "react-router-dom";
-import { Link as ChakraLink } from "@chakra-ui/react";
 
 import Card from "components/card/Card";
-import { formatDateTime } from "utils/dateUtils";
+
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 type RowObj = {
     name: [string, boolean];
-    sku: string;
-    stockOnHand: number;
-    reorderPoint: string;
-    createdAt: string;
+    email: [string, boolean];
 };
 
 const columnHelper = createColumnHelper<RowObj>();
 
-// const columns = columnsDataCheck;
-export default function ItemsTableComponent(props: { tableData: any }) {
+function SalesPersonsTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -30,73 +27,36 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             id: "name",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    NAME
+                    Sales Persons Name
                 </Text>
             ),
             cell: (info: any) => (
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>
                 </Flex>
             ),
         }),
-        columnHelper.accessor("sku", {
-            id: "sku",
+
+        columnHelper.accessor("email", {
+            id: "email",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    SKU
+                    Email Address
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
                     {info.getValue()}
-                </Text>
-            ),
-        }),
-        columnHelper.accessor("stockOnHand", {
-            id: "stockOnHand",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    STOCK ON HAND
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
-        columnHelper.accessor("reorderPoint", {
-            id: "reorderPoint",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    REORDER LEVEL
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
-        columnHelper.accessor("createdAt", {
-            id: "createdAt",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    DATE CREATED
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {formatDateTime(info.getValue(), true)}
                 </Text>
             ),
         }),
     ];
+
     const [data, setData] = React.useState(() => [...tableData]);
 
     useEffect(() => {
@@ -114,24 +74,9 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         getSortedRowModel: getSortedRowModel(),
         debugTable: true,
     });
+
     return (
         <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
-            {/* <Flex
-                px="25px"
-                mb="8px"
-                justifyContent="space-between"
-                align="center"
-            >
-                <Text
-                    color={textColor}
-                    fontSize="22px"
-                    fontWeight="700"
-                    lineHeight="100%"
-                >
-                    Check Table
-                </Text>
-                <Menu />
-            </Flex> */}
             <Box>
                 <Table variant="simple" color="gray.500" mb="24px" mt="12px">
                     <Thead>
@@ -197,3 +142,5 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         </Card>
     );
 }
+
+export default SalesPersonsTableComponent;

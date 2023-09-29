@@ -7,6 +7,7 @@ import { apiBaseUrl } from "environment";
 import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
 import { formatDateTime } from "utils/dateUtils";
+import axiosRequest from "utils/api";
 
 const UserComponent = () => {
     const { id } = useParams();
@@ -26,8 +27,8 @@ const UserComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `UserManagement/GetUserById?id=${id}`)
+            axiosRequest
+                .get(`UserManagement/GetUserById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {

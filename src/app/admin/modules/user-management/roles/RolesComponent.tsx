@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import RolesTableComponent from "./RolesTableComponent";
-import axios from "axios";
-import { apiBaseUrl } from "environment";
 import { MdAdd } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import axiosRequest from "utils/api";
 
 const RolesComponent = () => {
     const [tableData, setTableData] = useState(null);
 
     useEffect(() => {
-        axios
-            .get(apiBaseUrl + "UserManagement/GetAllRoles")
+        axiosRequest
+            .get("UserManagement/GetAllRoles")
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data);

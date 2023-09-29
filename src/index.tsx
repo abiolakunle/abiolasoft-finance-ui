@@ -5,18 +5,49 @@ import "./assets/css/App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthLayout from "./app/landing-pages/sign-in/SignInLayout";
 import AdminLayout from "./app/admin/AdminLayoutComponent";
-import { ChakraProvider, Progress } from "@chakra-ui/react";
+import { ChakraProvider, Progress, useToast } from "@chakra-ui/react";
 import theme from "./theme/theme";
-import { Provider, useSelector } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import axiosRequest from "utils/api";
+import { hideProgress } from "state/slices/progressSlice";
 import { store } from "state/store";
-import axios from "axios";
+
+let responseInterceptorActive = false;
 
 const App = () => {
+    const toast = useToast();
+    const dispatch = useDispatch();
+
     const showProgress = useSelector((state: any) => {
         return state.progress.show;
     });
-    // Set the default headers for axios
-    axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+
+    if (!responseInterceptorActive) {
+        axiosRequest.interceptors.response.use(
+            (response) => {
+                dispatch(hideProgress());
+                return response;
+            },
+            (error) => {
+                dispatch(hideProgress());
+
+                toast({
+                    title: "Error",
+                    description: `${error.message}: ${error.response.data.message}`,
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom-right",
+                });
+
+                return Promise.reject(error);
+            }
+        );
+
+        responseInterceptorActive = true;
+    }
 
     return (
         <>

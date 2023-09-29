@@ -1,16 +1,36 @@
-import { Card, Text, Flex, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import {
+    Card,
+    Text,
+    Flex,
+    Box,
+    Heading,
+    IconButton,
+    Button,
+    CloseButton,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    useDisclosure,
+} from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdSettings } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { apiBaseUrl } from "environment";
-import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
+import axiosRequest from "utils/api";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 
 const ItemComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [item, setItem] = useState({
         id: "",
@@ -29,8 +49,8 @@ const ItemComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `Inventory/GetItemById?id=${id}`)
+            axiosRequest
+                .get(`Inventory/GetItemById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -86,6 +106,32 @@ const ItemComponent = () => {
                         Adjust Stock
                     </Button>
 
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            More
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={onOpen}>Delete</MenuItem>
+                        </MenuList>
+
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Delete Item</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
+                                <ModalFooter>
+                                    <Button variant="ghost" onClick={onClose}>
+                                        Cancel
+                                    </Button>
+                                    <Button colorScheme="brand" mr={3}>
+                                        Delete
+                                    </Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
+                    </Menu>
+
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
@@ -93,7 +139,7 @@ const ItemComponent = () => {
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <Flex mb="16px" minH="80px">
+                    <Flex mb="16px" justifyContent="space-between" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>SKU</StatLabel>
@@ -141,7 +187,7 @@ const ItemComponent = () => {
                     </Flex>
 
                     <HSeparator mb="16px" />
-                    <Flex mb="16px">
+                    <Flex mb="16px" justifyContent="space-between">
                         <Box w="45%">
                             <Text fontSize="lg" mb="18px">
                                 Sales Information

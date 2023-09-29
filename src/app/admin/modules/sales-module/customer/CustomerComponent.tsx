@@ -1,16 +1,36 @@
-import { Card, Text, Flex, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import {
+    Card,
+    Flex,
+    Box,
+    Heading,
+    IconButton,
+    CloseButton,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Menu,
+    MenuButton,
+    Button,
+    MenuList,
+    MenuItem,
+    useDisclosure,
+} from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdSettings } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { apiBaseUrl } from "environment";
-import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
+import axiosRequest from "utils/api";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
+import axios from "axios";
 
 const CustomerComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [customer, setCustomer] = useState({
         id: "",
@@ -25,8 +45,8 @@ const CustomerComponent = () => {
 
     useEffect(() => {
         if (id) {
-            axios
-                .get(apiBaseUrl + `Sales/GetCustomerById?id=${id}`)
+            axiosRequest
+                .get(`Sales/GetCustomerById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -48,6 +68,14 @@ const CustomerComponent = () => {
         }
     }, [id]);
 
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Sales/DeleteCustomer`, { data: { id } });
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     return (
         <>
             <Flex
@@ -62,13 +90,39 @@ const CustomerComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    CUSTOMER
+                    Customer
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
+
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            More
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={onOpen}>Delete</MenuItem>
+                        </MenuList>
+
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Delete Customer</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
+                                <ModalFooter>
+                                    <Button variant="ghost" onClick={onClose}>
+                                        Cancel
+                                    </Button>
+                                    <Button colorScheme="brand" mr={3} onClick={submit}>
+                                        Delete
+                                    </Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
+                    </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers`}>
                         <CloseButton size="lg" />
@@ -77,8 +131,7 @@ const CustomerComponent = () => {
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <Flex mb="16px" minH="80px">
-
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>FIRST NAME</StatLabel>
@@ -92,14 +145,15 @@ const CustomerComponent = () => {
                                 <StatNumber>{customer.customerLastName || "--"}</StatNumber>
                             </Stat>
                         </Box>
+                    </Flex>
+
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>DISPLAY NAME</StatLabel>
                                 <StatNumber>{customer.customerDisplayName || "--"}</StatNumber>
                             </Stat>
                         </Box>
-                    </Flex>
-                    <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>COMPANY NAME</StatLabel>
@@ -107,9 +161,9 @@ const CustomerComponent = () => {
                             </Stat>
                         </Box>
                     </Flex>
-                    <HSeparator mb="16px" />
-                    <Flex mb="16px" minH="80px">
 
+                    <HSeparator mb="16px" />
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>PHONE NUMBER</StatLabel>
@@ -123,6 +177,9 @@ const CustomerComponent = () => {
                                 <StatNumber>{customer.customerEmail}</StatNumber>
                             </Stat>
                         </Box>
+                    </Flex>
+
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="40%">
                             <Stat>
                                 <StatLabel>ADDRESS</StatLabel>
