@@ -1,15 +1,18 @@
-import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { MdEdit, MdMenu, MdSettings } from "react-icons/md";
 import SalesOrderFormComponent from "../sales-order-form/SalesOrderFormComponent";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 
 const SalesOrderComponent = () => {
     const { id } = useParams();
 
     const navigate = useNavigate();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const instantInvoice = async () => {
         try {
@@ -66,8 +69,25 @@ const SalesOrderComponent = () => {
                             More
                         </MenuButton>
                         <MenuList>
-                            <MenuItem>Delete</MenuItem>
+                            <MenuItem onClick={onOpen}>Delete</MenuItem>
                         </MenuList>
+
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Delete Sales Order</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
+                                <ModalFooter>
+                                    <Button variant="ghost" onClick={onClose}>
+                                        Cancel
+                                    </Button>
+                                    <Button colorScheme="brand" mr={3}>
+                                        Delete
+                                    </Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
                     </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-orders`}>
