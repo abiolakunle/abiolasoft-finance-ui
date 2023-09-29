@@ -15,6 +15,7 @@ import {
     ModalBody,
     ModalCloseButton,
   } from "@chakra-ui/react"
+import axios from "axios";
 
 const CustomerComponent = () => {
     const { id } = useParams();
@@ -59,6 +60,14 @@ const CustomerComponent = () => {
         }
     }, [id]);
 
+    const submit =  () => {
+        try {
+            axiosRequest.delete(`Sales/DeleteCustomer/${id}`  )
+        }catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
     return (
         <>
             <Flex
@@ -102,7 +111,7 @@ const CustomerComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                     Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>Delete</Button>
+                                    <Button colorScheme="brand" mr={3} onClick={submit}>Delete</Button>
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
