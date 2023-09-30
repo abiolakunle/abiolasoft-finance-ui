@@ -1,0 +1,136 @@
+import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
+import { MdEdit } from "react-icons/md";
+import { useEffect, useState } from "react";
+import { HSeparator } from "components/separator/Separator";
+import axiosRequest from "utils/api";
+
+const VendorComponent = () => {
+    const { id } = useParams();
+
+    let navigate = useNavigate();
+
+    const [vendor, setVendor] = useState({
+        id: "",
+        vendorFirstName: "",
+        vendorLastName: "",
+        companyName: "",
+        vendorDisplayName: "",
+        vendorEmail: "",
+        vendorPhone: "",
+        vendorAddress: "",
+    });
+
+    useEffect(() => {
+        if (id) {
+            axiosRequest
+                .get(`Purchases/CreateVendor=${id}`)
+                .then((response) => {
+                    const data = response?.data?.data;
+                    if (!!data) {
+                        setVendor({
+                            id,
+                            vendorFirstName: data.vendorFirstName,
+                            vendorLastName: data.vendorLastName,
+                            companyName: data.companyName,
+                            vendorDisplayName: data.vendorDisplayName,
+                            vendorEmail: data.vendorEmail,
+                            vendorPhone: data.vendorPhone,
+                            vendorAddress: data.vendorAddress,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+    }, [id]);
+
+    return (
+        <>
+            <Flex
+                pt={{ base: "130px", md: "80px", xl: "130px" }}
+                my="0px"
+                h="fit-content"
+                align={{ base: "center", xl: "center" }}
+                justify={{
+                    base: "space-between",
+                    xl: "space-between",
+                }}
+                gap="20px"
+            >
+                <Heading as="h4" size="md">
+                    CUSTOMER
+                </Heading>
+
+                <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/${id}/edit`}>
+                        <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                    </ChakraLink>
+
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purhases/vendors`}>
+                        <CloseButton size="lg" />
+                    </ChakraLink>
+                </Flex>
+            </Flex>
+            <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
+                <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
+                    <Flex mb="16px" minH="80px">
+                        <Box w="45%">
+                            <Stat>
+                                <StatLabel>FIRST NAME</StatLabel>
+                                <StatNumber>{vendor.vendorFirstName || "--"}</StatNumber>
+                            </Stat>
+                        </Box>
+
+                        <Box w="45%">
+                            <Stat>
+                                <StatLabel>LAST NAME</StatLabel>
+                                <StatNumber>{vendor.vendorLastName || "--"}</StatNumber>
+                            </Stat>
+                        </Box>
+                        <Box w="45%">
+                            <Stat>
+                                <StatLabel>DISPLAY NAME</StatLabel>
+                                <StatNumber>{vendor.vendorDisplayName || "--"}</StatNumber>
+                            </Stat>
+                        </Box>
+                    </Flex>
+                    <Flex mb="16px" minH="80px">
+                        <Box w="45%">
+                            <Stat>
+                                <StatLabel>COMPANY NAME</StatLabel>
+                                <StatNumber>{vendor.companyName || "--"}</StatNumber>
+                            </Stat>
+                        </Box>
+                    </Flex>
+                    <HSeparator mb="16px" />
+                    <Flex mb="16px" minH="80px">
+                        <Box w="45%">
+                            <Stat>
+                                <StatLabel>PHONE NUMBER</StatLabel>
+                                <StatNumber>{vendor.vendorPhone || "--"}</StatNumber>
+                            </Stat>
+                        </Box>
+
+                        <Box w="45%">
+                            <Stat>
+                                <StatLabel>E-MAIL</StatLabel>
+                                <StatNumber>{vendor.vendorEmail}</StatNumber>
+                            </Stat>
+                        </Box>
+                        <Box w="40%">
+                            <Stat>
+                                <StatLabel>ADDRESS</StatLabel>
+                                <StatNumber>{vendor.vendorAddress}</StatNumber>
+                            </Stat>
+                        </Box>
+                    </Flex>
+                </Card>
+            </Box>
+        </>
+    );
+};
+
+export default VendorComponent;

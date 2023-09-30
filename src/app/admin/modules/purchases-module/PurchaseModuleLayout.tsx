@@ -8,6 +8,8 @@ import VendorsComponent from "./vendors/VendorsComponent";
 import PurchaseReceivesComponent from "./purchase-receives/PurchaseReceivesComponent";
 import PurchaseOrdersComponent from "./purchase-orders/PurchaseOrdersComponent";
 import PurchasesDashboardComponent from "./purchases-dashboard/PurchasesDashboardComponent";
+import VendorComponent from "./vendor/VendorComponent";
+import NewVendorComponent from  "./vendor-form/VendorFormComponet"
 
 const purchaseRoutes = [
     {
@@ -45,6 +47,26 @@ const purchaseRoutes = [
         path: "/vendors",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <VendorsComponent />,
+    },
+    {
+        name: "New Vendor",
+        path: "/vendors/new",
+        component: <NewVendorComponent />,
+        excludeFromSideNav: true,
+    },
+
+    {
+        name: "New vendor",
+        path: "/vendors/:id/edit",
+        component: <NewVendorComponent />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "Vendor",
+        path: "/vendor/:id",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <VendorComponent />,
+        excludeFromSideNav: true,
     },
 ];
 
