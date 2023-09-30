@@ -25,7 +25,6 @@ import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
-import { toast } from "react-toastify";
 
 const ItemComponent = () => {
     const { id } = useParams();
@@ -101,8 +100,7 @@ const ItemComponent = () => {
                 isClosable: true,
                 position: "bottom-right",
             });
-            navigate(`/admin/modules/inventory/items`)
-
+            navigate(`/admin/modules/inventory/items`);
         } catch (error) {
             console.error("Error:", error);
         }
@@ -152,7 +150,7 @@ const ItemComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button  onClick={submit} colorScheme="red" mr={3}>
+                                    <Button onClick={submit} colorScheme="red" mr={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>
