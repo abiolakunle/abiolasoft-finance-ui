@@ -15,6 +15,7 @@ import {
     MenuList,
     MenuItem,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
@@ -29,6 +30,8 @@ const ItemComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
+
+    const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -86,6 +89,23 @@ const ItemComponent = () => {
         navigate(`/admin/modules/inventory/items/${id}/inventory-adjustment`, { state: { itemName: item.name } });
     };
 
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Inventory/DeleteItem`, { data: { id } });
+            toast({
+                title: "Success",
+                description: "Deleted Successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right",
+            });
+            navigate(`/admin/modules/inventory/items`);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     return (
         <>
             <Flex
@@ -130,7 +150,7 @@ const ItemComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>
+                                    <Button onClick={submit} colorScheme="red" ml={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>

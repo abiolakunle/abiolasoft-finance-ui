@@ -1,23 +1,37 @@
-import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react";
+import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure, useToast } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { MdEdit, MdSettings } from "react-icons/md";
 import InvoiceFormComponent from "../invoice-form/InvoiceFormComponent";
-import { Link as ReactRouterLink, useParams } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-  } from "@chakra-ui/react"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
+import axiosRequest from "utils/api";
 
 const InvoiceComponent = () => {
     const { id } = useParams();
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const toast = useToast();
+
+    const navigate = useNavigate();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Sales/DeleteInvoice`, { data: { id } });
+            toast({
+                title: "Success",
+                description: "Deleted Successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right",
+            });
+            navigate(`/admin/modules/sales/invoices`);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     return (
         <>
@@ -38,7 +52,6 @@ const InvoiceComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
@@ -55,19 +68,18 @@ const InvoiceComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Invoice</ModalHeader>
-                                <ModalCloseButton />
-                                <ModalBody>
-                                    Are You Sure You Want To Delete?
-                                </ModalBody>
+
+                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
-                                    Cancel
+                                        Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>Delete</Button>
+                                    <Button colorScheme="red" onClick={submit} ml={3}>
+                                        Delete
+                                    </Button>
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-
                     </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices`}>
