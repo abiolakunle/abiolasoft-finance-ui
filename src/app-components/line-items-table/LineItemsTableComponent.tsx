@@ -4,7 +4,15 @@ import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, Sor
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
-import { defaultItem } from "../../app/admin/modules/sales-module/sales-order-form/SalesOrderFormComponent";
+
+export const defaultItem = {
+    itemId: "",
+    itemName: "",
+    description: "",
+    quantity: 1,
+    rate: 0,
+    tax: 0,
+};
 
 type RowObj = {
     itemId: string;

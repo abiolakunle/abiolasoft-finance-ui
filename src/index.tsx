@@ -35,7 +35,7 @@ const App = () => {
 
                 toast({
                     title: "Error",
-                    description: `${error.message}: ${error.response.data.message}`,
+                    description: `${error.message}: ${error.response.data.message || "Unknown error occurred"}`,
                     status: "error",
                     duration: 5000,
                     isClosable: true,

@@ -15,6 +15,7 @@ type RowObj = {
     customerPhone: number;
     customerDisplayName: string;
     companyName: string;
+    customerEmail: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -26,11 +27,11 @@ function CustomersTableComponent(props: { tableData: any }) {
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
 
     const columns = [
-        columnHelper.accessor("customerFirstName", {
-            id: "customerFirstName",
+        columnHelper.accessor("customerDisplayName", {
+            id: "customerDisplayName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    FIRST NAME
+                    NAME
                 </Text>
             ),
             cell: (info: any) => (
@@ -45,11 +46,11 @@ function CustomersTableComponent(props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("customerLastName", {
-            id: "customerLastName",
+        columnHelper.accessor("companyName", {
+            id: "companyName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    LAST NAME
+                    COMPANYS NAME
                 </Text>
             ),
             cell: (info) => (
@@ -59,11 +60,11 @@ function CustomersTableComponent(props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("customerDisplayName", {
-            id: "customerDisplayName",
+        columnHelper.accessor("customerEmail", {
+            id: "customerEmail",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    DISPLAY NAME
+                    EMAIL
                 </Text>
             ),
             cell: (info) => (
@@ -78,20 +79,6 @@ function CustomersTableComponent(props: { tableData: any }) {
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     PHONE NUMBER
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
-
-        columnHelper.accessor("companyName", {
-            id: "companyName",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    COMPANY'S NAME
                 </Text>
             ),
             cell: (info) => (
