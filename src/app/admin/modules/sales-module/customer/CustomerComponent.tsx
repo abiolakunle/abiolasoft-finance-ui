@@ -15,6 +15,7 @@ import {
     MenuItem,
     useDisclosure,
     Toast,
+    useToast,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
@@ -25,12 +26,14 @@ import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import axios from "axios";
-import { toast } from "react-toastify";
+
 
 const CustomerComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
+
+    const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -73,7 +76,14 @@ const CustomerComponent = () => {
     const submit = async () => {
         try {
             await axiosRequest.delete(`Sales/DeleteCustomer`, { data: { id } });
-            toast.success("Deleted Successfully")
+            toast({
+                title: "Success",
+                description: "Deleted Successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right",
+            });
             navigate(`/admin/modules/sales/customers`)
 
         } catch (error) {

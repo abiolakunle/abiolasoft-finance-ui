@@ -15,6 +15,7 @@ import {
     MenuList,
     MenuItem,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
@@ -30,6 +31,8 @@ const ItemComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
+
+    const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -90,7 +93,14 @@ const ItemComponent = () => {
     const submit = async () => {
         try {
             await axiosRequest.delete(`Inventory/DeleteItem`, { data: { id } });
-            toast.success("Deleted Successfully")
+            toast({
+                title: "Success",
+                description: "Deleted Successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right",
+            });
             navigate(`/admin/modules/inventory/items`)
 
         } catch (error) {
