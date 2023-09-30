@@ -15,6 +15,7 @@ import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
 import SalesPersonsComponent from "./sales-persons/SalesPersonsComponent";
 import SalesPersonComponent from "./sales-person/SalesPersonComponent";
 import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
+import SalesPersonFormComponent from "./sales-person-form/SalesPersonFormComponent";
 
 const navRoutes = [
     {
@@ -65,7 +66,7 @@ const salesRoutes = [
     },
 
     {
-        name: "New Customer",
+        name: "Edit Customer",
         path: "/customers/:id/edit",
         component: <NewCustomerComponent />,
         excludeFromSideNav: true,
@@ -88,6 +89,18 @@ const salesRoutes = [
         name: "New Sales Order",
         path: "/sales-orders/new",
         component: <SalesOrderFormComponent />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "New Sales Person",
+        path: "/sales-persons/new",
+        component: <SalesPersonFormComponent />,
+        excludeFromSideNav: true,
+    },
+    {
+        name: "Edit Sales Person",
+        path: "/sales-persons/:id/edit",
+        component: <SalesPersonFormComponent />,
         excludeFromSideNav: true,
     },
     {

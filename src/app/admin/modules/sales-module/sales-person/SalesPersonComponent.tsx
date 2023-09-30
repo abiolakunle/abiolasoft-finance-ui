@@ -14,6 +14,7 @@ import {
     MenuList,
     MenuItem,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
@@ -21,6 +22,7 @@ import { MdEdit, MdSettings } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
+
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 
@@ -28,6 +30,8 @@ const SalesPersonComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
+
+    const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -45,7 +49,7 @@ const SalesPersonComponent = () => {
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
-                        setSalesPerson({ ...salesPerson, ...data });
+                        setSalesPerson(data);
                     }
                 })
                 .catch((error) => {
@@ -53,6 +57,23 @@ const SalesPersonComponent = () => {
                 });
         }
     }, [id]);
+
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Sales/DeleteSalesperson`, { data: { id } });
+            toast({
+                title: "Success",
+                description: "Deleted Successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right",
+            });
+            navigate(`/admin/modules/sales/sales-persons`);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     return (
         <>
@@ -72,9 +93,9 @@ const SalesPersonComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${id}/edit`}>
+                    {/* <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink>
+                    </ChakraLink> */}
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -88,13 +109,13 @@ const SalesPersonComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Salesperson</ModalHeader>
-                                <ModalCloseButton />
+
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>
+                                    <Button onClick={submit} colorScheme="red" ml={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>
