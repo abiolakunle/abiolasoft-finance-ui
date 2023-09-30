@@ -7,15 +7,7 @@ import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { toast } from "react-toastify";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
- } from "@chakra-ui/react"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 
 const SalesPersonComponent = () => {
     const { id } = useParams();
@@ -40,7 +32,7 @@ const SalesPersonComponent = () => {
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
-                        setSalesPerson({...salesPerson, ...data});
+                        setSalesPerson(data);
                     }
                 })
                 .catch((error) => {
@@ -85,9 +77,6 @@ const SalesPersonComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    
-                    
-                    
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
@@ -104,19 +93,18 @@ const SalesPersonComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Salesperson</ModalHeader>
-                                
-                                <ModalBody>
-                                    Are You Sure You Want To Delete?
-                                </ModalBody>
+
+                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
-                                    Cancel
+                                        Cancel
                                     </Button>
-                                    <Button onClick={submit} colorScheme='red' mr={3}>Delete</Button>
+                                    <Button onClick={submit} colorScheme="red" mr={3}>
+                                        Delete
+                                    </Button>
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-
                     </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons`}>
@@ -133,10 +121,8 @@ const SalesPersonComponent = () => {
                                 <StatNumber>{salesPerson.name || "--"}</StatNumber>
                             </Stat>
                         </Box>
-
-                       
                     </Flex>
-                    
+
                     <HSeparator mb="16px" />
                     <Flex mb="16px" minH="80px">
                         <Box w="45%">
