@@ -301,7 +301,7 @@ export default function LineItemsTableComponent(props: {
 
     function setItemPriceOnRow(columnId: string, rowUpdate: any, value: string, rowIndex: number) {
         if (columnId === "itemId") {
-            rowUpdate.rate = items.find((i) => i.id === value).sellingPrice;
+            rowUpdate.rate = items.find((i) => i.id === value).price;
             onTableLineUpdate({ name: "rate", value: rowUpdate.rate }, rowIndex);
         }
     }
