@@ -13,7 +13,6 @@ const ItemFormComponent = () => {
         unit: Yup.string().required("Unit is required"),
         sellingPrice: Yup.number().required("Selling Price is required"),
         costPrice: Yup.number().required("Cost Price is required"),
-        //openingStockRatePerUnit: Yup.number().required("Opening Stock Rate per Unit is required"),
         openingStockRatePerUnit: Yup.number().when("openingStock", {
             is: (v: any) => !!v,
             then: (s) => s.required("Opening Stock Rate per Unit is required"),
