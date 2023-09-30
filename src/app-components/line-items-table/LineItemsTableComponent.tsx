@@ -46,7 +46,7 @@ export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
                 isRequired={true}
                 variant="outline"
                 borderRadius="8px"
-                value={value.sort}
+                value={value}
                 onBlur={onBlur}
                 onChange={(e) => setValue(e.target.value)}
             />
