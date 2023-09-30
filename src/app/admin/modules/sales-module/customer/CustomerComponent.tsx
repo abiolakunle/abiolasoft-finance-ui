@@ -27,7 +27,6 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import axios from "axios";
 
-
 const CustomerComponent = () => {
     const { id } = useParams();
 
@@ -84,8 +83,7 @@ const CustomerComponent = () => {
                 isClosable: true,
                 position: "bottom-right",
             });
-            navigate(`/admin/modules/sales/customers`)
-
+            navigate(`/admin/modules/sales/customers`);
         } catch (error) {
             console.error("Error:", error);
         }
@@ -125,13 +123,13 @@ const CustomerComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Customer</ModalHeader>
-                                
+
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="red" mr={3} onClick={submit}>
+                                    <Button colorScheme="red" ml={3} onClick={submit}>
                                         Delete
                                     </Button>
                                 </ModalFooter>
