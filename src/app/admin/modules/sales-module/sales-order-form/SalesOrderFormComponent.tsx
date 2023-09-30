@@ -341,7 +341,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
                             items={items.map((v: any) => {
-                                return { ...v, price: v.costPrice };
+                                return { ...v, price: v.sellingPrice };
                             })}
                             onTableLineUpdate={lineInputChanged}
                             onTableLineAdded={onTableLineAdded}
