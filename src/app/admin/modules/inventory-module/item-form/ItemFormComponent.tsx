@@ -13,7 +13,10 @@ const ItemFormComponent = () => {
         unit: Yup.string().required("Unit is required"),
         sellingPrice: Yup.number().required("Selling Price is required"),
         costPrice: Yup.number().required("Cost Price is required"),
-        openingStockRatePerUnit: Yup.number().required("Opening Stock Rate per Unit is required"),
+        openingStockRatePerUnit: Yup.number().when("openingStock", {
+            is: (v: any) => !!v,
+            then: (s) => s.required("Opening Stock Rate per Unit is required"),
+        }),
     });
 
     const form = useFormik({
@@ -306,7 +309,9 @@ const ItemFormComponent = () => {
                         <FormControl isInvalid={form.touched.openingStockRatePerUnit && !!form.errors.openingStockRatePerUnit}>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel color="red">Opening Stock Rate per Unit*</FormLabel>
+                                    <FormLabel color={!!form.values.openingStock ? "red" : ""}>
+                                        Opening Stock Rate per Unit {!!form.values.openingStock ? "*" : ""}
+                                    </FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input

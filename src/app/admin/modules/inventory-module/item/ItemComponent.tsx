@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { MdEdit, MdSettings } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
@@ -46,6 +46,9 @@ const ItemComponent = () => {
         openingStockRatePerUnit: 0,
         reorderPoint: 0,
         unit: "Pcs",
+        stockOnHand: 0,
+        totalPurchaseOrderQuantity: 0,
+        totalSalesOrderQuantity: 0,
     });
 
     useEffect(() => {
@@ -68,6 +71,9 @@ const ItemComponent = () => {
                             openingStockRatePerUnit: data.openingStockRatePerUnit,
                             reorderPoint: data.reorderPoint,
                             unit: data.unit,
+                            stockOnHand: data.stockOnHand,
+                            totalPurchaseOrderQuantity: data.totalPurchaseOrderQuantity,
+                            totalSalesOrderQuantity: data.totalSalesOrderQuantity,
                         });
                     }
                 })
@@ -174,7 +180,7 @@ const ItemComponent = () => {
                         </Box>
                     </Flex>
                     <HSeparator mb="16px" />
-                    <Flex mb="16px" minH="80px">
+                    <Flex mb="16px" justifyContent="space-between" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>Opening Stock</StatLabel>
@@ -189,11 +195,18 @@ const ItemComponent = () => {
                         </Box>
                     </Flex>
 
-                    <Flex mb="16px" minH="80px">
+                    <Flex mb="16px" justifyContent="space-between" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>Reorder Point</StatLabel>
                                 <StatNumber>{item.reorderPoint}</StatNumber>
+                            </Stat>
+                        </Box>
+
+                        <Box w="40%">
+                            <Stat>
+                                <StatLabel>Stock On Hand</StatLabel>
+                                <StatNumber>{item.stockOnHand}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
@@ -215,6 +228,11 @@ const ItemComponent = () => {
                                     <StatLabel>Selling Price Description</StatLabel>
                                     <StatNumber>{item.sellingDescription || "--"}</StatNumber>
                                 </Stat>
+
+                                <Stat mb="16px" minH="80px">
+                                    <StatLabel>Total Ordered</StatLabel>
+                                    <StatNumber>{item.totalSalesOrderQuantity || "--"}</StatNumber>
+                                </Stat>
                             </Flex>
                         </Box>
                         <Box w="40%">
@@ -231,6 +249,11 @@ const ItemComponent = () => {
                                 <Stat mb="16px" minH="80px">
                                     <StatLabel>Cost Price Description</StatLabel>
                                     <StatNumber>{item.costDescription || "--"}</StatNumber>
+                                </Stat>
+
+                                <Stat mb="16px" minH="80px">
+                                    <StatLabel>Total Ordered</StatLabel>
+                                    <StatNumber>{item.totalPurchaseOrderQuantity || "--"}</StatNumber>
                                 </Stat>
                             </Flex>
                         </Box>
