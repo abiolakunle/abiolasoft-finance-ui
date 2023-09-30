@@ -1,4 +1,4 @@
-import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react";
+import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure, useToast } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { MdEdit, MdSettings } from "react-icons/md";
 import InvoiceFormComponent from "../invoice-form/InvoiceFormComponent";
@@ -19,6 +19,8 @@ import { toast } from "react-toastify";
 const InvoiceComponent = () => {
     const { id } = useParams();
 
+    const toast = useToast();
+
     const navigate = useNavigate()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -26,7 +28,14 @@ const InvoiceComponent = () => {
     const submit = async () => {
         try {
             await axiosRequest.delete(`Sales/DeleteInvoice`, { data: { id } });
-            toast.success("Deleted Successfully")
+            toast({
+                title: "Success",
+                description: "Deleted Successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right",
+            });
             navigate(`/admin/modules/sales/invoices`)
 
         } catch (error) {
