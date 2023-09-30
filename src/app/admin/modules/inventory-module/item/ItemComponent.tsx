@@ -45,6 +45,7 @@ const ItemComponent = () => {
         openingStockRatePerUnit: 0,
         reorderPoint: 0,
         unit: "Pcs",
+        stockOnHand: 0,
     });
 
     useEffect(() => {
@@ -67,6 +68,7 @@ const ItemComponent = () => {
                             openingStockRatePerUnit: data.openingStockRatePerUnit,
                             reorderPoint: data.reorderPoint,
                             unit: data.unit,
+                            stockOnHand: data.stockOnHand,
                         });
                     }
                 })
@@ -162,7 +164,7 @@ const ItemComponent = () => {
                         </Box>
                     </Flex>
                     <HSeparator mb="16px" />
-                    <Flex mb="16px" minH="80px">
+                    <Flex mb="16px" justifyContent="space-between" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>Opening Stock</StatLabel>
@@ -177,11 +179,18 @@ const ItemComponent = () => {
                         </Box>
                     </Flex>
 
-                    <Flex mb="16px" minH="80px">
+                    <Flex mb="16px" justifyContent="space-between" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>Reorder Point</StatLabel>
                                 <StatNumber>{item.reorderPoint}</StatNumber>
+                            </Stat>
+                        </Box>
+
+                        <Box w="40%">
+                            <Stat>
+                                <StatLabel>Stock On Hand</StatLabel>
+                                <StatNumber>{item.stockOnHand}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
