@@ -1,11 +1,28 @@
-import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber, Menu, MenuButton, Button, MenuList, MenuItem, useDisclosure, useToast } from "@chakra-ui/react";
+import {
+    Card,
+    Flex,
+    Box,
+    Heading,
+    IconButton,
+    CloseButton,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Menu,
+    MenuButton,
+    Button,
+    MenuList,
+    MenuItem,
+    useDisclosure,
+    useToast,
+} from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit, MdSettings } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
-import { toast } from "react-toastify";
+
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 
@@ -16,7 +33,7 @@ const SalesPersonComponent = () => {
 
     const toast = useToast();
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [salesPerson, setSalesPerson] = useState({
         id: "",
@@ -52,8 +69,7 @@ const SalesPersonComponent = () => {
                 isClosable: true,
                 position: "bottom-right",
             });
-            navigate(`/admin/modules/sales/sales-persons`)
-
+            navigate(`/admin/modules/sales/sales-persons`);
         } catch (error) {
             console.error("Error:", error);
         }

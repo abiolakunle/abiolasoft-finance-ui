@@ -6,7 +6,6 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
-import { toast } from "react-toastify";
 
 const SalesOrderComponent = () => {
     const { id } = useParams();
@@ -46,8 +45,7 @@ const SalesOrderComponent = () => {
                 isClosable: true,
                 position: "bottom-right",
             });
-            navigate(`/admin/modules/sales/sales-orders`)
-
+            navigate(`/admin/modules/sales/sales-orders`);
         } catch (error) {
             console.error("Error:", error);
         }
@@ -97,7 +95,7 @@ const SalesOrderComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Sales Order</ModalHeader>
-                                
+
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
