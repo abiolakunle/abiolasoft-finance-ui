@@ -71,6 +71,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         total: 0,
     });
 
+
     const { id } = useParams();
     let navigate = useNavigate();
 
@@ -84,6 +85,12 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         if (id) {
             initialRequests.push(axiosRequest.get(`Sales/GetSalesOrderById?id=${id}`));
         }
+
+        
+        // const datee = new Date().toISOString().split("T")[0]
+        // const f = { form.initialValues.date, datee };
+        
+
 
         Promise.all(initialRequests)
             .then((response) => {
@@ -115,6 +122,11 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             subTotal,
             total,
         });
+
+        const todayDate = () => {
+            const datee = new Date().toISOString().split("T")[0]
+            return datee
+        }
     }, [form.values]);
 
     const lineInputChanged = (event: any, index: string) => {

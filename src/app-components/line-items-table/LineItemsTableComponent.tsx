@@ -4,6 +4,11 @@ import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
 
+const Sort = (arr: any ) => {
+    return arr.sort((a: any, b: any) => a.name.localeCompare(b.name))
+    
+}
+console.log(Sort(["hill","cone", "ball", "Fish"]))
 export const defaultItem = {
     itemId: "",
     itemName: "",
@@ -65,12 +70,9 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
     const onSelect = (value: any) => {
         tableMeta?.updateData(row.index, column.id, value);
         setValue(value);
-    };
+    }; 
 
-    function Sort (arr: any ) {
-        arr.sort()
-        return arr
-    }
+   
 
     return (
         <Flex align="center">
@@ -118,7 +120,7 @@ export default function LineItemsTableComponent(props: {
                     ITEM DETAILS
                 </Text>
             ),
-            cell: (info: any) => <TableCellSelect options={items} {...info} />,
+            cell: (info: any) => <TableCellSelect options={Sort(items)} {...info} />,
         }),
         columnHelper.accessor("quantity", {
             id: "quantity",
