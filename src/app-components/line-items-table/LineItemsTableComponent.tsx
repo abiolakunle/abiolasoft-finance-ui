@@ -166,8 +166,10 @@ export default function LineItemsTableComponent(props: {
                 id: "delete",
                 header: () => <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400"></Text>,
                 cell: (info: any) => {
+                    console.log("v", info);
                     return (
                         <IconButton
+                            isDisabled={info.row.id === "0" && data.length === 1}
                             onClick={() => {
                                 info.table.options.meta?.removeRow(info.row.index);
                             }}
