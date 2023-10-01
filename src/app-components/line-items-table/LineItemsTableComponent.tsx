@@ -46,7 +46,7 @@ export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
                 isRequired={true}
                 variant="outline"
                 borderRadius="8px"
-                value={value.sort}
+                value={value}
                 onBlur={onBlur}
                 onChange={(e) => setValue(e.target.value)}
             />
@@ -67,6 +67,11 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
         tableMeta?.updateData(row.index, column.id, value);
         setValue(value);
     };
+
+    function Sort (arr: any ) {
+        arr.sort()
+        return arr
+    }
 
     return (
         <Flex align="center">
