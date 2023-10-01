@@ -23,6 +23,7 @@ export default function SalesDashboardComponent() {
         totalSalesOrderToday: 0,
         totalSalesOrderThisWeek: 0,
         totalSalesOrderThisMonth: 0,
+        totalSalesOrderAllTime: 0,
         topSellingItems: [],
     });
 
@@ -47,23 +48,23 @@ export default function SalesDashboardComponent() {
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="Today"
-                    value={info.totalSalesOrderToday ? `₦${info.totalSalesOrderToday}` : "--"}
+                    value={info.totalSalesOrderToday >= 0 ? `₦${info.totalSalesOrderToday}` : "--"}
                 />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="This Week"
-                    value={info.totalSalesOrderThisWeek ? `₦${info.totalSalesOrderThisWeek}` : "--"}
+                    value={info.totalSalesOrderThisWeek >= 0 ? `₦${info.totalSalesOrderThisWeek}` : "--"}
                 />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="This Month"
-                    value={info.totalSalesOrderThisMonth ? `₦${info.totalSalesOrderThisMonth}` : "--"}
+                    value={info.totalSalesOrderThisMonth >= 0 ? `₦${info.totalSalesOrderThisMonth}` : "--"}
                 />
 
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="All Time"
-                    value={info.totalSalesOrderThisMonth ? `₦${info.totalSalesOrderThisMonth}` : "--"}
+                    value={info.totalSalesOrderAllTime >= 0 ? `₦${info.totalSalesOrderAllTime}` : "--"}
                 />
                 {/* <MiniStatistics
                     endContent={
