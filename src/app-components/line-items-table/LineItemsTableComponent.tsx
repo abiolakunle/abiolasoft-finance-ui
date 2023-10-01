@@ -24,7 +24,7 @@ type RowObj = {
 
 const columnHelper = createColumnHelper<RowObj>();
 
-export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
+export const TableCellInput = ({ getValue, row, column, table, type, maxW }: any) => {
     const initialValue = getValue();
     const tableMeta = table.options.meta;
     const [value, setValue] = useState(initialValue);
@@ -38,7 +38,7 @@ export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
     };
 
     return (
-        <Flex align="center">
+        <Flex align="center" maxW={maxW}>
             <Input
                 type={type}
                 name={column.id}
@@ -122,7 +122,7 @@ export default function LineItemsTableComponent(props: {
                     QUANTITY
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="quantity" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" name="quantity" maxW="100px" {...info} />,
         }),
 
         columnHelper.accessor("rate", {
@@ -132,7 +132,7 @@ export default function LineItemsTableComponent(props: {
                     RATE
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="rate" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" maxW="180px" name="rate" {...info} />,
         }),
         // columnHelper.accessor("tax", {
         //     id: "tax",
