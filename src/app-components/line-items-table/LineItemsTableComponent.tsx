@@ -1,9 +1,8 @@
-import { CloseIcon } from "@chakra-ui/icons";
 import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input, Icon, Button, IconButton } from "@chakra-ui/react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
 
 export const defaultItem = {
     itemId: "",
@@ -25,7 +24,7 @@ type RowObj = {
 
 const columnHelper = createColumnHelper<RowObj>();
 
-export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
+export const TableCellInput = ({ getValue, row, column, table, type, maxW }: any) => {
     const initialValue = getValue();
     const tableMeta = table.options.meta;
     const [value, setValue] = useState(initialValue);
@@ -39,7 +38,7 @@ export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
     };
 
     return (
-        <Flex align="center">
+        <Flex align="center" maxW={maxW}>
             <Input
                 type={type}
                 name={column.id}
@@ -128,7 +127,7 @@ export default function LineItemsTableComponent(props: {
                     QUANTITY
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="quantity" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" name="quantity" maxW="100px" {...info} />,
         }),
 
         columnHelper.accessor("rate", {
@@ -138,7 +137,7 @@ export default function LineItemsTableComponent(props: {
                     RATE
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="rate" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" maxW="180px" name="rate" {...info} />,
         }),
         // columnHelper.accessor("tax", {
         //     id: "tax",
@@ -181,8 +180,8 @@ export default function LineItemsTableComponent(props: {
                             variant="outline"
                             colorScheme="red"
                             aria-label="Remove"
-                            fontSize="10px"
-                            icon={<CloseIcon />}
+                            fontSize="20px"
+                            icon={<MdOutlineDeleteOutline />}
                         />
                     );
                 },
@@ -306,7 +305,7 @@ export default function LineItemsTableComponent(props: {
 
     function setItemPriceOnRow(columnId: string, rowUpdate: any, value: string, rowIndex: number) {
         if (columnId === "itemId") {
-            rowUpdate.rate = items.find((i) => i.id === value).sellingPrice;
+            rowUpdate.rate = items.find((i) => i.id === value).price;
             onTableLineUpdate({ name: "rate", value: rowUpdate.rate }, rowIndex);
         }
     }

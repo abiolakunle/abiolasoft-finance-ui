@@ -311,7 +311,9 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                         <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
-                            items={items}
+                            items={items.map((v: any) => {
+                                return { ...v, price: v.costPrice };
+                            })}
                             onTableLineUpdate={lineInputChanged}
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
