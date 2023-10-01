@@ -29,7 +29,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             number: "",
             referenceNumber: "",
             date: currentDate(),
-            expectedShipmentDate: "",
+            expectedShipmentDate: currentDate(),
             paymentTermsDays: "",
             customerId: "",
             customerNotes: "",
