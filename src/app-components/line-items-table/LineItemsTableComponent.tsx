@@ -265,16 +265,17 @@ export default function LineItemsTableComponent(props: {
                     <Tbody>
                         {table.getRowModel().rows.map((row) => {
                             return (
-                                <Tr key={row.id} borderTop={{ sm: "2px solid grey" }}>
+                                <Tr pl={{ sm: "0px", md: "16px" }} key={row.id} borderTop={{ sm: "2px solid grey", md: "none" }}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
                                             <Td
                                                 key={cell.id}
                                                 pl="0px"
                                                 py="8px"
+                                                pr={{ sm: "8px", md: "16px" }}
                                                 fontSize={{ sm: "14px" }}
                                                 minW={{
-                                                    sm: "150px",
+                                                    sm: "100%",
                                                     md: "200px",
                                                     lg: "auto",
                                                 }}
@@ -284,14 +285,14 @@ export default function LineItemsTableComponent(props: {
                                                     width="100%"
                                                     gap={{ sm: "10px", md: "0px" }}
                                                     alignItems="center"
-                                                    flexWrap={{ sm: "nowrap", md: "nowrap" }}
+                                                    flexWrap={{ sm: cell.column.id === "itemId" ? "wrap" : "nowrap", md: "nowrap" }}
                                                     pl={{ sm: "8px", md: "0px" }}
                                                     justifyContent={{ sm: cell.column.id === "amount" ? "space-between" : "start", md: "center" }}
                                                 >
                                                     <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
                                                         {cell.column.id === "itemId" ? "Item Name" : cell.column.id}
                                                     </Text>
-                                                    <Box textAlign="right" width="100%">
+                                                    <Box textAlign={{ sm: "right", md: "left" }} width="100%">
                                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                     </Box>
                                                 </Flex>

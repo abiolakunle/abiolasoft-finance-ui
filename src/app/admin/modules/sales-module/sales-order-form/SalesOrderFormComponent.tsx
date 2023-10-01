@@ -118,11 +118,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             subTotal,
             total,
         });
-
-        const todayDate = () => {
-            const datee = new Date().toISOString().split("T")[0];
-            return datee;
-        };
     }, [form.values]);
 
     const lineInputChanged = (event: any, index: string) => {
@@ -180,7 +175,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 )}
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
-                <Card px={{ base: "32px", sm: "16px" }} w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
+                <Card px={{ base: "32px", sm: "8px", md: "16px" }} w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <form noValidate onSubmit={form.handleSubmit}>
                         <FormControl isInvalid={form.touched.customerId && !!form.errors.customerId}>
                             <Flex
