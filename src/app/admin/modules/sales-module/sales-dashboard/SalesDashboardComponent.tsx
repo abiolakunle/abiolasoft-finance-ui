@@ -13,7 +13,7 @@ import TotalSpent from "views/admin/default/components/TotalSpent";
 import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
 import tableDataCheck from "views/admin/default/variables/tableDataCheck";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosRequest from "utils/api";
 
 export default function SalesDashboardComponent() {
@@ -23,7 +23,6 @@ export default function SalesDashboardComponent() {
         totalSalesOrderToday: 0,
         totalSalesOrderThisWeek: 0,
         totalSalesOrderThisMonth: 0,
-        totalSalesOrderAllTime: 0,
         topSellingItems: [],
     });
 
@@ -48,23 +47,23 @@ export default function SalesDashboardComponent() {
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="Today"
-                    value={info.totalSalesOrderToday >= 0 ? `₦${info.totalSalesOrderToday}` : "--"}
+                    value={`₦${info.totalSalesOrderToday}`}
                 />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="This Week"
-                    value={info.totalSalesOrderThisWeek >= 0 ? `₦${info.totalSalesOrderThisWeek}` : "--"}
+                    value={`₦${info.totalSalesOrderThisWeek}`}
                 />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="This Month"
-                    value={info.totalSalesOrderThisMonth >= 0 ? `₦${info.totalSalesOrderThisMonth}` : "--"}
+                    value={`₦${info.totalSalesOrderThisMonth}`}
                 />
 
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="All Time"
-                    value={info.totalSalesOrderAllTime >= 0 ? `₦${info.totalSalesOrderAllTime}` : "--"}
+                    value={`₦${info.totalSalesOrderThisMonth}`}
                 />
                 {/* <MiniStatistics
                     endContent={
@@ -101,25 +100,21 @@ export default function SalesDashboardComponent() {
                 /> */}
             </SimpleGrid>
 
-            {info.topSellingItems && (
-                <Fragment>
-                    <Heading as="h4" size="md" mt="32px" mb="16px">
-                        Top Selling Items
-                    </Heading>
-                    <SimpleGrid columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }} gap="20px" mb="20px">
-                        {info.topSellingItems?.map((d, idx) => {
-                            return (
-                                <MiniStatistics
-                                    key={idx}
-                                    startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdFileCopy} color={brandColor} />} />}
-                                    name={d.name}
-                                    value={d.quantity}
-                                />
-                            );
-                        })}
-                    </SimpleGrid>
-                </Fragment>
-            )}
+            <Heading as="h4" size="md" mt="32px" mb="16px">
+                Top Selling Items
+            </Heading>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }} gap="20px" mb="20px">
+                {info.topSellingItems.map((d, idx) => {
+                    return (
+                        <MiniStatistics
+                            key={idx}
+                            startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdFileCopy} color={brandColor} />} />}
+                            name={d.name}
+                            value={d.quantity}
+                        />
+                    );
+                })}
+            </SimpleGrid>
 
             {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
                 <TotalSpent />

@@ -85,6 +85,9 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             initialRequests.push(axiosRequest.get(`Sales/GetSalesOrderById?id=${id}`));
         }
 
+        // const datee = new Date().toISOString().split("T")[0]
+        // const f = { form.initialValues.date, datee };
+
         Promise.all(initialRequests)
             .then((response) => {
                 if (id) {
@@ -115,6 +118,11 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             subTotal,
             total,
         });
+
+        const todayDate = () => {
+            const datee = new Date().toISOString().split("T")[0];
+            return datee;
+        };
     }, [form.values]);
 
     const lineInputChanged = (event: any, index: string) => {
@@ -172,10 +180,18 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 )}
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
-                <Card px="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
+                <Card px={{ base: "32px", sm: "16px" }} w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <form noValidate onSubmit={form.handleSubmit}>
                         <FormControl isInvalid={form.touched.customerId && !!form.errors.customerId}>
-                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Flex
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
@@ -200,11 +216,19 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </FormControl>
 
                         <FormControl isInvalid={form.touched.number && !!form.errors.number}>
-                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Flex
+                                mb="16px"
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel color={viewOnly ? "" : "red"}>Sales Order#{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
-                                <Box width="40%" className="afu-input">
+                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Input
                                         readOnly={viewOnly}
                                         pointerEvents={viewOnly ? "none" : "all"}
@@ -223,11 +247,19 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </FormControl>
 
                         <FormControl>
-                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Flex
+                                mb="16px"
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                justifyContent="flex-start"
+                                gap={{ md: "20px", sm: "5px" }}
+                                width="100%"
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel>Reference#</FormLabel>
                                 </Box>
-                                <Box width="40%" className="afu-input">
+                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Input
                                         readOnly={viewOnly}
                                         pointerEvents={viewOnly ? "none" : "all"}
@@ -244,11 +276,19 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </FormControl>
 
                         <FormControl isInvalid={form.touched.date && !!form.errors.date}>
-                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Flex
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel color={viewOnly ? "" : "red"}>Sales Order Date{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
-                                <Box width="40%" className="afu-input">
+                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Input
                                         readOnly={viewOnly}
                                         pointerEvents={viewOnly ? "none" : "all"}
@@ -267,11 +307,19 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </FormControl>
 
                         <FormControl>
-                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Flex
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel>Expected Shipment Date</FormLabel>
                                 </Box>
-                                <Box width="40%" className="afu-input">
+                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Input
                                         readOnly={viewOnly}
                                         pointerEvents={viewOnly ? "none" : "all"}
@@ -288,11 +336,19 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </FormControl>
 
                         <FormControl>
-                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Flex
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel>Payment Term Days</FormLabel>
                                 </Box>
-                                <Box width="40%" className="afu-input">
+                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Input
                                         readOnly={viewOnly}
                                         pointerEvents={viewOnly ? "none" : "all"}
@@ -309,11 +365,19 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </FormControl>
 
                         <FormControl isInvalid={form.touched.salespersonId && !!form.errors.salespersonId}>
-                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                            <Flex
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel>Salesperson</FormLabel>
                                 </Box>
-                                <Box width="40%" className="afu-input">
+                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Select
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         name="salespersonId"
@@ -340,9 +404,11 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
-                            items={items.map((v: any) => {
-                                return { ...v, price: v.sellingPrice };
-                            })}
+                            items={items
+                                .sort((a: any, b: any) => a.name.localeCompare(b.name))
+                                .map((v: any) => {
+                                    return { ...v, price: v.sellingPrice };
+                                })}
                             onTableLineUpdate={lineInputChanged}
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
@@ -356,12 +422,13 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 xl: "space-between",
                             }}
                             gap="20px"
+                            flexDirection={{ sm: "column-reverse", md: "row" }}
                         >
                             <Flex
                                 mb="0px"
                                 direction="column"
                                 justifyContent="flex-start"
-                                width="45%"
+                                width={{ sm: "100%", md: "45%" }}
                                 gap="20px"
                                 alignItems="baseline"
                                 className="afu-label-input"
@@ -424,7 +491,15 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 </Flex>
                             </Flex>
 
-                            <Stack padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
+                            <Stack
+                                padding="16px"
+                                borderRadius="8px"
+                                backgroundColor="blackAlpha.50"
+                                direction="column"
+                                width={{ sm: "100%", md: "50%" }}
+                                mt="8px"
+                                mb="auto"
+                            >
                                 <Flex width="100%" justifyContent="space-between">
                                     <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{summary.subTotal}</Text>
                                 </Flex>
@@ -471,12 +546,14 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     xl: "flex-end",
                                 }}
                                 gap="20px"
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
                             >
                                 <Button
                                     variant="outline"
                                     type="submit"
                                     isDisabled={!form.isValid || form.isSubmitting}
                                     onClick={() => setSubmitStatus("Draft")}
+                                    width={{ sm: "100%", md: "fit-content" }}
                                 >
                                     Save as Draft
                                 </Button>
@@ -485,11 +562,18 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     type="submit"
                                     isDisabled={!form.isValid || form.isSubmitting}
                                     onClick={() => setSubmitStatus("Confirmed")}
+                                    width={{ sm: "100%", md: "fit-content" }}
                                 >
                                     Save
                                 </Button>
-                                <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/sales-orders/${id}` : "/admin/modules/sales/sales-orders"}>
-                                    <Button variant="outline">Cancel</Button>
+                                <ChakraLink
+                                    width={{ sm: "100%", md: "fit-content" }}
+                                    as={ReactRouterLink}
+                                    to={id ? `/admin/modules/sales/sales-orders/${id}` : "/admin/modules/sales/sales-orders"}
+                                >
+                                    <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">
+                                        Cancel
+                                    </Button>
                                 </ChakraLink>
                             </Flex>
                         )}

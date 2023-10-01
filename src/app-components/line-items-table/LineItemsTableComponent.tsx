@@ -1,9 +1,9 @@
-import { CloseIcon } from "@chakra-ui/icons";
 import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input, Icon, Button, IconButton } from "@chakra-ui/react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
+import "./LineItemsTableComponent.css";
 
 export const defaultItem = {
     itemId: "",
@@ -20,12 +20,12 @@ type RowObj = {
     tax: string;
     rate: number;
     amount: string;
-    action: string;
+    delete: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
 
-export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
+export const TableCellInput = ({ getValue, row, column, table, type, maxW }: any) => {
     const initialValue = getValue();
     const tableMeta = table.options.meta;
     const [value, setValue] = useState(initialValue);
@@ -39,7 +39,7 @@ export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
     };
 
     return (
-        <Flex align="center">
+        <Flex align="center" maxW={maxW}>
             <Input
                 type={type}
                 name={column.id}
@@ -123,7 +123,7 @@ export default function LineItemsTableComponent(props: {
                     QUANTITY
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="quantity" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" name="quantity" maxW={{ sm: "100%", md: "100px" }} {...info} />,
         }),
 
         columnHelper.accessor("rate", {
@@ -133,7 +133,7 @@ export default function LineItemsTableComponent(props: {
                     RATE
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="rate" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" maxW={{ md: "180px" }} width={{ sm: "100%", md: "fit-content" }} name="rate" {...info} />,
         }),
         // columnHelper.accessor("tax", {
         //     id: "tax",
@@ -162,8 +162,8 @@ export default function LineItemsTableComponent(props: {
             ),
         }),
         !viewOnly &&
-            columnHelper.accessor("action", {
-                id: "action",
+            columnHelper.accessor("delete", {
+                id: "delete",
                 header: () => <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400"></Text>,
                 cell: (info: any) => {
                     return (
@@ -176,8 +176,8 @@ export default function LineItemsTableComponent(props: {
                             variant="outline"
                             colorScheme="red"
                             aria-label="Remove"
-                            fontSize="10px"
-                            icon={<CloseIcon />}
+                            fontSize="20px"
+                            icon={<MdOutlineDeleteOutline />}
                         />
                     );
                 },
@@ -226,7 +226,7 @@ export default function LineItemsTableComponent(props: {
     return (
         <Card pointerEvents={viewOnly ? "none" : "all"} flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
             <Box>
-                <Table variant="simple" color="gray.500" mb="24px">
+                <Table className="responsiveTable" variant="striped" color="gray.500" mb="24px">
                     <Thead>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <Tr key={headerGroup.id}>
@@ -265,12 +265,13 @@ export default function LineItemsTableComponent(props: {
                     <Tbody>
                         {table.getRowModel().rows.map((row) => {
                             return (
-                                <Tr key={row.id}>
+                                <Tr key={row.id} borderTop={{ sm: "2px solid grey" }}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
                                             <Td
                                                 key={cell.id}
                                                 pl="0px"
+                                                py="8px"
                                                 fontSize={{ sm: "14px" }}
                                                 minW={{
                                                     sm: "150px",
@@ -279,7 +280,21 @@ export default function LineItemsTableComponent(props: {
                                                 }}
                                                 borderColor="transparent"
                                             >
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                <Flex
+                                                    width="100%"
+                                                    gap={{ sm: "10px", md: "0px" }}
+                                                    alignItems="center"
+                                                    flexWrap={{ sm: "nowrap", md: "nowrap" }}
+                                                    pl={{ sm: "8px", md: "0px" }}
+                                                    justifyContent={{ sm: cell.column.id === "amount" ? "space-between" : "start", md: "center" }}
+                                                >
+                                                    <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
+                                                        {cell.column.id === "itemId" ? "Item Name" : cell.column.id}
+                                                    </Text>
+                                                    <Box textAlign="right" width="100%">
+                                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                    </Box>
+                                                </Flex>
                                             </Td>
                                         );
                                     })}
@@ -301,7 +316,7 @@ export default function LineItemsTableComponent(props: {
 
     function setItemPriceOnRow(columnId: string, rowUpdate: any, value: string, rowIndex: number) {
         if (columnId === "itemId") {
-            rowUpdate.rate = items.find((i) => i.id === value).price;
+            rowUpdate.rate = items.find((i) => i.id === value)?.price || 0;
             onTableLineUpdate({ name: "rate", value: rowUpdate.rate }, rowIndex);
         }
     }
