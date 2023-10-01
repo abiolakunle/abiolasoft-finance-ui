@@ -25,9 +25,9 @@
         left: -9999px;
     }
 
-    .responsiveTable tbody tr {
+    /* .responsiveTable tbody tr {
         padding: 0.25em;
-    }
+    } */
 
     .responsiveTable td.pivoted {
         /* Behave like a "row" */
