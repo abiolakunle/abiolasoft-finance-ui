@@ -1,9 +1,8 @@
-import { CloseIcon } from "@chakra-ui/icons";
 import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input, Icon, Button, IconButton } from "@chakra-ui/react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
 
 export const defaultItem = {
     itemId: "",
@@ -176,8 +175,8 @@ export default function LineItemsTableComponent(props: {
                             variant="outline"
                             colorScheme="red"
                             aria-label="Remove"
-                            fontSize="10px"
-                            icon={<CloseIcon />}
+                            fontSize="20px"
+                            icon={<MdOutlineDeleteOutline />}
                         />
                     );
                 },
