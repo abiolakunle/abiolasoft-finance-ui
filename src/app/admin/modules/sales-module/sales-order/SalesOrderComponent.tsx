@@ -64,6 +64,7 @@ const SalesOrderComponent = () => {
                     xl: "space-between",
                 }}
                 gap="20px"
+                flexWrap={{ sm: "wrap", md: "nowrap" }}
             >
                 <Heading as="h4" size="md">
                     Sales Order
