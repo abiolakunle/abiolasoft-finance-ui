@@ -74,7 +74,7 @@ const InvoiceComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="red" onClick={submit} mr={3}>
+                                    <Button colorScheme="red" onClick={submit} ml={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>

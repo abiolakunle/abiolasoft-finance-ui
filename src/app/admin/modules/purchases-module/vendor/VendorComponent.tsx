@@ -115,7 +115,7 @@ const VendorComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3} onClick={submit}>
+                                    <Button colorScheme="brand" ml={3} onClick={submit}>
                                         Delete
                                     </Button>
                                 </ModalFooter>

@@ -150,7 +150,7 @@ const ItemComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button onClick={submit} colorScheme="red" mr={3}>
+                                    <Button onClick={submit} colorScheme="red" ml={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>
