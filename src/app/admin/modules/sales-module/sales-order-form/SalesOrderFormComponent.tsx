@@ -71,7 +71,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         total: 0,
     });
 
-
     const { id } = useParams();
     let navigate = useNavigate();
 
@@ -86,11 +85,8 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             initialRequests.push(axiosRequest.get(`Sales/GetSalesOrderById?id=${id}`));
         }
 
-        
         // const datee = new Date().toISOString().split("T")[0]
         // const f = { form.initialValues.date, datee };
-        
-
 
         Promise.all(initialRequests)
             .then((response) => {
@@ -124,9 +120,9 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         });
 
         const todayDate = () => {
-            const datee = new Date().toISOString().split("T")[0]
-            return datee
-        }
+            const datee = new Date().toISOString().split("T")[0];
+            return datee;
+        };
     }, [form.values]);
 
     const lineInputChanged = (event: any, index: string) => {
@@ -352,9 +348,11 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
-                            items={items.map((v: any) => {
-                                return { ...v, price: v.sellingPrice };
-                            })}
+                            items={items
+                                .sort((a: any, b: any) => a.name.localeCompare(b.name))
+                                .map((v: any) => {
+                                    return { ...v, price: v.sellingPrice };
+                                })}
                             onTableLineUpdate={lineInputChanged}
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}

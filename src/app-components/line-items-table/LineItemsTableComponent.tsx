@@ -113,7 +113,7 @@ export default function LineItemsTableComponent(props: {
                     ITEM DETAILS
                 </Text>
             ),
-            cell: (info: any) => <TableCellSelect options={items.sort((a: any, b: any) => a.name.localeCompare(b.name))} {...info} />,
+            cell: (info: any) => <TableCellSelect options={items} {...info} />,
         }),
         columnHelper.accessor("quantity", {
             id: "quantity",
