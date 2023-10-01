@@ -5,7 +5,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import LineItemsTableComponent, { defaultItem } from "../../../../../app-components/line-items-table/LineItemsTableComponent";
 import { HSeparator } from "components/separator/Separator";
-import { formatDate } from "utils/dateUtils";
+import { currentDate, formatDate } from "utils/dateUtils";
 import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -28,7 +28,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             id: "",
             number: "",
             referenceNumber: "",
-            date: new Date().toISOString().split("T")[0],
+            date: currentDate(),
             expectedShipmentDate: "",
             paymentTermsDays: "",
             customerId: "",
