@@ -10,11 +10,6 @@ import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const currentDate = () => {
-    var currentDate = new Date();
-    var utcDate = new Date(currentDate.toUTCString());
-    return utcDate.toLocaleDateString().split("T")[0];
-};
 const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
@@ -33,7 +28,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             id: "",
             number: "",
             referenceNumber: "",
-            date: currentDate(),
+            date: new Date().toISOString().split("T")[0],
             expectedShipmentDate: "",
             paymentTermsDays: "",
             customerId: "",
