@@ -4,11 +4,9 @@ import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
 
-const Sort = (arr: any ) => {
-    return arr.sort((a: any, b: any) => a.name.localeCompare(b.name))
-    
-}
-console.log(Sort(["hill","cone", "ball", "Fish"]))
+const Sort = (arr: any) => {
+    return arr.sort((a: any, b: any) => a.name.localeCompare(b.name));
+};
 
 export const defaultItem = {
     itemId: "",
@@ -71,9 +69,7 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
     const onSelect = (value: any) => {
         tableMeta?.updateData(row.index, column.id, value);
         setValue(value);
-    }; 
-
-   
+    };
 
     return (
         <Flex align="center">

@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-//import ReactDOM from "react-dom";
 import "./assets/css/App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthLayout from "./app/landing-pages/sign-in/SignInLayout";
