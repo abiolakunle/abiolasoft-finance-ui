@@ -19,6 +19,7 @@ type RowObj = {
     totalSalesOrderQuantity: string;
     totalPurchaseOrderQuantity: string;
     openingStock: string;
+    quantityAdjusted: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -34,7 +35,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("name", {
             id: "name",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     NAME
                 </Text>
             ),
@@ -52,7 +53,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("stockOnHand", {
             id: "stockOnHand",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     STOCK ON HAND
                 </Text>
             ),
@@ -65,7 +66,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("sellingPrice", {
             id: "sellingPrice",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     SELLING PRICE
                 </Text>
             ),
@@ -78,7 +79,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("costPrice", {
             id: "costPrice",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     COST PRICE
                 </Text>
             ),
@@ -91,7 +92,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("totalSalesOrderQuantity", {
             id: "totalSalesOrderQuantity",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     TOTAL SOLD
                 </Text>
             ),
@@ -104,8 +105,21 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("totalPurchaseOrderQuantity", {
             id: "totalPurchaseOrderQuantity",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     TOTAL PURCHASED
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor("quantityAdjusted", {
+            id: "quantityAdjusted",
+            header: () => (
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    QUANTITY ADJUSTED
                 </Text>
             ),
             cell: (info) => (
@@ -117,7 +131,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("openingStock", {
             id: "openingStock",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     OPENING STOCK
                 </Text>
             ),
@@ -130,7 +144,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("createdAt", {
             id: "createdAt",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     DATE CREATED
                 </Text>
             ),
