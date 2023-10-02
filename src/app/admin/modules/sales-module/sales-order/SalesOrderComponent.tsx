@@ -70,7 +70,14 @@ const SalesOrderComponent = () => {
                     Sales Order
                 </Heading>
 
-                <Flex h="fit-content" flexWrap={{ sm: "wrap", md: "nowrap" }} alignItems="center" justifyContent="space-between" gap="20px">
+                <Flex
+                    h="fit-content"
+                    width={{ sm: "100%", md: "fit-content" }}
+                    flexWrap={{ sm: "wrap", md: "nowrap" }}
+                    alignItems="center"
+                    justifyContent="space-between"
+                    gap="20px"
+                >
                     <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
