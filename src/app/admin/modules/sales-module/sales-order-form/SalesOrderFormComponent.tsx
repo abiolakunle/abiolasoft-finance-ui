@@ -210,36 +210,38 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex>
                         </FormControl>
 
-                        <FormControl isInvalid={form.touched.number && !!form.errors.number}>
-                            <Flex
-                                mb="16px"
-                                flexWrap={{ sm: "wrap", md: "nowrap" }}
-                                justifyContent="flex-start"
-                                width="100%"
-                                gap={{ md: "20px", sm: "5px" }}
-                                alignItems="center"
-                                className="afu-label-input"
-                            >
-                                <Box className="afu-label" minWidth="200px">
-                                    <FormLabel color={viewOnly ? "" : "red"}>Sales Order#{viewOnly ? "" : "*"}</FormLabel>
-                                </Box>
-                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
-                                    <Input
-                                        readOnly={viewOnly}
-                                        pointerEvents={viewOnly ? "none" : "all"}
-                                        name="number"
-                                        type="text"
-                                        width="100%"
-                                        variant="outline"
-                                        borderRadius="8px"
-                                        value={form.values.number}
-                                        onChange={form.handleChange}
-                                        onBlur={form.handleBlur}
-                                    />
-                                    {form.touched.number && !!form.errors.number ? <FormErrorMessage>{form.errors.number}</FormErrorMessage> : ""}
-                                </Box>
-                            </Flex>
-                        </FormControl>
+                        {id && (
+                            <FormControl isReadOnly={true} isDisabled={true} isInvalid={form.touched.number && !!form.errors.number}>
+                                <Flex
+                                    mb="16px"
+                                    flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                    justifyContent="flex-start"
+                                    width="100%"
+                                    gap={{ md: "20px", sm: "5px" }}
+                                    alignItems="center"
+                                    className="afu-label-input"
+                                >
+                                    <Box className="afu-label" minWidth="200px">
+                                        <FormLabel color={true ? "" : "red"}>Sales Order#{true ? "" : "*"}</FormLabel>
+                                    </Box>
+                                    <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
+                                        <Input
+                                            readOnly={viewOnly}
+                                            pointerEvents={viewOnly ? "none" : "all"}
+                                            name="number"
+                                            type="text"
+                                            width="100%"
+                                            variant="outline"
+                                            borderRadius="8px"
+                                            value={form.values.number}
+                                            onChange={form.handleChange}
+                                            onBlur={form.handleBlur}
+                                        />
+                                        {form.touched.number && !!form.errors.number ? <FormErrorMessage>{form.errors.number}</FormErrorMessage> : ""}
+                                    </Box>
+                                </Flex>
+                            </FormControl>
+                        )}
 
                         <FormControl>
                             <Flex
