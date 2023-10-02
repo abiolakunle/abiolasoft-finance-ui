@@ -51,6 +51,7 @@ const ItemComponent = () => {
         stockOnHand: 0,
         totalPurchaseOrderQuantity: 0,
         totalSalesOrderQuantity: 0,
+        quantityAdjusted: 0,
     });
 
     useEffect(() => {
@@ -76,6 +77,7 @@ const ItemComponent = () => {
                             stockOnHand: data.stockOnHand,
                             totalPurchaseOrderQuantity: data.totalPurchaseOrderQuantity,
                             totalSalesOrderQuantity: data.totalSalesOrderQuantity,
+                            quantityAdjusted: data.quantityAdjusted,
                         });
                     }
                 })
@@ -86,7 +88,7 @@ const ItemComponent = () => {
     }, [id]);
 
     const gotoAdjustStock = () => {
-        navigate(`/admin/modules/inventory/items/${id}/inventory-adjustment`, { state: { itemName: item.name } });
+        navigate(`/admin/modules/inventory/items/${id}/inventory-adjustment`, { state: { itemName: item.name, costPrice: item.costPrice } });
     };
 
     const submit = async () => {
@@ -217,6 +219,17 @@ const ItemComponent = () => {
                                 <StatNumber>{item.stockOnHand}</StatNumber>
                             </Stat>
                         </Box>
+                    </Flex>
+
+                    <Flex mb="16px" justifyContent="space-between" minH="80px">
+                        <Box w="45%">
+                            <Stat>
+                                <StatLabel>Quantity Adjusted</StatLabel>
+                                <StatNumber>{item.quantityAdjusted || "--"}</StatNumber>
+                            </Stat>
+                        </Box>
+
+                        <Box w="40%"></Box>
                     </Flex>
 
                     <HSeparator mb="16px" />
