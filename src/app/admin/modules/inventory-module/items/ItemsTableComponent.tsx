@@ -18,6 +18,7 @@ type RowObj = {
     sellingPrice: string;
     totalSalesOrderQuantity: string;
     totalPurchaseOrderQuantity: string;
+    openingStock: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -105,6 +106,19 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     TOTAL PURCHASED
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor("openingStock", {
+            id: "openingStock",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    OPENING STOCK
                 </Text>
             ),
             cell: (info) => (
