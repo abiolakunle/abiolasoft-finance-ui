@@ -70,12 +70,12 @@ const SalesOrderComponent = () => {
                     Sales Order
                 </Heading>
 
-                <Flex h="fit-content" flexWrap="wrap" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink order="1" as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/${id}/edit`}>
+                <Flex h="fit-content" flexWrap={{ sm: "wrap", md: "nowrap" }} alignItems="center" justifyContent="space-between" gap="20px">
+                    <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
                     <Menu>
-                        <MenuButton order="3" width="100%" as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton order={{ sm: "3", md: "2" }} width="100%" minW="120px" as={Button} rightIcon={<ChevronDownIcon />}>
                             Convert
                         </MenuButton>
                         <MenuList>
@@ -85,7 +85,7 @@ const SalesOrderComponent = () => {
                     </Menu>
 
                     <Menu>
-                        <MenuButton order="4" width="100%" as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton order={{ sm: "4", md: "3" }} width="100%" as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <MenuList>
@@ -110,7 +110,7 @@ const SalesOrderComponent = () => {
                         </Modal>
                     </Menu>
 
-                    <ChakraLink order="2" as={ReactRouterLink} to={`/admin/modules/sales/sales-orders`}>
+                    <ChakraLink order={{ sm: "2", md: "4" }} as={ReactRouterLink} to={`/admin/modules/sales/sales-orders`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
