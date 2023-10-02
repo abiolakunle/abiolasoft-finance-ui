@@ -110,7 +110,7 @@ export default function LineItemsTableComponent(props: {
         columnHelper.accessor("itemId", {
             id: "itemId",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" minW={{ md: "400px" }} fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     ITEM DETAILS
                 </Text>
             ),
@@ -245,7 +245,7 @@ export default function LineItemsTableComponent(props: {
                                         >
                                             <Flex
                                                 justifyContent="space-between"
-                                                align="center"
+                                                align="left"
                                                 fontSize={{
                                                     sm: "10px",
                                                     lg: "12px",
@@ -267,7 +267,7 @@ export default function LineItemsTableComponent(props: {
                     <Tbody>
                         {table.getRowModel().rows.map((row) => {
                             return (
-                                <Tr pl={{ sm: "0px", md: "16px" }} key={row.id} borderTop={{ sm: "2px solid grey", md: "none" }}>
+                                <Tr key={row.id} borderTop={{ sm: "2px solid grey", md: "none" }}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
                                             <Td
@@ -288,7 +288,7 @@ export default function LineItemsTableComponent(props: {
                                                     gap={{ sm: "10px", md: "0px" }}
                                                     alignItems="center"
                                                     flexWrap={{ sm: cell.column.id === "itemId" ? "wrap" : "nowrap", md: "nowrap" }}
-                                                    pl={{ sm: "8px", md: "0px" }}
+                                                    pl={{ sm: "8px", md: cell.column.id === "itemId" ? "16px" : "0px" }}
                                                     justifyContent={{ sm: cell.column.id === "amount" ? "space-between" : "start", md: "center" }}
                                                 >
                                                     <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
