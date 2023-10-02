@@ -1,4 +1,19 @@
-import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, CloseButton, FormErrorMessage } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    Text,
+    FormControl,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    Stack,
+    Textarea,
+    CloseButton,
+    FormErrorMessage,
+    Tooltip,
+} from "@chakra-ui/react";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
@@ -210,8 +225,8 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex>
                         </FormControl>
 
-                        {id && (
-                            <FormControl isReadOnly={true} isDisabled={true} isInvalid={form.touched.number && !!form.errors.number}>
+                        {
+                            <FormControl isInvalid={form.touched.number && !!form.errors.number}>
                                 <Flex
                                     mb="16px"
                                     flexWrap={{ sm: "wrap", md: "nowrap" }}
@@ -225,23 +240,30 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         <FormLabel color={true ? "" : "red"}>Sales Order#{true ? "" : "*"}</FormLabel>
                                     </Box>
                                     <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
-                                        <Input
-                                            readOnly={viewOnly}
-                                            pointerEvents={viewOnly ? "none" : "all"}
-                                            name="number"
-                                            type="text"
-                                            width="100%"
-                                            variant="outline"
-                                            borderRadius="8px"
-                                            value={form.values.number}
-                                            onChange={form.handleChange}
-                                            onBlur={form.handleBlur}
-                                        />
+                                        <Tooltip
+                                            hasArrow
+                                            label="If you leave this empty, we would auto generate an order number for this order"
+                                            bg="gray.300"
+                                            color="black"
+                                        >
+                                            <Input
+                                                readOnly={viewOnly}
+                                                pointerEvents={viewOnly ? "none" : "all"}
+                                                name="number"
+                                                type="text"
+                                                width="100%"
+                                                variant="outline"
+                                                borderRadius="8px"
+                                                value={form.values.number}
+                                                onChange={form.handleChange}
+                                                onBlur={form.handleBlur}
+                                            />
+                                        </Tooltip>
                                         {form.touched.number && !!form.errors.number ? <FormErrorMessage>{form.errors.number}</FormErrorMessage> : ""}
                                     </Box>
                                 </Flex>
                             </FormControl>
-                        )}
+                        }
 
                         <FormControl>
                             <Flex
