@@ -15,6 +15,7 @@ import tableDataCheck from "views/admin/default/variables/tableDataCheck";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex";
 import { Fragment, useEffect, useState } from "react";
 import axiosRequest from "utils/api";
+import { formatNumberWithCommas } from "utils/number";
 
 export default function SalesDashboardComponent() {
     const brandColor = useColorModeValue("brand.500", "white");
@@ -48,23 +49,23 @@ export default function SalesDashboardComponent() {
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="Today"
-                    value={info.totalSalesOrderToday >= 0 ? `₦${info.totalSalesOrderToday}` : "--"}
+                    value={info.totalSalesOrderToday >= 0 ? `₦${formatNumberWithCommas(info.totalSalesOrderToday)}` : "--"}
                 />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="This Week"
-                    value={info.totalSalesOrderThisWeek >= 0 ? `₦${info.totalSalesOrderThisWeek}` : "--"}
+                    value={info.totalSalesOrderThisWeek >= 0 ? `₦${formatNumberWithCommas(info.totalSalesOrderThisWeek)}` : "--"}
                 />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="This Month"
-                    value={info.totalSalesOrderThisMonth >= 0 ? `₦${info.totalSalesOrderThisMonth}` : "--"}
+                    value={info.totalSalesOrderThisMonth >= 0 ? `₦${formatNumberWithCommas(info.totalSalesOrderThisMonth)}` : "--"}
                 />
 
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="All Time"
-                    value={info.totalSalesOrderAllTime >= 0 ? `₦${info.totalSalesOrderAllTime}` : "--"}
+                    value={info.totalSalesOrderAllTime >= 0 ? `₦${formatNumberWithCommas(info.totalSalesOrderAllTime)}` : "--"}
                 />
                 {/* <MiniStatistics
                     endContent={
@@ -113,7 +114,7 @@ export default function SalesDashboardComponent() {
                                     key={idx}
                                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdFileCopy} color={brandColor} />} />}
                                     name={d.name}
-                                    value={d.quantity}
+                                    value={`${formatNumberWithCommas(d.quantity)}`}
                                 />
                             );
                         })}
