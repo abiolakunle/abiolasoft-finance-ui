@@ -111,7 +111,7 @@ function InvoiceTableComponent(props: { tableData: any }) {
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatDateTime(info.getValue())}
                 </Text>
             ),
         }),

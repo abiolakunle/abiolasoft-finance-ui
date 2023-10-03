@@ -80,14 +80,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         },
     });
 
-    const sortCustomer = (arr: any) => {
-        return arr.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
-    };
-
-    const sortSalesperson = (arr: any) => {
-        return arr.sort((a: any, b: any) => a.name.localeCompare(b.name));
-    };
-
     const [summary, setSummary] = useState({
         subTotal: 0,
         discount: 0,
@@ -122,15 +114,19 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                     form.setValues(f);
                 }
 
-                const tempCustomers = response[0].data?.data?.items;
-                const sortedCustomers = tempCustomers.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
+                const sortedCustomers = response[0].data?.data?.items.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
                 setCustomers(sortedCustomers);
 
-                const tempSalespersons = response[1].data?.data?.items;
-                const sortedSalespersons = tempSalespersons.sort((a: any, b: any) => a.name.localeCompare(b.name));
+                const sortedSalespersons = response[1].data?.data?.items.sort((a: any, b: any) => a.name.localeCompare(b.name));
                 setSalespersons(sortedSalespersons);
 
-                setItems(response[2].data?.data?.items);
+                setItems(
+                    response[2].data?.data?.items
+                        .sort((a: any, b: any) => a.name.localeCompare(b.name))
+                        .map((v: any) => {
+                            return { ...v, price: v.sellingPrice };
+                        })
+                );
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
@@ -438,11 +434,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
-                            items={items
-                                .sort((a: any, b: any) => a.name.localeCompare(b.name))
-                                .map((v: any) => {
-                                    return { ...v, price: v.sellingPrice };
-                                })}
+                            items={items}
                             onTableLineUpdate={lineInputChanged}
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
