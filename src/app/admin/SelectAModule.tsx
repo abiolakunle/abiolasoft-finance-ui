@@ -5,14 +5,27 @@ import { Text } from "@chakra-ui/react";
 import { MdBarChart } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { getUserInfo } from "utils/auth";
 
 const SelectAModule = () => {
-    const modules = [
-        { name: "Inventory", path: "inventory" },
-        { name: "Purchase", path: "purchases" },
-        { name: "Sales", path: "sales" },
-        { name: "User Management", path: "user-management" },
-    ];
+    const user = getUserInfo();
+    const modules = [];
+
+    if (user.permissions.includes("View Inventory Module")) {
+        modules.push({ name: "Inventory", path: "inventory" });
+    }
+
+    if (user.permissions.includes("View Purchases Module")) {
+        modules.push({ name: "Purchase", path: "purchases" });
+    }
+
+    if (user.permissions.includes("View Sales Module")) {
+        modules.push({ name: "Sales", path: "sales" });
+    }
+
+    if (user.permissions.includes("View User Management Module")) {
+        modules.push({ name: "User Management", path: "user-management" });
+    }
 
     const brandColor = useColorModeValue("brand.500", "white");
     const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");

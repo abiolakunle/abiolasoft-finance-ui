@@ -31,9 +31,9 @@ const InventoryAdjustmentFormComponent = () => {
             itemId: id,
             quantityAdjusted: 0,
             adjustedValue: 0,
-            costPrice: 0,
+            costPrice: location.state?.costPrice,
             dateAdjusted: "",
-            reason: "",
+            reason: "Stocktaking results",
             description: "",
             status: "",
             type: "Quantity",
@@ -193,7 +193,11 @@ const InventoryAdjustmentFormComponent = () => {
                                             onChange={form.handleChange}
                                             onBlur={form.handleBlur}
                                         />
-                                        {form.touched.costPrice && !!form.errors.costPrice ? <FormErrorMessage>{form.errors.costPrice}</FormErrorMessage> : ""}
+                                        {form.touched.costPrice && !!form.errors.costPrice ? (
+                                            <FormErrorMessage>{form.errors.costPrice as any}</FormErrorMessage>
+                                        ) : (
+                                            ""
+                                        )}
                                     </Box>
                                 </Flex>
                             </FormControl>

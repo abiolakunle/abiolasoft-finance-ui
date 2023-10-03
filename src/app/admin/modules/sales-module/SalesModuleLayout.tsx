@@ -16,6 +16,7 @@ import SalesPersonsComponent from "./sales-persons/SalesPersonsComponent";
 import SalesPersonComponent from "./sales-person/SalesPersonComponent";
 import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
 import SalesPersonFormComponent from "./sales-person-form/SalesPersonFormComponent";
+import { getUserInfo } from "utils/auth";
 
 const navRoutes = [
     {
@@ -24,37 +25,56 @@ const navRoutes = [
         icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
         component: <SalesDashboardComponent />,
     },
-    {
+];
+
+const user = getUserInfo();
+
+console.log("perms", user.permissions, user.permissions.includes("View Customers"));
+
+if (user.permissions.includes("View Customers")) {
+    navRoutes.push({
         name: "Customers",
         path: "/customers",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <CustomersComponent />,
-    },
-    {
-        name: "Sales Orders",
-        path: "/sales-orders",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesOrdersComponent />,
-    },
-    {
-        name: "Invoices",
-        path: "/invoices",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <InvoicesComponent />,
-    },
-    {
-        name: "Sales Receipts",
-        path: "/sales-receipts",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesReceiptsComponent />,
-    },
-    {
+    });
+}
+
+if (user.permissions.includes("View Sales Persons")) {
+    navRoutes.push({
         name: "Sales Persons",
         path: "/sales-persons",
         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
         component: <SalesPersonsComponent />,
-    },
-];
+    });
+}
+
+if (user.permissions.includes("View Sales Orders")) {
+    navRoutes.push({
+        name: "Sales Orders",
+        path: "/sales-orders",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesOrdersComponent />,
+    });
+}
+
+if (user.permissions.includes("View Invoices")) {
+    navRoutes.push({
+        name: "Invoices",
+        path: "/invoices",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <InvoicesComponent />,
+    });
+}
+
+if (user.permissions.includes("View Sales Receipts")) {
+    navRoutes.push({
+        name: "Sales Receipts",
+        path: "/sales-receipts",
+        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        component: <SalesReceiptsComponent />,
+    });
+}
 
 const salesRoutes = [
     ...navRoutes,
