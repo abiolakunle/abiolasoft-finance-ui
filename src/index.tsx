@@ -15,6 +15,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import axiosRequest from "utils/api";
 import { hideProgress } from "state/slices/progressSlice";
 import { store } from "state/store";
+import Home from "app/landing-pages/home/home";
 
 let responseInterceptorActive = false;
 
@@ -73,6 +74,7 @@ const App = () => {
                 <Routes>
                     <Route path="auth" element={<AuthLayout />} />
                     <Route path="admin/*" element={<AdminLayout />} />
+                    <Route path="home" element={<Home />} />
                     {/* <Redirect from="/" to="/admin" /> */}
                 </Routes>
             </Router>
