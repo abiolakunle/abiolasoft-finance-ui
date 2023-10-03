@@ -9,6 +9,7 @@ import { formatDate } from "utils/dateUtils";
 import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import sort from "utils/AlphSortUtils"
 
 const currentDate = () => {
     var currentDate = new Date();
@@ -70,6 +71,16 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         },
     });
 
+    const sortCustomer = (arr: any ) => {
+        return arr.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName))
+        
+    }
+
+    const sortSalesperson = (arr: any ) => {
+        return arr.sort((a: any, b: any) => a.name.localeCompare(b.name))
+        
+    }
+
     const [summary, setSummary] = useState({
         subTotal: 0,
         discount: 0,
@@ -103,8 +114,16 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                     const f = { ...form.values, ...salesOrder };
                     form.setValues(f);
                 }
-                setCustomers(response[0].data?.data?.items);
-                setSalespersons(response[1].data?.data?.items);
+
+                const tempCustomers = response[0].data?.data?.items
+                const sortedCustomers = tempCustomers.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName))
+                setCustomers(sortedCustomers)
+                
+
+                const tempSalespersons = response[1].data?.data?.items
+                const sortedSalespersons = tempSalespersons.sort((a: any, b: any) => a.name.localeCompare(b.name))
+                setSalespersons(sortedSalespersons);
+                
                 setItems(response[2].data?.data?.items);
             })
             .catch((error) => {
