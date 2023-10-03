@@ -7,6 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import Card from "components/card/Card";
 import { formatDateTime } from "utils/dateUtils";
 import { useEffect } from "react";
+import { formatNumberWithCommas } from "utils/number";
 
 type RowObj = {
     name: [string, boolean];
@@ -59,7 +60,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),
@@ -72,7 +73,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),
@@ -85,7 +86,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),
@@ -98,7 +99,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),
@@ -111,7 +112,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),
@@ -124,7 +125,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),
@@ -137,7 +138,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),
