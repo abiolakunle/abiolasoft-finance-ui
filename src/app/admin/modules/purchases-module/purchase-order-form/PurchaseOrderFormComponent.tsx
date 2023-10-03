@@ -430,7 +430,7 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                             </Flex> */}
                                 <HSeparator mt="16px" />
                                 <Flex width="100%" justifyContent="space-between">
-                                    <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">{summary.total}</Text>
+                                    <Text fontWeight="bold">Total (₦)</Text> <Text fontWeight="bold">{summary.total}</Text>
                                 </Flex>
                             </Stack>
                         </Flex>

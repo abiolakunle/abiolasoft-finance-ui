@@ -113,9 +113,20 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                     const f = { ...form.values, ...salesOrder };
                     form.setValues(f);
                 }
-                setCustomers(response[0].data?.data?.items);
-                setSalespersons(response[1].data?.data?.items);
-                setItems(response[2].data?.data?.items);
+
+                const sortedCustomers = response[0].data?.data?.items.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
+                setCustomers(sortedCustomers);
+
+                const sortedSalespersons = response[1].data?.data?.items.sort((a: any, b: any) => a.name.localeCompare(b.name));
+                setSalespersons(sortedSalespersons);
+
+                setItems(
+                    response[2].data?.data?.items
+                        .sort((a: any, b: any) => a.name.localeCompare(b.name))
+                        .map((v: any) => {
+                            return { ...v, price: v.sellingPrice };
+                        })
+                );
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
@@ -423,11 +434,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
-                            items={items
-                                .sort((a: any, b: any) => a.name.localeCompare(b.name))
-                                .map((v: any) => {
-                                    return { ...v, price: v.sellingPrice };
-                                })}
+                            items={items}
                             onTableLineUpdate={lineInputChanged}
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
@@ -551,7 +558,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex> */}
                                 <HSeparator mt="16px" />
                                 <Flex width="100%" justifyContent="space-between">
-                                    <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">{summary.total}</Text>
+                                    <Text fontWeight="bold">Total (₦)</Text> <Text fontWeight="bold">{summary.total}</Text>
                                 </Flex>
                             </Stack>
                         </Flex>

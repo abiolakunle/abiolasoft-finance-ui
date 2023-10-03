@@ -65,7 +65,7 @@ export default function InventoryAdjustmentItemsTableComponent(props: { tableDat
                 ),
                 cell: (info) => (
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        NGN{info.getValue()}
+                        ₦{info.getValue()}
                     </Text>
                 ),
             }),

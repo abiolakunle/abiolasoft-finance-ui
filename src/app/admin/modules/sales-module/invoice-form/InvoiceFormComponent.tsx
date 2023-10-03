@@ -37,6 +37,15 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         total: 0,
     });
 
+    const sortCustomerAlphabetically = () => {
+        const sorted = customers.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
+        setCustomers(sorted);
+    };
+
+    const sortSalesperson = (arr: any) => {
+        return arr.sort((a: any, b: any) => a.name.localeCompare(b.name));
+    };
+
     const validationSchema = Yup.object().shape({
         customerId: Yup.string().required("Select a customer"),
         salespersonId: Yup.string().required("Select a salesperson"),
@@ -50,6 +59,7 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             customerId: "",
             number: "",
             date: "",
+            customerDisplayName: "",
             salespersonId: "",
             customerNotes: "",
             termsAndConditions: "",
@@ -123,9 +133,19 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                     form.setValues(f);
                 }
 
-                setCustomers(response[0].data?.data?.items);
-                setSalespersons(response[1].data?.data?.items);
-                setItems(response[2].data?.data?.items);
+                const sortedCustomers = response[0].data?.data?.items.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
+                setCustomers(sortedCustomers);
+
+                const sortedSalespersons = response[1].data?.data?.items.sort((a: any, b: any) => a.name.localeCompare(b.name));
+                setSalespersons(sortedSalespersons);
+
+                setItems(
+                    response[2].data?.data?.items
+                        .sort((a: any, b: any) => a.name.localeCompare(b.name))
+                        .map((v: any) => {
+                            return { ...v, price: v.sellingPrice };
+                        })
+                );
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
@@ -336,7 +356,7 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
-                            items={items.sort((a: any, b: any) => a.name.localeCompare(b.name))}
+                            items={items}
                             onTableLineUpdate={lineInputChanged}
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
@@ -451,7 +471,7 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex> */}
                                 <HSeparator mt="16px" />
                                 <Flex width="100%" justifyContent="space-between">
-                                    <Text fontWeight="bold">Total (NGN)</Text> <Text fontWeight="bold">{summary.total}</Text>
+                                    <Text fontWeight="bold">Total (₦)</Text> <Text fontWeight="bold">{summary.total}</Text>
                                 </Flex>
                             </Stack>
                         </Flex>

@@ -6,6 +6,7 @@ import { Link as ReactRouterLink, useLocation, useNavigate, useParams } from "re
 import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { NumericFormat } from "react-number-format";
 
 const InventoryAdjustmentFormComponent = () => {
     const { id } = useParams();
@@ -15,7 +16,7 @@ const InventoryAdjustmentFormComponent = () => {
 
     const validationSchema = Yup.object().shape({
         dateAdjusted: Yup.string().required("Date is required"),
-        quantityAdjusted: Yup.number().when("type", {
+        quantityAdjusted: Yup.string().when("type", {
             is: "Quantity",
             then: (s) => s.required("Adjusted Value is required"),
         }),
@@ -135,8 +136,12 @@ const InventoryAdjustmentFormComponent = () => {
                                         <FormLabel color="red">Quantity Adjusted*</FormLabel>
                                     </Box>
                                     <Box width="100%" className="afu-input">
-                                        <Input
-                                            type="number"
+                                        <NumericFormat
+                                            customInput={Input}
+                                            allowLeadingZeros={false}
+                                            thousandSeparator=","
+                                            decimalScale={2}
+                                            fixedDecimalScale
                                             borderRadius="8px"
                                             name="quantityAdjusted"
                                             value={form.values.quantityAdjusted}
@@ -160,8 +165,12 @@ const InventoryAdjustmentFormComponent = () => {
                                         <FormLabel color="red">Adjusted Value*</FormLabel>
                                     </Box>
                                     <Box width="100%" className="afu-input">
-                                        <Input
-                                            type="number"
+                                        <NumericFormat
+                                            customInput={Input}
+                                            allowLeadingZeros={false}
+                                            thousandSeparator=","
+                                            decimalScale={2}
+                                            fixedDecimalScale
                                             borderRadius="8px"
                                             name="adjustedValue"
                                             value={form.values.adjustedValue}
@@ -185,12 +194,17 @@ const InventoryAdjustmentFormComponent = () => {
                                         <FormLabel>Cost Price</FormLabel>
                                     </Box>
                                     <Box width="100%" className="afu-input">
-                                        <Input
-                                            type="number"
+                                        <NumericFormat
+                                            customInput={Input}
+                                            allowLeadingZeros={false}
+                                            thousandSeparator=","
+                                            decimalScale={2}
+                                            fixedDecimalScale
                                             borderRadius="8px"
+                                            prefix={"₦"}
+                                            onValueChange={({ value }) => form.handleChange({ target: { value, name: "costPrice" } })}
                                             name="costPrice"
                                             value={form.values.costPrice}
-                                            onChange={form.handleChange}
                                             onBlur={form.handleBlur}
                                         />
                                         {form.touched.costPrice && !!form.errors.costPrice ? (
