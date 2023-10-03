@@ -3,9 +3,7 @@ import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, Sor
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
-
-
-
+import { NumericFormat } from "react-number-format";
 
 export const defaultItem = {
     itemId: "",
@@ -27,7 +25,7 @@ type RowObj = {
 
 const columnHelper = createColumnHelper<RowObj>();
 
-export const TableCellInput = ({ getValue, row, column, table, type, maxW }: any) => {
+export const TableCellInput = ({ getValue, row, column, table, type, maxW, currency }: any) => {
     const initialValue = getValue();
     const tableMeta = table.options.meta;
     const [value, setValue] = useState(initialValue);
@@ -42,15 +40,19 @@ export const TableCellInput = ({ getValue, row, column, table, type, maxW }: any
 
     return (
         <Flex align="center" maxW={maxW}>
-            <Input
-                type={type}
-                name={column.id}
-                isRequired={true}
-                variant="outline"
+            <NumericFormat
+                customInput={Input}
+                allowLeadingZeros={false}
+                thousandSeparator=","
+                decimalScale={2}
+                fixedDecimalScale
                 borderRadius="8px"
-                value={column.id = "rate" || "amount" ? figureFormat(value) : value }
+                prefix={currency}
+                name={column.id}
+                variant="outline"
+                value={value}
                 onBlur={onBlur}
-                onChange={(e) => setValue(e.target.value)}
+                onValueChange={(e) => setValue(e.value)}
             />
         </Flex>
     );
@@ -68,9 +70,7 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
     const onSelect = (value: any) => {
         tableMeta?.updateData(row.index, column.id, value);
         setValue(value);
-    }; 
-
-   
+    };
 
     return (
         <Flex align="center">
@@ -84,13 +84,6 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
         </Flex>
     );
 };
-
-function figureFormat(fig: any) : any {
-    const formatNumber = new Intl.NumberFormat("en-US").format(fig)
-    return parseInt(formatNumber).toFixed(2)
-} 
-
-
 
 export default function LineItemsTableComponent(props: {
     tableLines: any;
@@ -144,7 +137,7 @@ export default function LineItemsTableComponent(props: {
                     RATE
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput   type="number" maxW="180px" name="rate" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" maxW="180px" name="rate" currency="₦" {...info} />,
         }),
         // columnHelper.ac)cessor("tax", {
         //     id: "tax",
@@ -177,7 +170,6 @@ export default function LineItemsTableComponent(props: {
                 id: "action",
                 header: () => <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400"></Text>,
                 cell: (info: any) => {
-                    console.log("v", info);
                     return (
                         <IconButton
                             isDisabled={info.row.id === "0" && data.length === 1}
