@@ -9,6 +9,7 @@ import { formatDate } from "utils/dateUtils";
 import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { formatNumberWithCommas } from "utils/number";
 
 export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [vendors, setVendors] = useState([]);
@@ -93,8 +94,14 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                     const f = { ...form.values, ...purchaseOrder };
                     form.setValues(f);
                 }
-                setVendors(response[0].data?.data?.items);
-                setItems(response[1].data?.data?.items);
+                setVendors(response[0].data?.data?.items.sort((a: any, b: any) => a.vendorDisplayName.localeCompare(b.vendorDisplayName)));
+                setItems(
+                    response[1].data?.data?.items
+                        .sort((a: any, b: any) => a.name.localeCompare(b.name))
+                        .map((v: any) => {
+                            return { ...v, price: v.costPrice };
+                        })
+                );
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
@@ -311,11 +318,7 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                         <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
-                            items={items
-                                .sort((a: any, b: any) => a.name.localeCompare(b.name))
-                                .map((v: any) => {
-                                    return { ...v, price: v.costPrice };
-                                })}
+                            items={items}
                             onTableLineUpdate={lineInputChanged}
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
@@ -399,7 +402,7 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
 
                             <Stack padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
                                 <Flex width="100%" justifyContent="space-between">
-                                    <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{summary.subTotal}</Text>
+                                    <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{"₦" + formatNumberWithCommas(summary.subTotal)}</Text>
                                 </Flex>
 
                                 {/* <Flex width="100%" justifyContent="space-between" alignItems="baseline">
@@ -430,7 +433,7 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                             </Flex> */}
                                 <HSeparator mt="16px" />
                                 <Flex width="100%" justifyContent="space-between">
-                                    <Text fontWeight="bold">Total (₦)</Text> <Text fontWeight="bold">{summary.total}</Text>
+                                    <Text fontWeight="bold">Total </Text> <Text fontWeight="bold">{"₦" + formatNumberWithCommas(summary.total)}</Text>
                                 </Flex>
                             </Stack>
                         </Flex>

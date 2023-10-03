@@ -25,6 +25,7 @@ import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
+import { formatNumberWithCommas } from "utils/number";
 
 const ItemComponent = () => {
     const { id } = useParams();
@@ -194,13 +195,13 @@ const ItemComponent = () => {
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>Opening Stock</StatLabel>
-                                <StatNumber>{item.openingStock}</StatNumber>
+                                <StatNumber>{formatNumberWithCommas(item.openingStock)}</StatNumber>
                             </Stat>
                         </Box>
                         <Box w="40%">
                             <Stat>
                                 <StatLabel>Opening Stock Rate per Unit</StatLabel>
-                                <StatNumber>{item.openingStockRatePerUnit}</StatNumber>
+                                <StatNumber>{"₦" + formatNumberWithCommas(item.openingStockRatePerUnit)}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
@@ -209,14 +210,14 @@ const ItemComponent = () => {
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>Reorder Point</StatLabel>
-                                <StatNumber>{item.reorderPoint}</StatNumber>
+                                <StatNumber>{formatNumberWithCommas(item.reorderPoint)}</StatNumber>
                             </Stat>
                         </Box>
 
                         <Box w="40%">
                             <Stat>
                                 <StatLabel>Stock On Hand</StatLabel>
-                                <StatNumber>{item.stockOnHand}</StatNumber>
+                                <StatNumber>{formatNumberWithCommas(item.stockOnHand)}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
@@ -225,7 +226,7 @@ const ItemComponent = () => {
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>Quantity Adjusted</StatLabel>
-                                <StatNumber>{item.quantityAdjusted || "--"}</StatNumber>
+                                <StatNumber>{formatNumberWithCommas(item.quantityAdjusted) || "--"}</StatNumber>
                             </Stat>
                         </Box>
 
@@ -242,7 +243,7 @@ const ItemComponent = () => {
                             <Flex direction="column">
                                 <Stat mb="16px" minH="80px">
                                     <StatLabel>Selling Price</StatLabel>
-                                    <StatNumber>{item.sellingPrice}</StatNumber>
+                                    <StatNumber>{"₦" + formatNumberWithCommas(item.sellingPrice)}</StatNumber>
                                 </Stat>
 
                                 <Stat mb="16px" minH="80px">
@@ -252,7 +253,7 @@ const ItemComponent = () => {
 
                                 <Stat mb="16px" minH="80px">
                                     <StatLabel>Total Ordered</StatLabel>
-                                    <StatNumber>{item.totalSalesOrderQuantity || "--"}</StatNumber>
+                                    <StatNumber>{formatNumberWithCommas(item.totalSalesOrderQuantity) || "--"}</StatNumber>
                                 </Stat>
                             </Flex>
                         </Box>
@@ -264,7 +265,7 @@ const ItemComponent = () => {
                             <Flex direction="column">
                                 <Stat mb="16px" minH="80px">
                                     <StatLabel>Cost Price</StatLabel>
-                                    <StatNumber>{item.costPrice}</StatNumber>
+                                    <StatNumber>{"₦" + formatNumberWithCommas(item.costPrice)}</StatNumber>
                                 </Stat>
 
                                 <Stat mb="16px" minH="80px">
@@ -274,7 +275,7 @@ const ItemComponent = () => {
 
                                 <Stat mb="16px" minH="80px">
                                     <StatLabel>Total Ordered</StatLabel>
-                                    <StatNumber>{item.totalPurchaseOrderQuantity || "--"}</StatNumber>
+                                    <StatNumber>{formatNumberWithCommas(item.totalPurchaseOrderQuantity) || "--"}</StatNumber>
                                 </Stat>
                             </Flex>
                         </Box>
