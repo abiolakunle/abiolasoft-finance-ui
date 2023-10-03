@@ -27,137 +27,137 @@ const navRoutes = [
     },
 ];
 
-const user = getUserInfo();
-
-if (user?.permissions?.includes("View Customers")) {
-    navRoutes.push({
-        name: "Customers",
-        path: "/customers",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <CustomersComponent />,
-    });
-}
-
-if (user?.permissions?.includes("View Sales Persons")) {
-    navRoutes.push({
-        name: "Sales Persons",
-        path: "/sales-persons",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesPersonsComponent />,
-    });
-}
-
-if (user?.permissions?.includes("View Sales Orders")) {
-    navRoutes.push({
-        name: "Sales Orders",
-        path: "/sales-orders",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesOrdersComponent />,
-    });
-}
-
-if (user?.permissions?.includes("View Invoices")) {
-    navRoutes.push({
-        name: "Invoices",
-        path: "/invoices",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <InvoicesComponent />,
-    });
-}
-
-if (user?.permissions?.includes("View Sales Receipts")) {
-    navRoutes.push({
-        name: "Sales Receipts",
-        path: "/sales-receipts",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesReceiptsComponent />,
-    });
-}
-
-const salesRoutes = [
-    ...navRoutes,
-    {
-        name: "New Customer",
-        path: "/customers/new",
-        component: <NewCustomerComponent />,
-        excludeFromSideNav: true,
-    },
-
-    {
-        name: "Edit Customer",
-        path: "/customers/:id/edit",
-        component: <NewCustomerComponent />,
-        excludeFromSideNav: true,
-    },
-
-    {
-        name: "New Customer Invoice",
-        path: "/invoices/new",
-        component: <InvoiceFormComponent />,
-        excludeFromSideNav: true,
-    },
-
-    {
-        name: "Edit Customer Invoice",
-        path: "/invoices/:id/edit",
-        component: <InvoiceFormComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "New Sales Order",
-        path: "/sales-orders/new",
-        component: <SalesOrderFormComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "New Sales Person",
-        path: "/sales-persons/new",
-        component: <SalesPersonFormComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "Edit Sales Person",
-        path: "/sales-persons/:id/edit",
-        component: <SalesPersonFormComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "Edit Sales Order",
-        path: "/sales-orders/:id/edit",
-        component: <SalesOrderFormComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "Invoice",
-        path: "/invoices/:id",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <InvoiceComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "Invoice",
-        path: "/sales-persons/:id",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesPersonComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "Sales Order",
-        path: "/sales-orders/:id",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <SalesOrderComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "Customer",
-        path: "/customer/:id",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <CustomerComponent />,
-        excludeFromSideNav: true,
-    },
-];
-
 const SalesModuleLayout = () => {
+    const user = getUserInfo();
+
+    if (user?.permissions?.includes("View Customers")) {
+        navRoutes.push({
+            name: "Customers",
+            path: "/customers",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <CustomersComponent />,
+        });
+    }
+
+    if (user?.permissions?.includes("View Sales Persons")) {
+        navRoutes.push({
+            name: "Sales Persons",
+            path: "/sales-persons",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <SalesPersonsComponent />,
+        });
+    }
+
+    if (user?.permissions?.includes("View Sales Orders")) {
+        navRoutes.push({
+            name: "Sales Orders",
+            path: "/sales-orders",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <SalesOrdersComponent />,
+        });
+    }
+
+    if (user?.permissions?.includes("View Invoices")) {
+        navRoutes.push({
+            name: "Invoices",
+            path: "/invoices",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <InvoicesComponent />,
+        });
+    }
+
+    if (user?.permissions?.includes("View Sales Receipts")) {
+        navRoutes.push({
+            name: "Sales Receipts",
+            path: "/sales-receipts",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <SalesReceiptsComponent />,
+        });
+    }
+
+    const salesRoutes = [
+        ...navRoutes,
+        {
+            name: "New Customer",
+            path: "/customers/new",
+            component: <NewCustomerComponent />,
+            excludeFromSideNav: true,
+        },
+
+        {
+            name: "Edit Customer",
+            path: "/customers/:id/edit",
+            component: <NewCustomerComponent />,
+            excludeFromSideNav: true,
+        },
+
+        {
+            name: "New Customer Invoice",
+            path: "/invoices/new",
+            component: <InvoiceFormComponent />,
+            excludeFromSideNav: true,
+        },
+
+        {
+            name: "Edit Customer Invoice",
+            path: "/invoices/:id/edit",
+            component: <InvoiceFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "New Sales Order",
+            path: "/sales-orders/new",
+            component: <SalesOrderFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "New Sales Person",
+            path: "/sales-persons/new",
+            component: <SalesPersonFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Edit Sales Person",
+            path: "/sales-persons/:id/edit",
+            component: <SalesPersonFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Edit Sales Order",
+            path: "/sales-orders/:id/edit",
+            component: <SalesOrderFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Invoice",
+            path: "/invoices/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <InvoiceComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Invoice",
+            path: "/sales-persons/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <SalesPersonComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Sales Order",
+            path: "/sales-orders/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <SalesOrderComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Customer",
+            path: "/customer/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <CustomerComponent />,
+            excludeFromSideNav: true,
+        },
+    ];
+
     return (
         <NavigationComponent baseRoute="/admin/modules/sales" routes={salesRoutes}>
             <Routes>
