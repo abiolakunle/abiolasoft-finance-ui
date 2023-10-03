@@ -18,16 +18,15 @@ import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
 import SalesPersonFormComponent from "./sales-person-form/SalesPersonFormComponent";
 import { getUserInfo } from "utils/auth";
 
-const navRoutes = [
-    {
-        name: "Dashboard",
-        path: "/",
-        icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-        component: <SalesDashboardComponent />,
-    },
-];
-
 const SalesModuleLayout = () => {
+    const navRoutes = [
+        {
+            name: "Dashboard",
+            path: "/",
+            icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+            component: <SalesDashboardComponent />,
+        },
+    ];
     const user = getUserInfo();
 
     if (user?.permissions?.includes("View Customers")) {
