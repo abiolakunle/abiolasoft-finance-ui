@@ -24,7 +24,7 @@ import { currentDate, formatDate } from "utils/dateUtils";
 import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import sort from "utils/AlphSortUtils"
+
 
 const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);

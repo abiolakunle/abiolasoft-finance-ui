@@ -25,7 +25,7 @@ import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { formatDate } from "utils/dateUtils";
 import LineItemsTableComponent, { defaultItem } from "app-components/line-items-table/LineItemsTableComponent";
-import sort from "utils/AlphSortUtils"
+
 
 const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
@@ -225,7 +225,7 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         onBlur={form.handleBlur}
                                     >
                                         {customers.map((customer, index) => (
-                                            <option key={index} value={customer.customerDisplayName}>
+                                            <option key={index} value={customer.id}>
                                                 
                                                 {customer.customerDisplayName}
                                             </option>

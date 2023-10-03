@@ -48,7 +48,7 @@ export const TableCellInput = ({ getValue, row, column, table, type, maxW }: any
                 isRequired={true}
                 variant="outline"
                 borderRadius="8px"
-                value={value}
+                value={column.id = "rate" || "amount" ? figureFormat(value) : value }
                 onBlur={onBlur}
                 onChange={(e) => setValue(e.target.value)}
             />
@@ -90,10 +90,7 @@ function figureFormat(fig: any) : any {
     return parseInt(formatNumber).toFixed(2)
 } 
 
-const sort = (arr: any ) => {
-    return arr.sort((a: any, b: any) => a.name.localeCompare(b.name))
-    
-}
+
 
 export default function LineItemsTableComponent(props: {
     tableLines: any;
