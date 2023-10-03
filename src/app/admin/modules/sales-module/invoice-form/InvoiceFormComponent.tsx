@@ -25,6 +25,7 @@ import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { formatDate } from "utils/dateUtils";
 import LineItemsTableComponent, { defaultItem } from "app-components/line-items-table/LineItemsTableComponent";
+import { formatNumberWithCommas } from "utils/number";
 
 const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
@@ -440,7 +441,7 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
                             <Stack padding="16px" borderRadius="8px" backgroundColor="blackAlpha.50" direction="column" width="50%" mt="8px" mb="auto">
                                 <Flex width="100%" justifyContent="space-between">
-                                    <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{summary.subTotal}</Text>
+                                    <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{"₦" + formatNumberWithCommas(summary.subTotal)}</Text>
                                 </Flex>
 
                                 {/* <Flex width="100%" justifyContent="space-between" alignItems="baseline">
@@ -471,7 +472,7 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex> */}
                                 <HSeparator mt="16px" />
                                 <Flex width="100%" justifyContent="space-between">
-                                    <Text fontWeight="bold">Total (₦)</Text> <Text fontWeight="bold">{summary.total}</Text>
+                                    <Text fontWeight="bold">Total </Text> <Text fontWeight="bold">{"₦" + formatNumberWithCommas(summary.total)}</Text>
                                 </Flex>
                             </Stack>
                         </Flex>

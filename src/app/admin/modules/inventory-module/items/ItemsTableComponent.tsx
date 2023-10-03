@@ -68,7 +68,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             id: "sellingPrice",
             header: () => (
                 <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    SELLING PRICE
+                    SELLING PRICE (₦)
                 </Text>
             ),
             cell: (info) => (
@@ -81,7 +81,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
             id: "costPrice",
             header: () => (
                 <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    COST PRICE
+                    COST PRICE (₦)
                 </Text>
             ),
             cell: (info) => (

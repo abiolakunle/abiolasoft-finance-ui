@@ -4,6 +4,7 @@ import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
 import { NumericFormat } from "react-number-format";
+import { formatNumberWithCommas } from "utils/number";
 
 export const defaultItem = {
     itemId: "",
@@ -156,12 +157,12 @@ export default function LineItemsTableComponent(props: {
             id: "amount",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    AMOUNT
+                    AMOUNT (₦)
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {+info.row.original.quantity * +info.row.original.rate}
+                    {formatNumberWithCommas(+info.row.original.quantity * +info.row.original.rate)}
                 </Text>
             ),
         }),
