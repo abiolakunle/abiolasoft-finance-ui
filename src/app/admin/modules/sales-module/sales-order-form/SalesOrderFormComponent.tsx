@@ -1,21 +1,31 @@
-import { Box, Button, Flex, Text, FormControl, FormLabel, Heading, Input, Select, Stack, Textarea, CloseButton, FormErrorMessage } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    Text,
+    FormControl,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    Stack,
+    Textarea,
+    CloseButton,
+    FormErrorMessage,
+    Tooltip,
+} from "@chakra-ui/react";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import LineItemsTableComponent, { defaultItem } from "../../../../../app-components/line-items-table/LineItemsTableComponent";
 import { HSeparator } from "components/separator/Separator";
-import { formatDate } from "utils/dateUtils";
+import { currentDate, formatDate } from "utils/dateUtils";
 import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import sort from "utils/AlphSortUtils"
 
-const currentDate = () => {
-    var currentDate = new Date();
-    var utcDate = new Date(currentDate.toUTCString());
-    return utcDate.toLocaleDateString().split("T")[0];
-};
 const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
@@ -25,7 +35,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const validationSchema = Yup.object().shape({
         customerId: Yup.string().required("Select a customer"),
         salespersonId: Yup.string().required("Select a salesperson"),
-        number: Yup.string().required("Sales Order Number is required"),
+        //number: Yup.string().required("Sales Order Number is required"),
         date: Yup.string().required("Sales Order Date is required"),
     });
 
@@ -35,7 +45,7 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             number: "",
             referenceNumber: "",
             date: currentDate(),
-            expectedShipmentDate: "",
+            expectedShipmentDate: currentDate(),
             paymentTermsDays: "",
             customerId: "",
             customerNotes: "",
@@ -234,36 +244,45 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex>
                         </FormControl>
 
-                        <FormControl isInvalid={form.touched.number && !!form.errors.number}>
-                            <Flex
-                                mb="16px"
-                                flexWrap={{ sm: "wrap", md: "nowrap" }}
-                                justifyContent="flex-start"
-                                width="100%"
-                                gap={{ md: "20px", sm: "5px" }}
-                                alignItems="center"
-                                className="afu-label-input"
-                            >
-                                <Box className="afu-label" minWidth="200px">
-                                    <FormLabel color={viewOnly ? "" : "red"}>Sales Order#{viewOnly ? "" : "*"}</FormLabel>
-                                </Box>
-                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
-                                    <Input
-                                        readOnly={viewOnly}
-                                        pointerEvents={viewOnly ? "none" : "all"}
-                                        name="number"
-                                        type="text"
-                                        width="100%"
-                                        variant="outline"
-                                        borderRadius="8px"
-                                        value={form.values.number}
-                                        onChange={form.handleChange}
-                                        onBlur={form.handleBlur}
-                                    />
-                                    {form.touched.number && !!form.errors.number ? <FormErrorMessage>{form.errors.number}</FormErrorMessage> : ""}
-                                </Box>
-                            </Flex>
-                        </FormControl>
+                        {
+                            <FormControl isInvalid={form.touched.number && !!form.errors.number}>
+                                <Flex
+                                    mb="16px"
+                                    flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                    justifyContent="flex-start"
+                                    width="100%"
+                                    gap={{ md: "20px", sm: "5px" }}
+                                    alignItems="center"
+                                    className="afu-label-input"
+                                >
+                                    <Box className="afu-label" minWidth="200px">
+                                        <FormLabel color={true ? "" : "red"}>Sales Order#{true ? "" : "*"}</FormLabel>
+                                    </Box>
+                                    <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
+                                        <Tooltip
+                                            hasArrow
+                                            label="If you leave this empty, we would auto generate an order number for this order"
+                                            bg="gray.300"
+                                            color="black"
+                                        >
+                                            <Input
+                                                readOnly={viewOnly}
+                                                pointerEvents={viewOnly ? "none" : "all"}
+                                                name="number"
+                                                type="text"
+                                                width="100%"
+                                                variant="outline"
+                                                borderRadius="8px"
+                                                value={form.values.number}
+                                                onChange={form.handleChange}
+                                                onBlur={form.handleBlur}
+                                            />
+                                        </Tooltip>
+                                        {form.touched.number && !!form.errors.number ? <FormErrorMessage>{form.errors.number}</FormErrorMessage> : ""}
+                                    </Box>
+                                </Flex>
+                            </FormControl>
+                        }
 
                         <FormControl>
                             <Flex

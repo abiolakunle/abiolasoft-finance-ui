@@ -444,7 +444,7 @@ function AdminNavbar(props: {
                         bg="inherit"
                         borderRadius="inherit"
                         fontWeight="bold"
-                        fontSize="34px"
+                        fontSize="28px"
                         _hover={{ color: { mainText } }}
                         _active={{
                             bg: "inherit",
@@ -665,7 +665,7 @@ export default function NavigationComponent(props: { baseRoute: string; routes: 
                             />
                         </Box>
                     </Portal>
-                    <Box mx="auto" p={{ base: "20px", md: "30px" }} ps={{ sm: "8px", md: "20px" }} pe={{ sm: "8px", md: "20px" }} minH="100vh" pt="50px">
+                    <Box mx="auto" pl={{ sm: "8px", md: "20px" }} p={{ base: "20px", md: "30px" }} pe={{ sm: "8px", md: "20px" }} minH="100vh" pt="50px">
                         {props.children}
                     </Box>
                     <Box>
