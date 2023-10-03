@@ -3,7 +3,21 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { Box, Button, Checkbox, Flex, FormControl, FormLabel, Heading, Icon, Input, InputGroup, InputRightElement, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Checkbox,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    Icon,
+    Input,
+    InputGroup,
+    InputRightElement,
+    Text,
+    useColorModeValue,
+} from "@chakra-ui/react";
 
 import { HSeparator } from "components/separator/Separator";
 
@@ -48,6 +62,7 @@ function SignIn() {
 
             if (response.data.status) {
                 localStorage.setItem("token", response.data.data.token);
+                axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${response.data.data.token}`;
                 navigate("/admin");
             } else {
                 setErrorMessage("Login failed. Please check your credentials.");
@@ -146,7 +161,12 @@ function SignIn() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <InputRightElement display="flex" alignItems="center" mt="4px">
-                            <Icon color={textColorSecondary} _hover={{ cursor: "pointer" }} as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye} onClick={handleClick} />
+                            <Icon
+                                color={textColorSecondary}
+                                _hover={{ cursor: "pointer" }}
+                                as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                                onClick={handleClick}
+                            />
                         </InputRightElement>
                     </InputGroup>
                     <Flex justifyContent="space-between" align="center" mb="24px">
