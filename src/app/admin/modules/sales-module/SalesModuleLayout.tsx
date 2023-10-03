@@ -29,7 +29,7 @@ const navRoutes = [
 
 const user = getUserInfo();
 
-if (user.permissions.includes("View Customers")) {
+if (user?.permissions?.includes("View Customers")) {
     navRoutes.push({
         name: "Customers",
         path: "/customers",
@@ -38,7 +38,7 @@ if (user.permissions.includes("View Customers")) {
     });
 }
 
-if (user.permissions.includes("View Sales Persons")) {
+if (user?.permissions?.includes("View Sales Persons")) {
     navRoutes.push({
         name: "Sales Persons",
         path: "/sales-persons",
@@ -47,7 +47,7 @@ if (user.permissions.includes("View Sales Persons")) {
     });
 }
 
-if (user.permissions.includes("View Sales Orders")) {
+if (user?.permissions?.includes("View Sales Orders")) {
     navRoutes.push({
         name: "Sales Orders",
         path: "/sales-orders",
@@ -56,7 +56,7 @@ if (user.permissions.includes("View Sales Orders")) {
     });
 }
 
-if (user.permissions.includes("View Invoices")) {
+if (user?.permissions?.includes("View Invoices")) {
     navRoutes.push({
         name: "Invoices",
         path: "/invoices",
@@ -65,7 +65,7 @@ if (user.permissions.includes("View Invoices")) {
     });
 }
 
-if (user.permissions.includes("View Sales Receipts")) {
+if (user?.permissions?.includes("View Sales Receipts")) {
     navRoutes.push({
         name: "Sales Receipts",
         path: "/sales-receipts",
