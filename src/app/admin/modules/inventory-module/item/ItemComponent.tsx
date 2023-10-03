@@ -47,7 +47,7 @@ const ItemComponent = () => {
         openingStock: 0,
         openingStockRatePerUnit: 0,
         reorderPoint: 0,
-        unit: "Pcs",
+        unit: "Packs",
         stockOnHand: 0,
         totalPurchaseOrderQuantity: 0,
         totalSalesOrderQuantity: 0,
