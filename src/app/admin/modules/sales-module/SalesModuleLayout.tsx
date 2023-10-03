@@ -29,8 +29,6 @@ const navRoutes = [
 
 const user = getUserInfo();
 
-console.log("perms", user.permissions, user.permissions.includes("View Customers"));
-
 if (user.permissions.includes("View Customers")) {
     navRoutes.push({
         name: "Customers",
