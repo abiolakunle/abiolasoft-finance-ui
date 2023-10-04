@@ -1,4 +1,4 @@
-import { Card, Flex, Text, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber, Badge } from "@chakra-ui/react";
+import { Card, Flex, Text, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber, Badge, useToast, useDisclosure, Menu, MenuButton, MenuList, MenuItem, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
@@ -9,11 +9,16 @@ import { HSeparator } from "components/separator/Separator";
 import { formatDateTime } from "utils/dateUtils";
 import axiosRequest from "utils/api";
 import Permitted from "app-components/Permitted/Permitted";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const UserComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
+
+    const toast = useToast();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [user, setUser] = useState({
         id: "",
@@ -59,6 +64,23 @@ const UserComponent = () => {
         navigate(`/admin/modules/user-management/user/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
     };
 
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`UserManagement/DeleteUser`, { data: { id } });
+            toast({
+                title: "Success",
+                description: "Deleted Successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right",
+            });
+            navigate(`/admin/modules/user-management/users`);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     return (
         <>
             <Flex
@@ -77,24 +99,49 @@ const UserComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
+
+                    <Menu>
+                            <MenuButton order={{ sm: "4", md: "3" }} width="100%" as={Button} rightIcon={<ChevronDownIcon />}>
+                                More
+                            </MenuButton>
+                            <MenuList>
+                                
+                                <MenuItem onClick={changePassword}>Change Password</MenuItem>
+                                <Permitted to="Create Role">
+                                    <MenuItem onClick={manageRoles}>Manage Roles</MenuItem>
+                                </Permitted>
+                                <Permitted to="Delete Sales Order">
+                                    <MenuItem onClick={onOpen}>Delete</MenuItem>
+                                </Permitted>
+                                
+                            </MenuList>
+                            
+
+                            <Modal isOpen={isOpen} onClose={onClose}>
+                                <ModalOverlay />
+                                <ModalContent>
+                                    <ModalHeader>Delete Sales Order</ModalHeader>
+
+                                    <ModalBody>Are You Sure You Want To Delete?</ModalBody>
+                                    <ModalFooter>
+                                        <Button variant="ghost" onClick={onClose}>
+                                            Cancel
+                                        </Button>
+                                        <Button colorScheme="red" onClick={submit} ml={3}>
+                                            Delete
+                                        </Button>
+                                    </ModalFooter>
+                                </ModalContent>
+                            </Modal>
+                    </Menu>
+
+
                     <Permitted to="Update User">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </Permitted>
-                    
-
-                    <Button variant="brand" onClick={changePassword}>
-                        Change Password
-                    </Button>
-
-                    <Permitted to="Create Role" >
-                        <Button variant="brand" onClick={manageRoles}>
-                            Manage Roles
-                        </Button>
-                    </Permitted>
-                    
-
+        
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
