@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import { formatDateTime } from "utils/dateUtils";
 import axiosRequest from "utils/api";
+import Permitted from "app-components/Permitted/Permitted";
 
 const RoleComponent = () => {
     const { id } = useParams();
@@ -62,13 +63,18 @@ const RoleComponent = () => {
                 <Heading as="h4" size="md"></Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink state={{ roleName: role.name }} as={ReactRouterLink} to={`/admin/modules/user-management/roles/${id}/edit`}>
-                        <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink>
-
-                    <Button variant="brand" onClick={managePermissions}>
-                        Manage Permissions
-                    </Button>
+                    <Permitted to="Update Role Name">
+                        <ChakraLink state={{ roleName: role.name }} as={ReactRouterLink} to={`/admin/modules/user-management/roles/${id}/edit`}>
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                        </ChakraLink>
+                    </Permitted>
+                    
+                    <Permitted to="Add Permission To Role">
+                        <Button variant="brand" onClick={managePermissions}>
+                            Manage Permissions
+                        </Button>
+                    </Permitted> 
+                    
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles`}>
                         <CloseButton size="lg" />

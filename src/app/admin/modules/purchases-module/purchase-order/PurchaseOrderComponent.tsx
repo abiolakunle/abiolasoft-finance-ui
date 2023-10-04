@@ -5,6 +5,7 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import PurchaseOrderFormComponent from "../purchase-order-form/PurchaseOrderFormComponent";
+import Permitted from "app-components/Permitted/Permitted";
 
 const PurchaseOrderComponent = () => {
     const { id } = useParams();
@@ -36,9 +37,13 @@ const PurchaseOrderComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/${id}/edit`}>
-                        <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink>
+                    <Permitted to="Edit Purchase Order">
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/${id}/edit`}>
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                        </ChakraLink>
+
+                    </Permitted>
+                    
 
                     <Button onClick={convertToBill} variant="brand">
                         Convert to Bill
@@ -48,9 +53,12 @@ const PurchaseOrderComponent = () => {
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
-                        <MenuList>
-                            <MenuItem onClick={onOpen}>Delete</MenuItem>
-                        </MenuList>
+                        <Permitted to="Delete Purchase Order">
+                            <MenuList>
+                                <MenuItem onClick={onOpen}>Delete</MenuItem>
+                            </MenuList>
+                        </Permitted>
+                        
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />

@@ -6,6 +6,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { pageSize } from "variables/constant-values";
+import Permitted from "app-components/Permitted/Permitted";
 
 const VendorsComponent = () => {
     const [tableData, setTableData] = useState(null);
@@ -43,11 +44,15 @@ const VendorsComponent = () => {
                 }}
                 gap="20px"
             >
-                <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/new`}>
-                    <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
-                        New
-                    </Button>
-                </ChakraLink>
+
+                <Permitted to="Create Vendor">
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/new`}>
+                        <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
+                            New
+                        </Button>
+                    </ChakraLink>
+                </Permitted>
+                
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">

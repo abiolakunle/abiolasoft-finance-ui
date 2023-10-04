@@ -6,6 +6,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { pageSize } from "variables/constant-values";
+import Permitted from "app-components/Permitted/Permitted";
 
 const UsersComponent = () => {
     const [tableData, setTableData] = useState(null);
@@ -44,9 +45,12 @@ const UsersComponent = () => {
                 gap="20px"
             >
                 <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/new`}>
-                    <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
-                        New
-                    </Button>
+                    <Permitted to="Create User">
+                        <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
+                            New
+                        </Button>
+                    </Permitted>
+                    
                 </ChakraLink>
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>

@@ -7,6 +7,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
+import Permitted from "app-components/Permitted/Permitted";
 
 const ManageRolePermissionsComponent = () => {
     const [permissions, setPermissions] = useState([]);
@@ -104,25 +105,28 @@ const ManageRolePermissionsComponent = () => {
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" py="16px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <ThemeProvider theme={createTheme()}>
-                        {permissions.length ? (
-                            <Autocomplete
-                                multiple
-                                id="tags-outlined"
-                                options={permissions}
-                                getOptionLabel={(option) => option}
-                                defaultValue={initialPermissions}
-                                isOptionEqualToValue={(opt, val) => val === opt}
-                                filterSelectedOptions
-                                onChange={(_event, newValue) => {
-                                    onRolePermissionsChanged(newValue);
-                                }}
-                                renderInput={(params) => <TextField placeholder="Add permission" {...params} />}
-                            />
-                        ) : (
-                            <Text>Roles not configured yet</Text>
-                        )}
-                    </ThemeProvider>
+                    <Permitted to="Add Permission To Role">
+                        <ThemeProvider theme={createTheme()}>
+                            {permissions.length ? (
+                                <Autocomplete
+                                    multiple
+                                    id="tags-outlined"
+                                    options={permissions}
+                                    getOptionLabel={(option) => option}
+                                    defaultValue={initialPermissions}
+                                    isOptionEqualToValue={(opt, val) => val === opt}
+                                    filterSelectedOptions
+                                    onChange={(_event, newValue) => {
+                                        onRolePermissionsChanged(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField placeholder="Add permission" {...params} />}
+                                />
+                            ) : (
+                                <Text>Roles not configured yet</Text>
+                            )}
+                        </ThemeProvider>
+                    </Permitted>
+                    
                 </Card>
             </Box>
         </>

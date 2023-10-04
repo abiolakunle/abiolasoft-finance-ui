@@ -80,17 +80,23 @@ const SalesOrderComponent = () => {
                     justifyContent="space-between"
                     gap="20px"
                 >
-                    <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/${id}/edit`}>
-                        <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink>
+                    <Permitted to="Edit Sales Order">
+                        <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/${id}/edit`}>
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                        </ChakraLink>
+                    </Permitted>
+                    
                     <Menu>
                         <MenuButton order={{ sm: "3", md: "2" }} width="100%" minW="120px" as={Button} rightIcon={<ChevronDownIcon />}>
                             Convert
                         </MenuButton>
-                        <MenuList>
-                            <MenuItem onClick={convertToInvoice}>Convert to Invoice</MenuItem>
-                            <MenuItem onClick={instantInvoice}>Instant Invoice</MenuItem>
-                        </MenuList>
+                        <Permitted  to="Convert Sales Order To Invoice">
+                            <MenuList>
+                                <MenuItem onClick={convertToInvoice}>Convert to Invoice</MenuItem>
+                                <MenuItem onClick={instantInvoice}>Instant Invoice</MenuItem>
+                            </MenuList>
+                        </Permitted>
+                        
                     </Menu>
 
                     <Menu>

@@ -8,6 +8,7 @@ import axios from "axios";
 import { HSeparator } from "components/separator/Separator";
 import { formatDateTime } from "utils/dateUtils";
 import axiosRequest from "utils/api";
+import Permitted from "app-components/Permitted/Permitted";
 
 const UserComponent = () => {
     const { id } = useParams();
@@ -76,17 +77,23 @@ const UserComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${id}/edit`}>
-                        <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink>
+                    <Permitted to="Update User">
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${id}/edit`}>
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                        </ChakraLink>
+                    </Permitted>
+                    
 
                     <Button variant="brand" onClick={changePassword}>
                         Change Password
                     </Button>
 
-                    <Button variant="brand" onClick={manageRoles}>
-                        Manage Roles
-                    </Button>
+                    <Permitted to="Create Role" >
+                        <Button variant="brand" onClick={manageRoles}>
+                            Manage Roles
+                        </Button>
+                    </Permitted>
+                    
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users`}>
                         <CloseButton size="lg" />
