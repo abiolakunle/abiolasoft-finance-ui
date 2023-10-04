@@ -31,6 +31,14 @@ const UserComponent = () => {
         roles: [],
     });
 
+    const [role, setRole] = useState({
+        id: "",
+        name: "",
+        createdAt: "",
+        modifiedAt: "",
+        permissions: [],
+    });
+
     useEffect(() => {
         if (id) {
             axiosRequest
@@ -60,8 +68,10 @@ const UserComponent = () => {
         navigate(`/admin/modules/user-management/user/${id}/change-password`);
     };
 
-    const manageRoles = () => {
-        navigate(`/admin/modules/user-management/user/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
+    
+
+    const managePermissions = () => {
+        navigate(`/admin/modules/user-management/roles/${id}/manage-permissions`, { state: { roleName: role.name } });
     };
 
     const submit = async () => {
@@ -106,13 +116,13 @@ const UserComponent = () => {
                         </ChakraLink>
                     </Permitted>
                     <Permitted to="Create Role">
-                        <Button  width="100%" variant="brand" onClick={manageRoles}>
-                            Manage Roles
+                        <Button  variant="brand" onClick={managePermissions}>
+                            Manage Permission
                         </Button>
                     </Permitted>
 
                     <Menu>
-                        <MenuButton  as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <MenuList>

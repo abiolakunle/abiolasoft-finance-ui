@@ -18,12 +18,23 @@ const RoleComponent = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const [role, setUser] = useState({
+    const [role, setRole] = useState({
         id: "",
         name: "",
         createdAt: "",
         modifiedAt: "",
         permissions: [],
+    });
+
+    const [user, setUser] = useState({
+        id: "",
+        phoneNumber: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        createdAt: "",
+        modifiedAt: "",
+        roles: [],
     });
 
     useEffect(() => {
@@ -33,7 +44,7 @@ const RoleComponent = () => {
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
-                        setUser({
+                        setRole({
                             id,
                             name: data.name,
                             permissions: data.permissions,
@@ -48,8 +59,8 @@ const RoleComponent = () => {
         }
     }, [id]);
 
-    const managePermissions = () => {
-        navigate(`/admin/modules/user-management/roles/${id}/manage-permissions`, { state: { roleName: role.name } });
+    const manageRoles = () => {
+        navigate(`/admin/modules/user-management/user/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
     };
 
     const submit = async () => {
@@ -93,13 +104,13 @@ const RoleComponent = () => {
                     </Permitted>
                     
                     <Permitted to="Add Permission To Role">
-                        <Button width="100%" variant="brand" onClick={managePermissions}>
-                            Manage Permissions
+                        <Button  variant="brand" onClick={manageRoles}>
+                            Manage Role
                         </Button>
                     </Permitted> 
 
                     <Menu>
-                        <MenuButton width="100%" as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton  as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <Permitted to="Delete Purchase Order">
