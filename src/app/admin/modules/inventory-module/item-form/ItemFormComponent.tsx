@@ -6,14 +6,15 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { NumericFormat } from "react-number-format";
 
 const ItemFormComponent = () => {
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("Name is required"),
         unit: Yup.string().required("Unit is required"),
-        sellingPrice: Yup.number().required("Selling Price is required"),
-        costPrice: Yup.number().required("Cost Price is required"),
-        openingStockRatePerUnit: Yup.number().when("openingStock", {
+        sellingPrice: Yup.string().required("Selling Price is required"),
+        costPrice: Yup.string().required("Cost Price is required"),
+        openingStockRatePerUnit: Yup.string().when("openingStock", {
             is: (v: any) => !!v,
             then: (s) => s.required("Opening Stock Rate per Unit is required"),
         }),
@@ -195,17 +196,20 @@ const ItemFormComponent = () => {
                                     <FormLabel color="red">Selling Price*</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
-                                    <InputGroup>
-                                        <InputLeftAddon children="NGN" borderRadius="8px" />
-                                        <Input
-                                            type="number"
-                                            borderRadius="8px"
-                                            name="sellingPrice"
-                                            value={form.values.sellingPrice}
-                                            onChange={form.handleChange}
-                                            onBlur={form.handleBlur}
-                                        />
-                                    </InputGroup>
+                                    <NumericFormat
+                                        customInput={Input}
+                                        allowLeadingZeros={false}
+                                        thousandSeparator=","
+                                        decimalScale={2}
+                                        prefix={"₦"}
+                                        fixedDecimalScale
+                                        borderRadius="8px"
+                                        name="sellingPrice"
+                                        value={form.values.sellingPrice}
+                                        onValueChange={({ value }) => form.handleChange({ target: { value, name: "sellingPrice" } })}
+                                        onBlur={form.handleBlur}
+                                    />
+
                                     {form.touched.sellingPrice && !!form.errors.sellingPrice ? (
                                         <FormErrorMessage>{form.errors.sellingPrice}</FormErrorMessage>
                                     ) : (
@@ -243,17 +247,19 @@ const ItemFormComponent = () => {
                                     <FormLabel color="red">Cost Price*</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
-                                    <InputGroup>
-                                        <InputLeftAddon children="NGN" borderRadius="8px" />
-                                        <Input
-                                            type="number"
-                                            borderRadius="8px"
-                                            name="costPrice"
-                                            value={form.values.costPrice}
-                                            onChange={form.handleChange}
-                                            onBlur={form.handleBlur}
-                                        />
-                                    </InputGroup>
+                                    <NumericFormat
+                                        customInput={Input}
+                                        allowLeadingZeros={false}
+                                        thousandSeparator=","
+                                        decimalScale={2}
+                                        fixedDecimalScale
+                                        borderRadius="8px"
+                                        prefix={"₦"}
+                                        name="costPrice"
+                                        value={form.values.costPrice}
+                                        onValueChange={({ value }) => form.handleChange({ target: { value, name: "costPrice" } })}
+                                        onBlur={form.handleBlur}
+                                    />
                                     {form.touched.costPrice && !!form.errors.costPrice ? <FormErrorMessage>{form.errors.costPrice}</FormErrorMessage> : ""}
                                 </Box>
                             </Flex>
@@ -287,7 +293,21 @@ const ItemFormComponent = () => {
                                     <FormLabel>Opening Stock</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
-                                    <Input
+                                    <NumericFormat
+                                        customInput={Input}
+                                        allowLeadingZeros={false}
+                                        thousandSeparator=","
+                                        decimalScale={2}
+                                        fixedDecimalScale
+                                        name="openingStock"
+                                        borderRadius="8px"
+                                        variant="outline"
+                                        width="100%"
+                                        value={form.values.openingStock}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                    />
+                                    {/* <Input
                                         type="number"
                                         width="100%"
                                         variant="outline"
@@ -296,7 +316,7 @@ const ItemFormComponent = () => {
                                         value={form.values.openingStock}
                                         onChange={form.handleChange}
                                         onBlur={form.handleBlur}
-                                    />{" "}
+                                    /> */}
                                     {form.touched.openingStock && !!form.errors.openingStock ? (
                                         <FormErrorMessage>{form.errors.openingStock}</FormErrorMessage>
                                     ) : (
@@ -314,16 +334,22 @@ const ItemFormComponent = () => {
                                     </FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
-                                    <Input
-                                        type="number"
+                                    <NumericFormat
+                                        customInput={Input}
+                                        allowLeadingZeros={false}
+                                        thousandSeparator=","
+                                        decimalScale={2}
+                                        fixedDecimalScale
+                                        prefix={"₦"}
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
                                         name="openingStockRatePerUnit"
                                         value={form.values.openingStockRatePerUnit}
-                                        onChange={form.handleChange}
+                                        onValueChange={({ value }) => form.handleChange({ target: { value, name: "openingStockRatePerUnit" } })}
                                         onBlur={form.handleBlur}
-                                    />{" "}
+                                    />
+
                                     {form.touched.openingStockRatePerUnit && !!form.errors.openingStockRatePerUnit ? (
                                         <FormErrorMessage>{form.errors.openingStockRatePerUnit}</FormErrorMessage>
                                     ) : (
@@ -339,8 +365,12 @@ const ItemFormComponent = () => {
                                     <FormLabel>Reorder Point</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
-                                    <Input
-                                        type="number"
+                                    <NumericFormat
+                                        customInput={Input}
+                                        allowLeadingZeros={false}
+                                        thousandSeparator=","
+                                        decimalScale={2}
+                                        fixedDecimalScale
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"

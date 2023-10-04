@@ -5,6 +5,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 import Card from "components/card/Card";
+import { formatNumberWithCommas } from "utils/number";
 
 type RowObj = {
     name: string;
@@ -65,7 +66,7 @@ export default function InventoryAdjustmentItemsTableComponent(props: { tableDat
                 ),
                 cell: (info) => (
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        NGN{info.getValue()}
+                        ₦{formatNumberWithCommas(info.getValue())}
                     </Text>
                 ),
             }),

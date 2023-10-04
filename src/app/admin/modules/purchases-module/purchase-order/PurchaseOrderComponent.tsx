@@ -62,7 +62,7 @@ const PurchaseOrderComponent = () => {
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>
+                                    <Button colorScheme="brand" ml={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>

@@ -1,27 +1,39 @@
-import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber, Menu, MenuButton, Button, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react";
+import {
+    Card,
+    Flex,
+    Box,
+    Heading,
+    IconButton,
+    CloseButton,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Menu,
+    MenuButton,
+    Button,
+    MenuList,
+    MenuItem,
+    useDisclosure,
+    useToast,
+} from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit, MdSettings } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
+
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-  } from "@chakra-ui/react"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 
 const SalesPersonComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const toast = useToast();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [salesPerson, setSalesPerson] = useState({
         id: "",
@@ -37,7 +49,7 @@ const SalesPersonComponent = () => {
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
-                        setSalesPerson({...data, ...salesPerson});
+                        setSalesPerson(data);
                     }
                 })
                 .catch((error) => {
@@ -45,6 +57,23 @@ const SalesPersonComponent = () => {
                 });
         }
     }, [id]);
+
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Sales/DeleteSalesperson`, { data: { id } });
+            toast({
+                title: "Success",
+                description: "Deleted Successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right",
+            });
+            navigate(`/admin/modules/sales/sales-persons`);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     return (
         <>
@@ -64,12 +93,9 @@ const SalesPersonComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    
-                    
-                    
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${id}/edit`}>
+                    {/* <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink>
+                    </ChakraLink> */}
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -83,19 +109,18 @@ const SalesPersonComponent = () => {
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Salesperson</ModalHeader>
-                                <ModalCloseButton />
-                                <ModalBody>
-                                    Are You Sure You Want To Delete?
-                                </ModalBody>
+
+                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
-                                    Cancel
+                                        Cancel
                                     </Button>
-                                    <Button colorScheme="brand" mr={3}>Delete</Button>
+                                    <Button onClick={submit} colorScheme="red" ml={3}>
+                                        Delete
+                                    </Button>
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-
                     </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons`}>
@@ -112,10 +137,8 @@ const SalesPersonComponent = () => {
                                 <StatNumber>{salesPerson.name || "--"}</StatNumber>
                             </Stat>
                         </Box>
-
-                       
                     </Flex>
-                    
+
                     <HSeparator mb="16px" />
                     <Flex mb="16px" minH="80px">
                         <Box w="45%">

@@ -7,6 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import Card from "components/card/Card";
 import { formatDateTime } from "utils/dateUtils";
 import { useEffect } from "react";
+import { formatNumberWithCommas } from "utils/number";
 
 type RowObj = {
     name: [string, boolean];
@@ -14,6 +15,12 @@ type RowObj = {
     stockOnHand: number;
     reorderPoint: string;
     createdAt: string;
+    costPrice: string;
+    sellingPrice: string;
+    totalSalesOrderQuantity: string;
+    totalPurchaseOrderQuantity: string;
+    openingStock: string;
+    quantityAdjusted: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -29,7 +36,7 @@ export default function ItemsTableComponent(props: { tableData: any }) {
         columnHelper.accessor("name", {
             id: "name",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     NAME
                 </Text>
             ),
@@ -44,49 +51,101 @@ export default function ItemsTableComponent(props: { tableData: any }) {
                 </Flex>
             ),
         }),
-        columnHelper.accessor("sku", {
-            id: "sku",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    SKU
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
         columnHelper.accessor("stockOnHand", {
             id: "stockOnHand",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     STOCK ON HAND
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),
-        columnHelper.accessor("reorderPoint", {
-            id: "reorderPoint",
+        columnHelper.accessor("sellingPrice", {
+            id: "sellingPrice",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    REORDER LEVEL
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    SELLING PRICE (₦)
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatNumberWithCommas(info.getValue())}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor("costPrice", {
+            id: "costPrice",
+            header: () => (
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    COST PRICE (₦)
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {formatNumberWithCommas(info.getValue())}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor("totalSalesOrderQuantity", {
+            id: "totalSalesOrderQuantity",
+            header: () => (
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    TOTAL SOLD
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {formatNumberWithCommas(info.getValue())}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor("totalPurchaseOrderQuantity", {
+            id: "totalPurchaseOrderQuantity",
+            header: () => (
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    TOTAL PURCHASED
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {formatNumberWithCommas(info.getValue())}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor("quantityAdjusted", {
+            id: "quantityAdjusted",
+            header: () => (
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    QUANTITY ADJUSTED
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {formatNumberWithCommas(info.getValue())}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor("openingStock", {
+            id: "openingStock",
+            header: () => (
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    OPENING STOCK
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),
         columnHelper.accessor("createdAt", {
             id: "createdAt",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     DATE CREATED
                 </Text>
             ),
