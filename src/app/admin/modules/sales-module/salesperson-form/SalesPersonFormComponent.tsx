@@ -7,19 +7,19 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import axiosRequest from "utils/api";
 
-const SalesPersonFormComponent = () => {
+const SalespersonFormComponent = () => {
     const { id } = useParams();
     let navigate = useNavigate();
 
     const validationSchema = Yup.object().shape({
-        customerDisplayName: Yup.string().required("Display Name is required"),
+        name: Yup.string().required("Name is required"),
     });
 
     const form = useFormik({
         initialValues: {
             id: "",
             name: "",
-      
+
             email: "",
             createdAt: "",
         },
@@ -52,7 +52,7 @@ const SalesPersonFormComponent = () => {
                     if (!!data) {
                         form.setValues({
                             id,
-                            
+
                             name: data.name,
                             createdAt: data.CreatedAt,
                             email: data.email,
@@ -88,7 +88,7 @@ const SalesPersonFormComponent = () => {
                         <FormControl>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel>Salesperson Name</FormLabel>
+                                    <FormLabel color="red">Name*</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
@@ -107,7 +107,7 @@ const SalesPersonFormComponent = () => {
                         <FormControl>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel>Salesperson's Email</FormLabel>
+                                    <FormLabel>Email</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
@@ -135,7 +135,7 @@ const SalesPersonFormComponent = () => {
                             <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting}>
                                 Save
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/customer/${id}` : "/admin/modules/sales/customers"}>
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/salespersons/${id}` : "/admin/modules/sales/salespersons"}>
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>
@@ -147,4 +147,4 @@ const SalesPersonFormComponent = () => {
     );
 };
 
-export default SalesPersonFormComponent;
+export default SalespersonFormComponent;
