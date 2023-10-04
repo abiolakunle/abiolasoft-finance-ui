@@ -73,8 +73,6 @@ const navRoutes = [
     },
 ];
 
-
-
 const purchaseRoutes = [
     ...navRoutes,
     {
