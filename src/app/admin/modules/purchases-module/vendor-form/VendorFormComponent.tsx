@@ -94,7 +94,7 @@ const VendorFormComponent = () => {
                         <FormControl>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel>FIRST NAME</FormLabel>
+                                    <FormLabel>First Name</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
@@ -113,7 +113,7 @@ const VendorFormComponent = () => {
                         <FormControl>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel>LAST NAME</FormLabel>
+                                    <FormLabel>Last Name</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
@@ -133,7 +133,7 @@ const VendorFormComponent = () => {
                         <FormControl>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel>PHONE NUMBER</FormLabel>
+                                    <FormLabel>Phone Number</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
@@ -153,7 +153,7 @@ const VendorFormComponent = () => {
                         <FormControl>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel>COMPANY NAME</FormLabel>
+                                    <FormLabel>Company Name</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
@@ -173,7 +173,7 @@ const VendorFormComponent = () => {
                         <FormControl>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel>EMAIL ADDRESS</FormLabel>
+                                    <FormLabel>Email Address</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
@@ -192,7 +192,7 @@ const VendorFormComponent = () => {
                         <FormControl isInvalid={form.touched.vendorDisplayName && !!form.errors.vendorDisplayName}>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel color="red">DISPLAY NAME*</FormLabel>
+                                    <FormLabel color="red">Display Name*</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
@@ -217,7 +217,7 @@ const VendorFormComponent = () => {
                         <FormControl>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel>HOME ADDRESS</FormLabel>
+                                    <FormLabel>Home Address</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
