@@ -8,6 +8,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import Permitted from "app-components/Permitted/Permitted";
+import { getUserInfo } from "utils/auth";
 
 const ManageRolePermissionsComponent = () => {
     const [permissions, setPermissions] = useState([]);
@@ -16,6 +17,7 @@ const ManageRolePermissionsComponent = () => {
 
     const location = useLocation();
     const { id: roleId } = useParams();
+    const user = getUserInfo();
 
     useEffect(() => {
         if (roleId) {
@@ -35,6 +37,11 @@ const ManageRolePermissionsComponent = () => {
     }, [roleId]);
 
     const onRolePermissionsChanged = async (newValue: any[]) => {
+
+        if(!user?.permissions?.includes("Add Permission To Role") || !user?.permissions?.includes("Remove Permissions From Role")) {
+            return;
+        }
+
         if (newValue.length === 0) {
             await removePermissions(rolePermissions);
             return;
@@ -50,6 +57,10 @@ const ManageRolePermissionsComponent = () => {
         setRolePermissions(newValue);
 
         async function removePermissions(permissionValues: any[]) {
+
+            if(!user?.permissions?.includes("Remove Permissions From Role")) {
+                return;
+            }
             try {
                 const response = await axiosRequest.put("UserManagement/RemovePermissionsFromRole", { permissionValues, roleId });
 
@@ -64,6 +75,11 @@ const ManageRolePermissionsComponent = () => {
         }
 
         async function addAddPermission(newVal: any[]) {
+
+            if(!user?.permissions?.includes("Add Permission To Role")) {
+                return;
+            }
+
             const permissionValue = newVal[newVal.length - 1];
 
             try {
@@ -105,27 +121,27 @@ const ManageRolePermissionsComponent = () => {
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" py="16px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <Permitted to="Add Permission To Role">
-                        <ThemeProvider theme={createTheme()}>
-                            {permissions.length ? (
-                                <Autocomplete
-                                    multiple
-                                    id="tags-outlined"
-                                    options={permissions}
-                                    getOptionLabel={(option) => option}
-                                    defaultValue={initialPermissions}
-                                    isOptionEqualToValue={(opt, val) => val === opt}
-                                    filterSelectedOptions
-                                    onChange={(_event, newValue) => {
-                                        onRolePermissionsChanged(newValue);
-                                    }}
-                                    renderInput={(params) => <TextField placeholder="Add permission" {...params} />}
-                                />
-                            ) : (
-                                <Text>Roles not configured yet</Text>
-                            )}
-                        </ThemeProvider>
-                    </Permitted>
+                    
+                    <ThemeProvider theme={createTheme()}>
+                        {permissions.length ? (
+                            <Autocomplete
+                                multiple
+                                id="tags-outlined"
+                                options={permissions}
+                                getOptionLabel={(option) => option}
+                                defaultValue={initialPermissions}
+                                isOptionEqualToValue={(opt, val) => val === opt}
+                                filterSelectedOptions
+                                onChange={(_event, newValue) => {
+                                    onRolePermissionsChanged(newValue);
+                                }}
+                                renderInput={(params) => <TextField placeholder="Add permission" {...params} />}
+                            />
+                        ) : (
+                            <Text>Roles not configured yet</Text>
+                        )}
+                    </ThemeProvider>
+                    
                     
                 </Card>
             </Box>
