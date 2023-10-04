@@ -85,18 +85,18 @@ const SalesOrderComponent = () => {
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </Permitted>
-                    
+
                     <Menu>
-                        <MenuButton order={{ sm: "3", md: "2" }} width="100%" minW="120px" as={Button} rightIcon={<ChevronDownIcon />}>
-                            Convert
-                        </MenuButton>
-                        <Permitted  to="Convert Sales Order To Invoice">
+                        <Permitted to="Convert Sales Order To Invoice">
+                            <MenuButton order={{ sm: "3", md: "2" }} width="100%" minW="120px" as={Button} rightIcon={<ChevronDownIcon />}>
+                                Convert
+                            </MenuButton>
+
                             <MenuList>
                                 <MenuItem onClick={convertToInvoice}>Convert to Invoice</MenuItem>
                                 <MenuItem onClick={instantInvoice}>Instant Invoice</MenuItem>
                             </MenuList>
                         </Permitted>
-                        
                     </Menu>
 
                     <Menu>

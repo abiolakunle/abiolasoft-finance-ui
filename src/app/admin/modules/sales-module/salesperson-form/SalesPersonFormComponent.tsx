@@ -46,7 +46,7 @@ const SalespersonFormComponent = () => {
     useEffect(() => {
         if (id) {
             axiosRequest
-                .get(`Sales/GetCustomerById?id=${id}`)
+                .get(`Sales/GetSalesPersonById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {

@@ -44,20 +44,6 @@ const SalespersonsComponent = () => {
                 }}
                 gap="20px"
             >
-                {/* <Menu>
-                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                        <IconButton
-
-                            aria-label="Call Fred"
-
-                            icon={<MdSettings />}
-                        />
-                    </MenuButton>
-                    <MenuList>
-                        <MenuItem >Delete</MenuItem>
-
-                    </MenuList>
-                </Menu> */}
                 <Permitted to="Create Salesperson">
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/salespersons/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
