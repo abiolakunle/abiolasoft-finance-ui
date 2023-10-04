@@ -8,6 +8,7 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import Permitted from "app-components/Permitted/Permitted";
+import { getUserInfo } from "utils/auth";
 
 const ManageUserRolesComponent = () => {
     const [roles, setRoles] = useState([]);
@@ -16,6 +17,7 @@ const ManageUserRolesComponent = () => {
 
     const location = useLocation();
     const { id: userId } = useParams();
+    const user = getUserInfo();
 
     useEffect(() => {
         if (userId) {
@@ -35,6 +37,11 @@ const ManageUserRolesComponent = () => {
     }, [userId]);
 
     const onUserRolesChanged = async (newValue: any[]) => {
+
+        if(!user?.permissions?.includes("Assign Role To User") || !user?.permissions?.includes("Remove User From Roles")) {
+            return;
+        }
+
         if (newValue.length === 0) {
             await removeRoles(userRoles.map((r) => r.name));
             return;
@@ -50,6 +57,11 @@ const ManageUserRolesComponent = () => {
         setUserRoles(newValue);
 
         async function removeRoles(roleNames: any[]) {
+
+            if(!user?.permissions?.includes("Remove User From Roles")) {
+                return;
+            }
+
             try {
                 const response = await axiosRequest.put("UserManagement/RemoveUserFromRoles", { roleNames, userId });
 
@@ -64,6 +76,11 @@ const ManageUserRolesComponent = () => {
         }
 
         async function addRole(newVal: any[]) {
+
+            if(!user?.permissions?.includes("Assign Role To User")) {
+                return;
+            }
+            
             const role = newVal[newVal.length - 1];
 
             try {
