@@ -105,17 +105,20 @@ const UserComponent = () => {
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </Permitted>
+                    <Permitted to="Create Role">
+                        <Button  width="100%" variant="brand" onClick={manageRoles}>
+                            Manage Roles
+                        </Button>
+                    </Permitted>
 
                     <Menu>
-                        <MenuButton  width="100%" as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton  as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <MenuList>
                             
                             <MenuItem onClick={changePassword}>Change Password</MenuItem>
-                            <Permitted to="Create Role">
-                                <MenuItem onClick={manageRoles}>Manage Roles</MenuItem>
-                            </Permitted>
+                            
                             <Permitted to="Delete Sales Order">
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </Permitted>
@@ -126,7 +129,7 @@ const UserComponent = () => {
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                             <ModalContent>
-                                <ModalHeader>Delete Sales Order</ModalHeader>
+                                <ModalHeader>Delete User</ModalHeader>
 
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>

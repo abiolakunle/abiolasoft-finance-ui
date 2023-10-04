@@ -93,13 +93,13 @@ const RoleComponent = () => {
                     </Permitted>
                     
                     <Permitted to="Add Permission To Role">
-                        <Button variant="brand" onClick={managePermissions}>
+                        <Button width="100%" variant="brand" onClick={managePermissions}>
                             Manage Permissions
                         </Button>
                     </Permitted> 
 
                     <Menu>
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton width="100%" as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <Permitted to="Delete Purchase Order">
@@ -112,7 +112,7 @@ const RoleComponent = () => {
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                             <ModalContent>
-                                <ModalHeader>Delete Purchase Order</ModalHeader>
+                                <ModalHeader>Delete Role</ModalHeader>
                                 
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>

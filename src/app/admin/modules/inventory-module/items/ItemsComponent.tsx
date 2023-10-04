@@ -70,8 +70,12 @@ const ItemsComponent = () => {
                         Sync Quantities
                     </MenuButton>
                     <MenuList>
-                        <MenuItem onClick={() => syncQuantities("Purchase")}>Sync Purchases</MenuItem>
-                        <MenuItem onClick={() => syncQuantities("Sales")}>Sync Sales</MenuItem>
+                        <Permitted to="Recalculate Purchase Order Items Total Quantity">
+                            <MenuItem onClick={() => syncQuantities("Purchase")}>Sync Purchases</MenuItem>
+                        </Permitted>
+                        <Permitted to="Recalculate Sales Order Items Total Quantity">
+                            <MenuItem onClick={() => syncQuantities("Sales")}>Sync Sales</MenuItem>
+                        </Permitted>
                     </MenuList>
                 </Menu>
                 <Permitted to="Create Item"> 
