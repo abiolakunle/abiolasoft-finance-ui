@@ -1,43 +1,40 @@
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
+
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
-import { Link as ReactRouterLink } from "react-router-dom";
-import { Link as ChakraLink } from "@chakra-ui/react";
 
 import Card from "components/card/Card";
-import { formatDateTime } from "utils/dateUtils";
+
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 type RowObj = {
-    firstName: string;
-    lastName: string;
-    email: number;
-    phoneNumber: string;
-    createdAt: string;
+    name: [string, boolean];
+    email: [string, boolean];
 };
 
 const columnHelper = createColumnHelper<RowObj>();
 
-// const columns = columnsDataCheck;
-export default function UsersTableComponent(props: { tableData: any }) {
+function SalesPersonsTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
 
     const columns = [
-        columnHelper.accessor("email", {
-            id: "email",
+        columnHelper.accessor("name", {
+            id: "name",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    EMAIL
+                    Sales Persons Name
                 </Text>
             ),
             cell: (info: any) => (
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>
@@ -45,55 +42,16 @@ export default function UsersTableComponent(props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("firstName", {
-            id: "firstName",
+        columnHelper.accessor("email", {
+            id: "email",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    FIRST NAME
+                    Email Address
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
                     {info.getValue()}
-                </Text>
-            ),
-        }),
-        columnHelper.accessor("lastName", {
-            id: "lastName",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    LAST NAME
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
-        columnHelper.accessor("phoneNumber", {
-            id: "phoneNumber",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    PHONE NUMBER
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
-        columnHelper.accessor("createdAt", {
-            id: "createdAt",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    DATE CREATED
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {formatDateTime(info.getValue(), true)}
                 </Text>
             ),
         }),
@@ -119,22 +77,6 @@ export default function UsersTableComponent(props: { tableData: any }) {
 
     return (
         <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
-            {/* <Flex
-                px="25px"
-                mb="8px"
-                justifyContent="space-between"
-                align="center"
-            >
-                <Text
-                    color={textColor}
-                    fontSize="22px"
-                    fontWeight="700"
-                    lineHeight="100%"
-                >
-                    Check Table
-                </Text>
-                <Menu />
-            </Flex> */}
             <Box>
                 <Table variant="simple" color="gray.500" mb="24px" mt="12px">
                     <Thead>
@@ -200,3 +142,5 @@ export default function UsersTableComponent(props: { tableData: any }) {
         </Card>
     );
 }
+
+export default SalesPersonsTableComponent;

@@ -1,12 +1,10 @@
 import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
-
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
-
 import Card from "components/card/Card";
-
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 type RowObj = {
     primaryContactFirstName: [string, boolean];
@@ -14,6 +12,7 @@ type RowObj = {
     vendorPhone: number;
     vendorDisplayName: string;
     companyName: string;
+    vendorEmail: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -23,21 +22,20 @@ function VendorsTableComponent(props: { tableData: any }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
     const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
-    let defaultData = tableData;
 
     const columns = [
-        columnHelper.accessor("primaryContactFirstName", {
-            id: "primaryContactFirstName",
+        columnHelper.accessor("vendorDisplayName", {
+            id: "vendorDisplayName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    FIRST NAME
+                    NAME
                 </Text>
             ),
             cell: (info: any) => (
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendor/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>
@@ -45,11 +43,11 @@ function VendorsTableComponent(props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("primaryContactLastName", {
-            id: "primaryContactLastName",
+        columnHelper.accessor("companyName", {
+            id: "companyName",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    LAST NAME
+                    COMPANY NAME
                 </Text>
             ),
             cell: (info) => (
@@ -59,11 +57,11 @@ function VendorsTableComponent(props: { tableData: any }) {
             ),
         }),
 
-        columnHelper.accessor("vendorDisplayName", {
-            id: "vendorDisplayName",
+        columnHelper.accessor("vendorEmail", {
+            id: "vendorEmail",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    DISPLAY NAME
+                    Email
                 </Text>
             ),
             cell: (info) => (
@@ -86,23 +84,13 @@ function VendorsTableComponent(props: { tableData: any }) {
                 </Text>
             ),
         }),
-
-        columnHelper.accessor("companyName", {
-            id: "companyName",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    COMPANY'S NAME
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
     ];
 
-    const [data, setData] = React.useState(() => [...defaultData]);
+    const [data, setData] = React.useState(() => [...tableData]);
+
+    useEffect(() => {
+        setData(tableData);
+    }, [tableData]);
 
     const table = useReactTable({
         data,

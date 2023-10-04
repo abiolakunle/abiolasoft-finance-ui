@@ -14,7 +14,6 @@ import {
     MenuList,
     MenuItem,
     useDisclosure,
-    Toast,
     useToast,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
@@ -23,11 +22,11 @@ import { MdEdit, MdSettings } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
+
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
-import axios from "axios";
 
-const CustomerComponent = () => {
+const SalesPersonComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
@@ -36,34 +35,21 @@ const CustomerComponent = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const [customer, setCustomer] = useState({
+    const [salesPerson, setSalesPerson] = useState({
         id: "",
-        customerFirstName: "",
-        customerLastName: "",
-        companyName: "",
-        customerDisplayName: "",
-        customerEmail: "",
-        customerPhone: "",
-        customerAddress: "",
+        name: "",
+        email: "",
+        createdAt: "",
     });
 
     useEffect(() => {
         if (id) {
             axiosRequest
-                .get(`Sales/GetCustomerById?id=${id}`)
+                .get(`Sales/GetSalespersonById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
-                        setCustomer({
-                            id,
-                            customerFirstName: data.customerFirstName,
-                            customerLastName: data.customerLastName,
-                            companyName: data.companyName,
-                            customerDisplayName: data.customerDisplayName,
-                            customerEmail: data.customerEmail,
-                            customerPhone: data.customerPhone,
-                            customerAddress: data.customerAddress,
-                        });
+                        setSalesPerson(data);
                     }
                 })
                 .catch((error) => {
@@ -74,7 +60,7 @@ const CustomerComponent = () => {
 
     const submit = async () => {
         try {
-            await axiosRequest.delete(`Sales/DeleteCustomer`, { data: { id } });
+            await axiosRequest.delete(`Sales/DeleteSalesperson`, { data: { id } });
             toast({
                 title: "Success",
                 description: "Deleted Successfully",
@@ -83,7 +69,7 @@ const CustomerComponent = () => {
                 isClosable: true,
                 position: "bottom-right",
             });
-            navigate(`/admin/modules/sales/customers`);
+            navigate(`/admin/modules/sales/sales-persons`);
         } catch (error) {
             console.error("Error:", error);
         }
@@ -103,13 +89,13 @@ const CustomerComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    Customer
+                    Sales Person
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
+                    {/* <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink>
+                    </ChakraLink> */}
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -122,14 +108,14 @@ const CustomerComponent = () => {
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                             <ModalContent>
-                                <ModalHeader>Delete Customer</ModalHeader>
+                                <ModalHeader>Delete Salesperson</ModalHeader>
 
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="red" ml={3} onClick={submit}>
+                                    <Button onClick={submit} colorScheme="red" ml={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>
@@ -137,66 +123,28 @@ const CustomerComponent = () => {
                         </Modal>
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <Flex justifyContent="space-between" mb="16px" minH="80px">
+                    <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>FIRST NAME</StatLabel>
-                                <StatNumber>{customer.customerFirstName || "--"}</StatNumber>
-                            </Stat>
-                        </Box>
-
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>LAST NAME</StatLabel>
-                                <StatNumber>{customer.customerLastName || "--"}</StatNumber>
-                            </Stat>
-                        </Box>
-                    </Flex>
-
-                    <Flex justifyContent="space-between" mb="16px" minH="80px">
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>DISPLAY NAME</StatLabel>
-                                <StatNumber>{customer.customerDisplayName || "--"}</StatNumber>
-                            </Stat>
-                        </Box>
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>COMPANY NAME</StatLabel>
-                                <StatNumber>{customer.companyName || "--"}</StatNumber>
+                                <StatLabel>Sales Person's Name</StatLabel>
+                                <StatNumber>{salesPerson.name || "--"}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
 
                     <HSeparator mb="16px" />
-                    <Flex justifyContent="space-between" mb="16px" minH="80px">
+                    <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
-                                <StatLabel>PHONE NUMBER</StatLabel>
-                                <StatNumber>{customer.customerPhone || "--"}</StatNumber>
-                            </Stat>
-                        </Box>
-
-                        <Box w="45%">
-                            <Stat>
-                                <StatLabel>E-MAIL</StatLabel>
-                                <StatNumber>{customer.customerEmail}</StatNumber>
-                            </Stat>
-                        </Box>
-                    </Flex>
-
-                    <Flex justifyContent="space-between" mb="16px" minH="80px">
-                        <Box w="40%">
-                            <Stat>
-                                <StatLabel>ADDRESS</StatLabel>
-                                <StatNumber>{customer.customerAddress}</StatNumber>
+                                <StatLabel>Email Address</StatLabel>
+                                <StatNumber>{salesPerson.email || "--"}</StatNumber>
                             </Stat>
                         </Box>
                     </Flex>
@@ -206,4 +154,4 @@ const CustomerComponent = () => {
     );
 };
 
-export default CustomerComponent;
+export default SalesPersonComponent;

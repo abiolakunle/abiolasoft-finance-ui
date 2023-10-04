@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
-import VendorsTableComponent from "./VendorsTableComponent";
-import { MdAdd } from "react-icons/md";
+import { Box, Button, Flex, Icon, IconButton, Menu, MenuButton, MenuItem, MenuList, SimpleGrid } from "@chakra-ui/react";
+import SalesPersonsTableComponent from "./SalesPersonsTableComponent";
+import { MdAdd, MdSettings } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { pageSize } from "variables/constant-values";
 
-const VendorsComponent = () => {
+const SalesPersonsComponent = () => {
     const [tableData, setTableData] = useState(null);
     const [pageIndex, setPageIndex] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         axiosRequest
-            .get(`Purchases/GetAllVendors?PageIndex=${pageIndex}&PageSize=${pageSize}`)
+            .get(`Sales/GetAllSalesPersons?PageIndex=${pageIndex}&PageSize=${pageSize}`)
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);
@@ -43,7 +43,21 @@ const VendorsComponent = () => {
                 }}
                 gap="20px"
             >
-                <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/new`}>
+                {/* <Menu>
+                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                        <IconButton
+
+                            aria-label="Call Fred"
+
+                            icon={<MdSettings />}
+                        />
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem >Delete</MenuItem>
+
+                    </MenuList>
+                </Menu> */}
+                <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/new`}>
                     <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                         New
                     </Button>
@@ -51,7 +65,7 @@ const VendorsComponent = () => {
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
-                    {tableData && <VendorsTableComponent tableData={tableData} />}
+                    {tableData && <SalesPersonsTableComponent tableData={tableData} />}
                 </SimpleGrid>
             </Box>
 
@@ -66,4 +80,4 @@ const VendorsComponent = () => {
     );
 };
 
-export default VendorsComponent;
+export default SalesPersonsComponent;

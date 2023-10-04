@@ -6,22 +6,30 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import SalesOrdersTableComponent from "./SalesOrdersTableComponent";
 import axiosRequest from "utils/api";
+import { pageSize } from "variables/constant-values";
 
 const SalesOrdersComponent = () => {
     const [data, setData] = useState(null);
+    const [pageIndex, setPageIndex] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         axiosRequest
-            .get("Sales/GetAllSalesOrders?PageIndex=1&PageSize=50")
+            .get(`Sales/GetAllSalesOrders?PageIndex=${pageIndex}&PageSize=${pageSize}`)
             .then((response) => {
                 if (response.data && response.data.data) {
                     setData(response.data.data.items);
+                    setTotalPages(response.data.data.totalPages);
                 }
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
             });
-    }, []);
+    }, [pageIndex]);
+
+    const handlePageChange = (newPageIndex: number) => {
+        setPageIndex(newPageIndex);
+    };
 
     return (
         <>
@@ -46,6 +54,14 @@ const SalesOrdersComponent = () => {
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
                     {data && <SalesOrdersTableComponent tableData={data} />}
                 </SimpleGrid>
+            </Box>
+
+            <Box display="flex" justifyContent="center" marginTop="20px">
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <Button key={index} variant={pageIndex === index + 1 ? "brand" : "outline"} onClick={() => handlePageChange(index + 1)} mr="2">
+                        {index + 1}
+                    </Button>
+                ))}
             </Box>
         </>
     );

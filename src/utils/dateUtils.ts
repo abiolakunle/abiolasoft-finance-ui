@@ -20,3 +20,8 @@ export const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toISOString().split("T")[0]; // Converts to YYYY-MM-DD format
 };
+
+export const currentDate = () => {
+    var dt = new Date();
+    return new Date(dt.getTime() + Math.abs(dt.getTimezoneOffset() * 60000)).toISOString().split("T")[0];
+};

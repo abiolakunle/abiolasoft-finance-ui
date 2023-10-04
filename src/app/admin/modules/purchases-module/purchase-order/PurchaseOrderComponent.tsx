@@ -1,36 +1,20 @@
-import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure, useToast } from "@chakra-ui/react";
+import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { MdEdit, MdSettings } from "react-icons/md";
-import InvoiceFormComponent from "../invoice-form/InvoiceFormComponent";
+import { MdEdit } from "react-icons/md";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
-import axiosRequest from "utils/api";
+import PurchaseOrderFormComponent from "../purchase-order-form/PurchaseOrderFormComponent";
 
-const InvoiceComponent = () => {
+const PurchaseOrderComponent = () => {
     const { id } = useParams();
-
-    const toast = useToast();
 
     const navigate = useNavigate();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`Sales/DeleteInvoice`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/modules/sales/invoices`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
+    const convertToBill = () => {
+        navigate("/admin/modules/purchases/bills/new", { state: { purchaseOrderId: id } });
     };
 
     return (
@@ -48,13 +32,17 @@ const InvoiceComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    Invoice
+                    Purchase Order
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${id}/edit`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
+
+                    <Button onClick={convertToBill} variant="brand">
+                        Convert to Bill
+                    </Button>
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -67,14 +55,14 @@ const InvoiceComponent = () => {
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                             <ModalContent>
-                                <ModalHeader>Delete Invoice</ModalHeader>
-
+                                <ModalHeader>Delete Purchase Order</ModalHeader>
+                                <ModalCloseButton />
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
                                         Cancel
                                     </Button>
-                                    <Button colorScheme="red" onClick={submit} ml={3}>
+                                    <Button colorScheme="brand" ml={3}>
                                         Delete
                                     </Button>
                                 </ModalFooter>
@@ -82,14 +70,14 @@ const InvoiceComponent = () => {
                         </Modal>
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
             </Flex>
-            <InvoiceFormComponent viewOnly={true} />
+            <PurchaseOrderFormComponent viewOnly={true} />
         </>
     );
 };
 
-export default InvoiceComponent;
+export default PurchaseOrderComponent;

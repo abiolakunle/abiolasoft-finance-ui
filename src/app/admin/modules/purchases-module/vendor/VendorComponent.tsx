@@ -1,20 +1,40 @@
-import { Card, Flex, Box, Heading, IconButton, CloseButton, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
+import {
+    Card,
+    Flex,
+    Box,
+    Heading,
+    IconButton,
+    CloseButton,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Menu,
+    MenuButton,
+    Button,
+    MenuList,
+    MenuItem,
+    useDisclosure,
+} from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 
 const VendorComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const [vendor, setVendor] = useState({
         id: "",
-        vendorFirstName: "",
-        vendorLastName: "",
+        primaryContactFirstName: "",
+        primaryContactLastName: "",
         companyName: "",
         vendorDisplayName: "",
         vendorEmail: "",
@@ -25,14 +45,14 @@ const VendorComponent = () => {
     useEffect(() => {
         if (id) {
             axiosRequest
-                .get(`Purchases/CreateVendor=${id}`)
+                .get(`Purchases/GetVendorById?id=${id}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
                         setVendor({
                             id,
-                            vendorFirstName: data.vendorFirstName,
-                            vendorLastName: data.vendorLastName,
+                            primaryContactFirstName: data.primaryContactFirstName,
+                            primaryContactLastName: data.primaryContactLastName,
                             companyName: data.companyName,
                             vendorDisplayName: data.vendorDisplayName,
                             vendorEmail: data.vendorEmail,
@@ -46,6 +66,14 @@ const VendorComponent = () => {
                 });
         }
     }, [id]);
+
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`Purchases/DeleteVendor`, { data: { id } });
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     return (
         <>
@@ -61,7 +89,7 @@ const VendorComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    CUSTOMER
+                    Vendor
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
@@ -69,35 +97,62 @@ const VendorComponent = () => {
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                     </ChakraLink>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purhases/vendors`}>
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            More
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={onOpen}>Delete</MenuItem>
+                        </MenuList>
+
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Delete Vendor</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
+                                <ModalFooter>
+                                    <Button variant="ghost" onClick={onClose}>
+                                        Cancel
+                                    </Button>
+                                    <Button colorScheme="brand" ml={3} onClick={submit}>
+                                        Delete
+                                    </Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
+                    </Menu>
+
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card p="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <Flex mb="16px" minH="80px">
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>FIRST NAME</StatLabel>
-                                <StatNumber>{vendor.vendorFirstName || "--"}</StatNumber>
+                                <StatNumber>{vendor.primaryContactFirstName || "--"}</StatNumber>
                             </Stat>
                         </Box>
 
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>LAST NAME</StatLabel>
-                                <StatNumber>{vendor.vendorLastName || "--"}</StatNumber>
+                                <StatNumber>{vendor.primaryContactLastName || "--"}</StatNumber>
                             </Stat>
                         </Box>
+                    </Flex>
+
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>DISPLAY NAME</StatLabel>
                                 <StatNumber>{vendor.vendorDisplayName || "--"}</StatNumber>
                             </Stat>
                         </Box>
-                    </Flex>
-                    <Flex mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>COMPANY NAME</StatLabel>
@@ -105,8 +160,9 @@ const VendorComponent = () => {
                             </Stat>
                         </Box>
                     </Flex>
+
                     <HSeparator mb="16px" />
-                    <Flex mb="16px" minH="80px">
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="45%">
                             <Stat>
                                 <StatLabel>PHONE NUMBER</StatLabel>
@@ -120,6 +176,9 @@ const VendorComponent = () => {
                                 <StatNumber>{vendor.vendorEmail}</StatNumber>
                             </Stat>
                         </Box>
+                    </Flex>
+
+                    <Flex justifyContent="space-between" mb="16px" minH="80px">
                         <Box w="40%">
                             <Stat>
                                 <StatLabel>ADDRESS</StatLabel>

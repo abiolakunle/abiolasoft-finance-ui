@@ -1,10 +1,19 @@
-import { CloseIcon } from "@chakra-ui/icons";
 import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input, Icon, Button, IconButton } from "@chakra-ui/react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
-import { MdAdd } from "react-icons/md";
-import { defaultItem } from "./SalesOrderFormComponent";
+import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
+import { NumericFormat } from "react-number-format";
+import { formatNumberWithCommas } from "utils/number";
+
+export const defaultItem = {
+    itemId: "",
+    itemName: "",
+    description: "",
+    quantity: 1,
+    rate: 0,
+    tax: 0,
+};
 
 type RowObj = {
     itemId: string;
@@ -17,7 +26,7 @@ type RowObj = {
 
 const columnHelper = createColumnHelper<RowObj>();
 
-export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
+export const TableCellInput = ({ getValue, row, column, table, type, maxW, currency }: any) => {
     const initialValue = getValue();
     const tableMeta = table.options.meta;
     const [value, setValue] = useState(initialValue);
@@ -31,8 +40,21 @@ export const TableCellInput = ({ getValue, row, column, table, type }: any) => {
     };
 
     return (
-        <Flex align="center">
-            <Input type={type} name={column.id} isRequired={true} variant="outline" borderRadius="8px" value={value} onBlur={onBlur} onChange={(e) => setValue(e.target.value)} />
+        <Flex align="center" maxW={maxW}>
+            <NumericFormat
+                customInput={Input}
+                allowLeadingZeros={false}
+                thousandSeparator=","
+                decimalScale={2}
+                fixedDecimalScale
+                borderRadius="8px"
+                prefix={currency}
+                name={column.id}
+                variant="outline"
+                value={value}
+                onBlur={onBlur}
+                onValueChange={(e) => setValue(e.value)}
+            />
         </Flex>
     );
 };
@@ -64,7 +86,7 @@ export const TableCellSelect = ({ getValue, row, column, table, options }: any) 
     );
 };
 
-export default function SalesOrderFormItemsTableComponent(props: {
+export default function LineItemsTableComponent(props: {
     tableLines: any;
     viewOnly: boolean;
     items: any[];
@@ -93,7 +115,7 @@ export default function SalesOrderFormItemsTableComponent(props: {
         columnHelper.accessor("itemId", {
             id: "itemId",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" align="left" minW={{ md: "400px" }} fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     ITEM DETAILS
                 </Text>
             ),
@@ -106,7 +128,7 @@ export default function SalesOrderFormItemsTableComponent(props: {
                     QUANTITY
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="quantity" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" name="quantity" maxW="100px" {...info} />,
         }),
 
         columnHelper.accessor("rate", {
@@ -116,9 +138,9 @@ export default function SalesOrderFormItemsTableComponent(props: {
                     RATE
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="rate" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" maxW="180px" name="rate" currency="₦" {...info} />,
         }),
-        // columnHelper.accessor("tax", {
+        // columnHelper.ac)cessor("tax", {
         //     id: "tax",
         //     header: () => (
         //         <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
@@ -135,12 +157,12 @@ export default function SalesOrderFormItemsTableComponent(props: {
             id: "amount",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    AMOUNT
+                    AMOUNT (₦)
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {+info.row.original.quantity * +info.row.original.rate}
+                    {formatNumberWithCommas(+info.row.original.quantity * +info.row.original.rate)}
                 </Text>
             ),
         }),
@@ -151,6 +173,7 @@ export default function SalesOrderFormItemsTableComponent(props: {
                 cell: (info: any) => {
                     return (
                         <IconButton
+                            isDisabled={info.row.id === "0" && data.length === 1}
                             onClick={() => {
                                 info.table.options.meta?.removeRow(info.row.index);
                             }}
@@ -159,8 +182,8 @@ export default function SalesOrderFormItemsTableComponent(props: {
                             variant="outline"
                             colorScheme="red"
                             aria-label="Remove"
-                            fontSize="10px"
-                            icon={<CloseIcon />}
+                            fontSize="20px"
+                            icon={<MdOutlineDeleteOutline />}
                         />
                     );
                 },
@@ -226,7 +249,7 @@ export default function SalesOrderFormItemsTableComponent(props: {
                                         >
                                             <Flex
                                                 justifyContent="space-between"
-                                                align="center"
+                                                align="left"
                                                 fontSize={{
                                                     sm: "10px",
                                                     lg: "12px",
@@ -248,7 +271,7 @@ export default function SalesOrderFormItemsTableComponent(props: {
                     <Tbody>
                         {table.getRowModel().rows.map((row) => {
                             return (
-                                <Tr key={row.id}>
+                                <Tr key={row.id} borderTop={{ sm: "2px solid grey", md: "none" }}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
                                             <Td
@@ -262,7 +285,21 @@ export default function SalesOrderFormItemsTableComponent(props: {
                                                 }}
                                                 borderColor="transparent"
                                             >
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                <Flex
+                                                    width="100%"
+                                                    gap={{ sm: "10px", md: "0px" }}
+                                                    alignItems="center"
+                                                    flexWrap={{ sm: cell.column.id === "itemId" ? "wrap" : "nowrap", md: "nowrap" }}
+                                                    pl={{ sm: "8px", md: cell.column.id === "itemId" ? "16px" : "0px" }}
+                                                    justifyContent={{ sm: cell.column.id === "amount" ? "space-between" : "start", md: "center" }}
+                                                >
+                                                    <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
+                                                        {cell.column.id === "itemId" ? "Item Name" : cell.column.id}
+                                                    </Text>
+                                                    <Box textAlign={{ sm: "right", md: "left" }} width="100%">
+                                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                    </Box>
+                                                </Flex>
                                             </Td>
                                         );
                                     })}
@@ -284,7 +321,7 @@ export default function SalesOrderFormItemsTableComponent(props: {
 
     function setItemPriceOnRow(columnId: string, rowUpdate: any, value: string, rowIndex: number) {
         if (columnId === "itemId") {
-            rowUpdate.rate = items.find((i) => i.id === value).sellingPrice;
+            rowUpdate.rate = items.find((i) => i.id === value).price;
             onTableLineUpdate({ name: "rate", value: rowUpdate.rate }, rowIndex);
         }
     }
