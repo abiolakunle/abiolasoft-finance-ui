@@ -1,4 +1,29 @@
-import { Card, Flex, Text, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber, Badge, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, MenuButton, Menu, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react";
+import {
+    Card,
+    Flex,
+    Text,
+    Box,
+    Heading,
+    IconButton,
+    Button,
+    CloseButton,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Badge,
+    useToast,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    MenuButton,
+    Menu,
+    MenuList,
+    MenuItem,
+    useDisclosure,
+} from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
@@ -14,7 +39,7 @@ const RoleComponent = () => {
 
     let navigate = useNavigate();
 
-    const toast = useToast()
+    const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -69,7 +94,6 @@ const RoleComponent = () => {
         }
     };
 
-
     return (
         <>
             <Flex
@@ -91,15 +115,15 @@ const RoleComponent = () => {
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </Permitted>
-                    
+
                     <Permitted to="Add Permission To Role">
-                        <Button width="100%" variant="brand" onClick={managePermissions}>
+                        <Button variant="brand" onClick={managePermissions}>
                             Manage Permissions
                         </Button>
-                    </Permitted> 
+                    </Permitted>
 
                     <Menu>
-                        <MenuButton width="100%" as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <Permitted to="Delete Purchase Order">
@@ -107,13 +131,12 @@ const RoleComponent = () => {
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </MenuList>
                         </Permitted>
-                        
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Role</ModalHeader>
-                                
+
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>
@@ -126,7 +149,6 @@ const RoleComponent = () => {
                             </ModalContent>
                         </Modal>
                     </Menu>
-                    
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles`}>
                         <CloseButton size="lg" />

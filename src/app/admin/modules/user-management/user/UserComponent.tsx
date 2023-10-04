@@ -1,4 +1,29 @@
-import { Card, Flex, Text, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber, Badge, useToast, useDisclosure, Menu, MenuButton, MenuList, MenuItem, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@chakra-ui/react";
+import {
+    Card,
+    Flex,
+    Text,
+    Box,
+    Heading,
+    IconButton,
+    Button,
+    CloseButton,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Badge,
+    useToast,
+    useDisclosure,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+} from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
@@ -99,32 +124,28 @@ const UserComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-
                     <Permitted to="Update User">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </Permitted>
                     <Permitted to="Create Role">
-                        <Button  width="100%" variant="brand" onClick={manageRoles}>
+                        <Button variant="brand" onClick={manageRoles}>
                             Manage Roles
                         </Button>
                     </Permitted>
 
                     <Menu>
-                        <MenuButton  as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <MenuList>
-                            
                             <MenuItem onClick={changePassword}>Change Password</MenuItem>
-                            
+
                             <Permitted to="Delete Sales Order">
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </Permitted>
-                            
                         </MenuList>
-                        
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
@@ -143,7 +164,7 @@ const UserComponent = () => {
                             </ModalContent>
                         </Modal>
                     </Menu>
-        
+
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
