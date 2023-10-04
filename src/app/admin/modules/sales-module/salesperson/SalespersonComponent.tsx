@@ -27,7 +27,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import Permitted from "app-components/Permitted/Permitted";
 
-const SalesPersonComponent = () => {
+const SalespersonComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
@@ -70,7 +70,7 @@ const SalesPersonComponent = () => {
                 isClosable: true,
                 position: "bottom-right",
             });
-            navigate(`/admin/modules/sales/sales-persons`);
+            navigate(`/admin/modules/sales/salespersons`);
         } catch (error) {
             console.error("Error:", error);
         }
@@ -95,12 +95,10 @@ const SalesPersonComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <Permitted to="Edit Salesperson">
-                        {/* <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${id}/edit`}>
+                        {/* <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/salespersons/${id}/edit`}>
                         <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink> */}
-
                     </Permitted>
-                    
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -111,7 +109,6 @@ const SalesPersonComponent = () => {
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </MenuList>
                         </Permitted>
-                        
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
@@ -131,7 +128,7 @@ const SalesPersonComponent = () => {
                         </Modal>
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/salespersons`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
@@ -162,4 +159,4 @@ const SalesPersonComponent = () => {
     );
 };
 
-export default SalesPersonComponent;
+export default SalespersonComponent;

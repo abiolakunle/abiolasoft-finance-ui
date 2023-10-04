@@ -7,7 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import axiosRequest from "utils/api";
 
-const SalesPersonFormComponent = () => {
+const SalespersonFormComponent = () => {
     const { id } = useParams();
     let navigate = useNavigate();
 
@@ -135,7 +135,7 @@ const SalesPersonFormComponent = () => {
                             <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting}>
                                 Save
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/sales-persons/${id}` : "/admin/modules/sales/sales-persons"}>
+                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/salespersons/${id}` : "/admin/modules/sales/salespersons"}>
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>
@@ -147,4 +147,4 @@ const SalesPersonFormComponent = () => {
     );
 };
 
-export default SalesPersonFormComponent;
+export default SalespersonFormComponent;
