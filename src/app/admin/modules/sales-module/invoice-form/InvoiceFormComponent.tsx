@@ -38,15 +38,6 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         total: 0,
     });
 
-    const sortCustomerAlphabetically = () => {
-        const sorted = customers.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
-        setCustomers(sorted);
-    };
-
-    const sortSalesperson = (arr: any) => {
-        return arr.sort((a: any, b: any) => a.name.localeCompare(b.name));
-    };
-
     const validationSchema = Yup.object().shape({
         customerId: Yup.string().required("Select a customer"),
         salespersonId: Yup.string().required("Select a salesperson"),

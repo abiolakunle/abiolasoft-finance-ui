@@ -101,9 +101,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             initialRequests.push(axiosRequest.get(`Sales/GetSalesOrderById?id=${id}`));
         }
 
-        // const datee = new Date().toISOString().split("T")[0]
-        // const f = { form.initialValues.date, datee };
-
         Promise.all(initialRequests)
             .then((response) => {
                 if (id) {
