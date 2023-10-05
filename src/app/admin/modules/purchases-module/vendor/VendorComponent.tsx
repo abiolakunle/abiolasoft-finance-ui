@@ -25,7 +25,7 @@ import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
-import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
+import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 
 const VendorComponent = () => {
     const { id } = useParams();
@@ -107,21 +107,21 @@ const VendorComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <UserIsPermitted to="Edit Vendor">
+                    <IfUserIsPermitted to="Edit Vendor">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
-                    </UserIsPermitted>
+                    </IfUserIsPermitted>
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
-                        <UserIsPermitted to="Delete Vendor">
+                        <IfUserIsPermitted to="Delete Vendor">
                             <MenuList>
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </MenuList>
-                        </UserIsPermitted>
+                        </IfUserIsPermitted>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />

@@ -31,7 +31,7 @@ import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import { formatDateTime } from "utils/dateUtils";
 import axiosRequest from "utils/api";
-import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
+import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const UserComponent = () => {
@@ -122,16 +122,16 @@ const UserComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <UserIsPermitted to="Update User">
+                    <IfUserIsPermitted to="Update User">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
-                    </UserIsPermitted>
-                    <UserIsPermitted to="Manage User Roles">
+                    </IfUserIsPermitted>
+                    <IfUserIsPermitted to="Manage User Roles">
                         <Button variant="brand" onClick={manageRoles}>
                             Manage Roles
                         </Button>
-                    </UserIsPermitted>
+                    </IfUserIsPermitted>
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -140,9 +140,9 @@ const UserComponent = () => {
                         <MenuList>
                             <MenuItem onClick={changePassword}>Change Password</MenuItem>
 
-                            <UserIsPermitted to="Delete User">
+                            <IfUserIsPermitted to="Delete User">
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
-                            </UserIsPermitted>
+                            </IfUserIsPermitted>
                         </MenuList>
 
                         <Modal isOpen={isOpen} onClose={onClose}>

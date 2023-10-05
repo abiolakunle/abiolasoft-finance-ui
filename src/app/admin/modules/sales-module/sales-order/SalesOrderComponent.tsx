@@ -6,7 +6,7 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@chakra-ui/react";
-import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
+import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 
 const SalesOrderComponent = () => {
     const { id } = useParams();
@@ -79,14 +79,14 @@ const SalesOrderComponent = () => {
                     justifyContent="space-between"
                     gap="20px"
                 >
-                    <UserIsPermitted to="Edit Sales Order">
+                    <IfUserIsPermitted to="Edit Sales Order">
                         <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
-                    </UserIsPermitted>
+                    </IfUserIsPermitted>
 
                     <Menu>
-                        <UserIsPermitted to="Convert Sales Order To Invoice">
+                        <IfUserIsPermitted to="Convert Sales Order To Invoice">
                             <MenuButton order={{ sm: "3", md: "2" }} width="100%" minW="120px" as={Button} rightIcon={<ChevronDownIcon />}>
                                 Convert
                             </MenuButton>
@@ -95,7 +95,7 @@ const SalesOrderComponent = () => {
                                 <MenuItem onClick={convertToInvoice}>Convert to Invoice</MenuItem>
                                 <MenuItem onClick={instantInvoice}>Instant Invoice</MenuItem>
                             </MenuList>
-                        </UserIsPermitted>
+                        </IfUserIsPermitted>
                     </Menu>
 
                     <Menu>
@@ -103,9 +103,9 @@ const SalesOrderComponent = () => {
                             More
                         </MenuButton>
                         <MenuList>
-                            <UserIsPermitted to="Delete Sales Order">
+                            <IfUserIsPermitted to="Delete Sales Order">
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
-                            </UserIsPermitted>
+                            </IfUserIsPermitted>
                         </MenuList>
 
                         <Modal isOpen={isOpen} onClose={onClose}>

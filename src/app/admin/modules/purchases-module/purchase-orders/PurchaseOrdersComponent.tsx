@@ -6,7 +6,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import PurchaseOrdersTableComponent from "./PurchaseOrdersTableComponent";
 import axiosRequest from "utils/api";
 import { pageSize } from "variables/constant-values";
-import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
+import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 
 const PurchaseOrdersComponent = () => {
     const [data, setData] = useState(null);
@@ -44,13 +44,13 @@ const PurchaseOrdersComponent = () => {
                 }}
                 gap="20px"
             >
-                <UserIsPermitted to="Create Purchase Order">
+                <IfUserIsPermitted to="Create Purchase Order">
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New
                         </Button>
                     </ChakraLink>
-                </UserIsPermitted>
+                </IfUserIsPermitted>
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">

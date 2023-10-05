@@ -5,7 +5,7 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import PurchaseOrderFormComponent from "../purchase-order-form/PurchaseOrderFormComponent";
-import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
+import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import axiosRequest from "utils/api";
 
 const PurchaseOrderComponent = () => {
@@ -57,11 +57,11 @@ const PurchaseOrderComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <UserIsPermitted to="Edit Purchase Order">
+                    <IfUserIsPermitted to="Edit Purchase Order">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
-                    </UserIsPermitted>
+                    </IfUserIsPermitted>
 
                     <Button onClick={convertToBill} variant="brand">
                         Convert to Bill
@@ -71,11 +71,11 @@ const PurchaseOrderComponent = () => {
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
-                        <UserIsPermitted to="Delete Purchase Order">
+                        <IfUserIsPermitted to="Delete Purchase Order">
                             <MenuList>
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </MenuList>
-                        </UserIsPermitted>
+                        </IfUserIsPermitted>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
