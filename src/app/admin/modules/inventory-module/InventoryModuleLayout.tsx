@@ -9,62 +9,86 @@ import ItemsComponent from "./items/ItemsComponent";
 import ItemFormComponent from "./item-form/ItemFormComponent";
 import InventoryAdjustmentFormComponent from "./inventory-adjustment-form/InventoryAdjustmentFormComponent";
 import InventoryAdjustmentComponent from "./inventory-adjustment/InventoryAdjustmentComponent";
+import { getUserInfo } from "utils/auth";
 
-const inventoryRoutes = [
-    {
-        name: "Dashboard",
-        path: "/",
-        icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-        component: <InventoryDashboardComponent />,
-    },
-    {
-        name: "Items",
-        path: "/items",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <ItemsComponent />,
-    },
-    {
-        name: "Items",
-        path: "/items/:id",
-        icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-        component: <ItemComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "New Item",
-        path: "/items/new",
-        component: <ItemFormComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "New Item",
-        path: "/items/:id/edit",
-        component: <ItemFormComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "Inventory Adjustments",
-        path: "/inventory-adjustments",
-        icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-        component: <InventoryAdjustmentsComponent />,
-    },
-    {
-        name: "Inventory Adjustment",
-        path: "/inventory-adjustments/:id",
-        icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-        component: <InventoryAdjustmentComponent />,
-        excludeFromSideNav: true,
-    },
-    {
-        name: "Inventory Adjustment",
-        path: "/items/:id/inventory-adjustment",
-        icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
-        component: <InventoryAdjustmentFormComponent />,
-        excludeFromSideNav: true,
-    },
-];
+
 
 const InventoryModuleLayout = () => {
+
+    const navRoutes = [
+        {
+            name: "Dashboard",
+            path: "/",
+            icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+            component: <InventoryDashboardComponent />,
+        },
+    ];
+
+    const user = getUserInfo()
+
+    if (user?.permissions?.includes("View Items")) {
+        navRoutes.push({
+            name: "Items",
+            path: "/items",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <ItemsComponent />,
+        });
+
+    }
+    if (user?.permissions?.includes("View Inventory Adjustments")) {
+        navRoutes.push({
+            name: "Inventory Adjustments",
+            path: "/inventory-adjustments",
+            icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+            component: <InventoryAdjustmentsComponent />,
+        });
+        
+    }
+
+    const inventoryRoutes = [
+        ...navRoutes,
+        
+        {
+            name: "Items",
+            path: "/items/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <ItemComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "New Item",
+            path: "/items/new",
+            component: <ItemFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "New Item",
+            path: "/items/:id/edit",
+            component: <ItemFormComponent />,
+            excludeFromSideNav: true,
+        },
+        
+        {
+            name: "Inventory Adjustment",
+            path: "/inventory-adjustments/:id",
+            icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+            component: <InventoryAdjustmentComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Inventory Adjustment",
+            path: "/items/:id/inventory-adjustment",
+            icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
+            component: <InventoryAdjustmentFormComponent />,
+            excludeFromSideNav: true,
+        },
+    ];
+    
+    
+
+
+
+
     return (
         <NavigationComponent baseRoute="/admin/modules/inventory" routes={inventoryRoutes}>
             <Routes>
