@@ -9,11 +9,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const UserFormComponent = () => {
+    const { id } = useParams();
+    let navigate = useNavigate();
+
     const validationSchema = Yup.object().shape({
         firstName: Yup.string().required("First Name is required"),
         lastName: Yup.string().required("Last Name is required"),
         email: Yup.string().email("Invalid email format").required("Email is required"),
-        password: Yup.string().required("Password is required"),
+        password: id ? Yup.string() : Yup.string().required("Password is required"),
         phoneNumber: Yup.string(),
     });
 
@@ -45,9 +48,6 @@ const UserFormComponent = () => {
             }
         },
     });
-
-    const { id } = useParams();
-    let navigate = useNavigate();
 
     useEffect(() => {
         if (id) {
@@ -134,30 +134,30 @@ const UserFormComponent = () => {
                             </Flex>
                         </FormControl>
 
-                        {!id && (
-                            <FormControl isInvalid={form.touched.email && !!form.errors.email}>
-                                <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
-                                    <Box className="afu-label" minWidth="250px">
-                                        <FormLabel color="red">Email*</FormLabel>
-                                    </Box>
-                                    <Box width="100%" className="afu-input">
-                                        <Input
-                                            width="100%"
-                                            type="email"
-                                            variant="outline"
-                                            borderRadius="8px"
-                                            id="email"
-                                            name="email"
-                                            value={form.values.email}
-                                            onChange={form.handleChange}
-                                            onBlur={form.handleBlur}
-                                        />
-                                        {form.touched.email && !!form.errors.email ? <FormErrorMessage>{form.errors.email}</FormErrorMessage> : ""}
-                                        {!(form.touched.email && !!form.errors.email) && <FormHelperText>Email address should be active and accessible</FormHelperText>}
-                                    </Box>
-                                </Flex>
-                            </FormControl>
-                        )}
+                        <FormControl isDisabled={!!id} isInvalid={form.touched.email && !!form.errors.email}>
+                            <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
+                                <Box className="afu-label" minWidth="250px">
+                                    <FormLabel color="red">Email*</FormLabel>
+                                </Box>
+                                <Box width="100%" className="afu-input">
+                                    <Input
+                                        width="100%"
+                                        type="email"
+                                        variant="outline"
+                                        borderRadius="8px"
+                                        id="email"
+                                        name="email"
+                                        value={form.values.email}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                    />
+                                    {form.touched.email && !!form.errors.email ? <FormErrorMessage>{form.errors.email}</FormErrorMessage> : ""}
+                                    {!id && !(form.touched.email && !!form.errors.email) && (
+                                        <FormHelperText>Email address should be active and accessible</FormHelperText>
+                                    )}
+                                </Box>
+                            </Flex>
+                        </FormControl>
 
                         <FormControl isInvalid={form.touched.phoneNumber && !!form.errors.phoneNumber}>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="baseline" className="afu-label-input">
@@ -180,7 +180,11 @@ const UserFormComponent = () => {
                                             onChange={form.handleChange}
                                             onBlur={form.handleBlur}
                                         />
-                                        {form.touched.phoneNumber && !!form.errors.firstName ? <FormErrorMessage>{form.errors.phoneNumber}</FormErrorMessage> : ""}
+                                        {form.touched.phoneNumber && !!form.errors.firstName ? (
+                                            <FormErrorMessage>{form.errors.phoneNumber}</FormErrorMessage>
+                                        ) : (
+                                            ""
+                                        )}
                                     </InputGroup>
                                 </Box>
                             </Flex>

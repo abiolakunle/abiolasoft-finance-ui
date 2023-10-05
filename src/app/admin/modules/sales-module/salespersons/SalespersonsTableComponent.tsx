@@ -16,7 +16,7 @@ type RowObj = {
 
 const columnHelper = createColumnHelper<RowObj>();
 
-function SalesPersonsTableComponent(props: { tableData: any }) {
+function SalespersonsTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue("secondaryGray.900", "white");
@@ -34,7 +34,7 @@ function SalesPersonsTableComponent(props: { tableData: any }) {
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/salespersons/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>
@@ -143,4 +143,4 @@ function SalesPersonsTableComponent(props: { tableData: any }) {
     );
 }
 
-export default SalesPersonsTableComponent;
+export default SalespersonsTableComponent;

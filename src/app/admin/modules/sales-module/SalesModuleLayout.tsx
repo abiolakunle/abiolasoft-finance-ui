@@ -12,10 +12,10 @@ import CustomerComponent from "./customer/CustomerComponent";
 import SalesOrderComponent from "./sales-order/SalesOrderComponent";
 import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
 import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
-import SalesPersonsComponent from "./sales-persons/SalesPersonsComponent";
-import SalesPersonComponent from "./sales-person/SalesPersonComponent";
+import SalespersonsComponent from "./salespersons/SalespersonsComponent";
+import SalespersonComponent from "./salesperson/SalespersonComponent";
 import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
-import SalesPersonFormComponent from "./sales-person-form/SalesPersonFormComponent";
+import SalesPersonFormComponent from "./salesperson-form/SalesPersonFormComponent";
 import { getUserInfo } from "utils/auth";
 
 const SalesModuleLayout = () => {
@@ -41,9 +41,9 @@ const SalesModuleLayout = () => {
     if (user?.permissions?.includes("View Sales Persons")) {
         navRoutes.push({
             name: "Sales Persons",
-            path: "/sales-persons",
+            path: "/salespersons",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-            component: <SalesPersonsComponent />,
+            component: <SalespersonsComponent />,
         });
     }
 
@@ -111,13 +111,13 @@ const SalesModuleLayout = () => {
         },
         {
             name: "New Sales Person",
-            path: "/sales-persons/new",
+            path: "/salespersons/new",
             component: <SalesPersonFormComponent />,
             excludeFromSideNav: true,
         },
         {
             name: "Edit Sales Person",
-            path: "/sales-persons/:id/edit",
+            path: "/salespersons/:id/edit",
             component: <SalesPersonFormComponent />,
             excludeFromSideNav: true,
         },
@@ -136,9 +136,9 @@ const SalesModuleLayout = () => {
         },
         {
             name: "Invoice",
-            path: "/sales-persons/:id",
+            path: "/salespersons/:id",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-            component: <SalesPersonComponent />,
+            component: <SalespersonComponent />,
             excludeFromSideNav: true,
         },
         {
