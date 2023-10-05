@@ -1,4 +1,4 @@
-import { Box, Heading, Flex, Card, CloseButton, Text } from "@chakra-ui/react";
+import { Box, Heading, Flex, Card, CloseButton, Text, useToast } from "@chakra-ui/react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -17,7 +17,6 @@ const ManageUserRolesComponent = () => {
 
     const location = useLocation();
     const { id: userId } = useParams();
-    const user = getUserInfo();
 
     useEffect(() => {
         if (userId) {
@@ -36,12 +35,37 @@ const ManageUserRolesComponent = () => {
         }
     }, [userId]);
 
-    const onUserRolesChanged = async (newValue: any[]) => {
+    async function removeRoles(roleNames: any[]) {
+        try {
+            const response = await axiosRequest.put("UserManagement/RemoveUserFromRoles", { roleNames, userId });
 
-        if(!user?.permissions?.includes("Assign Role To User") || !user?.permissions?.includes("Remove User From Roles")) {
-            return;
+            if (response.status === 200) {
+                // Handle success
+            } else {
+                console.error("Error creating item");
+            }
+        } catch (error) {
+            console.error("Error:", error);
         }
+    }
 
+    async function addRole(newVal: any[]) {
+        const role = newVal[newVal.length - 1];
+
+        try {
+            const response = await axiosRequest.put("UserManagement/AssignRoleToUser", { roleName: role.name, userId });
+
+            if (response.status === 200) {
+                // Handle success
+            } else {
+                console.error("Error creating item");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    const onUserRolesChanged = async (newValue: any[]) => {
         if (newValue.length === 0) {
             await removeRoles(userRoles.map((r) => r.name));
             return;
@@ -55,46 +79,6 @@ const ManageUserRolesComponent = () => {
         }
 
         setUserRoles(newValue);
-
-        async function removeRoles(roleNames: any[]) {
-
-            if(!user?.permissions?.includes("Remove User From Roles")) {
-                return;
-            }
-
-            try {
-                const response = await axiosRequest.put("UserManagement/RemoveUserFromRoles", { roleNames, userId });
-
-                if (response.status === 200) {
-                    // Handle success
-                } else {
-                    console.error("Error creating item");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
-
-        async function addRole(newVal: any[]) {
-
-            if(!user?.permissions?.includes("Assign Role To User")) {
-                return;
-            }
-            
-            const role = newVal[newVal.length - 1];
-
-            try {
-                const response = await axiosRequest.put("UserManagement/AssignRoleToUser", { roleName: role.name, userId });
-
-                if (response.status === 200) {
-                    // Handle success
-                } else {
-                    console.error("Error creating item");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
     };
 
     return (
@@ -122,7 +106,7 @@ const ManageUserRolesComponent = () => {
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" py="16px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <Permitted to="Assign Role To User">
+                    <Permitted to="Manage User Roles">
                         <ThemeProvider theme={createTheme()}>
                             {roles.length ? (
                                 <Autocomplete
@@ -143,7 +127,6 @@ const ManageUserRolesComponent = () => {
                             )}
                         </ThemeProvider>
                     </Permitted>
-                    
                 </Card>
             </Box>
         </>
