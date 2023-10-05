@@ -129,7 +129,7 @@ const UserComponent = () => {
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </Permitted>
-                    <Permitted to="Create Role">
+                    <Permitted to="Manage User Roles">
                         <Button variant="brand" onClick={manageRoles}>
                             Manage Roles
                         </Button>
@@ -142,7 +142,7 @@ const UserComponent = () => {
                         <MenuList>
                             <MenuItem onClick={changePassword}>Change Password</MenuItem>
 
-                            <Permitted to="Delete Sales Order">
+                            <Permitted to="Delete User">
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </Permitted>
                         </MenuList>

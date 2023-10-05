@@ -116,7 +116,7 @@ const RoleComponent = () => {
                         </ChakraLink>
                     </Permitted>
 
-                    <Permitted to="Add Permission To Role">
+                    <Permitted to="Manage Role Permissions">
                         <Button variant="brand" onClick={managePermissions}>
                             Manage Permissions
                         </Button>

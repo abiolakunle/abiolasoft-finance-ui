@@ -7,7 +7,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
-import Permitted from "app-components/Permitted/Permitted";
 import { getUserInfo } from "utils/auth";
 
 const ManageRolePermissionsComponent = () => {
@@ -36,12 +35,37 @@ const ManageRolePermissionsComponent = () => {
         }
     }, [roleId]);
 
-    const onRolePermissionsChanged = async (newValue: any[]) => {
+    async function removePermissions(permissionValues: any[]) {
+        try {
+            const response = await axiosRequest.put("UserManagement/RemovePermissionsFromRole", { permissionValues, roleId });
 
-        if(!user?.permissions?.includes("Add Permission To Role") || !user?.permissions?.includes("Remove Permissions From Role")) {
-            return;
+            if (response.status === 200) {
+                // Handle success
+            } else {
+                console.error("Error creating item");
+            }
+        } catch (error) {
+            console.error("Error:", error);
         }
+    }
 
+    async function addAddPermission(newVal: any[]) {
+        const permissionValue = newVal[newVal.length - 1];
+
+        try {
+            const response = await axiosRequest.put("UserManagement/AddPermissionToRole", { permissionValue, roleId });
+
+            if (response.status === 200) {
+                // Handle success
+            } else {
+                console.error("Error creating item");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    const onRolePermissionsChanged = async (newValue: any[]) => {
         if (newValue.length === 0) {
             await removePermissions(rolePermissions);
             return;
@@ -55,45 +79,6 @@ const ManageRolePermissionsComponent = () => {
         }
 
         setRolePermissions(newValue);
-
-        async function removePermissions(permissionValues: any[]) {
-
-            if(!user?.permissions?.includes("Remove Permissions From Role")) {
-                return;
-            }
-            try {
-                const response = await axiosRequest.put("UserManagement/RemovePermissionsFromRole", { permissionValues, roleId });
-
-                if (response.status === 200) {
-                    // Handle success
-                } else {
-                    console.error("Error creating item");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
-
-        async function addAddPermission(newVal: any[]) {
-
-            if(!user?.permissions?.includes("Add Permission To Role")) {
-                return;
-            }
-
-            const permissionValue = newVal[newVal.length - 1];
-
-            try {
-                const response = await axiosRequest.put("UserManagement/AddPermissionToRole", { permissionValue, roleId });
-
-                if (response.status === 200) {
-                    // Handle success
-                } else {
-                    console.error("Error creating item");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
     };
 
     return (
@@ -121,7 +106,6 @@ const ManageRolePermissionsComponent = () => {
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" py="16px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    
                     <ThemeProvider theme={createTheme()}>
                         {permissions.length ? (
                             <Autocomplete
@@ -141,8 +125,6 @@ const ManageRolePermissionsComponent = () => {
                             <Text>Roles not configured yet</Text>
                         )}
                     </ThemeProvider>
-                    
-                    
                 </Card>
             </Box>
         </>

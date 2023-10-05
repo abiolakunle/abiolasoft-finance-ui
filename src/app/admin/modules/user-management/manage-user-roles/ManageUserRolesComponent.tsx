@@ -106,27 +106,25 @@ const ManageUserRolesComponent = () => {
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" py="16px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
-                    <Permitted to="Manage User Roles">
-                        <ThemeProvider theme={createTheme()}>
-                            {roles.length ? (
-                                <Autocomplete
-                                    multiple
-                                    id="tags-outlined"
-                                    options={roles}
-                                    getOptionLabel={(option) => option.name}
-                                    defaultValue={intialRoles}
-                                    isOptionEqualToValue={(opt, val) => val.id === opt.id}
-                                    filterSelectedOptions
-                                    onChange={(_event, newValue) => {
-                                        onUserRolesChanged(newValue);
-                                    }}
-                                    renderInput={(params) => <TextField placeholder="Add role" {...params} />}
-                                />
-                            ) : (
-                                <Text>Roles not configured yet</Text>
-                            )}
-                        </ThemeProvider>
-                    </Permitted>
+                    <ThemeProvider theme={createTheme()}>
+                        {roles.length ? (
+                            <Autocomplete
+                                multiple
+                                id="tags-outlined"
+                                options={roles}
+                                getOptionLabel={(option) => option.name}
+                                defaultValue={intialRoles}
+                                isOptionEqualToValue={(opt, val) => val.id === opt.id}
+                                filterSelectedOptions
+                                onChange={(_event, newValue) => {
+                                    onUserRolesChanged(newValue);
+                                }}
+                                renderInput={(params) => <TextField placeholder="Add role" {...params} />}
+                            />
+                        ) : (
+                            <Text>Roles not configured yet</Text>
+                        )}
+                    </ThemeProvider>
                 </Card>
             </Box>
         </>
