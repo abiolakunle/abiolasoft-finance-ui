@@ -6,6 +6,7 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
+import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 
 const InvoiceComponent = () => {
     const { id } = useParams();
@@ -52,17 +53,21 @@ const InvoiceComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${id}/edit`}>
-                        <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink>
+                    <IfUserIsPermitted to="Edit Invoice">
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${id}/edit`}>
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                        </ChakraLink>
+                    </IfUserIsPermitted>
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
-                        <MenuList>
-                            <MenuItem onClick={onOpen}>Delete</MenuItem>
-                        </MenuList>
+                        <IfUserIsPermitted to="Delete Invoice">
+                            <MenuList>
+                                <MenuItem onClick={onOpen}>Delete</MenuItem>
+                            </MenuList>
+                        </IfUserIsPermitted>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />

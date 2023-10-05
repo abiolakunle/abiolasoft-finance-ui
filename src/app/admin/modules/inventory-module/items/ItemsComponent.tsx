@@ -7,6 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { pageSize } from "variables/constant-values";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 
 const ItemsComponent = () => {
     const [tableData, setTableData] = useState(null);
@@ -69,15 +70,21 @@ const ItemsComponent = () => {
                         Sync Quantities
                     </MenuButton>
                     <MenuList>
-                        <MenuItem onClick={() => syncQuantities("Purchase")}>Sync Purchases</MenuItem>
-                        <MenuItem onClick={() => syncQuantities("Sales")}>Sync Sales</MenuItem>
+                        <IfUserIsPermitted to="Recalculate Purchase Order Items Total Quantity">
+                            <MenuItem onClick={() => syncQuantities("Purchase")}>Sync Purchases</MenuItem>
+                        </IfUserIsPermitted>
+                        <IfUserIsPermitted to="Recalculate Sales Order Items Total Quantity">
+                            <MenuItem onClick={() => syncQuantities("Sales")}>Sync Sales</MenuItem>
+                        </IfUserIsPermitted>
                     </MenuList>
                 </Menu>
-                <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/new`}>
-                    <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
-                        New
-                    </Button>
-                </ChakraLink>
+                <IfUserIsPermitted to="Create Item">
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/new`}>
+                        <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
+                            New
+                        </Button>
+                    </ChakraLink>
+                </IfUserIsPermitted>
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">

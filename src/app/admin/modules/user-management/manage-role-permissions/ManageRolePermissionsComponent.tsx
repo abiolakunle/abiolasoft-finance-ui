@@ -33,6 +33,36 @@ const ManageRolePermissionsComponent = () => {
         }
     }, [roleId]);
 
+    async function removePermissions(permissionValues: any[]) {
+        try {
+            const response = await axiosRequest.put("UserManagement/RemovePermissionsFromRole", { permissionValues, roleId });
+
+            if (response.status === 200) {
+                // Handle success
+            } else {
+                console.error("Error creating item");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    async function addAddPermission(newVal: any[]) {
+        const permissionValue = newVal[newVal.length - 1];
+
+        try {
+            const response = await axiosRequest.put("UserManagement/AddPermissionToRole", { permissionValue, roleId });
+
+            if (response.status === 200) {
+                // Handle success
+            } else {
+                console.error("Error creating item");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
     const onRolePermissionsChanged = async (newValue: any[]) => {
         if (newValue.length === 0) {
             await removePermissions(rolePermissions);
@@ -47,36 +77,6 @@ const ManageRolePermissionsComponent = () => {
         }
 
         setRolePermissions(newValue);
-
-        async function removePermissions(permissionValues: any[]) {
-            try {
-                const response = await axiosRequest.put("UserManagement/RemovePermissionsFromRole", { permissionValues, roleId });
-
-                if (response.status === 200) {
-                    // Handle success
-                } else {
-                    console.error("Error creating item");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
-
-        async function addAddPermission(newVal: any[]) {
-            const permissionValue = newVal[newVal.length - 1];
-
-            try {
-                const response = await axiosRequest.put("UserManagement/AddPermissionToRole", { permissionValue, roleId });
-
-                if (response.status === 200) {
-                    // Handle success
-                } else {
-                    console.error("Error creating item");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
     };
 
     return (

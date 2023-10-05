@@ -18,15 +18,15 @@ import {
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { MdEdit, MdSettings } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
-
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@chakra-ui/react";
+import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 
-const SalesPersonComponent = () => {
+const SalespersonComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
@@ -69,7 +69,7 @@ const SalesPersonComponent = () => {
                 isClosable: true,
                 position: "bottom-right",
             });
-            navigate(`/admin/modules/sales/sales-persons`);
+            navigate(`/admin/modules/sales/salespersons`);
         } catch (error) {
             console.error("Error:", error);
         }
@@ -93,17 +93,21 @@ const SalesPersonComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    {/* <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons/${id}/edit`}>
-                        <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink> */}
+                    <IfUserIsPermitted to="Edit Salesperson">
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/salespersons/${id}/edit`}>
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                        </ChakraLink>
+                    </IfUserIsPermitted>
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
-                        <MenuList>
-                            <MenuItem onClick={onOpen}>Delete</MenuItem>
-                        </MenuList>
+                        <IfUserIsPermitted to="Delete Salesperson">
+                            <MenuList>
+                                <MenuItem onClick={onOpen}>Delete</MenuItem>
+                            </MenuList>
+                        </IfUserIsPermitted>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
@@ -123,7 +127,7 @@ const SalesPersonComponent = () => {
                         </Modal>
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-persons`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/salespersons`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
@@ -154,4 +158,4 @@ const SalesPersonComponent = () => {
     );
 };
 
-export default SalesPersonComponent;
+export default SalespersonComponent;

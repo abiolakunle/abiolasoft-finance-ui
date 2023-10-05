@@ -1,4 +1,4 @@
-import { Box, Heading, Flex, Card, CloseButton, Text } from "@chakra-ui/react";
+import { Box, Heading, Flex, Card, CloseButton, Text, useToast } from "@chakra-ui/react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -33,6 +33,36 @@ const ManageUserRolesComponent = () => {
         }
     }, [userId]);
 
+    async function removeRoles(roleNames: any[]) {
+        try {
+            const response = await axiosRequest.put("UserManagement/RemoveUserFromRoles", { roleNames, userId });
+
+            if (response.status === 200) {
+                // Handle success
+            } else {
+                console.error("Error creating item");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    async function addRole(newVal: any[]) {
+        const role = newVal[newVal.length - 1];
+
+        try {
+            const response = await axiosRequest.put("UserManagement/AssignRoleToUser", { roleName: role.name, userId });
+
+            if (response.status === 200) {
+                // Handle success
+            } else {
+                console.error("Error creating item");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
     const onUserRolesChanged = async (newValue: any[]) => {
         if (newValue.length === 0) {
             await removeRoles(userRoles.map((r) => r.name));
@@ -47,36 +77,6 @@ const ManageUserRolesComponent = () => {
         }
 
         setUserRoles(newValue);
-
-        async function removeRoles(roleNames: any[]) {
-            try {
-                const response = await axiosRequest.put("UserManagement/RemoveUserFromRoles", { roleNames, userId });
-
-                if (response.status === 200) {
-                    // Handle success
-                } else {
-                    console.error("Error creating item");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
-
-        async function addRole(newVal: any[]) {
-            const role = newVal[newVal.length - 1];
-
-            try {
-                const response = await axiosRequest.put("UserManagement/AssignRoleToUser", { roleName: role.name, userId });
-
-                if (response.status === 200) {
-                    // Handle success
-                } else {
-                    console.error("Error creating item");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        }
     };
 
     return (

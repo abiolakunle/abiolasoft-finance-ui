@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
 import { NumericFormat } from "react-number-format";
 import { formatNumberWithCommas } from "utils/number";
+import "./LineItemsTableComponent.css";
 
 export const defaultItem = {
     itemId: "",
@@ -21,7 +22,7 @@ type RowObj = {
     tax: string;
     rate: number;
     amount: string;
-    action: string;
+    delete: string;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -128,7 +129,7 @@ export default function LineItemsTableComponent(props: {
                     QUANTITY
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="quantity" maxW="100px" {...info} />,
+            cell: (info: any) => <TableCellInput type="number" name="quantity" maxW={{ sm: "100%", md: "100px" }} {...info} />,
         }),
 
         columnHelper.accessor("rate", {
@@ -138,7 +139,9 @@ export default function LineItemsTableComponent(props: {
                     RATE
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" maxW="180px" name="rate" currency="₦" {...info} />,
+            cell: (info: any) => (
+                <TableCellInput type="number" maxW={{ md: "180px" }} width={{ sm: "100%", md: "fit-content" }} name="rate" currency="₦" {...info} />
+            ),
         }),
         // columnHelper.ac)cessor("tax", {
         //     id: "tax",
@@ -167,8 +170,8 @@ export default function LineItemsTableComponent(props: {
             ),
         }),
         !viewOnly &&
-            columnHelper.accessor("action", {
-                id: "action",
+            columnHelper.accessor("delete", {
+                id: "delete",
                 header: () => <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400"></Text>,
                 cell: (info: any) => {
                     return (
@@ -232,7 +235,7 @@ export default function LineItemsTableComponent(props: {
     return (
         <Card pointerEvents={viewOnly ? "none" : "all"} flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
             <Box>
-                <Table variant="simple" color="gray.500" mb="24px">
+                <Table className="responsiveTable" variant="striped" color="gray.500" mb="24px">
                     <Thead>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <Tr key={headerGroup.id}>
@@ -271,7 +274,7 @@ export default function LineItemsTableComponent(props: {
                     <Tbody>
                         {table.getRowModel().rows.map((row) => {
                             return (
-                                <Tr key={row.id} borderTop={{ sm: "2px solid grey", md: "none" }}>
+                                <Tr pl={{ sm: "0px", md: "16px" }} key={row.id} borderTop={{ sm: "2px solid grey", md: "none" }}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
                                             <Td
@@ -279,7 +282,7 @@ export default function LineItemsTableComponent(props: {
                                                 pl="0px"
                                                 fontSize={{ sm: "14px" }}
                                                 minW={{
-                                                    sm: "150px",
+                                                    sm: "100%",
                                                     md: "200px",
                                                     lg: "auto",
                                                 }}

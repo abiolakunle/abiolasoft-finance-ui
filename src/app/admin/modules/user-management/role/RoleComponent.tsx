@@ -1,4 +1,29 @@
-import { Card, Flex, Text, Box, Heading, IconButton, Button, CloseButton, Stat, StatLabel, StatNumber, Badge } from "@chakra-ui/react";
+import {
+    Card,
+    Flex,
+    Text,
+    Box,
+    Heading,
+    IconButton,
+    Button,
+    CloseButton,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Badge,
+    useToast,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    MenuButton,
+    Menu,
+    MenuList,
+    MenuItem,
+    useDisclosure,
+} from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
@@ -6,11 +31,17 @@ import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import { formatDateTime } from "utils/dateUtils";
 import axiosRequest from "utils/api";
+import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const RoleComponent = () => {
     const { id } = useParams();
 
     let navigate = useNavigate();
+
+    const toast = useToast();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [role, setUser] = useState({
         id: "",
@@ -46,6 +77,23 @@ const RoleComponent = () => {
         navigate(`/admin/modules/user-management/roles/${id}/manage-permissions`, { state: { roleName: role.name } });
     };
 
+    const submit = async () => {
+        try {
+            await axiosRequest.delete(`UserManagement/DeleteRole`, { data: { id } });
+            toast({
+                title: "Success",
+                description: "Deleted Successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right",
+            });
+            navigate(`/admin/modules/user-management/roles`);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     return (
         <>
             <Flex
@@ -62,13 +110,45 @@ const RoleComponent = () => {
                 <Heading as="h4" size="md"></Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink state={{ roleName: role.name }} as={ReactRouterLink} to={`/admin/modules/user-management/roles/${id}/edit`}>
-                        <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
-                    </ChakraLink>
+                    <IfUserIsPermitted to="Update Role Name">
+                        <ChakraLink state={{ roleName: role.name }} as={ReactRouterLink} to={`/admin/modules/user-management/roles/${id}/edit`}>
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                        </ChakraLink>
+                    </IfUserIsPermitted>
 
-                    <Button variant="brand" onClick={managePermissions}>
-                        Manage Permissions
-                    </Button>
+                    <IfUserIsPermitted to="Manage Role Permissions">
+                        <Button variant="brand" onClick={managePermissions}>
+                            Manage Permissions
+                        </Button>
+                    </IfUserIsPermitted>
+
+                    <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            More
+                        </MenuButton>
+                        <IfUserIsPermitted to="Delete Role">
+                            <MenuList>
+                                <MenuItem onClick={onOpen}>Delete</MenuItem>
+                            </MenuList>
+                        </IfUserIsPermitted>
+
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Delete Role</ModalHeader>
+
+                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
+                                <ModalFooter>
+                                    <Button variant="ghost" onClick={onClose}>
+                                        Cancel
+                                    </Button>
+                                    <Button colorScheme="red" ml={3} onClick={submit}>
+                                        Delete
+                                    </Button>
+                                </ModalFooter>
+                            </ModalContent>
+                        </Modal>
+                    </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles`}>
                         <CloseButton size="lg" />
