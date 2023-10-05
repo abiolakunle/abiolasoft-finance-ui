@@ -13,20 +13,17 @@ import UserComponent from "./user/UserComponent";
 import UsersComponent from "./users/UsersComponent";
 import { getUserInfo } from "utils/auth";
 
-
-
 const UserManagementModuleLayout = () => {
-
     const navRoutes = [
         {
             name: "Dashboard",
             path: "/",
             icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
             component: <UserManagementDashboard />,
-        }
-    ]
+        },
+    ];
 
-    const user = getUserInfo()
+    const user = getUserInfo();
 
     if (user?.permissions?.includes("View Users")) {
         navRoutes.push({
@@ -46,10 +43,8 @@ const UserManagementModuleLayout = () => {
     }
 
     const userManagementRoutes = [
-
         ...navRoutes,
 
-    
         {
             name: "Users",
             path: "/users/new",
@@ -68,7 +63,7 @@ const UserManagementModuleLayout = () => {
             component: <UserComponent />,
             excludeFromSideNav: true,
         },
-        
+
         {
             name: "Role",
             path: "/roles/new",
