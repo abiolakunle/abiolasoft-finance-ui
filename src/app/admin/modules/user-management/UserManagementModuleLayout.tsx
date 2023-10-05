@@ -47,7 +47,8 @@ const UserManagementModuleLayout = () => {
 
     const userManagementRoutes = [
 
-   
+        ...navRoutes,
+
     
         {
             name: "Users",
