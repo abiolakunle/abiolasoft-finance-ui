@@ -7,7 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import InvoiceTableComponent from "./InvoiceTableComponent";
 import axiosRequest from "utils/api";
 import { pageSize } from "variables/constant-values";
-import Permitted from "app-components/Permitted/Permitted";
+import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
 
 const InvoicesComponent = () => {
     const [tableData, setTableData] = useState(null);
@@ -45,14 +45,13 @@ const InvoicesComponent = () => {
                 }}
                 gap="20px"
             >
-                <Permitted to="Create Invoice">
+                <UserIsPermitted to="Create Invoice">
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New
                         </Button>
                     </ChakraLink>
-                </Permitted>
-                
+                </UserIsPermitted>
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">

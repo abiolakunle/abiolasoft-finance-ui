@@ -25,7 +25,7 @@ import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
-import Permitted from "app-components/Permitted/Permitted";
+import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
 
 const VendorComponent = () => {
     const { id } = useParams();
@@ -107,29 +107,27 @@ const VendorComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <Permitted to="Edit Vendor">
+                    <UserIsPermitted to="Edit Vendor">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
-                    </Permitted>
-                    
+                    </UserIsPermitted>
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
-                        <Permitted to="Delete Vendor">
+                        <UserIsPermitted to="Delete Vendor">
                             <MenuList>
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </MenuList>
-                        </Permitted>
-                        
+                        </UserIsPermitted>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Vendor</ModalHeader>
-                                
+
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>

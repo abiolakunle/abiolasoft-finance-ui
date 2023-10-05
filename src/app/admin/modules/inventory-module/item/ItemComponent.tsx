@@ -26,7 +26,7 @@ import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import { formatNumberWithCommas } from "utils/number";
-import Permitted from "app-components/Permitted/Permitted";
+import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
 
 const ItemComponent = () => {
     const { id } = useParams();
@@ -128,29 +128,27 @@ const ItemComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <Permitted to="Update Item">
+                    <UserIsPermitted to="Update Item">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
-                    </Permitted>
-                    
-                    <Permitted to="Adjust Stock">
+                    </UserIsPermitted>
+
+                    <UserIsPermitted to="Adjust Stock">
                         <Button variant="brand" onClick={gotoAdjustStock}>
                             Adjust Stock
                         </Button>
-                    </Permitted>
-                    
+                    </UserIsPermitted>
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
-                        <Permitted to="Delete Item">
+                        <UserIsPermitted to="Delete Item">
                             <MenuList>
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </MenuList>
-                        </Permitted>
-                        
+                        </UserIsPermitted>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />

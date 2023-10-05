@@ -16,7 +16,6 @@ const ManageRolePermissionsComponent = () => {
 
     const location = useLocation();
     const { id: roleId } = useParams();
-    const user = getUserInfo();
 
     useEffect(() => {
         if (roleId) {

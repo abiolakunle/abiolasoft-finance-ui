@@ -5,7 +5,7 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import PurchaseOrderFormComponent from "../purchase-order-form/PurchaseOrderFormComponent";
-import Permitted from "app-components/Permitted/Permitted";
+import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
 import axiosRequest from "utils/api";
 
 const PurchaseOrderComponent = () => {
@@ -20,7 +20,6 @@ const PurchaseOrderComponent = () => {
     const convertToBill = () => {
         navigate("/admin/modules/purchases/bills/new", { state: { purchaseOrderId: id } });
     };
-
 
     const submit = async () => {
         try {
@@ -58,13 +57,11 @@ const PurchaseOrderComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <Permitted to="Edit Purchase Order">
+                    <UserIsPermitted to="Edit Purchase Order">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
-
-                    </Permitted>
-                    
+                    </UserIsPermitted>
 
                     <Button onClick={convertToBill} variant="brand">
                         Convert to Bill
@@ -74,18 +71,17 @@ const PurchaseOrderComponent = () => {
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
-                        <Permitted to="Delete Purchase Order">
+                        <UserIsPermitted to="Delete Purchase Order">
                             <MenuList>
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </MenuList>
-                        </Permitted>
-                        
+                        </UserIsPermitted>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                             <ModalContent>
                                 <ModalHeader>Delete Purchase Order</ModalHeader>
-                                
+
                                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
                                 <ModalFooter>
                                     <Button variant="ghost" onClick={onClose}>

@@ -31,7 +31,7 @@ import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import { formatDateTime } from "utils/dateUtils";
 import axiosRequest from "utils/api";
-import Permitted from "app-components/Permitted/Permitted";
+import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const RoleComponent = () => {
@@ -110,27 +110,27 @@ const RoleComponent = () => {
                 <Heading as="h4" size="md"></Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <Permitted to="Update Role Name">
+                    <UserIsPermitted to="Update Role Name">
                         <ChakraLink state={{ roleName: role.name }} as={ReactRouterLink} to={`/admin/modules/user-management/roles/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
-                    </Permitted>
+                    </UserIsPermitted>
 
-                    <Permitted to="Manage Role Permissions">
+                    <UserIsPermitted to="Manage Role Permissions">
                         <Button variant="brand" onClick={managePermissions}>
                             Manage Permissions
                         </Button>
-                    </Permitted>
+                    </UserIsPermitted>
 
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
-                        <Permitted to="Delete Purchase Order">
+                        <UserIsPermitted to="Delete Role">
                             <MenuList>
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </MenuList>
-                        </Permitted>
+                        </UserIsPermitted>
 
                         <Modal isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />

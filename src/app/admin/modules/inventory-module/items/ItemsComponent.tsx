@@ -7,7 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { pageSize } from "variables/constant-values";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import Permitted from "app-components/Permitted/Permitted";
+import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
 
 const ItemsComponent = () => {
     const [tableData, setTableData] = useState(null);
@@ -70,22 +70,21 @@ const ItemsComponent = () => {
                         Sync Quantities
                     </MenuButton>
                     <MenuList>
-                        <Permitted to="Recalculate Purchase Order Items Total Quantity">
+                        <UserIsPermitted to="Recalculate Purchase Order Items Total Quantity">
                             <MenuItem onClick={() => syncQuantities("Purchase")}>Sync Purchases</MenuItem>
-                        </Permitted>
-                        <Permitted to="Recalculate Sales Order Items Total Quantity">
+                        </UserIsPermitted>
+                        <UserIsPermitted to="Recalculate Sales Order Items Total Quantity">
                             <MenuItem onClick={() => syncQuantities("Sales")}>Sync Sales</MenuItem>
-                        </Permitted>
+                        </UserIsPermitted>
                     </MenuList>
                 </Menu>
-                <Permitted to="Create Item"> 
+                <UserIsPermitted to="Create Item">
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New
                         </Button>
                     </ChakraLink>
-                 </Permitted>
-                
+                </UserIsPermitted>
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
