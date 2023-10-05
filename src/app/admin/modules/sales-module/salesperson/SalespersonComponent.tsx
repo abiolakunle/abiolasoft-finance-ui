@@ -18,13 +18,12 @@ import {
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { MdEdit, MdSettings } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
-
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@chakra-ui/react";
 import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
 
 const SalespersonComponent = () => {

@@ -6,7 +6,6 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@chakra-ui/react";
-import { getUserInfo } from "utils/auth";
 import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
 
 const SalesOrderComponent = () => {

@@ -7,8 +7,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
-import UserIsPermitted from "app-components/Permitted/UserIsPermitted";
-import { getUserInfo } from "utils/auth";
 
 const ManageUserRolesComponent = () => {
     const [roles, setRoles] = useState([]);
