@@ -478,57 +478,56 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
     const { routes } = props;
 
     // verifies if routeName is the one active (in browser input)
-    const activeRoute = (routeName: string) => {
-        if (routeName !== "/") {
-            return location.pathname.includes(props.baseRoute + routeName);
+    const activeRoute = (path: string) => {
+        if (path !== "/") {
+            return location.pathname.includes(props.baseRoute + path);
         }
 
-        return location.pathname === props.baseRoute + routeName;
+        return location.pathname === props.baseRoute + path;
     };
 
-    // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
-    const createLinks = (routes: any[]) => {
-        return routes.map((route: any, index: number) => {
-            return !route.excludeFromSideNav ? (
-                <NavLink key={index} to={props.baseRoute + route.path}>
-                    {route.icon ? (
-                        <Box>
-                            <HStack spacing={activeRoute(route.path.toLowerCase()) ? "22px" : "26px"} py="5px" ps="10px">
-                                <Flex w="100%" alignItems="center" justifyContent="center">
-                                    <Box color={activeRoute(route.path.toLowerCase()) ? activeIcon : textColor} me="18px">
-                                        {route.icon}
-                                    </Box>
+    return (
+        <>
+            {routes.map((route: any, index: number) => {
+                return !route.excludeFromSideNav ? (
+                    <NavLink key={index} to={props.baseRoute + route.path}>
+                        {route.icon ? (
+                            <Box>
+                                <HStack spacing={activeRoute(route.path.toLowerCase()) ? "22px" : "26px"} py="5px" ps="10px">
+                                    <Flex w="100%" alignItems="center" justifyContent="center">
+                                        <Box color={activeRoute(route.path.toLowerCase()) ? activeIcon : textColor} me="18px">
+                                            {route.icon}
+                                        </Box>
+                                        <Text
+                                            me="auto"
+                                            color={activeRoute(route.path.toLowerCase()) ? activeColor : textColor}
+                                            fontWeight={activeRoute(route.path.toLowerCase()) ? "bold" : "normal"}
+                                        >
+                                            {route.name}
+                                        </Text>
+                                    </Flex>
+                                    <Box h="36px" w="4px" bg={activeRoute(route.path.toLowerCase()) ? brandColor : "transparent"} borderRadius="5px" />
+                                </HStack>
+                            </Box>
+                        ) : (
+                            <Box>
+                                <HStack spacing={activeRoute(route.path.toLowerCase()) ? "22px" : "26px"} py="5px" ps="10px">
                                     <Text
                                         me="auto"
-                                        color={activeRoute(route.path.toLowerCase()) ? activeColor : textColor}
+                                        color={activeRoute(route.path.toLowerCase()) ? activeColor : inactiveColor}
                                         fontWeight={activeRoute(route.path.toLowerCase()) ? "bold" : "normal"}
                                     >
                                         {route.name}
                                     </Text>
-                                </Flex>
-                                <Box h="36px" w="4px" bg={activeRoute(route.path.toLowerCase()) ? brandColor : "transparent"} borderRadius="5px" />
-                            </HStack>
-                        </Box>
-                    ) : (
-                        <Box>
-                            <HStack spacing={activeRoute(route.path.toLowerCase()) ? "22px" : "26px"} py="5px" ps="10px">
-                                <Text
-                                    me="auto"
-                                    color={activeRoute(route.path.toLowerCase()) ? activeColor : inactiveColor}
-                                    fontWeight={activeRoute(route.path.toLowerCase()) ? "bold" : "normal"}
-                                >
-                                    {route.name}
-                                </Text>
-                                <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />
-                            </HStack>
-                        </Box>
-                    )}
-                </NavLink>
-            ) : null;
-        });
-    };
-    //  BRAND
-    return <>{createLinks(routes)}</>;
+                                    <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />
+                                </HStack>
+                            </Box>
+                        )}
+                    </NavLink>
+                ) : null;
+            })}
+        </>
+    );
 }
 
 function SidebarContent(props: { baseRoute: string; routes: any[] }) {
