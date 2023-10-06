@@ -80,11 +80,11 @@ const UserComponent = () => {
     }, [id]);
 
     const changePassword = () => {
-        navigate(`/admin/modules/user-management/user/${id}/change-password`);
+        navigate(`/admin/modules/user-management/users/${id}/change-password`);
     };
 
     const manageRoles = () => {
-        navigate(`/admin/modules/user-management/user/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
+        navigate(`/admin/modules/user-management/users/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
     };
 
     const submit = async () => {

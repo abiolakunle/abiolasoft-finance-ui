@@ -100,7 +100,7 @@ const UserManagementModuleLayout = () => {
         },
         {
             name: "Manage Roles",
-            path: "/user/:id/manage-roles",
+            path: "/users/:id/manage-roles",
             component: <ManageUserRolesComponent />,
             excludeFromSideNav: true,
         },
