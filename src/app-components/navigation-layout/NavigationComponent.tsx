@@ -424,10 +424,10 @@ function AdminNavbar(props: {
                 mb={gap}
             >
                 <Box mb={{ sm: "8px", md: "0px" }}>
-                    <Breadcrumb>
+                    <Breadcrumb alignItems="baseline">
                         <BreadcrumbItem color={secondaryText} fontSize="sm" mb="5px">
-                            <BreadcrumbLink href="#" color={secondaryText}>
-                                Pages
+                            <BreadcrumbLink href="#" color={secondaryText} textTransform="capitalize">
+                                {props.baseRoute.replace("/admin/modules/", "")}
                             </BreadcrumbLink>
                         </BreadcrumbItem>
 
@@ -598,9 +598,10 @@ export default function NavigationComponent(props: { baseRoute: string; routes: 
     const [toggleSidebar, setToggleSidebar] = useState(false);
 
     const getActiveRoute = (routes: any[]): string => {
-        let activeRoute = "Default Brand Text";
+        let activeRoute = routes[0].name;
         for (let i = 0; i < routes.length; i++) {
-            if (window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1) {
+            console.log("p", i, routes, routes[i].path);
+            if (routes[i].path !== "/" && window.location.href.indexOf(baseRoute + routes[i].path) !== -1) {
                 return routes[i].name;
             }
         }
