@@ -565,7 +565,6 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
 }
 
 function SidebarContent(props: { baseRoute: string; routes: any[] }) {
-    // SIDEBAR
     return (
         <Flex direction="column" height="100%" pt="25px" borderRadius="30px">
             <Brand />
