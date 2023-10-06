@@ -424,14 +424,14 @@ function AdminNavbar(props: {
                 mb={gap}
             >
                 <Box mb={{ sm: "8px", md: "0px" }}>
-                    <Breadcrumb alignItems="baseline">
+                    <Breadcrumb>
                         <BreadcrumbItem color={secondaryText} fontSize="sm" mb="5px">
                             <BreadcrumbLink href="#" color={secondaryText} textTransform="capitalize">
                                 {props.baseRoute.replace("/admin/modules/", "")}
                             </BreadcrumbLink>
                         </BreadcrumbItem>
 
-                        <BreadcrumbItem color={secondaryText} fontSize="sm">
+                        <BreadcrumbItem color={secondaryText} fontSize="sm" mb="5px">
                             <BreadcrumbLink href="#" color={secondaryText}>
                                 {brandText}
                             </BreadcrumbLink>
