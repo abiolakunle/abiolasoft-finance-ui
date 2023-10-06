@@ -12,19 +12,19 @@ const SelectAModule = () => {
     const modules = [];
 
     if (user.permissions.includes("View Inventory Module")) {
-        modules.push({ name: "Inventory", path: "inventory" });
+        modules.push({ name: "Inventory", path: "inventory/" });
     }
 
     if (user.permissions.includes("View Purchases Module")) {
-        modules.push({ name: "Purchase", path: "purchases" });
+        modules.push({ name: "Purchase", path: "purchases/" });
     }
 
     if (user.permissions.includes("View Sales Module")) {
-        modules.push({ name: "Sales", path: "sales" });
+        modules.push({ name: "Sales", path: "sales/" });
     }
 
     if (user.permissions.includes("View User Management Module")) {
-        modules.push({ name: "User Management", path: "user-management" });
+        modules.push({ name: "User Management", path: "user-management/" });
     }
 
     const brandColor = useColorModeValue("brand.500", "white");

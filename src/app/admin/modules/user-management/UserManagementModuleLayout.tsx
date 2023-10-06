@@ -44,7 +44,13 @@ const UserManagementModuleLayout = () => {
 
     const userManagementRoutes = [
         ...navRoutes,
-
+        {
+            name: "Dashboard",
+            path: "",
+            icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+            component: <UserManagementDashboard />,
+            excludeFromSideNav: true,
+        },
         {
             name: "Users",
             path: "/users/new",

@@ -42,7 +42,13 @@ const InventoryModuleLayout = () => {
 
     const inventoryRoutes = [
         ...navRoutes,
-
+        {
+            name: "Dashboard",
+            path: "",
+            icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+            component: <InventoryDashboardComponent />,
+            excludeFromSideNav: true,
+        },
         {
             name: "Items",
             path: "/items/:id",

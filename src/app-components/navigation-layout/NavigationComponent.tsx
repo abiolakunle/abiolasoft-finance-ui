@@ -37,7 +37,7 @@ import { useEffect, useRef, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { renderThumb, renderTrack, renderView } from "components/scrollbar/Scrollbar";
 import Brand from "components/sidebar/components/Brand";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import { MdInfoOutline, MdNotificationsNone, MdOutlineViewModule, MdUpgrade } from "react-icons/md";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { FaEthereum } from "react-icons/fa";
@@ -480,8 +480,9 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
     const [pathname, setPathName] = useState("/");
 
     useEffect(() => {
-        console.log("pn", location.pathname);
-        setPathName(location.pathname);
+        if (routes.some((r) => location.pathname === props.baseRoute + r.path && !r.excludeFromSideNav) || location.pathname === "/") {
+            setPathName(location.pathname);
+        }
     }, [location]);
 
     return (
