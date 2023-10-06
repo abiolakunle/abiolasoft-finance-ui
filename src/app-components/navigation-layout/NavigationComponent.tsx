@@ -477,14 +477,12 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
 
     const { routes } = props;
 
-    // verifies if routeName is the one active (in browser input)
-    const activeRoute = (path: string) => {
-        if (path !== "/") {
-            return location.pathname.includes(props.baseRoute + path);
-        }
+    const [pathname, setPathName] = useState("/");
 
-        return location.pathname === props.baseRoute + path;
-    };
+    useEffect(() => {
+        console.log("pn", location.pathname);
+        setPathName(location.pathname);
+    }, [location]);
 
     return (
         <>
@@ -493,29 +491,65 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
                     <NavLink key={index} to={props.baseRoute + route.path}>
                         {route.icon ? (
                             <Box>
-                                <HStack spacing={activeRoute(route.path.toLowerCase()) ? "22px" : "26px"} py="5px" ps="10px">
+                                <HStack
+                                    spacing={pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path ? "22px" : "26px"}
+                                    py="5px"
+                                    ps="10px"
+                                >
                                     <Flex w="100%" alignItems="center" justifyContent="center">
-                                        <Box color={activeRoute(route.path.toLowerCase()) ? activeIcon : textColor} me="18px">
+                                        <Box
+                                            color={
+                                                pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path
+                                                    ? activeIcon
+                                                    : textColor
+                                            }
+                                            me="18px"
+                                        >
                                             {route.icon}
                                         </Box>
                                         <Text
                                             me="auto"
-                                            color={activeRoute(route.path.toLowerCase()) ? activeColor : textColor}
-                                            fontWeight={activeRoute(route.path.toLowerCase()) ? "bold" : "normal"}
+                                            color={
+                                                pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path
+                                                    ? activeColor
+                                                    : textColor
+                                            }
+                                            fontWeight={
+                                                pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path ? "bold" : "normal"
+                                            }
                                         >
                                             {route.name}
                                         </Text>
                                     </Flex>
-                                    <Box h="36px" w="4px" bg={activeRoute(route.path.toLowerCase()) ? brandColor : "transparent"} borderRadius="5px" />
+                                    <Box
+                                        h="36px"
+                                        w="4px"
+                                        bg={
+                                            pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path
+                                                ? brandColor
+                                                : "transparent"
+                                        }
+                                        borderRadius="5px"
+                                    />
                                 </HStack>
                             </Box>
                         ) : (
                             <Box>
-                                <HStack spacing={activeRoute(route.path.toLowerCase()) ? "22px" : "26px"} py="5px" ps="10px">
+                                <HStack
+                                    spacing={pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path ? "22px" : "26px"}
+                                    py="5px"
+                                    ps="10px"
+                                >
                                     <Text
                                         me="auto"
-                                        color={activeRoute(route.path.toLowerCase()) ? activeColor : inactiveColor}
-                                        fontWeight={activeRoute(route.path.toLowerCase()) ? "bold" : "normal"}
+                                        color={
+                                            pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path
+                                                ? activeColor
+                                                : inactiveColor
+                                        }
+                                        fontWeight={
+                                            pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path ? "bold" : "normal"
+                                        }
                                     >
                                         {route.name}
                                     </Text>
@@ -599,7 +633,6 @@ export default function NavigationComponent(props: { baseRoute: string; routes: 
     const getActiveRoute = (routes: any[]): string => {
         let activeRoute = routes[0].name;
         for (let i = 0; i < routes.length; i++) {
-            console.log("p", i, routes, routes[i].path);
             if (routes[i].path !== "/" && window.location.href.indexOf(baseRoute + routes[i].path) !== -1) {
                 return routes[i].name;
             }
