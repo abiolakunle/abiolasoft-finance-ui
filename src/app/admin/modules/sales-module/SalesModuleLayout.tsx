@@ -65,14 +65,14 @@ const SalesModuleLayout = () => {
         });
     }
 
-    if (user?.permissions?.includes("View Sales Receipts")) {
-        navRoutes.push({
-            name: "Sales Receipts",
-            path: "/sales-receipts",
-            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-            component: <SalesReceiptsComponent />,
-        });
-    }
+    // if (user?.permissions?.includes("View Sales Receipts")) {
+    //     navRoutes.push({
+    //         name: "Sales Receipts",
+    //         path: "/sales-receipts",
+    //         icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+    //         component: <SalesReceiptsComponent />,
+    //     });
+    // }
 
     const salesRoutes = [
         ...navRoutes,
