@@ -1,18 +1,7 @@
-import { Avatar, Box, Flex, FormLabel, Heading, Icon, Select, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
-import Usa from "assets/img/dashboards/usa.png";
-import MiniCalendar from "components/calendar/MiniCalendar";
+import { Box, Heading, Icon, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
-import { MdAddTask, MdAttachMoney, MdBarChart, MdFileCopy } from "react-icons/md";
-import CheckTable from "views/admin/rtl/components/CheckTable";
-import ComplexTable from "views/admin/default/components/ComplexTable";
-import DailyTraffic from "views/admin/default/components/DailyTraffic";
-import PieCard from "views/admin/default/components/PieCard";
-import Tasks from "views/admin/default/components/Tasks";
-import TotalSpent from "views/admin/default/components/TotalSpent";
-import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
-import tableDataCheck from "views/admin/default/variables/tableDataCheck";
-import tableDataComplex from "views/admin/default/variables/tableDataComplex";
+import { MdAttachMoney, MdFileCopy } from "react-icons/md";
 import { Fragment, useEffect, useState } from "react";
 import axiosRequest from "utils/api";
 import { formatNumberWithCommas } from "utils/number";
@@ -26,6 +15,7 @@ export default function SalesDashboardComponent() {
         totalSalesOrderThisMonth: 0,
         totalSalesOrderAllTime: 0,
         topSellingItems: [],
+        totalProfit: 0,
     });
 
     useEffect(() => {
@@ -67,6 +57,7 @@ export default function SalesDashboardComponent() {
                     name="All Time"
                     value={info.totalSalesOrderAllTime >= 0 ? `₦${formatNumberWithCommas(info.totalSalesOrderAllTime)}` : "--"}
                 />
+
                 {/* <MiniStatistics
                     endContent={
                         <Flex me="-16px" mt="10px">
@@ -121,6 +112,17 @@ export default function SalesDashboardComponent() {
                     </SimpleGrid>
                 </Fragment>
             )}
+
+            <Heading as="h4" size="md" mt="32px" mb="16px">
+                Profit
+            </Heading>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }} gap="20px" mb="20px">
+                <MiniStatistics
+                    startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
+                    name="All Time Profit"
+                    value={info.totalProfit >= 0 ? `₦${formatNumberWithCommas(info.totalProfit)}` : "--"}
+                />
+            </SimpleGrid>
 
             {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
                 <TotalSpent />
