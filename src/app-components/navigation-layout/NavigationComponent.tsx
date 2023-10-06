@@ -37,7 +37,7 @@ import { useEffect, useRef, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { renderThumb, renderTrack, renderView } from "components/scrollbar/Scrollbar";
 import Brand from "components/sidebar/components/Brand";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import { MdInfoOutline, MdNotificationsNone, MdOutlineViewModule, MdUpgrade } from "react-icons/md";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { FaEthereum } from "react-icons/fa";
@@ -426,12 +426,12 @@ function AdminNavbar(props: {
                 <Box mb={{ sm: "8px", md: "0px" }}>
                     <Breadcrumb>
                         <BreadcrumbItem color={secondaryText} fontSize="sm" mb="5px">
-                            <BreadcrumbLink href="#" color={secondaryText}>
-                                Pages
+                            <BreadcrumbLink href="#" color={secondaryText} textTransform="capitalize">
+                                {props.baseRoute.replace("/admin/modules/", "")}
                             </BreadcrumbLink>
                         </BreadcrumbItem>
 
-                        <BreadcrumbItem color={secondaryText} fontSize="sm">
+                        <BreadcrumbItem color={secondaryText} fontSize="sm" mb="5px">
                             <BreadcrumbLink href="#" color={secondaryText}>
                                 {brandText}
                             </BreadcrumbLink>
@@ -477,62 +477,95 @@ export function SidebarLinks(props: { baseRoute: string; routes: any[] }) {
 
     const { routes } = props;
 
-    // verifies if routeName is the one active (in browser input)
-    const activeRoute = (routeName: string) => {
-        if (routeName !== "/") {
-            return location.pathname.includes(props.baseRoute + routeName);
+    const [pathname, setPathName] = useState("/");
+
+    useEffect(() => {
+        if (routes.some((r) => location.pathname === props.baseRoute + r.path && !r.excludeFromSideNav) || location.pathname === "/") {
+            setPathName(location.pathname);
         }
+    }, [location]);
 
-        return location.pathname === props.baseRoute + routeName;
-    };
-
-    // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
-    const createLinks = (routes: any[]) => {
-        return routes.map((route: any, index: number) => {
-            return !route.excludeFromSideNav ? (
-                <NavLink key={index} to={props.baseRoute + route.path}>
-                    {route.icon ? (
-                        <Box>
-                            <HStack spacing={activeRoute(route.path.toLowerCase()) ? "22px" : "26px"} py="5px" ps="10px">
-                                <Flex w="100%" alignItems="center" justifyContent="center">
-                                    <Box color={activeRoute(route.path.toLowerCase()) ? activeIcon : textColor} me="18px">
-                                        {route.icon}
-                                    </Box>
+    return (
+        <>
+            {routes.map((route: any, index: number) => {
+                return !route.excludeFromSideNav ? (
+                    <NavLink key={index} to={props.baseRoute + route.path}>
+                        {route.icon ? (
+                            <Box>
+                                <HStack
+                                    spacing={pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path ? "22px" : "26px"}
+                                    py="5px"
+                                    ps="10px"
+                                >
+                                    <Flex w="100%" alignItems="center" justifyContent="center">
+                                        <Box
+                                            color={
+                                                pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path
+                                                    ? activeIcon
+                                                    : textColor
+                                            }
+                                            me="18px"
+                                        >
+                                            {route.icon}
+                                        </Box>
+                                        <Text
+                                            me="auto"
+                                            color={
+                                                pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path
+                                                    ? activeColor
+                                                    : textColor
+                                            }
+                                            fontWeight={
+                                                pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path ? "bold" : "normal"
+                                            }
+                                        >
+                                            {route.name}
+                                        </Text>
+                                    </Flex>
+                                    <Box
+                                        h="36px"
+                                        w="4px"
+                                        bg={
+                                            pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path
+                                                ? brandColor
+                                                : "transparent"
+                                        }
+                                        borderRadius="5px"
+                                    />
+                                </HStack>
+                            </Box>
+                        ) : (
+                            <Box>
+                                <HStack
+                                    spacing={pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path ? "22px" : "26px"}
+                                    py="5px"
+                                    ps="10px"
+                                >
                                     <Text
                                         me="auto"
-                                        color={activeRoute(route.path.toLowerCase()) ? activeColor : textColor}
-                                        fontWeight={activeRoute(route.path.toLowerCase()) ? "bold" : "normal"}
+                                        color={
+                                            pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path
+                                                ? activeColor
+                                                : inactiveColor
+                                        }
+                                        fontWeight={
+                                            pathname === props.baseRoute + route.path || pathname + "/" === props.baseRoute + route.path ? "bold" : "normal"
+                                        }
                                     >
                                         {route.name}
                                     </Text>
-                                </Flex>
-                                <Box h="36px" w="4px" bg={activeRoute(route.path.toLowerCase()) ? brandColor : "transparent"} borderRadius="5px" />
-                            </HStack>
-                        </Box>
-                    ) : (
-                        <Box>
-                            <HStack spacing={activeRoute(route.path.toLowerCase()) ? "22px" : "26px"} py="5px" ps="10px">
-                                <Text
-                                    me="auto"
-                                    color={activeRoute(route.path.toLowerCase()) ? activeColor : inactiveColor}
-                                    fontWeight={activeRoute(route.path.toLowerCase()) ? "bold" : "normal"}
-                                >
-                                    {route.name}
-                                </Text>
-                                <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />
-                            </HStack>
-                        </Box>
-                    )}
-                </NavLink>
-            ) : null;
-        });
-    };
-    //  BRAND
-    return <>{createLinks(routes)}</>;
+                                    <Box h="36px" w="4px" bg="brand.400" borderRadius="5px" />
+                                </HStack>
+                            </Box>
+                        )}
+                    </NavLink>
+                ) : null;
+            })}
+        </>
+    );
 }
 
 function SidebarContent(props: { baseRoute: string; routes: any[] }) {
-    // SIDEBAR
     return (
         <Flex direction="column" height="100%" pt="25px" borderRadius="30px">
             <Brand />
@@ -598,9 +631,9 @@ export default function NavigationComponent(props: { baseRoute: string; routes: 
     const [toggleSidebar, setToggleSidebar] = useState(false);
 
     const getActiveRoute = (routes: any[]): string => {
-        let activeRoute = "Default Brand Text";
+        let activeRoute = routes[0].name;
         for (let i = 0; i < routes.length; i++) {
-            if (window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1) {
+            if (routes[i].path !== "/" && window.location.href.indexOf(baseRoute + routes[i].path) !== -1) {
                 return routes[i].name;
             }
         }

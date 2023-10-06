@@ -39,7 +39,7 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
                 </Text>
             ),
             cell: (info: any) => (
-                <Flex align="center">
+                <Flex align="center" minW="100px">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
                         {info.getValue() ? formatDateTime(info.getValue()) : "--"}
@@ -55,7 +55,7 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
                 </Text>
             ),
             cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
+                <Text color={textColor} maxW="200px" fontSize="sm" fontWeight="700">
                     {info.getValue()}
                 </Text>
             ),
@@ -68,7 +68,7 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
                 </Text>
             ),
             cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
+                <Text color={textColor} fontSize="sm" maxW="400px" fontWeight="700">
                     {info.getValue()}
                 </Text>
             ),
