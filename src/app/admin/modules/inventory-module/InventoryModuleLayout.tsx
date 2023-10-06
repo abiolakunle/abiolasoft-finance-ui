@@ -11,10 +11,7 @@ import InventoryAdjustmentFormComponent from "./inventory-adjustment-form/Invent
 import InventoryAdjustmentComponent from "./inventory-adjustment/InventoryAdjustmentComponent";
 import { getUserInfo } from "utils/auth";
 
-
-
 const InventoryModuleLayout = () => {
-
     const navRoutes = [
         {
             name: "Dashboard",
@@ -24,7 +21,7 @@ const InventoryModuleLayout = () => {
         },
     ];
 
-    const user = getUserInfo()
+    const user = getUserInfo();
 
     if (user?.permissions?.includes("View Items")) {
         navRoutes.push({
@@ -33,7 +30,6 @@ const InventoryModuleLayout = () => {
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <ItemsComponent />,
         });
-
     }
     if (user?.permissions?.includes("View Inventory Adjustments")) {
         navRoutes.push({
@@ -42,12 +38,11 @@ const InventoryModuleLayout = () => {
             icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
             component: <InventoryAdjustmentsComponent />,
         });
-        
     }
 
     const inventoryRoutes = [
         ...navRoutes,
-        
+
         {
             name: "Items",
             path: "/items/:id",
@@ -67,7 +62,7 @@ const InventoryModuleLayout = () => {
             component: <ItemFormComponent />,
             excludeFromSideNav: true,
         },
-        
+
         {
             name: "Inventory Adjustment",
             path: "/inventory-adjustments/:id",
@@ -83,11 +78,6 @@ const InventoryModuleLayout = () => {
             excludeFromSideNav: true,
         },
     ];
-    
-    
-
-
-
 
     return (
         <NavigationComponent baseRoute="/admin/modules/inventory" routes={inventoryRoutes}>
