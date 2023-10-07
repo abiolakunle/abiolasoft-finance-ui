@@ -11,34 +11,7 @@ import VendorComponent from "./vendor/VendorComponent";
 import VendorFormComponent from "./vendor-form/VendorFormComponent";
 import { getUserInfo } from "utils/auth";
 
-
-
-    // ,
-    // // {
-    //     name: "Purchase Receives",
-    //     path: "/purchase-receives",
-    //     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    //     component: <PurchaseReceivesComponent />,
-    // },
-    // {
-    //     name: "Payments Made",
-    //     path: "/payment-made",
-    //     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    //     component: <PaymentMadeComponent />,
-    // },
-    // {
-    //     name: "Purchase Receipts",
-    //     path: "/purchase-receipts",
-    //     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-    //     component: <PurchaseReceiptsComponent />,
-    // },
-    
-// ];
-
-
-
 const PurchaseModuleLayout = () => {
-
     const navRoutes = [
         {
             name: "Dashboard",
@@ -46,10 +19,28 @@ const PurchaseModuleLayout = () => {
             icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
             component: <PurchasesDashboardComponent />,
         },
-    
-    ]
-    
-    const user = getUserInfo()
+
+        // {
+        //     name: "Purchase Receives",
+        //     path: "/purchase-receives",
+        //     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        //     component: <PurchaseReceivesComponent />,
+        // },
+        // {
+        //     name: "Payments Made",
+        //     path: "/payment-made",
+        //     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        //     component: <PaymentMadeComponent />,
+        // },
+        // {
+        //     name: "Purchase Receipts",
+        //     path: "/purchase-receipts",
+        //     icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+        //     component: <PurchaseReceiptsComponent />,
+        // },
+    ];
+
+    const user = getUserInfo();
 
     if (user?.permissions?.includes("View Purchase Orders")) {
         navRoutes.push({
@@ -57,7 +48,7 @@ const PurchaseModuleLayout = () => {
             path: "/purchase-orders",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <PurchaseOrdersComponent />,
-        })
+        });
     }
 
     if (user?.permissions?.includes("View Vendors")) {
@@ -66,7 +57,7 @@ const PurchaseModuleLayout = () => {
             path: "/vendors",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <VendorsComponent />,
-        })
+        });
     }
 
     const purchaseRoutes = [
@@ -114,8 +105,6 @@ const PurchaseModuleLayout = () => {
             excludeFromSideNav: true,
         },
     ];
-
-
 
     return (
         <NavigationComponent baseRoute="/admin/modules/purchases" routes={purchaseRoutes}>
