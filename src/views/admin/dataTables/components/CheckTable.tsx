@@ -137,7 +137,12 @@ export default function CheckTable(props: { tableData: any }) {
                                     <Tr key={row.id}>
                                         {row.getVisibleCells().map((cell) => {
                                             return (
-                                                <Td key={cell.id} fontSize={{ sm: "14px" }} minW={{ sm: "150px", md: "200px", lg: "auto" }} borderColor="transparent">
+                                                <Td
+                                                    key={cell.id}
+                                                    fontSize={{ sm: "14px" }}
+                                                    minW={{ sm: "150px", md: "200px", lg: "auto" }}
+                                                    borderColor="transparent"
+                                                >
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </Td>
                                             );
