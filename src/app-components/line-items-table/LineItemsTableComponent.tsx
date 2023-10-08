@@ -342,7 +342,7 @@ export default function LineItemsTableComponent(props: {
                     <Tbody>
                         {table.getRowModel().rows.map((row) => {
                             return (
-                                <Tr pl={{ sm: "0px", md: "16px" }} key={row.id} borderTop={{ sm: "2px solid grey", md: "none" }}>
+                                <Tr key={row.id} borderTop={{ sm: "2px solid grey", md: "none" }}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
                                             <Td
