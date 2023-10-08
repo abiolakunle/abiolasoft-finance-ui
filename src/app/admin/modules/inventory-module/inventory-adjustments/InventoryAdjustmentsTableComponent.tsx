@@ -4,6 +4,9 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { formatDateTime } from "utils/dateUtils";
 import { useEffect } from "react";
 import GeneralTable from "app-components/general-table/GeneralTable";
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
+import Card from "components/card/Card";
 
 type RowObj = {
     id: string;
@@ -36,9 +39,11 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
             cell: (info: any) => (
                 <Flex align="center" minW="100px">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
-                    <Text color={textColor} fontSize="sm" fontWeight="700">
-                        {info.getValue() ? formatDateTime(info.getValue()) : "--"}
-                    </Text>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/inventory-adjustments/${info.row.original.id}`}>
+                        <Text color={textColor} fontSize="sm" fontWeight="700">
+                            {info.getValue() ? formatDateTime(info.getValue()) : "--"}
+                        </Text>
+                    </ChakraLink>
                 </Flex>
             ),
         }),
@@ -154,5 +159,9 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
         setData(tableData);
     }, [tableData]);
 
-    return <GeneralTable data={data} columns={columns} />;
+    return (
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+            <GeneralTable data={data} columns={columns} />
+        </Card>
+    );
 }

@@ -6,6 +6,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { formatDateTime } from "utils/dateUtils";
 import { useEffect } from "react";
 import GeneralTable from "app-components/general-table/GeneralTable";
+import Card from "components/card/Card";
 
 type RowObj = {
     firstName: string;
@@ -102,5 +103,9 @@ export default function UsersTableComponent(props: { tableData: any }) {
         setData(tableData);
     }, [tableData]);
 
-    return <GeneralTable data={data} columns={columns} />;
+    return (
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+            <GeneralTable data={data} columns={columns} />
+        </Card>
+    );
 }

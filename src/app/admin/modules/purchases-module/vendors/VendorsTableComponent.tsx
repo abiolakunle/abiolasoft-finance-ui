@@ -1,6 +1,7 @@
 import { Flex, Checkbox, Text, useColorModeValue } from "@chakra-ui/react";
+import Card from "components/card/Card";
 import * as React from "react";
-import { createColumnHelper, SortingState } from "@tanstack/react-table";
+import { createColumnHelper } from "@tanstack/react-table";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { useEffect } from "react";
@@ -90,7 +91,11 @@ function VendorsTableComponent(props: { tableData: any }) {
         setData(tableData);
     }, [tableData]);
 
-    return <GeneralTable data={data} columns={columns} />;
+    return (
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+            <GeneralTable data={data} columns={columns} />
+        </Card>
+    );
 }
 
 export default VendorsTableComponent;

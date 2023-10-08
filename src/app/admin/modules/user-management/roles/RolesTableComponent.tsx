@@ -1,9 +1,9 @@
 import { Flex, Checkbox, Text, useColorModeValue } from "@chakra-ui/react";
+import Card from "components/card/Card";
 import * as React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-
 import { formatDateTime } from "utils/dateUtils";
 import GeneralTable from "app-components/general-table/GeneralTable";
 
@@ -68,5 +68,9 @@ export default function UsersTableComponent(props: { tableData: any }) {
     ];
     const [data, setData] = React.useState(() => [...tableData]);
 
-    return <GeneralTable data={data} columns={columns} />;
+    return (
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+            <GeneralTable data={data} columns={columns} />
+        </Card>
+    );
 }

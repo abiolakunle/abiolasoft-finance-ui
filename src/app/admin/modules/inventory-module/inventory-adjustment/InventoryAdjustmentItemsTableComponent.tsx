@@ -3,7 +3,6 @@ import * as React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-
 import { formatNumberWithCommas } from "utils/number";
 import GeneralTable from "app-components/general-table/GeneralTable";
 
@@ -32,7 +31,7 @@ export default function InventoryAdjustmentItemsTableComponent(props: { tableDat
             cell: (info: any) => (
                 <Flex align="center">
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${info.row.original.itemId}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>

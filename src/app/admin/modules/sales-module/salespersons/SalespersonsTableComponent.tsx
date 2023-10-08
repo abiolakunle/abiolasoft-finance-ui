@@ -1,12 +1,11 @@
 import { Flex, Checkbox, Text, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
-
-import { createColumnHelper, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
-
+import { createColumnHelper } from "@tanstack/react-table";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { useEffect } from "react";
 import GeneralTable from "app-components/general-table/GeneralTable";
+import Card from "components/card/Card";
 
 type RowObj = {
     name: [string, boolean];
@@ -60,7 +59,11 @@ function SalespersonsTableComponent(props: { tableData: any }) {
         setData(tableData);
     }, [tableData]);
 
-    return <GeneralTable data={data} columns={columns} />;
+    return (
+        <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
+            <GeneralTable data={data} columns={columns} />
+        </Card>
+    );
 }
 
 export default SalespersonsTableComponent;
