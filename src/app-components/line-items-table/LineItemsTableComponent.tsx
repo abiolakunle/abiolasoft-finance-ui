@@ -27,7 +27,7 @@ type RowObj = {
 
 const columnHelper = createColumnHelper<RowObj>();
 
-export const TableCellInput = ({ getValue, row, column, table, type, maxW, currency }: any) => {
+export const TableCellInput = ({ getValue, row, column, table, maxW, currency }: any) => {
     const initialValue = getValue();
     const tableMeta = table.options.meta;
     const [value, setValue] = useState(initialValue);
@@ -120,7 +120,23 @@ export default function LineItemsTableComponent(props: {
                     ITEM DETAILS
                 </Text>
             ),
-            cell: (info: any) => <TableCellSelect options={items} {...info} />,
+            cell: (info: any) => (
+                <Flex
+                    width="100%"
+                    gap={{ sm: "10px", md: "0px" }}
+                    alignItems="center"
+                    flexWrap={{ sm: "wrap", md: "nowrap" }}
+                    pl={{ sm: "8px", md: "16px" }}
+                    justifyContent={{ sm: "start", md: "center" }}
+                >
+                    <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
+                        Item Name
+                    </Text>
+                    <Box textAlign={{ sm: "right", md: "left" }} width="100%">
+                        <TableCellSelect options={items} {...info} />
+                    </Box>
+                </Flex>
+            ),
         }),
         columnHelper.accessor("quantity", {
             id: "quantity",
@@ -129,7 +145,23 @@ export default function LineItemsTableComponent(props: {
                     QUANTITY
                 </Text>
             ),
-            cell: (info: any) => <TableCellInput type="number" name="quantity" maxW={{ sm: "100%", md: "100px" }} {...info} />,
+            cell: (info: any) => (
+                <Flex
+                    width="100%"
+                    gap={{ sm: "10px", md: "0px" }}
+                    alignItems="center"
+                    flexWrap={{ sm: "nowrap", md: "nowrap" }}
+                    pl={{ sm: "8px", md: "0px" }}
+                    justifyContent={{ sm: "start", md: "center" }}
+                >
+                    <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
+                        {info.column.id}
+                    </Text>
+                    <Box textAlign={{ sm: "right", md: "left" }} width="100%">
+                        <TableCellInput type="number" name="quantity" maxW={{ sm: "100%", md: "100px" }} {...info} />
+                    </Box>
+                </Flex>
+            ),
         }),
 
         columnHelper.accessor("rate", {
@@ -140,7 +172,21 @@ export default function LineItemsTableComponent(props: {
                 </Text>
             ),
             cell: (info: any) => (
-                <TableCellInput type="number" maxW={{ md: "180px" }} width={{ sm: "100%", md: "fit-content" }} name="rate" currency="₦" {...info} />
+                <Flex
+                    width="100%"
+                    gap={{ sm: "10px", md: "0px" }}
+                    alignItems="center"
+                    flexWrap={{ sm: "nowrap", md: "nowrap" }}
+                    pl={{ sm: "8px", md: "0px" }}
+                    justifyContent={{ sm: "start", md: "center" }}
+                >
+                    <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
+                        {info.column.id}
+                    </Text>
+                    <Box textAlign={{ sm: "right", md: "left" }} width="100%">
+                        <TableCellInput type="number" maxW={{ md: "180px" }} width={{ sm: "100%", md: "fit-content" }} name="rate" currency="₦" {...info} />
+                    </Box>
+                </Flex>
             ),
         }),
         // columnHelper.ac)cessor("tax", {
@@ -164,9 +210,23 @@ export default function LineItemsTableComponent(props: {
                 </Text>
             ),
             cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {formatNumberWithCommas(+info.row.original.quantity * +info.row.original.rate)}
-                </Text>
+                <Flex
+                    width="100%"
+                    gap={{ sm: "10px", md: "0px" }}
+                    alignItems="center"
+                    flexWrap={{ sm: "nowrap", md: "nowrap" }}
+                    pl={{ sm: "8px", md: "0px" }}
+                    justifyContent={{ sm: info.column.id === "amount" ? "space-between" : "start", md: "center" }}
+                >
+                    <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
+                        {info.column.id}
+                    </Text>
+                    <Box textAlign={{ sm: "right", md: "left" }} width="100%">
+                        <Text color={textColor} fontSize="sm" fontWeight="700">
+                            {formatNumberWithCommas(+info.row.original.quantity * +info.row.original.rate)}
+                        </Text>
+                    </Box>
+                </Flex>
             ),
         }),
         !viewOnly &&
@@ -175,19 +235,33 @@ export default function LineItemsTableComponent(props: {
                 header: () => <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400"></Text>,
                 cell: (info: any) => {
                     return (
-                        <IconButton
-                            isDisabled={info.row.id === "0" && data.length === 1}
-                            onClick={() => {
-                                info.table.options.meta?.removeRow(info.row.index);
-                            }}
-                            size="sm"
-                            isRound={true}
-                            variant="outline"
-                            colorScheme="red"
-                            aria-label="Remove"
-                            fontSize="20px"
-                            icon={<MdOutlineDeleteOutline />}
-                        />
+                        <Flex
+                            width="100%"
+                            gap={{ sm: "10px", md: "0px" }}
+                            alignItems="center"
+                            flexWrap={{ sm: "nowrap", md: "nowrap" }}
+                            pl={{ sm: "8px", md: "0px" }}
+                            justifyContent={{ sm: "start", md: "center" }}
+                        >
+                            <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
+                                {info.column.id}
+                            </Text>
+                            <Box textAlign={{ sm: "right", md: "left" }} width="100%">
+                                <IconButton
+                                    isDisabled={info.row.id === "0" && data.length === 1}
+                                    onClick={() => {
+                                        info.table.options.meta?.removeRow(info.row.index);
+                                    }}
+                                    size="sm"
+                                    isRound={true}
+                                    variant="outline"
+                                    colorScheme="red"
+                                    aria-label="Remove"
+                                    fontSize="20px"
+                                    icon={<MdOutlineDeleteOutline />}
+                                />
+                            </Box>
+                        </Flex>
                     );
                 },
             }),
@@ -288,21 +362,7 @@ export default function LineItemsTableComponent(props: {
                                                 }}
                                                 borderColor="transparent"
                                             >
-                                                <Flex
-                                                    width="100%"
-                                                    gap={{ sm: "10px", md: "0px" }}
-                                                    alignItems="center"
-                                                    flexWrap={{ sm: cell.column.id === "itemId" ? "wrap" : "nowrap", md: "nowrap" }}
-                                                    pl={{ sm: "8px", md: cell.column.id === "itemId" ? "16px" : "0px" }}
-                                                    justifyContent={{ sm: cell.column.id === "amount" ? "space-between" : "start", md: "center" }}
-                                                >
-                                                    <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
-                                                        {cell.column.id === "itemId" ? "Item Name" : cell.column.id}
-                                                    </Text>
-                                                    <Box textAlign={{ sm: "right", md: "left" }} width="100%">
-                                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                    </Box>
-                                                </Flex>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </Td>
                                         );
                                     })}
