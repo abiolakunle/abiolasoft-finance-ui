@@ -1,12 +1,10 @@
 import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input, Icon, Button, IconButton } from "@chakra-ui/react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import GeneralTable from "app-components/general-table/GeneralTable";
-import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
 import { NumericFormat } from "react-number-format";
 import { formatNumberWithCommas } from "utils/number";
-import "./LineItemsTableComponent.css";
 
 export const defaultItem = {
     itemId: "",
