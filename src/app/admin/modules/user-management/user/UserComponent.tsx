@@ -124,7 +124,7 @@ const UserComponent = () => {
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Update User">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${id}/edit`}>
-                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
                     <IfUserIsPermitted to="Manage User Roles">

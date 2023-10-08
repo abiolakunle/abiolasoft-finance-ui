@@ -112,7 +112,7 @@ const RoleComponent = () => {
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Update Role Name">
                         <ChakraLink state={{ roleName: role.name }} as={ReactRouterLink} to={`/admin/modules/user-management/roles/${id}/edit`}>
-                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
 
