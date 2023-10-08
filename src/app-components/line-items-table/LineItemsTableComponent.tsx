@@ -127,6 +127,9 @@ export default function LineItemsTableComponent(props: {
                     alignItems="center"
                     flexWrap={{ sm: "wrap", md: "nowrap" }}
                     justifyContent={{ sm: "start", md: "center" }}
+                    borderTop={{ sm: "2px solid grey", md: "none" }}
+                    marginTop="-1rem"
+                    paddingTop="1rem"
                 >
                     <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
                         Item Name
@@ -342,7 +345,7 @@ export default function LineItemsTableComponent(props: {
                     <Tbody>
                         {table.getRowModel().rows.map((row) => {
                             return (
-                                <Tr key={row.id} borderTop={{ sm: "2px solid grey", md: "none" }}>
+                                <Tr key={row.id}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
                                             <Td
