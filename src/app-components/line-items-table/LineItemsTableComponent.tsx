@@ -126,7 +126,7 @@ export default function LineItemsTableComponent(props: {
                     gap={{ sm: "10px", md: "0px" }}
                     alignItems="center"
                     flexWrap={{ sm: "wrap", md: "nowrap" }}
-                    pl={{ sm: "8px", md: "16px" }}
+                    pl={{ sm: "8px", md: "0px" }}
                     justifyContent={{ sm: "start", md: "center" }}
                 >
                     <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
@@ -319,7 +319,6 @@ export default function LineItemsTableComponent(props: {
                                             key={header.id}
                                             colSpan={header.colSpan}
                                             pe="10px"
-                                            pl="0px"
                                             borderColor={borderColor}
                                             cursor="pointer"
                                             onClick={header.column.getToggleSortingHandler()}
@@ -353,7 +352,6 @@ export default function LineItemsTableComponent(props: {
                                         return (
                                             <Td
                                                 key={cell.id}
-                                                pl="0px"
                                                 fontSize={{ sm: "14px" }}
                                                 minW={{
                                                     sm: "100%",

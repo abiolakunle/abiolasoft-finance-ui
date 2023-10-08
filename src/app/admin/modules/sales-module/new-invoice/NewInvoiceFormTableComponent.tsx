@@ -58,7 +58,6 @@ export default function NewInvoiceFormTableComponent(props: { tableData: any; it
             cell: (info: any) => (
                 <Flex align="center">
                     <Input
-                        
                         type="number"
                         name="quantity"
                         isRequired={true}
@@ -81,7 +80,6 @@ export default function NewInvoiceFormTableComponent(props: { tableData: any; it
             cell: (info: any) => (
                 <Flex align="center">
                     <Input
-                        
                         type="number"
                         name="rate"
                         isRequired={true}
@@ -102,7 +100,15 @@ export default function NewInvoiceFormTableComponent(props: { tableData: any; it
             ),
             cell: (info: any) => (
                 <Flex align="center">
-                    <Input type="number"  name="tax" isRequired={true} variant="outline" borderRadius="8px" value={info.getValue()} onChange={(e) => inputChanged(e, info.row.id)} />
+                    <Input
+                        type="number"
+                        name="tax"
+                        isRequired={true}
+                        variant="outline"
+                        borderRadius="8px"
+                        value={info.getValue()}
+                        onChange={(e) => inputChanged(e, info.row.id)}
+                    />
                 </Flex>
             ),
         }),
@@ -114,7 +120,7 @@ export default function NewInvoiceFormTableComponent(props: { tableData: any; it
                 </Text>
             ),
             cell: (info) => (
-                <Text color={textColor}  fontSize="sm" fontWeight="700">
+                <Text color={textColor} fontSize="sm" fontWeight="700">
                     {info.getValue()}
                 </Text>
             ),
@@ -145,7 +151,6 @@ export default function NewInvoiceFormTableComponent(props: { tableData: any; it
                                             key={header.id}
                                             colSpan={header.colSpan}
                                             pe="10px"
-                                            pl="0px"
                                             borderColor={borderColor}
                                             cursor="pointer"
                                             onClick={header.column.getToggleSortingHandler()}
@@ -179,7 +184,6 @@ export default function NewInvoiceFormTableComponent(props: { tableData: any; it
                                         return (
                                             <Td
                                                 key={cell.id}
-                                                pl="0px"
                                                 fontSize={{ sm: "14px" }}
                                                 minW={{
                                                     sm: "150px",

@@ -30,7 +30,6 @@ const GeneralTable = ({ data, columns }: any) => {
                                             key={header.id}
                                             colSpan={header.colSpan}
                                             pe="10px"
-                                            pl="0px"
                                             borderColor={borderColor}
                                             cursor="pointer"
                                             onClick={header.column.getToggleSortingHandler()}
@@ -64,7 +63,6 @@ const GeneralTable = ({ data, columns }: any) => {
                                         return (
                                             <Td
                                                 key={cell.id}
-                                                pl="0px"
                                                 fontSize={{ sm: "14px" }}
                                                 minW={{
                                                     sm: "150px",
