@@ -1,5 +1,6 @@
 import { Flex, Box, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Select, Input, Icon, Button, IconButton } from "@chakra-ui/react";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
+import GeneralTable from "app-components/general-table/GeneralTable";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
@@ -205,7 +206,7 @@ export default function LineItemsTableComponent(props: {
         columnHelper.accessor("amount", {
             id: "amount",
             header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                <Text justifyContent="space-between" whiteSpace="nowrap" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
                     AMOUNT (₦)
                 </Text>
             ),
@@ -292,81 +293,10 @@ export default function LineItemsTableComponent(props: {
         },
     };
 
-    const table = useReactTable({
-        data,
-        columns,
-        state: {
-            sorting,
-        },
-        meta,
-        onSortingChange: setSorting,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        debugTable: true,
-    });
     return (
-        <Card pointerEvents={viewOnly ? "none" : "all"} flexDirection="column" w="100%" px="0px" overflowX={{ sm: "scroll", lg: "hidden" }}>
-            <Box>
-                <Table className="responsiveTable" variant="striped" color="gray.500" mb="24px">
-                    <Thead>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <Tr key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <Th
-                                            key={header.id}
-                                            colSpan={header.colSpan}
-                                            pe="10px"
-                                            borderColor={borderColor}
-                                            cursor="pointer"
-                                            onClick={header.column.getToggleSortingHandler()}
-                                        >
-                                            <Flex
-                                                justifyContent="space-between"
-                                                align="left"
-                                                fontSize={{
-                                                    sm: "10px",
-                                                    lg: "12px",
-                                                }}
-                                                color="gray.400"
-                                            >
-                                                {flexRender(header.column.columnDef.header, header.getContext())}
-                                                {{
-                                                    asc: "",
-                                                    desc: "",
-                                                }[header.column.getIsSorted() as string] ?? null}
-                                            </Flex>
-                                        </Th>
-                                    );
-                                })}
-                            </Tr>
-                        ))}
-                    </Thead>
-                    <Tbody>
-                        {table.getRowModel().rows.map((row) => {
-                            return (
-                                <Tr key={row.id}>
-                                    {row.getVisibleCells().map((cell) => {
-                                        return (
-                                            <Td
-                                                key={cell.id}
-                                                fontSize={{ sm: "14px" }}
-                                                minW={{
-                                                    sm: "100%",
-                                                    md: "200px",
-                                                    lg: "auto",
-                                                }}
-                                                borderColor="transparent"
-                                            >
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                            </Td>
-                                        );
-                                    })}
-                                </Tr>
-                            );
-                        })}
-                    </Tbody>
-                </Table>
+        <>
+            <Box pointerEvents={viewOnly ? "none" : "all"}>
+                <GeneralTable meta={meta} data={data} columns={columns} classes="responsiveTable" variant="striped" />
             </Box>
             <Flex>
                 {!viewOnly && (
@@ -375,7 +305,7 @@ export default function LineItemsTableComponent(props: {
                     </Button>
                 )}
             </Flex>
-        </Card>
+        </>
     );
 
     function setItemPriceOnRow(columnId: string, rowUpdate: any, value: string, rowIndex: number) {
