@@ -80,11 +80,11 @@ const UserComponent = () => {
     }, [id]);
 
     const changePassword = () => {
-        navigate(`/admin/modules/user-management/user/${id}/change-password`);
+        navigate(`/admin/modules/user-management/users/${id}/change-password`);
     };
 
     const manageRoles = () => {
-        navigate(`/admin/modules/user-management/user/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
+        navigate(`/admin/modules/user-management/users/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
     };
 
     const submit = async () => {
@@ -124,7 +124,7 @@ const UserComponent = () => {
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Update User">
                         <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${id}/edit`}>
-                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
                     <IfUserIsPermitted to="Manage User Roles">

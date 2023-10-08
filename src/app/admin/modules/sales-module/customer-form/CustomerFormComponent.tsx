@@ -85,7 +85,7 @@ const CustomerFormComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    New Item
+                    {id ? "Edit Customer" : "New Customer"}
                 </Heading>
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>

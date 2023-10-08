@@ -93,7 +93,7 @@ export default function SalesDashboardComponent() {
                 /> */}
             </SimpleGrid>
 
-            {info.topSellingItems && (
+            {info.topSellingItems.length ? (
                 <Fragment>
                     <Heading as="h4" size="md" mt="32px" mb="16px">
                         Top Selling Items
@@ -111,15 +111,17 @@ export default function SalesDashboardComponent() {
                         })}
                     </SimpleGrid>
                 </Fragment>
+            ) : (
+                ""
             )}
 
             <Heading as="h4" size="md" mt="32px" mb="16px">
-                All Time Profit
+                Profit
             </Heading>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }} gap="20px" mb="20px">
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
-                    name="Total Profit"
+                    name="All Time Profit"
                     value={info.totalProfit >= 0 ? `₦${formatNumberWithCommas(info.totalProfit)}` : "--"}
                 />
             </SimpleGrid>

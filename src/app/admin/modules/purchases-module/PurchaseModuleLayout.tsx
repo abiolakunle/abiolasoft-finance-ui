@@ -63,6 +63,13 @@ const PurchaseModuleLayout = () => {
     const purchaseRoutes = [
         ...navRoutes,
         {
+            name: "Dashboard",
+            path: "",
+            icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+            component: <PurchasesDashboardComponent />,
+            excludeFromSideNav: true,
+        },
+        {
             name: "New Purchase Order",
             path: "/purchase-orders/new",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
