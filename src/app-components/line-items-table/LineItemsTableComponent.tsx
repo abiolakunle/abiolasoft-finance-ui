@@ -126,7 +126,6 @@ export default function LineItemsTableComponent(props: {
                     gap={{ sm: "10px", md: "0px" }}
                     alignItems="center"
                     flexWrap={{ sm: "wrap", md: "nowrap" }}
-                    pl={{ sm: "8px", md: "0px" }}
                     justifyContent={{ sm: "start", md: "center" }}
                 >
                     <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
@@ -151,7 +150,6 @@ export default function LineItemsTableComponent(props: {
                     gap={{ sm: "10px", md: "0px" }}
                     alignItems="center"
                     flexWrap={{ sm: "nowrap", md: "nowrap" }}
-                    pl={{ sm: "8px", md: "0px" }}
                     justifyContent={{ sm: "start", md: "center" }}
                 >
                     <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
@@ -177,7 +175,6 @@ export default function LineItemsTableComponent(props: {
                     gap={{ sm: "10px", md: "0px" }}
                     alignItems="center"
                     flexWrap={{ sm: "nowrap", md: "nowrap" }}
-                    pl={{ sm: "8px", md: "0px" }}
                     justifyContent={{ sm: "start", md: "center" }}
                 >
                     <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
@@ -215,7 +212,6 @@ export default function LineItemsTableComponent(props: {
                     gap={{ sm: "10px", md: "0px" }}
                     alignItems="center"
                     flexWrap={{ sm: "nowrap", md: "nowrap" }}
-                    pl={{ sm: "8px", md: "0px" }}
                     justifyContent={{ sm: info.column.id === "amount" ? "space-between" : "start", md: "center" }}
                 >
                     <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
@@ -240,7 +236,6 @@ export default function LineItemsTableComponent(props: {
                             gap={{ sm: "10px", md: "0px" }}
                             alignItems="center"
                             flexWrap={{ sm: "nowrap", md: "nowrap" }}
-                            pl={{ sm: "8px", md: "0px" }}
                             justifyContent={{ sm: "start", md: "center" }}
                         >
                             <Text display={{ sm: "block", md: "none" }} fontSize="16px" textTransform="capitalize" minW="100px">
