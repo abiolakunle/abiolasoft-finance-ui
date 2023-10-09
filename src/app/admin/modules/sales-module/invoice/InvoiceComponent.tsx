@@ -47,20 +47,21 @@ const InvoiceComponent = () => {
                     xl: "space-between",
                 }}
                 gap="20px"
+                flexWrap={{ sm: "wrap", md: "nowrap" }}
             >
                 <Heading as="h4" size="md">
                     Invoice
                 </Heading>
 
-                <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
+                <Flex h="fit-content" width={{ sm: "100%", md: "fit-content" }} flexWrap={{ sm: "wrap", md: "nowrap" }} alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Edit Invoice">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/${id}/edit`}>
-                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
+                        <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/modules/sales/invoices/${id}/edit`}>
+                            <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
 
                     <Menu>
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton order={{ sm: "4", md: "3" }} as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <IfUserIsPermitted to="Delete Invoice">
@@ -87,7 +88,7 @@ const InvoiceComponent = () => {
                         </Modal>
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices`}>
+                    <ChakraLink order={{ sm: "2", md: "4" }} as={ReactRouterLink} to={`/admin/modules/sales/invoices`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

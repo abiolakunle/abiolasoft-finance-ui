@@ -7,6 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@chakra-ui/react";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
+import {DeleteModal} from "app-components/delete-modal/DeleteModal";
 
 const SalesOrderComponent = () => {
     const { id } = useParams();
@@ -14,6 +15,10 @@ const SalesOrderComponent = () => {
     const navigate = useNavigate();
 
     const toast = useToast();
+
+    const redirect = `/admin/modules/sales/sales-orders/`
+
+    const deleteEndpoint = `Sales/DeleteSalesOrder`
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
