@@ -36,9 +36,9 @@ const DeleteModal = ({redirect, id, deleteEndpoint, isOpen, onClose } : any) => 
 
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal  isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent width={{sm: "85%"}}>
                 <ModalHeader>Delete Sales Order</ModalHeader>
 
                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>

@@ -81,7 +81,7 @@ const SalesOrderComponent = () => {
                     width={{ sm: "100%", md: "fit-content" }}
                     flexWrap={{ sm: "wrap", md: "nowrap" }}
                     alignItems="center"
-                    justifyContent="space-between"
+                    justifyContent={{xl: "space-between", sm: "flex-end"}}
                     gap="20px"
                 >
                     <IfUserIsPermitted to="Edit Sales Order">
@@ -92,7 +92,7 @@ const SalesOrderComponent = () => {
 
                     <Menu>
                         <IfUserIsPermitted to="Convert Sales Order To Invoice">
-                            <MenuButton order={{ sm: "3", md: "2" }} width="100%" minW="120px" as={Button} rightIcon={<ChevronDownIcon />}>
+                            <MenuButton order={{ sm: "4", md: "2" }} width="100%" minW="120px" as={Button} rightIcon={<ChevronDownIcon />}>
                                 Convert
                             </MenuButton>
 
@@ -104,7 +104,7 @@ const SalesOrderComponent = () => {
                     </Menu>
 
                     <Menu>
-                        <MenuButton order={{ sm: "4", md: "3" }} width="100%" as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton order={{ sm: "2", md: "3" }} width={{sm: "wrap", xl: "100%"}} as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <MenuList>
@@ -116,7 +116,7 @@ const SalesOrderComponent = () => {
                         <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink order={{ sm: "2", md: "4" }} as={ReactRouterLink} to={`/admin/modules/sales/sales-orders`}>
+                    <ChakraLink order={{ sm: "3", md: "4" }} as={ReactRouterLink} to={`/admin/modules/sales/sales-orders`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

@@ -47,19 +47,19 @@ const PurchaseOrderComponent = () => {
                     Purchase Order
                 </Heading>
 
-                <Flex h="fit-content" width={{ sm: "100%", md: "fit-content" }} flexWrap={{ sm: "wrap", md: "nowrap" }} alignItems="center" justifyContent="space-between" gap="20px">
+                <Flex h="fit-content" width={{ sm: "100%", md: "fit-content" }} flexWrap={{ sm: "wrap", md: "nowrap" }} alignItems="center" justifyContent={{xl: "space-between", sm: "flex-end"}} gap="20px">
                     <IfUserIsPermitted to="Edit Purchase Order">
                         <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
 
-                    <Button order={{ sm: "3", md: "2" }} onClick={convertToBill} variant="brand">
+                    <Button order={{ sm: "4", md: "2" }}  onClick={convertToBill} variant="brand">
                         Convert to Bill
                     </Button>
 
                     <Menu>
-                        <MenuButton order={{ sm: "4", md: "3" }} as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton order={{ sm: "2", md: "3" }} as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <IfUserIsPermitted to="Delete Purchase Order">
@@ -68,10 +68,10 @@ const PurchaseOrderComponent = () => {
                             </MenuList>
                         </IfUserIsPermitted>
 
-                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
+                        <DeleteModal  redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink order={{ sm: "2", md: "4" }} as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders`}>
+                    <ChakraLink order={{ sm: "3", md: "4" }} as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
