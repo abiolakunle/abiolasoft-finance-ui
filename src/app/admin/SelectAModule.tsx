@@ -36,12 +36,12 @@ const SelectAModule = () => {
             flexWrap={{ sm: "wrap", md: "nowrap" }}
         >
             <Box marginLeft="auto" marginRight="auto" maxW="768px" pt={{ base: "130px", md: "80px", xl: "80px" }}>
-                <Box mb={{ sm: "8px", md: "16px" }}>
+                <Box mb={{ sm: "8px", md: "16px" }} mt={{ sm: "32px", md: "32px" }} ml={{sm: "16px", md: "16px"}} mr={{sm: "16px", md: "16px"}}>
                     <Heading as="h2" size="xl">
                         Modules
                     </Heading>
                 </Box>
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 2, "2xl": 2 }} gap="20px" mb="20px">
+                <SimpleGrid columns={{ base: 1, md: 2, lg: 2, "2xl": 2 }} gap="20px" mb="20px" ml={{sm: "16px", md: "16px"}} mr={{sm: "16px", md: "16px"}}>
                     {modules.map((module, idx) => {
                         return (
                             <ChakraLink as={ReactRouterLink} to={`/admin/modules/${module.path}`} key={idx}>
