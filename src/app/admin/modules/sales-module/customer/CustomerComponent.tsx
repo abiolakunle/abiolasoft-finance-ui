@@ -27,6 +27,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import axios from "axios";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
+import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const CustomerComponent = () => {
     const { id } = useParams();
@@ -36,6 +37,10 @@ const CustomerComponent = () => {
     const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const redirect = `/admin/modules/sales/customers`
+
+    const deleteEndpoint = `Sales/DeleteCustomer`
 
     const [customer, setCustomer] = useState({
         id: "",
@@ -73,22 +78,7 @@ const CustomerComponent = () => {
         }
     }, [id]);
 
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`Sales/DeleteCustomer`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/modules/sales/customers`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
+    
 
     return (
         <>
@@ -124,22 +114,7 @@ const CustomerComponent = () => {
                             </MenuList>
                         </IfUserIsPermitted>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Delete Customer</ModalHeader>
-
-                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
-                                <ModalFooter>
-                                    <Button variant="ghost" onClick={onClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button colorScheme="red" ml={3} onClick={submit}>
-                                        Delete
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
+                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers`}>

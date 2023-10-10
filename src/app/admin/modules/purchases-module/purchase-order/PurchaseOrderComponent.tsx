@@ -7,6 +7,7 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import PurchaseOrderFormComponent from "../purchase-order-form/PurchaseOrderFormComponent";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import axiosRequest from "utils/api";
+import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const PurchaseOrderComponent = () => {
     const { id } = useParams();
@@ -17,26 +18,15 @@ const PurchaseOrderComponent = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const redirect = `/admin/modules/purchases/purchase-orders`
+
+    const deleteEndpoint = `Purchases/DeletePurchaseOrder`
+
     const convertToBill = () => {
         navigate("/admin/modules/purchases/bills/new", { state: { purchaseOrderId: id } });
     };
 
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`Purchases/DeletePurchaseOrder`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/modules/purchases/purchase-orders`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
+    
 
     return (
         <>
@@ -78,22 +68,7 @@ const PurchaseOrderComponent = () => {
                             </MenuList>
                         </IfUserIsPermitted>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Delete Purchase Order</ModalHeader>
-
-                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
-                                <ModalFooter>
-                                    <Button variant="ghost" onClick={onClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button colorScheme="red" ml={3} onClick={submit}>
-                                        Delete
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
+                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
                     <ChakraLink order={{ sm: "2", md: "4" }} as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders`}>

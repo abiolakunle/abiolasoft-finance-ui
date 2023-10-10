@@ -7,7 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@chakra-ui/react";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
-import {DeleteModal} from "app-components/delete-modal/DeleteModal";
+import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const SalesOrderComponent = () => {
     const { id } = useParams();
@@ -113,22 +113,7 @@ const SalesOrderComponent = () => {
                             </IfUserIsPermitted>
                         </MenuList>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Delete Sales Order</ModalHeader>
-
-                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
-                                <ModalFooter>
-                                    <Button variant="ghost" onClick={onClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button colorScheme="red" onClick={submit} ml={3}>
-                                        Delete
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
+                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
                     <ChakraLink order={{ sm: "2", md: "4" }} as={ReactRouterLink} to={`/admin/modules/sales/sales-orders`}>

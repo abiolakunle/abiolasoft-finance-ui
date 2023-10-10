@@ -2,20 +2,20 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Modal
 import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
 import { To, useNavigate } from "react-router-dom";
 import axiosRequest from "utils/api";
-import React from "react";
 
 
 
 
 
+    
 
 
-export const DeleteModal : any = (redirect: any, id: any, deleteEndpoint: any) => {
+const DeleteModal = ({redirect, id, deleteEndpoint, isOpen, onClose } : any) => {
 
     const toast = useToast()
     const navigate = useNavigate()
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    
 
     const submit = async () => {
         try {
@@ -63,4 +63,6 @@ export const DeleteModal : any = (redirect: any, id: any, deleteEndpoint: any) =
 
 
 };
+
+export default DeleteModal;
 
