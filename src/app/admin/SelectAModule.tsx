@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Icon, Link, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Heading, Icon, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
 import Card from "components/card/Card";
 import IconBox from "components/icons/IconBox";
 import { Text } from "@chakra-ui/react";
@@ -31,44 +31,38 @@ const SelectAModule = () => {
     const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
 
     return (
-        <Flex
-            gap="20px"
-            flexWrap={{ sm: "wrap", md: "nowrap" }}
-        >
-            <Box marginLeft="auto" marginRight="auto" maxW="768px" pt={{ base: "130px", md: "80px", xl: "80px" }}>
-                <Box mb={{ sm: "8px", md: "16px" }} mt={{ sm: "32px", md: "32px" }} ml={{sm: "16px", md: "16px"}} mr={{sm: "16px", md: "16px"}}>
-                    <Heading as="h2" size="xl">
-                        Modules
-                    </Heading>
-                </Box>
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 2, "2xl": 2 }} gap="20px" mb="20px" ml={{sm: "16px", md: "16px"}} mr={{sm: "16px", md: "16px"}}>
-                    {modules.map((module, idx) => {
-                        return (
-                            <ChakraLink as={ReactRouterLink} to={`/admin/modules/${module.path}`} key={idx}>
-                                <Card minH="150px" py="25px">
-                                    <Flex
-                                        my="0px"
-                                        h="100%"
-                                        align={{ base: "center", xl: "start" }}
-                                        justify={{
-                                            base: "start",
-                                            xl: "start",
-                                        }}
-                                        gap="20px"
-                                    >
-                                        <IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdBarChart} color={brandColor} />} />
-                                        <Box width="max" mt="10px">
-                                            <Text fontSize="xl">{module.name}</Text>
-                                        </Box>
-                                    </Flex>
-                                </Card>
-                            </ChakraLink>
-                        );
-                    })}
-                </SimpleGrid>
+        <Box marginLeft="auto" marginRight="auto" maxW="768px" pt={{ base: "130px", sm: "32px", md: "80px", xl: "80px" }}>
+            <Box mb={{ sm: "8px", md: "16px" }} mt={{ sm: "32px", md: "32px" }} ml={{ sm: "16px", md: "16px" }} mr={{ sm: "16px", md: "16px" }}>
+                <Heading as="h2" size="xl">
+                    Modules
+                </Heading>
             </Box>
-        </Flex>
-        
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 2, "2xl": 2 }} gap="20px" mb="20px" ml={{ sm: "16px", md: "16px" }} mr={{ sm: "16px", md: "16px" }}>
+                {modules.map((module, idx) => {
+                    return (
+                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/${module.path}`} key={idx}>
+                            <Card minH="150px" py="25px">
+                                <Flex
+                                    my="0px"
+                                    h="100%"
+                                    align={{ base: "center", xl: "start" }}
+                                    justify={{
+                                        base: "start",
+                                        xl: "start",
+                                    }}
+                                    gap="20px"
+                                >
+                                    <IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdBarChart} color={brandColor} />} />
+                                    <Box width="max" mt="10px">
+                                        <Text fontSize="xl">{module.name}</Text>
+                                    </Box>
+                                </Flex>
+                            </Card>
+                        </ChakraLink>
+                    );
+                })}
+            </SimpleGrid>
+        </Box>
     );
 };
 

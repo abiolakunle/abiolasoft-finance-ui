@@ -1,21 +1,10 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast } from "@chakra-ui/react";
-import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
-import { To, useNavigate } from "react-router-dom";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import axiosRequest from "utils/api";
 
-
-
-
-
-    
-
-
-const DeleteModal = ({redirect, id, deleteEndpoint, isOpen, onClose } : any) => {
-
-    const toast = useToast()
-    const navigate = useNavigate()
-
-    
+const DeleteModal = ({ redirect, id, deleteEndpoint, isOpen, onClose }: any) => {
+    const toast = useToast();
+    const navigate = useNavigate();
 
     const submit = async () => {
         try {
@@ -34,11 +23,10 @@ const DeleteModal = ({redirect, id, deleteEndpoint, isOpen, onClose } : any) => 
         }
     };
 
-
     return (
-        <Modal  isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent width={{sm: "85%"}}>
+            <ModalContent margin={{ sm: "16px" }}>
                 <ModalHeader>Delete </ModalHeader>
 
                 <ModalBody>Are You Sure You Want To Delete?</ModalBody>
@@ -53,16 +41,6 @@ const DeleteModal = ({redirect, id, deleteEndpoint, isOpen, onClose } : any) => 
             </ModalContent>
         </Modal>
     );
-
-    
-
-
-
-
-
-
-
 };
 
 export default DeleteModal;
-
