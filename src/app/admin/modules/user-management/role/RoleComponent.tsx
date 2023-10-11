@@ -33,6 +33,7 @@ import { formatDateTime } from "utils/dateUtils";
 import axiosRequest from "utils/api";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const RoleComponent = () => {
     const { id } = useParams();
@@ -42,6 +43,10 @@ const RoleComponent = () => {
     const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const redirect = `/admin/modules/user-management/roles`
+
+    const deleteEndpoint = `UserManagement/DeleteRole`
 
     const [role, setUser] = useState({
         id: "",
@@ -77,22 +82,7 @@ const RoleComponent = () => {
         navigate(`/admin/modules/user-management/roles/${id}/manage-permissions`, { state: { roleName: role.name } });
     };
 
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`UserManagement/DeleteRole`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/modules/user-management/roles`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
+    
 
     return (
         <>
@@ -132,22 +122,7 @@ const RoleComponent = () => {
                             </MenuList>
                         </IfUserIsPermitted>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Delete Role</ModalHeader>
-
-                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
-                                <ModalFooter>
-                                    <Button variant="ghost" onClick={onClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button colorScheme="red" ml={3} onClick={submit}>
-                                        Delete
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
+                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles`}>

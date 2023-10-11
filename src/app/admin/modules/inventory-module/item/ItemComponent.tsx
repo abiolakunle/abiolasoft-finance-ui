@@ -27,6 +27,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import { formatNumberWithCommas } from "utils/number";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
+import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const ItemComponent = () => {
     const { id } = useParams();
@@ -36,6 +37,10 @@ const ItemComponent = () => {
     const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const redirect = `/admin/modules/inventory/items`
+
+    const deleteEndpoint = `Inventory/DeleteItem`
 
     const [item, setItem] = useState({
         id: "",
@@ -93,22 +98,7 @@ const ItemComponent = () => {
         navigate(`/admin/modules/inventory/items/${id}/inventory-adjustment`, { state: { itemName: item.name, costPrice: item.costPrice } });
     };
 
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`Inventory/DeleteItem`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/modules/inventory/items`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
+    
 
     return (
         <>
@@ -150,22 +140,7 @@ const ItemComponent = () => {
                             </MenuList>
                         </IfUserIsPermitted>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Delete Item</ModalHeader>
-                                <ModalCloseButton />
-                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
-                                <ModalFooter>
-                                    <Button variant="ghost" onClick={onClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button onClick={submit} colorScheme="red" ml={3}>
-                                        Delete
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
+                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items`}>

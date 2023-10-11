@@ -33,6 +33,7 @@ import { formatDateTime } from "utils/dateUtils";
 import axiosRequest from "utils/api";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const UserComponent = () => {
     const { id } = useParams();
@@ -42,6 +43,10 @@ const UserComponent = () => {
     const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const redirect = `/admin/modules/user-management/users`
+
+    const deleteEndpoint = `UserManagement/DeleteUser`
 
     const [user, setUser] = useState({
         id: "",
@@ -87,22 +92,7 @@ const UserComponent = () => {
         navigate(`/admin/modules/user-management/users/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
     };
 
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`UserManagement/DeleteUser`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/modules/user-management/users`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
+    
 
     return (
         <>
@@ -145,22 +135,7 @@ const UserComponent = () => {
                             </IfUserIsPermitted>
                         </MenuList>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Delete User</ModalHeader>
-
-                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
-                                <ModalFooter>
-                                    <Button variant="ghost" onClick={onClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button colorScheme="red" onClick={submit} ml={3}>
-                                        Delete
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
+                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
                     <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users`}>
