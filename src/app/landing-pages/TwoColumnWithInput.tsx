@@ -45,7 +45,7 @@ const CustomersLogoStrip = styled.div`
     }
 `;
 
-export default ({ roundedHeaderButton }) => {
+export default ({ roundedHeaderButton }: any) => {
     return (
         <>
             <Header roundedHeaderButton={roundedHeaderButton} />
