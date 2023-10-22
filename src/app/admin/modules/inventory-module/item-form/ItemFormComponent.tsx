@@ -20,6 +20,8 @@ const ItemFormComponent = () => {
         }),
     });
 
+    const { organizationId } = useParams();
+
     const form = useFormik({
         initialValues: {
             id: "",
@@ -41,9 +43,9 @@ const ItemFormComponent = () => {
                 const response = await (id ? axiosRequest.put("Inventory/EditItem", values) : axiosRequest.post("Inventory/CreateItem", values));
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/modules/inventory/items/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/inventory/items/${id}`);
                     } else {
-                        navigate("/admin/modules/inventory/items");
+                        navigate(`/admin/organizations/${organizationId}/modules/inventory/items`);
                     }
                 } else {
                     console.error("Error creating item");
@@ -400,7 +402,14 @@ const ItemFormComponent = () => {
                             <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting}>
                                 Save
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/inventory/items/${id}` : "/admin/modules/inventory/items"}>
+                            <ChakraLink
+                                as={ReactRouterLink}
+                                to={
+                                    id
+                                        ? `/admin/organizations/${organizationId}/modules/inventory/items/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/inventory/items`
+                                }
+                            >
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>

@@ -12,10 +12,10 @@ const AdminLayoutComponent = () => {
             <Route path="/" element={<Organizations />} />
             <Route path="/organizations" element={<Organizations />} />
             <Route path="/organizations/:organizationId/modules" element={<SelectAModule />} />
-            <Route path="modules/inventory/*" element={<InventoryModuleLayout />} />
-            <Route path="modules/purchases/*" element={<PurchaseModuleLayout />} />
-            <Route path="modules/user-management/*" element={<UserManagementModuleLayout />} />
-            <Route path="modules/sales/*" element={<SalesModuleLayout />} />
+            <Route path="/organizations/:organizationId/modules/inventory/*" element={<InventoryModuleLayout />} />
+            <Route path="/organizations/:organizationId/modules/purchases/*" element={<PurchaseModuleLayout />} />
+            <Route path="/organizations/:organizationId/modules/user-management/*" element={<UserManagementModuleLayout />} />
+            <Route path="/organizations/:organizationId/modules/sales/*" element={<SalesModuleLayout />} />
         </Routes>
     );
 };

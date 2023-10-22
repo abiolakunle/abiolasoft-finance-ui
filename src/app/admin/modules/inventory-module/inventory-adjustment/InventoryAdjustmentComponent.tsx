@@ -54,6 +54,8 @@ const InventoryAdjustmentComponent = () => {
         }
     }, [id]);
 
+    const { organizationId } = useParams();
+
     return (
         <>
             <Flex
@@ -72,7 +74,7 @@ const InventoryAdjustmentComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/inventory-adjustments`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/inventory/inventory-adjustments`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
@@ -135,7 +137,9 @@ const InventoryAdjustmentComponent = () => {
                         <Text fontSize="lg" mb="18px">
                             Adjusted Items
                         </Text>
-                        {adjustment.items.length && <InventoryAdjustmentItemsTableComponent adjustmentType={adjustment.type as any} tableData={adjustment.items} />}
+                        {adjustment.items.length && (
+                            <InventoryAdjustmentItemsTableComponent adjustmentType={adjustment.type as any} tableData={adjustment.items} />
+                        )}
                     </Flex>
                 </Card>
             </Box>

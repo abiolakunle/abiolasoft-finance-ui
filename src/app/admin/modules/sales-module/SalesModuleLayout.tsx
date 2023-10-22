@@ -1,7 +1,7 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdHome, MdList } from "react-icons/md";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import SalesDashboardComponent from "./sales-dashboard/SalesDashboardComponent";
 import InvoicesComponent from "./invoices/InvoicesComponent";
 import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
@@ -157,8 +157,10 @@ const SalesModuleLayout = () => {
         },
     ];
 
+    const { organizationId } = useParams();
+
     return (
-        <NavigationComponent baseRoute="/admin/modules/sales" routes={salesRoutes}>
+        <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/sales`} routes={salesRoutes}>
             <Routes>
                 {salesRoutes.map((route, idx) => {
                     return <Route key={idx} path={route.path} element={route.component} />;

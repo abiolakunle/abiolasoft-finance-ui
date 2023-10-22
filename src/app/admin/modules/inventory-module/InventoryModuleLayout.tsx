@@ -1,7 +1,7 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdBarChart, MdHome, MdList } from "react-icons/md";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import InventoryAdjustmentsComponent from "./inventory-adjustments/InventoryAdjustmentsComponent";
 import InventoryDashboardComponent from "./inventory-dashboard/InventoryDashboardComponent";
 import ItemComponent from "./item/ItemComponent";
@@ -85,8 +85,10 @@ const InventoryModuleLayout = () => {
         },
     ];
 
+    const { organizationId } = useParams();
+
     return (
-        <NavigationComponent baseRoute="/admin/modules/inventory" routes={inventoryRoutes}>
+        <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/inventory`} routes={inventoryRoutes}>
             <Routes>
                 {inventoryRoutes.map((route, idx) => {
                     return <Route key={idx} path={route.path} element={route.component} />;

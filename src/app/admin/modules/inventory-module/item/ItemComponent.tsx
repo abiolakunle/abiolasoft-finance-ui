@@ -24,13 +24,12 @@ import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import { formatNumberWithCommas } from "utils/number";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const ItemComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
 
     let navigate = useNavigate();
 
@@ -38,9 +37,9 @@ const ItemComponent = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const redirect = `/admin/modules/inventory/items`
+    const redirect = `/admin/organizations/${organizationId}/modules/inventory/items`;
 
-    const deleteEndpoint = `Inventory/DeleteItem`
+    const deleteEndpoint = `Inventory/DeleteItem`;
 
     const [item, setItem] = useState({
         id: "",
@@ -95,10 +94,10 @@ const ItemComponent = () => {
     }, [id]);
 
     const gotoAdjustStock = () => {
-        navigate(`/admin/modules/inventory/items/${id}/inventory-adjustment`, { state: { itemName: item.name, costPrice: item.costPrice } });
+        navigate(`/admin/organizations/${organizationId}/modules/inventory/items/${id}/inventory-adjustment`, {
+            state: { itemName: item.name, costPrice: item.costPrice },
+        });
     };
-
-    
 
     return (
         <>
@@ -119,7 +118,7 @@ const ItemComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Update Item">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${id}/edit`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/inventory/items/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -143,7 +142,7 @@ const ItemComponent = () => {
                         <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/inventory/items`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
