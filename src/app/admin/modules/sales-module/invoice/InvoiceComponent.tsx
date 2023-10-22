@@ -10,7 +10,7 @@ import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermi
 import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const InvoiceComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
 
     const toast = useToast();
 
@@ -18,11 +18,9 @@ const InvoiceComponent = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const redirect = `/admin/modules/sales/invoices`
+    const redirect = `/admin/organizations/${organizationId}/modules,/sales/invoices`;
 
-    const deleteEndpoint = `Sales/DeleteInvoice`
-
-    
+    const deleteEndpoint = `Sales/DeleteInvoice`;
 
     return (
         <>
@@ -43,9 +41,16 @@ const InvoiceComponent = () => {
                     Invoice
                 </Heading>
 
-                <Flex h="fit-content" width={{ sm: "100%", md: "fit-content" }} flexWrap={{ sm: "wrap", md: "nowrap" }} alignItems="center" justifyContent={{xl: "space-between", sm: "flex-end"}} gap="20px">
+                <Flex
+                    h="fit-content"
+                    width={{ sm: "100%", md: "fit-content" }}
+                    flexWrap={{ sm: "wrap", md: "nowrap" }}
+                    alignItems="center"
+                    justifyContent={{ xl: "space-between", sm: "flex-end" }}
+                    gap="20px"
+                >
                     <IfUserIsPermitted to="Edit Invoice">
-                        <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/modules/sales/invoices/${id}/edit`}>
+                        <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/invoices/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Call Fred" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -63,7 +68,7 @@ const InvoiceComponent = () => {
                         <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink order={{ sm: "3", md: "4" }} as={ReactRouterLink} to={`/admin/modules/sales/invoices`}>
+                    <ChakraLink order={{ sm: "3", md: "4" }} as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/invoices`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

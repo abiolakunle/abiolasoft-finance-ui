@@ -8,7 +8,7 @@ import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-do
 import axiosRequest from "utils/api";
 
 const CustomerFormComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
     let navigate = useNavigate();
 
     const validationSchema = Yup.object().shape({
@@ -33,9 +33,9 @@ const CustomerFormComponent = () => {
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/modules/sales/customer/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/customer/${id}`);
                     } else {
-                        navigate("/admin/modules/sales/customers");
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/customers`);
                     }
                 } else {
                     console.error("Error creating item");
@@ -246,7 +246,14 @@ const CustomerFormComponent = () => {
                             <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting}>
                                 Save
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/customer/${id}` : "/admin/modules/sales/customers"}>
+                            <ChakraLink
+                                as={ReactRouterLink}
+                                to={
+                                    id
+                                        ? `/admin/organizations/${organizationId}/modules/sales/customer/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/sales/customers`
+                                }
+                            >
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>

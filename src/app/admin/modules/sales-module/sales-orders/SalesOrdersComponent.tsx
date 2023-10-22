@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import axios from "axios";
 import { MdAdd } from "react-icons/md";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import SalesOrdersTableComponent from "./SalesOrdersTableComponent";
 import axiosRequest from "utils/api";
@@ -31,6 +31,7 @@ const SalesOrdersComponent = () => {
     const handlePageChange = (newPageIndex: number) => {
         setPageIndex(newPageIndex);
     };
+    const { organizationId } = useParams();
 
     return (
         <>
@@ -46,7 +47,7 @@ const SalesOrdersComponent = () => {
                 gap="20px"
             >
                 <IfUserIsPermitted to="Create Sales Order">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/sales-orders/new`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/sales-orders/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New
                         </Button>

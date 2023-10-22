@@ -3,7 +3,7 @@ import * as React from "react";
 import Card from "components/card/Card";
 import { createColumnHelper } from "@tanstack/react-table";
 
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { useEffect } from "react";
 import GeneralTable from "app-components/general-table/GeneralTable";
@@ -23,6 +23,8 @@ function CustomersTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const textColor = useColorModeValue("secondaryGray.900", "white");
 
+    const { organizationId } = useParams();
+
     const columns = [
         columnHelper.accessor("customerDisplayName", {
             id: "customerDisplayName",
@@ -35,7 +37,7 @@ function CustomersTableComponent(props: { tableData: any }) {
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customer/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/customer/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>

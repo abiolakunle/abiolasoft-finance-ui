@@ -14,33 +14,25 @@ import {
     MenuList,
     MenuItem,
     useDisclosure,
-    Toast,
-    useToast,
 } from "@chakra-ui/react";
-import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { MdEdit, MdSettings } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
-import axios from "axios";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const CustomerComponent = () => {
-    const { id } = useParams();
-
-    let navigate = useNavigate();
-
-    const toast = useToast();
+    const { id, organizationId } = useParams();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const redirect = `/admin/modules/sales/customers`
+    const redirect = `/admin/organizations/${organizationId}/modules/sales/customers`;
 
-    const deleteEndpoint = `Sales/DeleteCustomer`
+    const deleteEndpoint = `Sales/DeleteCustomer`;
 
     const [customer, setCustomer] = useState({
         id: "",
@@ -78,8 +70,6 @@ const CustomerComponent = () => {
         }
     }, [id]);
 
-    
-
     return (
         <>
             <Flex
@@ -99,7 +89,7 @@ const CustomerComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Edit Customer">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers/${id}/edit`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/customers/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -117,7 +107,7 @@ const CustomerComponent = () => {
                         <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/customers`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/customers`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

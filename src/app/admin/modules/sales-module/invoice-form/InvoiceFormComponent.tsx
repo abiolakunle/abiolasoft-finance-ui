@@ -46,6 +46,8 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         date: Yup.string().required("Invoice Date is required"),
     });
 
+    const { id, organizationId } = useParams();
+
     const form = useFormik({
         initialValues: {
             id: "",
@@ -75,9 +77,9 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/modules/sales/invoices/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/invoices/${id}`);
                     } else {
-                        navigate("/admin/modules/sales/invoices");
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/invoices`);
                     }
                 } else {
                     console.error("Error creating item");
@@ -88,7 +90,6 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         },
     });
 
-    const { id } = useParams();
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -192,7 +193,14 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </Heading>
 
                         <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : `/admin/modules/sales/invoices`}>
+                            <ChakraLink
+                                as={ReactRouterLink}
+                                to={
+                                    id
+                                        ? `/admin/organizations/${organizationId}/modules/sales/invoices/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/sales/invoices`
+                                }
+                            >
                                 <CloseButton size="lg" />
                             </ChakraLink>
                         </Flex>
@@ -200,10 +208,18 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 )}
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
-                <Card  px={{ base: "32px", sm: "8px", md: "16px" }} w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
+                <Card px={{ base: "32px", sm: "8px", md: "16px" }} w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <form noValidate onSubmit={form.handleSubmit}>
                         <FormControl isInvalid={form.touched.customerId && !!form.errors.customerId}>
-                            <Flex mb="16px" flexWrap={{ sm: "wrap", md: "nowrap" }} justifyContent="flex-start" width="100%" gap={{ md: "20px", sm: "5px" }} alignItems="center" className="afu-label-input">
+                            <Flex
+                                mb="16px"
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
@@ -229,7 +245,15 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
                         {
                             <FormControl isInvalid={form.touched.number && !!form.errors.number}>
-                                <Flex mb="16px" justifyContent="flex-start" flexWrap={{ sm: "wrap", md: "nowrap" }} width="100%" gap={{ md: "20px", sm: "5px" }} alignItems="center" className="afu-label-input">
+                                <Flex
+                                    mb="16px"
+                                    justifyContent="flex-start"
+                                    flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                    width="100%"
+                                    gap={{ md: "20px", sm: "5px" }}
+                                    alignItems="center"
+                                    className="afu-label-input"
+                                >
                                     <Box className="afu-label" minWidth="200px">
                                         <FormLabel color={viewOnly ? "" : "red"}>Invoice#{viewOnly ? "" : "*"}</FormLabel>
                                     </Box>
@@ -254,17 +278,23 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                                 onBlur={form.handleBlur}
                                             />
                                         </Tooltip>
-                                       
+
                                         {form.touched.number && !!form.errors.number ? <FormErrorMessage>{form.errors.number}</FormErrorMessage> : ""}
                                     </Box>
                                 </Flex>
                             </FormControl>
                         }
 
-                        
-
                         <FormControl>
-                            <Flex mb="16px" justifyContent="flex-start" flexWrap={{ sm: "wrap", md: "nowrap" }} width="100%"  gap={{ md: "20px", sm: "5px" }} alignItems="center" className="afu-label-input">
+                            <Flex
+                                mb="16px"
+                                justifyContent="flex-start"
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel>Order Number</FormLabel>
                                 </Box>
@@ -286,7 +316,15 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </FormControl>
 
                         <FormControl isInvalid={form.touched.date && !!form.errors.date}>
-                            <Flex mb="16px" justifyContent="flex-start" flexWrap={{ sm: "wrap", md: "nowrap" }} width="100%" gap={{ md: "20px", sm: "5px" }} alignItems="center" className="afu-label-input">
+                            <Flex
+                                mb="16px"
+                                justifyContent="flex-start"
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel color={viewOnly ? "" : "red"}>Invoice Date{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
@@ -309,7 +347,15 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </FormControl>
 
                         <FormControl>
-                            <Flex mb="16px" flexWrap={{ sm: "wrap", md: "nowrap" }} justifyContent="flex-start" width="100%" gap={{ md: "20px", sm: "5px" }} alignItems="center" className="afu-label-input">
+                            <Flex
+                                mb="16px"
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel>Due Date</FormLabel>
                                 </Box>
@@ -330,11 +376,19 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </FormControl>
 
                         <FormControl isInvalid={form.touched.salespersonId && !!form.errors.salespersonId}>
-                            <Flex mb="16px" justifyContent="flex-start" flexWrap={{ sm: "wrap", md: "nowrap" }} gap={{ md: "20px", sm: "5px" }} width="100%"  alignItems="center" className="afu-label-input">
+                            <Flex
+                                mb="16px"
+                                justifyContent="flex-start"
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                gap={{ md: "20px", sm: "5px" }}
+                                width="100%"
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel>Salesperson</FormLabel>
                                 </Box>
-                                <Box width={{ sm: "100%", md: "40%" }}className="afu-input">
+                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Select
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         name="salespersonId"
@@ -382,7 +436,6 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 direction="column"
                                 justifyContent="flex-start"
                                 width={{ sm: "100%", md: "45%" }}
-                                
                                 gap="20px"
                                 alignItems="baseline"
                                 className="afu-label-input"
@@ -445,7 +498,15 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 </Flex>
                             </Flex>
 
-                            <Stack padding="16px" width={{ sm: "100%", md: "50%" }} borderRadius="8px" backgroundColor="blackAlpha.50" direction="column"  mt="8px" mb="auto">
+                            <Stack
+                                padding="16px"
+                                width={{ sm: "100%", md: "50%" }}
+                                borderRadius="8px"
+                                backgroundColor="blackAlpha.50"
+                                direction="column"
+                                mt="8px"
+                                mb="auto"
+                            >
                                 <Flex width="100%" justifyContent="space-between">
                                     <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{"₦" + formatNumberWithCommas(summary.subTotal)}</Text>
                                 </Flex>
@@ -512,8 +573,18 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 >
                                     Save
                                 </Button>
-                                <ChakraLink width={{ sm: "100%", md: "fit-content" }} as={ReactRouterLink} to={id ? `/admin/modules/sales/invoices/${id}` : "/admin/modules/sales/invoices"}>
-                                    <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">Cancel</Button>
+                                <ChakraLink
+                                    width={{ sm: "100%", md: "fit-content" }}
+                                    as={ReactRouterLink}
+                                    to={
+                                        id
+                                            ? `/admin/organizations/${organizationId}/modules/sales/invoices/${id}`
+                                            : "/admin/organizations/${organizationId}/modules/sales/invoices"
+                                    }
+                                >
+                                    <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">
+                                        Cancel
+                                    </Button>
                                 </ChakraLink>
                             </Flex>
                         )}
