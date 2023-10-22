@@ -8,20 +8,18 @@ import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermi
 import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const PurchaseOrderComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
 
     const navigate = useNavigate();
 
-    const toast = useToast();
-
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const redirect = `/admin/modules/purchases/purchase-orders`;
+    const redirect = `/admin/organizations/${organizationId}/modules/purchases/purchase-orders`;
 
     const deleteEndpoint = `Purchases/DeletePurchaseOrder`;
 
     const convertToBill = () => {
-        navigate("/admin/modules/purchases/bills/new", { state: { purchaseOrderId: id } });
+        navigate(`/admin/organizations/${organizationId}/modules/purchases/bills/new`, { state: { purchaseOrderId: id } });
     };
 
     return (
@@ -52,7 +50,11 @@ const PurchaseOrderComponent = () => {
                     gap={{ sm: "10px", md: "20px" }}
                 >
                     <IfUserIsPermitted to="Edit Purchase Order">
-                        <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/${id}/edit`}>
+                        <ChakraLink
+                            order={{ sm: "1" }}
+                            as={ReactRouterLink}
+                            to={`/admin/organizations/${organizationId}/modules/purchases/purchase-orders/${id}/edit`}
+                        >
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -74,7 +76,11 @@ const PurchaseOrderComponent = () => {
                         <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink order={{ sm: "4", md: "4" }} as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders`}>
+                    <ChakraLink
+                        order={{ sm: "4", md: "4" }}
+                        as={ReactRouterLink}
+                        to={`/admin/organizations/${organizationId}/modules/purchases/purchase-orders`}
+                    >
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

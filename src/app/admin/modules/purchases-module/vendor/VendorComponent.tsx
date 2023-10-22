@@ -29,7 +29,7 @@ import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermi
 import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const VendorComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
 
     const toast = useToast();
 
@@ -37,9 +37,9 @@ const VendorComponent = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const redirect = `/admin/modules/purchases/vendors`
+    const redirect = `/admin/organizations/${organizationId}/modules/purchases/vendors`;
 
-    const deleteEndpoint = `Purchases/DeleteVendor`
+    const deleteEndpoint = `Purchases/DeleteVendor`;
 
     const [vendor, setVendor] = useState({
         id: "",
@@ -77,8 +77,6 @@ const VendorComponent = () => {
         }
     }, [id]);
 
-    
-
     return (
         <>
             <Flex
@@ -98,7 +96,7 @@ const VendorComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Edit Vendor">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/${id}/edit`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/purchases/vendors/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -116,7 +114,7 @@ const VendorComponent = () => {
                         <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/purchases/vendors`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

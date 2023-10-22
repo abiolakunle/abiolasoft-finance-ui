@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import VendorsTableComponent from "./VendorsTableComponent";
 import { MdAdd } from "react-icons/md";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { pageSize } from "variables/constant-values";
@@ -31,6 +31,8 @@ const VendorsComponent = () => {
         setPageIndex(newPageIndex);
     };
 
+    const { organizationId } = useParams();
+
     return (
         <>
             <Flex
@@ -45,7 +47,7 @@ const VendorsComponent = () => {
                 gap="20px"
             >
                 <IfUserIsPermitted to="Create Vendor">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/new`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/purchases/vendors/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New
                         </Button>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import { MdAdd } from "react-icons/md";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import PurchaseOrdersTableComponent from "./PurchaseOrdersTableComponent";
 import axiosRequest from "utils/api";
@@ -31,6 +31,8 @@ const PurchaseOrdersComponent = () => {
         setPageIndex(newPageIndex);
     };
 
+    const { organizationId } = useParams();
+
     return (
         <>
             <Flex
@@ -45,7 +47,7 @@ const PurchaseOrdersComponent = () => {
                 gap="20px"
             >
                 <IfUserIsPermitted to="Create Purchase Order">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/purchase-orders/new`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/purchases/purchase-orders/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New
                         </Button>
