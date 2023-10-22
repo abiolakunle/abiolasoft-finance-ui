@@ -23,7 +23,7 @@ const UserManagementModuleLayout = () => {
         },
     ];
 
-    const user = getUserInfo();
+    const user = getUserInfo("Organization");
 
     if (user?.permissions?.includes("View Users")) {
         navRoutes.push({

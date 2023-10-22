@@ -40,7 +40,7 @@ const PurchaseModuleLayout = () => {
         // },
     ];
 
-    const user = getUserInfo();
+    const user = getUserInfo("Organization");
 
     if (user?.permissions?.includes("View Purchase Orders")) {
         navRoutes.push({

@@ -27,7 +27,7 @@ const SalesModuleLayout = () => {
             component: <SalesDashboardComponent />,
         },
     ];
-    const user = getUserInfo();
+    const user = getUserInfo("Organization");
 
     if (user?.permissions?.includes("View Customers")) {
         navRoutes.push({

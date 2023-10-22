@@ -21,7 +21,7 @@ const InventoryModuleLayout = () => {
         },
     ];
 
-    const user = getUserInfo();
+    const user = getUserInfo("Organization");
 
     if (user?.permissions?.includes("View Items")) {
         navRoutes.push({

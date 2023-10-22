@@ -4,12 +4,14 @@ import SelectAModule from "./SelectAModule";
 import PurchaseModuleLayout from "./modules/purchases-module/PurchaseModuleLayout";
 import SalesModuleLayout from "./modules/sales-module/SalesModuleLayout";
 import UserManagementModuleLayout from "./modules/user-management/UserManagementModuleLayout";
+import Organizations from "./Organizations";
 
 const AdminLayoutComponent = () => {
     return (
         <Routes>
-            <Route path="/" element={<SelectAModule />} />
-            <Route path="/modules" element={<SelectAModule />} />
+            <Route path="/" element={<Organizations />} />
+            <Route path="/organizations" element={<Organizations />} />
+            <Route path="/organizations/:organizationId/modules" element={<SelectAModule />} />
             <Route path="modules/inventory/*" element={<InventoryModuleLayout />} />
             <Route path="modules/purchases/*" element={<PurchaseModuleLayout />} />
             <Route path="modules/user-management/*" element={<UserManagementModuleLayout />} />
