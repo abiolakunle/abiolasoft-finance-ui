@@ -10,6 +10,7 @@ import ItemFormComponent from "./item-form/ItemFormComponent";
 import InventoryAdjustmentFormComponent from "./inventory-adjustment-form/InventoryAdjustmentFormComponent";
 import InventoryAdjustmentComponent from "./inventory-adjustment/InventoryAdjustmentComponent";
 import { getUserInfo } from "utils/auth";
+import axiosRequest from "utils/api";
 
 const InventoryModuleLayout = () => {
     const navRoutes = [
@@ -86,6 +87,8 @@ const InventoryModuleLayout = () => {
     ];
 
     const { organizationId } = useParams();
+
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token-organization")}`;
 
     return (
         <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/inventory`} routes={inventoryRoutes}>

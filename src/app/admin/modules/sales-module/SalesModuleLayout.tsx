@@ -17,6 +17,7 @@ import SalespersonComponent from "./salesperson/SalespersonComponent";
 import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
 import SalesPersonFormComponent from "./salesperson-form/SalesPersonFormComponent";
 import { getUserInfo } from "utils/auth";
+import axiosRequest from "utils/api";
 
 const SalesModuleLayout = () => {
     const navRoutes = [
@@ -158,6 +159,8 @@ const SalesModuleLayout = () => {
     ];
 
     const { organizationId } = useParams();
+
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token-organization")}`;
 
     return (
         <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/sales`} routes={salesRoutes}>

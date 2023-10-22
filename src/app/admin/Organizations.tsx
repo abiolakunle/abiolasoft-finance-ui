@@ -1,8 +1,8 @@
-import { Box, Flex, Heading, Icon, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Icon, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
 import Card from "components/card/Card";
 import IconBox from "components/icons/IconBox";
 import { Text } from "@chakra-ui/react";
-import { MdBarChart } from "react-icons/md";
+import { MdAdd, MdBarChart } from "react-icons/md";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { getUserInfo } from "utils/auth";
@@ -31,11 +31,24 @@ const Organizations = () => {
 
     return (
         <Box marginLeft="auto" marginRight="auto" maxW="768px" pt={{ base: "130px", sm: "32px", md: "80px", xl: "80px" }}>
-            <Box mb={{ sm: "8px", md: "16px" }} mt={{ sm: "32px", md: "32px" }} ml={{ sm: "16px", md: "16px" }} mr={{ sm: "16px", md: "16px" }}>
+            <Flex
+                justifyContent="space-between"
+                alignItems="center"
+                mb={{ sm: "8px", md: "16px" }}
+                mt={{ sm: "32px", md: "32px" }}
+                ml={{ sm: "16px", md: "16px" }}
+                mr={{ sm: "16px", md: "16px" }}
+            >
                 <Heading as="h2" size="xl">
                     Organizations
                 </Heading>
-            </Box>
+
+                <ChakraLink as={ReactRouterLink} to={`/admin/organizations/new`}>
+                    <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
+                        New Organization
+                    </Button>
+                </ChakraLink>
+            </Flex>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 2, "2xl": 2 }} gap="20px" mb="20px" ml={{ sm: "16px", md: "16px" }} mr={{ sm: "16px", md: "16px" }}>
                 {organizations.map((org, idx) => {
                     return (

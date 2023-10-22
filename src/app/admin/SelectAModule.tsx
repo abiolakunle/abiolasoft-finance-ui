@@ -18,8 +18,10 @@ const SelectAModule = () => {
         axiosRequest
             .get(`UserManagement/GetAccountPersonOrganizationCredentials?personId=${user.personId}&organizationId=${organizationId}`)
             .then((response) => {
-                if (response.data && response.data.data) {
-                    localStorage.setItem("token-organization", response.data.data.token);
+                const token = response?.data?.data?.token;
+                if (token) {
+                    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+                    localStorage.setItem("token-organization", token);
                     const permissions = getUserInfo("Organization").permissions;
 
                     const mods = [];

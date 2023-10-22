@@ -12,6 +12,7 @@ import UserManagementDashboard from "./user-management-dashboard/UserManagementD
 import UserComponent from "./user/UserComponent";
 import UsersComponent from "./users/UsersComponent";
 import { getUserInfo } from "utils/auth";
+import axiosRequest from "utils/api";
 
 const UserManagementModuleLayout = () => {
     const navRoutes = [
@@ -107,6 +108,8 @@ const UserManagementModuleLayout = () => {
     ];
 
     const { organizationId } = useParams();
+
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token-organization")}`;
 
     return (
         <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/user-management`} routes={userManagementRoutes}>
