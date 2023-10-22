@@ -12,6 +12,8 @@ const RoleFormComponent = () => {
         name: Yup.string().required("Role name is required"),
     });
 
+    const { id, organizationId } = useParams();
+
     const form = useFormik({
         initialValues: {
             id: "",
@@ -26,9 +28,9 @@ const RoleFormComponent = () => {
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/modules/user-management/roles/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/user-management/roles/${id}`);
                     } else {
-                        navigate("/admin/modules/user-management/roles");
+                        navigate(`/admin/organizations/${organizationId}/modules/user-management/roles`);
                     }
                 } else {
                     console.error("Error creating item");
@@ -38,8 +40,6 @@ const RoleFormComponent = () => {
             }
         },
     });
-
-    const { id } = useParams();
     let navigate = useNavigate();
     const location = useLocation();
 
@@ -105,7 +105,14 @@ const RoleFormComponent = () => {
                             <Button isDisabled={!form.isValid || form.isSubmitting} variant="brand" type="submit">
                                 Save
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/user-management/roles/${id}` : "/admin/modules/user-management/roles"}>
+                            <ChakraLink
+                                as={ReactRouterLink}
+                                to={
+                                    id
+                                        ? `/admin/organizations/${organizationId}/modules/user-management/roles/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/user-management/roles`
+                                }
+                            >
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>

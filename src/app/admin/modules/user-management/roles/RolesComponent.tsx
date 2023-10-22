@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import RolesTableComponent from "./RolesTableComponent";
 import { MdAdd } from "react-icons/md";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 
 const RolesComponent = () => {
     const [tableData, setTableData] = useState(null);
+    const { organizationId } = useParams();
 
     useEffect(() => {
         axiosRequest
@@ -37,7 +38,7 @@ const RolesComponent = () => {
                 gap="20px"
             >
                 <IfUserIsPermitted to="Create Role">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles/new`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/roles/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New
                         </Button>

@@ -14,7 +14,7 @@ const ManageRolePermissionsComponent = () => {
     const [initialPermissions, setInitialRoles] = useState([]);
 
     const location = useLocation();
-    const { id: roleId } = useParams();
+    const { id: roleId, organizationId } = useParams();
 
     useEffect(() => {
         if (roleId) {
@@ -97,7 +97,7 @@ const ManageRolePermissionsComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles/${roleId}`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/roles/${roleId}`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

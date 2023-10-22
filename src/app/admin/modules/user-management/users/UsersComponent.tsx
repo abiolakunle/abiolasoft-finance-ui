@@ -46,7 +46,7 @@ const UsersComponent = () => {
                 }}
                 gap="20px"
             >
-                <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/new`}>
+                <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/users/new`}>
                     <IfUserIsPermitted to="Create User">
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New

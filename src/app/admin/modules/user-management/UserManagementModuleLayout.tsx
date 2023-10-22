@@ -1,7 +1,7 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdHome, MdList, MdOutlineSupervisedUserCircle } from "react-icons/md";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import ManageRolePermissionsComponent from "./manage-role-permissions/ManageRolePermissionsComponent";
 import ManageUserRolesComponent from "./manage-user-roles/ManageUserRolesComponent";
 import RoleFormComponent from "./role-form/RoleFormComponent";
@@ -106,8 +106,10 @@ const UserManagementModuleLayout = () => {
         },
     ];
 
+    const { organizationId } = useParams();
+
     return (
-        <NavigationComponent baseRoute="/admin/modules/user-management" routes={userManagementRoutes}>
+        <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/user-management`} routes={userManagementRoutes}>
             <Routes>
                 {userManagementRoutes.map((route, idx) => {
                     return <Route key={idx} path={route.path} element={route.component} />;

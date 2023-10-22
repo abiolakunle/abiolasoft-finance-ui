@@ -14,11 +14,14 @@ const ManageUserRolesComponent = () => {
     const [intialRoles, setInitialRoles] = useState([]);
 
     const location = useLocation();
-    const { id: userId } = useParams();
+    const { id: userId, organizationId } = useParams();
 
     useEffect(() => {
         if (userId) {
-            Promise.all([axiosRequest.get(`UserManagement/GetUserById?id=${userId}`), axiosRequest.get(`UserManagement/GetAllRoles`)])
+            Promise.all([
+                axiosRequest.get(`UserManagement/GetOrganizationAccountPersonById?id=${userId}&organizationId=${organizationId}`),
+                axiosRequest.get(`UserManagement/GetAllRoles`),
+            ])
                 .then((response) => {
                     const user = response[0].data?.data;
                     const allRoles: any[] = response[1].data?.data;
@@ -97,7 +100,7 @@ const ManageUserRolesComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${userId}`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/users/${userId}`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

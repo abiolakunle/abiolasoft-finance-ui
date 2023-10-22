@@ -36,17 +36,15 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const UserComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
 
     let navigate = useNavigate();
 
-    const toast = useToast();
-
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const redirect = `/admin/modules/user-management/users`
+    const redirect = `/admin/organizations/${organizationId}/modules/user-management/users`;
 
-    const deleteEndpoint = `UserManagement/DeleteUser`
+    const deleteEndpoint = `UserManagement/DeleteUser`;
 
     const [user, setUser] = useState({
         id: "",
@@ -62,7 +60,7 @@ const UserComponent = () => {
     useEffect(() => {
         if (id) {
             axiosRequest
-                .get(`UserManagement/GetUserById?id=${id}`)
+                .get(`UserManagement/GetOrganizationAccountPersonById?id=${id}&organizationId=${organizationId}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -85,14 +83,14 @@ const UserComponent = () => {
     }, [id]);
 
     const changePassword = () => {
-        navigate(`/admin/modules/user-management/users/${id}/change-password`);
+        navigate(`/admin/organizations/${organizationId}/modules/user-management/users/${id}/change-password`);
     };
 
     const manageRoles = () => {
-        navigate(`/admin/modules/user-management/users/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
+        navigate(`/admin/organizations/${organizationId}/modules/user-management/users/${id}/manage-roles`, {
+            state: { userName: `${user.firstName} ${user.lastName}` },
+        });
     };
-
-    
 
     return (
         <>
@@ -113,7 +111,7 @@ const UserComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Update User">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${id}/edit`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/users/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -138,7 +136,7 @@ const UserComponent = () => {
                         <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/users`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

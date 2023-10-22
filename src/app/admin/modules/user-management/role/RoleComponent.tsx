@@ -11,13 +11,6 @@ import {
     StatLabel,
     StatNumber,
     Badge,
-    useToast,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
     MenuButton,
     Menu,
     MenuList,
@@ -36,17 +29,15 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const RoleComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
 
     let navigate = useNavigate();
 
-    const toast = useToast();
-
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const redirect = `/admin/modules/user-management/roles`
+    const redirect = `/admin/organizations/${organizationId}/modules/user-management/roles`;
 
-    const deleteEndpoint = `UserManagement/DeleteRole`
+    const deleteEndpoint = `UserManagement/DeleteRole`;
 
     const [role, setUser] = useState({
         id: "",
@@ -79,10 +70,8 @@ const RoleComponent = () => {
     }, [id]);
 
     const managePermissions = () => {
-        navigate(`/admin/modules/user-management/roles/${id}/manage-permissions`, { state: { roleName: role.name } });
+        navigate(`/admin/organizations/${organizationId}/modules/user-management/roles/${id}/manage-permissions`, { state: { roleName: role.name } });
     };
-
-    
 
     return (
         <>
@@ -101,7 +90,11 @@ const RoleComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Update Role Name">
-                        <ChakraLink state={{ roleName: role.name }} as={ReactRouterLink} to={`/admin/modules/user-management/roles/${id}/edit`}>
+                        <ChakraLink
+                            state={{ roleName: role.name }}
+                            as={ReactRouterLink}
+                            to={`/admin/organizations/${organizationId}/modules/user-management/roles/${id}/edit`}
+                        >
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -125,7 +118,7 @@ const RoleComponent = () => {
                         <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/roles`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

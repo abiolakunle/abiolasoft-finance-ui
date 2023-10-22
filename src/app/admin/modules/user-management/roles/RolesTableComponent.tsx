@@ -2,7 +2,7 @@ import { Flex, Checkbox, Text, useColorModeValue } from "@chakra-ui/react";
 import Card from "components/card/Card";
 import * as React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { formatDateTime } from "utils/dateUtils";
 import GeneralTable from "app-components/general-table/GeneralTable";
@@ -20,6 +20,8 @@ export default function UsersTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const textColor = useColorModeValue("secondaryGray.900", "white");
 
+    const { organizationId } = useParams();
+
     const columns = [
         columnHelper.accessor("name", {
             id: "name",
@@ -32,7 +34,7 @@ export default function UsersTableComponent(props: { tableData: any }) {
                 <Flex align="center">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
                     <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/roles/${info.row.original.id}`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/roles/${info.row.original.id}`}>
                             {info.getValue()}
                         </ChakraLink>
                     </Text>
