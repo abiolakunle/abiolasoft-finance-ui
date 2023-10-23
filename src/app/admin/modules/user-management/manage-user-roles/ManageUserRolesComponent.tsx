@@ -13,28 +13,31 @@ const ManageUserRolesComponent = () => {
     const [userRoles, setUserRoles] = useState([]);
     const [intialRoles, setInitialRoles] = useState([]);
 
+    const [userId, setUserId] = useState();
+
     const location = useLocation();
-    const { id: userId, organizationId } = useParams();
+    const { id: personId, organizationId } = useParams();
 
     useEffect(() => {
-        if (userId) {
+        if (personId) {
             Promise.all([
-                axiosRequest.get(`UserManagement/GetOrganizationAccountPersonById?id=${userId}&organizationId=${organizationId}`),
+                axiosRequest.get(`UserManagement/GetOrganizationAccountPersonById?id=${personId}&organizationId=${organizationId}`),
                 axiosRequest.get(`UserManagement/GetAllRoles`),
             ])
                 .then((response) => {
-                    const user = response[0].data?.data;
+                    const person = response[0].data?.data;
                     const allRoles: any[] = response[1].data?.data;
-                    const usrRoles = allRoles.filter((d: any) => user.roles.some((a: any) => a.id === d.id));
+                    const usrRoles = allRoles.filter((d: any) => person.roles.some((a: any) => a.id === d.id));
                     setUserRoles(usrRoles);
                     setInitialRoles(usrRoles);
                     setRoles(allRoles);
+                    setUserId(person.userId);
                 })
                 .catch((error) => {
                     console.error("Error fetching data:", error);
                 });
         }
-    }, [userId]);
+    }, [personId]);
 
     async function removeRoles(roleNames: any[]) {
         try {
@@ -100,7 +103,7 @@ const ManageUserRolesComponent = () => {
                 </Heading>
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/users/${userId}`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/users/${personId}`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
