@@ -22,6 +22,7 @@ const App = () => {
     });
 
     axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+    axiosRequest.defaults.headers.common["TenantKey"] = window.location.hostname.split(".")[0];
 
     if (!responseInterceptorActive) {
         axiosRequest.interceptors.response.use(
