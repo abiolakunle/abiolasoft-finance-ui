@@ -18,7 +18,7 @@ import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
-import LineItemsTableComponent, { defaultItem } from "../../../../../app-components/line-items-table/LineItemsTableComponent";
+import LineItemsTableComponent, { defaultItem } from "../../../../../../app-components/line-items-table/LineItemsTableComponent";
 import { HSeparator } from "components/separator/Separator";
 import { currentDate, formatDate } from "utils/dateUtils";
 import axiosRequest from "utils/api";

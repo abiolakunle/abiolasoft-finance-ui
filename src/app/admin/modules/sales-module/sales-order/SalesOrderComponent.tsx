@@ -1,7 +1,7 @@
 import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure, useToast } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { MdEdit } from "react-icons/md";
-import SalesOrderFormComponent from "../sales-order-form/SalesOrderFormComponent";
+import SalesOrderFormComponent from "../invoice-form/sales-order-form/SalesOrderFormComponent";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";

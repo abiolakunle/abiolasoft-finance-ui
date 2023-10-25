@@ -10,7 +10,7 @@ import NewCustomerComponent from "./customer-form/CustomerFormComponent";
 import InvoiceComponent from "./invoice/InvoiceComponent";
 import CustomerComponent from "./customer/CustomerComponent";
 import SalesOrderComponent from "./sales-order/SalesOrderComponent";
-import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
+import SalesOrderFormComponent from "./invoice-form/sales-order-form/SalesOrderFormComponent";
 import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
 import SalespersonsComponent from "./salespersons/SalespersonsComponent";
 import SalespersonComponent from "./salesperson/SalespersonComponent";
