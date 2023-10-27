@@ -9,7 +9,7 @@ import PurchaseOrderFormComponent from "./purchase-order-form/PurchaseOrderFormC
 import PurchaseOrderComponent from "./purchase-order/PurchaseOrderComponent";
 import VendorComponent from "./vendor/VendorComponent";
 import VendorFormComponent from "./vendor-form/VendorFormComponent";
-import { getUserInfo } from "utils/auth";
+import { getUserInfo, getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 
 const PurchaseModuleLayout = () => {
@@ -41,7 +41,9 @@ const PurchaseModuleLayout = () => {
         // },
     ];
 
-    const user = getUserInfo("Organization");
+    const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
+    const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Purchase Orders")) {
         navRoutes.push({
@@ -113,10 +115,6 @@ const PurchaseModuleLayout = () => {
             excludeFromSideNav: true,
         },
     ];
-
-    const { organizationId } = useParams();
-
-    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token-organization")}`;
 
     return (
         <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/purchases`} routes={purchaseRoutes}>

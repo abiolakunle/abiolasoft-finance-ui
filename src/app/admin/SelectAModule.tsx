@@ -5,7 +5,7 @@ import { Text } from "@chakra-ui/react";
 import { MdBarChart } from "react-icons/md";
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { getUserInfo } from "utils/auth";
+import { getUserInfo, getUserOrganizationInfo } from "utils/auth";
 import { useEffect, useState } from "react";
 import axiosRequest from "utils/api";
 
@@ -21,8 +21,8 @@ const SelectAModule = () => {
                 const token = response?.data?.data?.token;
                 if (token) {
                     axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-                    localStorage.setItem("token-organization", token);
-                    const permissions = getUserInfo("Organization").permissions;
+                    localStorage.setItem(organizationId + "-organization-token", token);
+                    const permissions = getUserOrganizationInfo(organizationId).permissions;
 
                     const mods = [];
                     if (permissions.includes("View Inventory Module")) {

@@ -11,7 +11,7 @@ import UserFormComponent from "./user-form/UserFormComponent";
 import UserManagementDashboard from "./user-management-dashboard/UserManagementDashboard";
 import UserComponent from "./user/UserComponent";
 import UsersComponent from "./users/UsersComponent";
-import { getUserInfo } from "utils/auth";
+import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 
 const UserManagementModuleLayout = () => {
@@ -24,7 +24,9 @@ const UserManagementModuleLayout = () => {
         },
     ];
 
-    const user = getUserInfo("Organization");
+    const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
+    const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Users")) {
         navRoutes.push({
@@ -106,10 +108,6 @@ const UserManagementModuleLayout = () => {
             excludeFromSideNav: true,
         },
     ];
-
-    const { organizationId } = useParams();
-
-    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token-organization")}`;
 
     return (
         <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/user-management`} routes={userManagementRoutes}>
