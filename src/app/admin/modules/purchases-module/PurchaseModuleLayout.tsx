@@ -42,6 +42,7 @@ const PurchaseModuleLayout = () => {
     ];
 
     const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
     const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Purchase Orders")) {

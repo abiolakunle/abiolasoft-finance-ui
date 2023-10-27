@@ -12,6 +12,7 @@ import UserManagementDashboard from "./user-management-dashboard/UserManagementD
 import UserComponent from "./user/UserComponent";
 import UsersComponent from "./users/UsersComponent";
 import { getUserOrganizationInfo } from "utils/auth";
+import axiosRequest from "utils/api";
 
 const UserManagementModuleLayout = () => {
     const navRoutes = [
@@ -24,6 +25,7 @@ const UserManagementModuleLayout = () => {
     ];
 
     const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
     const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Users")) {

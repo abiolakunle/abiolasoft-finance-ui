@@ -16,6 +16,7 @@ import SalespersonComponent from "./salesperson/SalespersonComponent";
 import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
 import SalesPersonFormComponent from "./salesperson-form/SalesPersonFormComponent";
 import { getUserOrganizationInfo } from "utils/auth";
+import axiosRequest from "utils/api";
 
 const SalesModuleLayout = () => {
     const navRoutes = [
@@ -28,6 +29,7 @@ const SalesModuleLayout = () => {
     ];
 
     const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
     const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Customers")) {

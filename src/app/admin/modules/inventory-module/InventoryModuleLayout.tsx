@@ -10,6 +10,7 @@ import ItemFormComponent from "./item-form/ItemFormComponent";
 import InventoryAdjustmentFormComponent from "./inventory-adjustment-form/InventoryAdjustmentFormComponent";
 import InventoryAdjustmentComponent from "./inventory-adjustment/InventoryAdjustmentComponent";
 import { getUserOrganizationInfo } from "utils/auth";
+import axiosRequest from "utils/api";
 
 const InventoryModuleLayout = () => {
     const navRoutes = [
@@ -22,6 +23,7 @@ const InventoryModuleLayout = () => {
     ];
 
     const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
     const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Items")) {
