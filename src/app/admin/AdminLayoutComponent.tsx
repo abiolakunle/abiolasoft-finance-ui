@@ -5,12 +5,14 @@ import PurchaseModuleLayout from "./modules/purchases-module/PurchaseModuleLayou
 import SalesModuleLayout from "./modules/sales-module/SalesModuleLayout";
 import UserManagementModuleLayout from "./modules/user-management/UserManagementModuleLayout";
 import Organizations from "./Organizations";
+import OrganisationForm from "./OrganisationForm";
 
 const AdminLayoutComponent = () => {
     return (
         <Routes>
             <Route path="/" element={<Organizations />} />
             <Route path="/organizations" element={<Organizations />} />
+            <Route path="/organizations/new" element={<OrganisationForm />} />
             <Route path="/organizations/:organizationId/modules" element={<SelectAModule />} />
             <Route path="/organizations/:organizationId/modules/inventory/*" element={<InventoryModuleLayout />} />
             <Route path="/organizations/:organizationId/modules/purchases/*" element={<PurchaseModuleLayout />} />
