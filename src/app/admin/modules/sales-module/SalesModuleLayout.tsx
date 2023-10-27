@@ -4,7 +4,6 @@ import { MdHome, MdList } from "react-icons/md";
 import { Route, Routes, useParams } from "react-router-dom";
 import SalesDashboardComponent from "./sales-dashboard/SalesDashboardComponent";
 import InvoicesComponent from "./invoices/InvoicesComponent";
-import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
 import CustomersComponent from "./customers/CustomersComponent";
 import NewCustomerComponent from "./customer-form/CustomerFormComponent";
 import InvoiceComponent from "./invoice/InvoiceComponent";
@@ -16,8 +15,7 @@ import SalespersonsComponent from "./salespersons/SalespersonsComponent";
 import SalespersonComponent from "./salesperson/SalespersonComponent";
 import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
 import SalesPersonFormComponent from "./salesperson-form/SalesPersonFormComponent";
-import { getUserInfo } from "utils/auth";
-import axiosRequest from "utils/api";
+import { getUserOrganizationInfo } from "utils/auth";
 
 const SalesModuleLayout = () => {
     const navRoutes = [
@@ -28,7 +26,9 @@ const SalesModuleLayout = () => {
             component: <SalesDashboardComponent />,
         },
     ];
-    const user = getUserInfo("Organization");
+
+    const { organizationId } = useParams();
+    const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Customers")) {
         navRoutes.push({
@@ -157,11 +157,6 @@ const SalesModuleLayout = () => {
             excludeFromSideNav: true,
         },
     ];
-
-    const { organizationId } = useParams();
-
-    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token-organization")}`;
-
     return (
         <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/sales`} routes={salesRoutes}>
             <Routes>

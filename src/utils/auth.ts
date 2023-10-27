@@ -1,7 +1,6 @@
 import jwtDecode from "jwt-decode";
 
-export const getUserInfo = (level: "User" | "Organization" = "User"): { permissions: string[]; roles: string[]; userId: string; personId: string } => {
-    const token = localStorage.getItem(level === "User" ? "token" : "token-organization");
+const decodeToken = (token: string): { permissions: string[]; roles: string[]; userId: string; personId: string } => {
     if (token) {
         const decodedToken: any = jwtDecode(token);
 
@@ -13,4 +12,12 @@ export const getUserInfo = (level: "User" | "Organization" = "User"): { permissi
         };
     }
     return null;
+};
+
+export const getUserInfo = () => {
+    return decodeToken(localStorage.getItem("token"));
+};
+
+export const getUserOrganizationInfo = (organizationId: string) => {
+    return decodeToken(localStorage.getItem(organizationId + "-organization-token"));
 };
