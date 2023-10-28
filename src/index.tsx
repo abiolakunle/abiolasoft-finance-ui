@@ -55,16 +55,16 @@ const App = () => {
         getAccountByIdentifier(tenantKey, "sub-domain");
     }, [responseInterceptorActive]);
 
-    const getAccountByIdentifier = async (id: string, option: "sub-domain" | "first-path" | "local-storage") => {
+    const getAccountByIdentifier = async (identifier: string, option: "sub-domain" | "first-path" | "local-storage") => {
         await axios
-            .get(`${apiBaseUrl}UserManagement/GetAccountByIdentifier?accountIdentifier=${id}`)
+            .get(`${apiBaseUrl}UserManagement/GetAccountByIdentifier?accountIdentifier=${identifier}`)
             .then(() => {
                 if (option === "first-path") {
-                    localStorage.setItem("tenantKey", id);
+                    localStorage.setItem("tenantKey", identifier);
                 }
 
-                axiosRequest.defaults.headers.common["TenantKey"] = id;
-                setTenantKey(id);
+                axiosRequest.defaults.headers.common["TenantKey"] = identifier;
+                setTenantKey(identifier);
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
