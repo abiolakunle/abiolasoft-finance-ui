@@ -24,7 +24,7 @@ Then run this command to start your local server
 npm start
 ```
 
--   Application Structure
+### Application Structure
 
     -   Account
         -   Organizations
