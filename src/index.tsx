@@ -129,12 +129,12 @@ const App = () => {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <ChakraProvider theme={theme}>
-        <React.StrictMode>
-            <Provider store={store}>
-                <ColorModeProvider>
-                    <App />
-                </ColorModeProvider>
-            </Provider>
-        </React.StrictMode>
+        {/* <React.StrictMode> */}
+        <Provider store={store}>
+            <ColorModeProvider>
+                <App />
+            </ColorModeProvider>
+        </Provider>
+        {/* </React.StrictMode> */}
     </ChakraProvider>
 );
