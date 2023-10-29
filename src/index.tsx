@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./assets/css/App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import AuthLayout from "./app/sign-in/SignInLayout";
 import AdminLayout from "./app/admin/AdminLayoutComponent";
 import { ChakraProvider, ColorModeProvider, Progress, useToast } from "@chakra-ui/react";
@@ -15,6 +15,70 @@ import { apiBaseUrl } from "environment";
 
 let responseInterceptorActive = false;
 
+const AppRoutes = () => {
+    const toast = useToast();
+    const [tenantKey, setTenantKey] = useState("");
+
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        const subDomain = window.location.hostname.split(".")[0];
+        getAccountByIdentifier(subDomain, "sub-domain");
+    }, [responseInterceptorActive]);
+
+    const getAccountByIdentifier = async (key: string, option: "sub-domain" | "first-path" | "local-storage") => {
+        await axios
+            .get(`${apiBaseUrl}UserManagement/GetAccountByIdentifier?accountIdentifier=${key}`)
+            .then((response) => {
+                if (option === "first-path") {
+                    localStorage.setItem("tenantKey", key);
+                }
+
+                if (response.data.status) {
+                    axiosRequest.defaults.headers.common["TenantKey"] = key;
+                    setTenantKey(key);
+                    navigate(key);
+                }
+            })
+            .catch((error) => {
+                if (option === "local-storage") {
+                    toast({
+                        title: "Error",
+                        description: error.response?.data?.message,
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom-right",
+                    });
+                }
+
+                if (option === "sub-domain") {
+                    getAccountByIdentifier(window.location.pathname.split("/")[1], "first-path");
+                }
+
+                if (option === "first-path") {
+                    getAccountByIdentifier(localStorage.getItem("tenantKey"), "local-storage");
+                }
+            });
+    };
+
+    return (
+        tenantKey && (
+            <Routes>
+                <Route path="" element={<AuthLayout />} />
+                <Route path={tenantKey} element={<AuthLayout />} />
+
+                <Route path="auth/sign-in" element={<AuthLayout />} />
+                <Route path={`${tenantKey}/auth/sign-in`} element={<AuthLayout />} />
+
+                <Route path="admin/*" element={<AdminLayout />} />
+                <Route path={`${tenantKey}/admin/*`} element={<AdminLayout />} />
+                {/* <Redirect from="/" to="/admin" /> */}
+            </Routes>
+        )
+    );
+};
+
 const App = () => {
     const toast = useToast();
     const dispatch = useDispatch();
@@ -24,7 +88,6 @@ const App = () => {
     });
 
     axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-    const [tenantKey, setTenantKey] = useState("");
 
     if (!responseInterceptorActive) {
         axiosRequest.interceptors.response.use(
@@ -51,62 +114,14 @@ const App = () => {
         responseInterceptorActive = true;
     }
 
-    useEffect(() => {
-        const subDomain = window.location.hostname.split(".")[0];
-        getAccountByIdentifier(subDomain, "sub-domain");
-    }, [responseInterceptorActive]);
-
-    const getAccountByIdentifier = async (identifier: string, option: "sub-domain" | "first-path" | "local-storage") => {
-        await axios
-            .get(`${apiBaseUrl}UserManagement/GetAccountByIdentifier?accountIdentifier=${identifier}`)
-            .then(() => {
-                if (option === "first-path") {
-                    localStorage.setItem("tenantKey", identifier);
-                }
-
-                axiosRequest.defaults.headers.common["TenantKey"] = identifier;
-                setTenantKey(identifier);
-            })
-            .catch((error) => {
-                if (option === "local-storage") {
-                    toast({
-                        title: "Error",
-                        description: error.response?.data?.message,
-                        status: "error",
-                        duration: 5000,
-                        isClosable: true,
-                        position: "bottom-right",
-                    });
-                }
-
-                if (option === "sub-domain") {
-                    getAccountByIdentifier(window.location.pathname.split("/")[1], "first-path");
-                }
-
-                if (option === "first-path") {
-                    getAccountByIdentifier(localStorage.getItem("tenantKey"), "local-storage");
-                }
-            });
-    };
-
     return (
         <>
             {showProgress && <Progress size="sm" isIndeterminate width="full" position="fixed" top="0" left="0" zIndex="10" />}
-            {tenantKey && (
+            {
                 <Router>
-                    <Routes>
-                        <Route path="" element={<AuthLayout />} />
-                        <Route path={tenantKey} element={<AuthLayout />} />
-
-                        <Route path="auth/sign-in" element={<AuthLayout />} />
-                        <Route path={`${tenantKey}/auth/sign-in`} element={<AuthLayout />} />
-
-                        <Route path="admin/*" element={<AdminLayout />} />
-                        <Route path={`${tenantKey}/admin/*`} element={<AdminLayout />} />
-                        {/* <Redirect from="/" to="/admin" /> */}
-                    </Routes>
+                    <AppRoutes />
                 </Router>
-            )}
+            }
         </>
     );
 };
