@@ -67,12 +67,10 @@ const App = () => {
                 setTenantKey(identifier);
             })
             .catch((error) => {
-                console.error("Error fetching data:", error);
-
                 if (option === "local-storage") {
                     toast({
                         title: "Error",
-                        description: error.response.data.message,
+                        description: error.response?.data?.message,
                         status: "error",
                         duration: 5000,
                         isClosable: true,
