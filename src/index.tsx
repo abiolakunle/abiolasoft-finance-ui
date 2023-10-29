@@ -52,7 +52,8 @@ const App = () => {
     }
 
     useEffect(() => {
-        getAccountByIdentifier(tenantKey, "sub-domain");
+        const subDomain = window.location.hostname.split(".")[0];
+        getAccountByIdentifier(subDomain, "sub-domain");
     }, [responseInterceptorActive]);
 
     const getAccountByIdentifier = async (identifier: string, option: "sub-domain" | "first-path" | "local-storage") => {
