@@ -37,7 +37,13 @@ const AppRoutes = () => {
                 if (response.data.status) {
                     axiosRequest.defaults.headers.common["TenantKey"] = key;
                     setTenantKey(key);
-                    navigate(key);
+                    const paths = window.location.pathname.split("/");
+                    if (paths.length === 1) {
+                        navigate(key);
+                    } else {
+                        paths[1] = key;
+                        navigate(paths.join("/"));
+                    }
                 }
             })
             .catch((error) => {
