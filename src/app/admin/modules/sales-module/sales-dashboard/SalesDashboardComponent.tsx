@@ -93,7 +93,7 @@ export default function SalesDashboardComponent() {
                 /> */}
             </SimpleGrid>
 
-            {info.topSellingItems.length ? (
+            {info.topSellingItems?.length ? (
                 <Fragment>
                     <Heading as="h4" size="md" mt="32px" mb="16px">
                         Top Selling Items
