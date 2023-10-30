@@ -41,7 +41,7 @@ const AppRoutes = () => {
                     if (paths.length === 1) {
                         navigate(key);
                     } else {
-                        paths[1] = key;
+                        if (paths[1] !== key) paths[0] = key;
                         navigate(paths.join("/"));
                     }
                 }
