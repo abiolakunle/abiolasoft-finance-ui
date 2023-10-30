@@ -15,7 +15,7 @@ const BillsComponent = () => {
 
     useEffect(() => {
         axiosRequest
-            .get(`Purchases/GetAllPurchaseOrders?PageIndex=${pageIndex}&PageSize=${pageSize}`)
+            .get(`Purchases/GetAllBills?PageIndex=${pageIndex}&PageSize=${pageSize}`)
             .then((response) => {
                 if (response.data && response.data.data) {
                     setData(response.data.data.items);
@@ -47,7 +47,7 @@ const BillsComponent = () => {
                 gap="20px"
             >
                 <IfUserIsPermitted to="Create Bill">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/purchases/purchase-orders/new`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/purchases/bills/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New
                         </Button>

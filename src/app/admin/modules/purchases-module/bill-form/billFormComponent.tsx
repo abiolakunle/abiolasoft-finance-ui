@@ -63,15 +63,13 @@ export const BillFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 return { ...item, description: "", itemName };
             });
             try {
-                const response = await (id
-                    ? axiosRequest.put("Purchases/EditPurchaseOrder", values)
-                    : axiosRequest.post("Purchases/CreatePurchaseOrder", values));
+                const response = await (id ? axiosRequest.put("Purchases/EditBill", values) : axiosRequest.post("Purchases/CreateBill", values));
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/organizations/${organizationId}/modules/purchases/purchase-orders/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/purchases/bills/${id}`);
                     } else {
-                        navigate(`/admin/organizations/${organizationId}/modules/purchases/purchase-orders`);
+                        navigate(`/admin/organizations/${organizationId}/modules/purchases/bills`);
                     }
                 } else {
                     console.error("Error creating item");
@@ -98,7 +96,7 @@ export const BillFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         ];
 
         if (id) {
-            initialRequests.push(axiosRequest.get(`Purchases/GetPurchaseOrderById?id=${id}`));
+            initialRequests.push(axiosRequest.get(`Purchases/GetBillById?id=${id}`));
         }
 
         Promise.all(initialRequests)
@@ -189,8 +187,8 @@ export const BillFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 as={ReactRouterLink}
                                 to={
                                     id
-                                        ? `/admin/organizations/${organizationId}/modules/purchases/purchase-orders/${id}`
-                                        : `/admin/organizations/${organizationId}/modules/purchases/purchase-orders`
+                                        ? `/admin/organizations/${organizationId}/modules/purchases/bills/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/purchases/bills`
                                 }
                             >
                                 <CloseButton size="lg" />
@@ -559,8 +557,8 @@ export const BillFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     as={ReactRouterLink}
                                     to={
                                         id
-                                            ? `/admin/organizations/${organizationId}/modules/purchases/purchase-orders/${id}`
-                                            : `/admin/organizations/${organizationId}/modules/purchases/purchase-orders`
+                                            ? `/admin/organizations/${organizationId}/modules/purchases/bills/${id}`
+                                            : `/admin/organizations/${organizationId}/modules/purchases/bills`
                                     }
                                 >
                                     <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">
