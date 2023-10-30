@@ -25,6 +25,7 @@ import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { formatNumberWithCommas } from "utils/number";
+import BillLineItemsTableComponent from "app-components/line-items-table/BillLineItemsTableComponen";
 
 export const BillFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [vendors, setVendors] = useState([]);
@@ -391,7 +392,7 @@ export const BillFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex>
                         </FormControl>
 
-                        <LineItemsTableComponent
+                        <BillLineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
                             items={items}
