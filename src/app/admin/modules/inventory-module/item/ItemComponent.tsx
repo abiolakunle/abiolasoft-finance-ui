@@ -33,8 +33,6 @@ const ItemComponent = () => {
 
     let navigate = useNavigate();
 
-    const toast = useToast();
-
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const redirect = `/admin/organizations/${organizationId}/modules/inventory/items`;

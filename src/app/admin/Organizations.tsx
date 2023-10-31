@@ -15,7 +15,7 @@ const Organizations = () => {
 
     useEffect(() => {
         axiosRequest
-            .get(`UserManagement/GetAccountPersonById?id=${user.personId}`)
+            .get(`UserManagement/GetAccountPersonById?id=${user?.personId}`)
             .then((response) => {
                 if (response.data && response.data.data) {
                     setOrganizations(response.data.data.organizations);

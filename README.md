@@ -23,3 +23,27 @@ Then run this command to start your local server
 ```bash
 npm start
 ```
+
+### Application Structure
+
+    -   Account
+        -   Organizations
+            -   Modules
+                -   Inventory
+                -   Purchase
+                -   Sales
+                -   User Management
+
+### How to access accounts
+
+-   Accounts have identifiers eg. abiolasoft. The identifier is the subdomain of the account, as in abiolasoft.example.com or www.example.com/abiolasoft
+
+-   Developement
+    https://development--fingold.netlify.app/
+
+For netlify development environment link, to access an account like "abiolasoft", you would use the link https://development--fingold.netlify.app/abiolasoft
+
+-   Production
+    https://fingold.netlify.app/
+
+For netlify production environment link, to access an account like "abiolasoft", you would use the link https://fingold.netlify.app/abiolasoft
