@@ -4,7 +4,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { formatDateTime } from "utils/dateUtils";
 import { useEffect } from "react";
 import GeneralTable from "app-components/general-table/GeneralTable";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import Card from "components/card/Card";
 
@@ -28,6 +28,8 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
     const { tableData } = props;
     const textColor = useColorModeValue("secondaryGray.900", "white");
 
+    const { organizationId } = useParams();
+
     const columns = [
         columnHelper.accessor("dateAdjusted", {
             id: "dateAdjusted",
@@ -39,7 +41,10 @@ export default function InventoryAdjustmentsTableComponent(props: { tableData: a
             cell: (info: any) => (
                 <Flex align="center" minW="100px">
                     <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/inventory-adjustments/${info.row.original.id}`}>
+                    <ChakraLink
+                        as={ReactRouterLink}
+                        to={`/admin/organizations/${organizationId}/modules/inventory/inventory-adjustments/${info.row.original.id}`}
+                    >
                         <Text color={textColor} fontSize="sm" fontWeight="700">
                             {info.getValue() ? formatDateTime(info.getValue()) : "--"}
                         </Text>

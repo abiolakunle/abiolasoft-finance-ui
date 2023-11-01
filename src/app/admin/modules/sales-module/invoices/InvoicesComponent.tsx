@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
-
 import { MdAdd } from "react-icons/md";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import InvoiceTableComponent from "./InvoiceTableComponent";
 import axiosRequest from "utils/api";
@@ -32,6 +31,8 @@ const InvoicesComponent = () => {
         setPageIndex(newPageIndex);
     };
 
+    const { organizationId } = useParams();
+
     return (
         <>
             <Flex
@@ -46,7 +47,7 @@ const InvoicesComponent = () => {
                 gap="20px"
             >
                 <IfUserIsPermitted to="Create Invoice">
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/invoices/new`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/invoices/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New
                         </Button>

@@ -1,7 +1,7 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdBarChart, MdHome, MdList } from "react-icons/md";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import InventoryAdjustmentsComponent from "./inventory-adjustments/InventoryAdjustmentsComponent";
 import InventoryDashboardComponent from "./inventory-dashboard/InventoryDashboardComponent";
 import ItemComponent from "./item/ItemComponent";
@@ -9,7 +9,8 @@ import ItemsComponent from "./items/ItemsComponent";
 import ItemFormComponent from "./item-form/ItemFormComponent";
 import InventoryAdjustmentFormComponent from "./inventory-adjustment-form/InventoryAdjustmentFormComponent";
 import InventoryAdjustmentComponent from "./inventory-adjustment/InventoryAdjustmentComponent";
-import { getUserInfo } from "utils/auth";
+import { getUserOrganizationInfo } from "utils/auth";
+import axiosRequest from "utils/api";
 
 const InventoryModuleLayout = () => {
     const navRoutes = [
@@ -21,7 +22,9 @@ const InventoryModuleLayout = () => {
         },
     ];
 
-    const user = getUserInfo();
+    const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
+    const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Items")) {
         navRoutes.push({
@@ -86,7 +89,7 @@ const InventoryModuleLayout = () => {
     ];
 
     return (
-        <NavigationComponent baseRoute="/admin/modules/inventory" routes={inventoryRoutes}>
+        <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/inventory`} routes={inventoryRoutes}>
             <Routes>
                 {inventoryRoutes.map((route, idx) => {
                     return <Route key={idx} path={route.path} element={route.component} />;

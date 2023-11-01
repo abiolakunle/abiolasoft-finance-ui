@@ -1,37 +1,36 @@
 import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input } from "@chakra-ui/react";
-import Card from "components/card/Card";
-import { useEffect } from "react";
-import { Link as ChakraLink } from "@chakra-ui/react";
-import { Link as ReactRouterLink, useLocation, useNavigate, useParams } from "react-router-dom";
-import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Card from "components/card/Card";
+import { useEffect, useState } from "react";
+import { Link as ChakraLink } from "@chakra-ui/react";
+import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import axiosRequest from "utils/api";
 
-const RoleFormComponent = () => {
+const OrganizationForm = () => {
+
+    let navigate = useNavigate();
+
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required("Role name is required"),
+        name: Yup.string().required("Name is required"),
     });
-
-    const { id, organizationId } = useParams();
 
     const form = useFormik({
         initialValues: {
-            id: "",
-            name: "",
+            
+            name: ""
+
+            
         },
-        validationSchema: validationSchema,
-        onSubmit: async (formData) => {
+        validationSchema,
+        onSubmit: async (values) => {
             try {
-                const response = await (id
-                    ? axiosRequest.put("UserManagement/UpdateRoleName", formData)
-                    : axiosRequest.post("UserManagement/CreateRole", formData));
+                const response = await axiosRequest.post("UserManagement/CreateOrganization", values)
 
                 if (response.status === 200) {
-                    if (id) {
-                        navigate(`/admin/organizations/${organizationId}/modules/user-management/roles/${id}`);
-                    } else {
-                        navigate(`/admin/organizations/${organizationId}/modules/user-management/roles`);
-                    }
+                    
+                    navigate(`/admin/organizations`);
+                    
                 } else {
                     console.error("Error creating item");
                 }
@@ -40,42 +39,29 @@ const RoleFormComponent = () => {
             }
         },
     });
-    let navigate = useNavigate();
-    const location = useLocation();
 
-    useEffect(() => {
-        if (id) {
-            form.setValues({
-                id,
-                name: location.state?.roleName,
-            });
-        }
-    }, [id]);
 
     return (
-        <>
+        <Box marginLeft="auto" marginRight="auto" maxW="768px" pt={{ base: "130px", sm: "32px", md: "80px", xl: "80px" }}>
             <Flex
-                pt={{ base: "130px", md: "80px", xl: "130px" }}
-                my="0px"
-                h="fit-content"
-                align={{ base: "center", xl: "center" }}
-                justify={{
-                    base: "flex-start",
-                    xl: "flex-start",
-                }}
-                gap="20px"
+                justifyContent="space-between"
+                alignItems="center"
+                mb={{ sm: "8px", md: "16px" }}
+                mt={{ sm: "32px", md: "32px" }}
+                ml={{ sm: "16px", md: "16px" }}
+                mr={{ sm: "16px", md: "16px" }}
             >
                 <Heading as="h4" size="md">
-                    {id ? "Edit Role Name" : "New Role"}
+                    New Organization
                 </Heading>
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px="32px" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <form noValidate onSubmit={form.handleSubmit}>
-                        <FormControl isInvalid={form.touched.name && !!form.errors.name}>
+                        <FormControl>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel color="red">Name*</FormLabel>
+                                    <FormLabel color="red">New Organization Name*</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
@@ -86,12 +72,12 @@ const RoleFormComponent = () => {
                                         borderRadius="8px"
                                         value={form.values.name}
                                         onChange={form.handleChange}
-                                        onBlur={form.handleBlur}
                                     />
-                                    {form.touched.name && !!form.errors.name ? <FormErrorMessage>{form.errors.name}</FormErrorMessage> : ""}
                                 </Box>
                             </Flex>
                         </FormControl>
+
+                       
 
                         <Flex
                             pt={{ base: "16px", md: "16px", xl: "16px" }}
@@ -102,16 +88,12 @@ const RoleFormComponent = () => {
                             }}
                             gap="20px"
                         >
-                            <Button isDisabled={!form.isValid || form.isSubmitting} variant="brand" type="submit">
+                            <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting}>
                                 Save
                             </Button>
                             <ChakraLink
                                 as={ReactRouterLink}
-                                to={
-                                    id
-                                        ? `/admin/organizations/${organizationId}/modules/user-management/roles/${id}`
-                                        : `/admin/organizations/${organizationId}/modules/user-management/roles`
-                                }
+                                to={ `/admin/organizations`}
                             >
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
@@ -120,8 +102,8 @@ const RoleFormComponent = () => {
                 </Card>
             </Box>
             ;
-        </>
+        </Box>
     );
-};
+}
 
-export default RoleFormComponent;
+export default OrganizationForm

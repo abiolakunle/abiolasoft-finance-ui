@@ -39,6 +39,8 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         date: Yup.string().required("Sales Order Date is required"),
     });
 
+    const { organizationId } = useParams();
+
     const form = useFormik({
         initialValues: {
             id: "",
@@ -68,9 +70,9 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/modules/sales/sales-orders/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/sales-orders/${id}`);
                     } else {
-                        navigate("/admin/modules/sales/sales-orders");
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/sales-orders`);
                     }
                 } else {
                     console.error("Error creating item");
@@ -191,7 +193,14 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         </Heading>
 
                         <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/sales/sales-orders/${id}` : `/admin/modules/sales/sales-orders`}>
+                            <ChakraLink
+                                as={ReactRouterLink}
+                                to={
+                                    id
+                                        ? `/admin/organizations/${organizationId}/modules/sales/sales-orders/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/sales/sales-orders`
+                                }
+                            >
                                 <CloseButton size="lg" />
                             </ChakraLink>
                         </Flex>
@@ -593,7 +602,11 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <ChakraLink
                                     width={{ sm: "100%", md: "fit-content" }}
                                     as={ReactRouterLink}
-                                    to={id ? `/admin/modules/sales/sales-orders/${id}` : "/admin/modules/sales/sales-orders"}
+                                    to={
+                                        id
+                                            ? `/admin/organizations/${organizationId}/modules/sales/sales-orders/${id}`
+                                            : `/admin/organizations/${organizationId}/modules/sales/sales-orders`
+                                    }
                                 >
                                     <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">
                                         Cancel

@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { NumericFormat } from "react-number-format";
 
 const InventoryAdjustmentFormComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
     const location = useLocation();
     let navigate = useNavigate();
     const [submitStatus, setSubmitStatus] = useState("");
@@ -58,7 +58,7 @@ const InventoryAdjustmentFormComponent = () => {
                 const response = await axiosRequest.put("Inventory/AdjustStock", data);
 
                 if (response.status === 200) {
-                    navigate(`/admin/modules/inventory/items/${id}`);
+                    navigate(`/admin/organizations/${organizationId}/modules/inventory/items/${id}`);
                 } else {
                     console.error("Error creating item");
                 }
@@ -275,7 +275,7 @@ const InventoryAdjustmentFormComponent = () => {
                             <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting} onClick={() => setSubmitStatus("Adjusted")}>
                                 Convert to Adjusted
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={`/admin/modules/inventory/items/${id}`}>
+                            <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/inventory/items/${id}`}>
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>

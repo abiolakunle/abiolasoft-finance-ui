@@ -1,7 +1,7 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdHome, MdList, MdOutlineSupervisedUserCircle } from "react-icons/md";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import ManageRolePermissionsComponent from "./manage-role-permissions/ManageRolePermissionsComponent";
 import ManageUserRolesComponent from "./manage-user-roles/ManageUserRolesComponent";
 import RoleFormComponent from "./role-form/RoleFormComponent";
@@ -11,7 +11,8 @@ import UserFormComponent from "./user-form/UserFormComponent";
 import UserManagementDashboard from "./user-management-dashboard/UserManagementDashboard";
 import UserComponent from "./user/UserComponent";
 import UsersComponent from "./users/UsersComponent";
-import { getUserInfo } from "utils/auth";
+import { getUserOrganizationInfo } from "utils/auth";
+import axiosRequest from "utils/api";
 
 const UserManagementModuleLayout = () => {
     const navRoutes = [
@@ -23,7 +24,9 @@ const UserManagementModuleLayout = () => {
         },
     ];
 
-    const user = getUserInfo();
+    const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
+    const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Users")) {
         navRoutes.push({
@@ -107,7 +110,7 @@ const UserManagementModuleLayout = () => {
     ];
 
     return (
-        <NavigationComponent baseRoute="/admin/modules/user-management" routes={userManagementRoutes}>
+        <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/user-management`} routes={userManagementRoutes}>
             <Routes>
                 {userManagementRoutes.map((route, idx) => {
                     return <Route key={idx} path={route.path} element={route.component} />;

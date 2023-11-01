@@ -1,22 +1,22 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdHome, MdList } from "react-icons/md";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import SalesDashboardComponent from "./sales-dashboard/SalesDashboardComponent";
 import InvoicesComponent from "./invoices/InvoicesComponent";
-import SalesReceiptsComponent from "./sales-receipts/SalesReceiptsComponent";
 import CustomersComponent from "./customers/CustomersComponent";
 import NewCustomerComponent from "./customer-form/CustomerFormComponent";
 import InvoiceComponent from "./invoice/InvoiceComponent";
 import CustomerComponent from "./customer/CustomerComponent";
 import SalesOrderComponent from "./sales-order/SalesOrderComponent";
-import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
 import SalesOrdersComponent from "./sales-orders/SalesOrdersComponent";
 import SalespersonsComponent from "./salespersons/SalespersonsComponent";
 import SalespersonComponent from "./salesperson/SalespersonComponent";
 import InvoiceFormComponent from "./invoice-form/InvoiceFormComponent";
 import SalesPersonFormComponent from "./salesperson-form/SalesPersonFormComponent";
-import { getUserInfo } from "utils/auth";
+import { getUserOrganizationInfo } from "utils/auth";
+import axiosRequest from "utils/api";
+import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
 
 const SalesModuleLayout = () => {
     const navRoutes = [
@@ -27,7 +27,10 @@ const SalesModuleLayout = () => {
             component: <SalesDashboardComponent />,
         },
     ];
-    const user = getUserInfo();
+
+    const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
+    const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Customers")) {
         navRoutes.push({
@@ -156,9 +159,8 @@ const SalesModuleLayout = () => {
             excludeFromSideNav: true,
         },
     ];
-
     return (
-        <NavigationComponent baseRoute="/admin/modules/sales" routes={salesRoutes}>
+        <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/sales`} routes={salesRoutes}>
             <Routes>
                 {salesRoutes.map((route, idx) => {
                     return <Route key={idx} path={route.path} element={route.component} />;

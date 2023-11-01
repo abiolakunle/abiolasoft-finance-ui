@@ -4,16 +4,20 @@ import SelectAModule from "./SelectAModule";
 import PurchaseModuleLayout from "./modules/purchases-module/PurchaseModuleLayout";
 import SalesModuleLayout from "./modules/sales-module/SalesModuleLayout";
 import UserManagementModuleLayout from "./modules/user-management/UserManagementModuleLayout";
+import Organizations from "./Organizations";
+import OrganisationForm from "./OrganisationForm";
 
 const AdminLayoutComponent = () => {
     return (
         <Routes>
-            <Route path="/" element={<SelectAModule />} />
-            <Route path="/modules" element={<SelectAModule />} />
-            <Route path="modules/inventory/*" element={<InventoryModuleLayout />} />
-            <Route path="modules/purchases/*" element={<PurchaseModuleLayout />} />
-            <Route path="modules/user-management/*" element={<UserManagementModuleLayout />} />
-            <Route path="modules/sales/*" element={<SalesModuleLayout />} />
+            <Route path="/" element={<Organizations />} />
+            <Route path="/organizations" element={<Organizations />} />
+            <Route path="/organizations/new" element={<OrganisationForm />} />
+            <Route path="/organizations/:organizationId/modules" element={<SelectAModule />} />
+            <Route path="/organizations/:organizationId/modules/inventory/*" element={<InventoryModuleLayout />} />
+            <Route path="/organizations/:organizationId/modules/purchases/*" element={<PurchaseModuleLayout />} />
+            <Route path="/organizations/:organizationId/modules/user-management/*" element={<UserManagementModuleLayout />} />
+            <Route path="/organizations/:organizationId/modules/sales/*" element={<SalesModuleLayout />} />
         </Routes>
     );
 };

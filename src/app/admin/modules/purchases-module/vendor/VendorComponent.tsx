@@ -26,15 +26,20 @@ import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
+import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const VendorComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
 
     const toast = useToast();
 
     let navigate = useNavigate();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const redirect = `/admin/organizations/${organizationId}/modules/purchases/vendors`;
+
+    const deleteEndpoint = `Purchases/DeleteVendor`;
 
     const [vendor, setVendor] = useState({
         id: "",
@@ -72,23 +77,6 @@ const VendorComponent = () => {
         }
     }, [id]);
 
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`Purchases/DeleteVendor`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/modules/purchases/vendors`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-
     return (
         <>
             <Flex
@@ -108,7 +96,7 @@ const VendorComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Edit Vendor">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors/${id}/edit`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/purchases/vendors/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -123,25 +111,10 @@ const VendorComponent = () => {
                             </MenuList>
                         </IfUserIsPermitted>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Delete Vendor</ModalHeader>
-
-                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
-                                <ModalFooter>
-                                    <Button variant="ghost" onClick={onClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button colorScheme="red" ml={3} onClick={submit}>
-                                        Delete
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
+                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/purchases/vendors`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/purchases/vendors`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

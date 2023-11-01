@@ -1,7 +1,7 @@
 import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdHome, MdList } from "react-icons/md";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import VendorsComponent from "./vendors/VendorsComponent";
 import PurchaseOrdersComponent from "./purchase-orders/PurchaseOrdersComponent";
 import PurchasesDashboardComponent from "./purchases-dashboard/PurchasesDashboardComponent";
@@ -9,7 +9,8 @@ import PurchaseOrderFormComponent from "./purchase-order-form/PurchaseOrderFormC
 import PurchaseOrderComponent from "./purchase-order/PurchaseOrderComponent";
 import VendorComponent from "./vendor/VendorComponent";
 import VendorFormComponent from "./vendor-form/VendorFormComponent";
-import { getUserInfo } from "utils/auth";
+import { getUserInfo, getUserOrganizationInfo } from "utils/auth";
+import axiosRequest from "utils/api";
 
 const PurchaseModuleLayout = () => {
     const navRoutes = [
@@ -40,7 +41,9 @@ const PurchaseModuleLayout = () => {
         // },
     ];
 
-    const user = getUserInfo();
+    const { organizationId } = useParams();
+    axiosRequest.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(organizationId + "-organization-token")}`;
+    const user = getUserOrganizationInfo(organizationId);
 
     if (user?.permissions?.includes("View Purchase Orders")) {
         navRoutes.push({
@@ -114,7 +117,7 @@ const PurchaseModuleLayout = () => {
     ];
 
     return (
-        <NavigationComponent baseRoute="/admin/modules/purchases" routes={purchaseRoutes}>
+        <NavigationComponent baseRoute={`/admin/organizations/${organizationId}/modules/purchases`} routes={purchaseRoutes}>
             <Routes>
                 {purchaseRoutes.map((route, idx) => {
                     return <Route key={idx} path={route.path} element={route.component} />;

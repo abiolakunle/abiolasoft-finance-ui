@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import UsersTableComponent from "./UsersTableComponent";
 import { MdAdd } from "react-icons/md";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
 import { pageSize } from "variables/constant-values";
@@ -13,9 +13,11 @@ const UsersComponent = () => {
     const [pageIndex, setPageIndex] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const { organizationId } = useParams();
+
     useEffect(() => {
         axiosRequest
-            .get(`UserManagement/GetAllUsers?PageIndex=${pageIndex}&PageSize=${pageSize}`)
+            .get(`UserManagement/GetAllOrganizationPersons?PageIndex=${pageIndex}&PageSize=${pageSize}&organizationId=${organizationId}`)
             .then((response) => {
                 if (response.data && response.data.data) {
                     setTableData(response.data.data.items);
@@ -44,7 +46,7 @@ const UsersComponent = () => {
                 }}
                 gap="20px"
             >
-                <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/new`}>
+                <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/users/new`}>
                     <IfUserIsPermitted to="Create User">
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New

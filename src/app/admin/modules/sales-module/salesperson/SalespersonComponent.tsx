@@ -23,17 +23,17 @@ import { useEffect, useState } from "react";
 import { HSeparator } from "components/separator/Separator";
 import axiosRequest from "utils/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@chakra-ui/react";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
+import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const SalespersonComponent = () => {
-    const { id } = useParams();
-
-    let navigate = useNavigate();
-
-    const toast = useToast();
+    const { id, organizationId } = useParams();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const redirect = `/admin/organizations/${organizationId}/modules/sales/salespersons`;
+
+    const deleteEndpoint = `Sales/DeleteSalesperson`;
 
     const [salesPerson, setSalesPerson] = useState({
         id: "",
@@ -58,23 +58,6 @@ const SalespersonComponent = () => {
         }
     }, [id]);
 
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`Sales/DeleteSalesperson`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/modules/sales/salespersons`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-
     return (
         <>
             <Flex
@@ -94,7 +77,7 @@ const SalespersonComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Edit Salesperson">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/salespersons/${id}/edit`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/salespersons/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -109,25 +92,10 @@ const SalespersonComponent = () => {
                             </MenuList>
                         </IfUserIsPermitted>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Delete Salesperson</ModalHeader>
-
-                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
-                                <ModalFooter>
-                                    <Button variant="ghost" onClick={onClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button onClick={submit} colorScheme="red" ml={3}>
-                                        Delete
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
+                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/sales/salespersons`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/salespersons`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

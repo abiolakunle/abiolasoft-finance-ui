@@ -33,15 +33,18 @@ import { formatDateTime } from "utils/dateUtils";
 import axiosRequest from "utils/api";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import DeleteModal from "app-components/delete-modal/DeleteModal";
 
 const UserComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
 
     let navigate = useNavigate();
 
-    const toast = useToast();
-
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const redirect = `/admin/organizations/${organizationId}/modules/user-management/users`;
+
+    const deleteEndpoint = `UserManagement/DeleteUser`;
 
     const [user, setUser] = useState({
         id: "",
@@ -57,7 +60,7 @@ const UserComponent = () => {
     useEffect(() => {
         if (id) {
             axiosRequest
-                .get(`UserManagement/GetUserById?id=${id}`)
+                .get(`UserManagement/GetOrganizationAccountPersonById?id=${id}&organizationId=${organizationId}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -80,28 +83,13 @@ const UserComponent = () => {
     }, [id]);
 
     const changePassword = () => {
-        navigate(`/admin/modules/user-management/users/${id}/change-password`);
+        navigate(`/admin/organizations/${organizationId}/modules/user-management/users/${id}/change-password`);
     };
 
     const manageRoles = () => {
-        navigate(`/admin/modules/user-management/users/${id}/manage-roles`, { state: { userName: `${user.firstName} ${user.lastName}` } });
-    };
-
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`UserManagement/DeleteUser`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/modules/user-management/users`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
+        navigate(`/admin/organizations/${organizationId}/modules/user-management/users/${id}/manage-roles`, {
+            state: { userName: `${user.firstName} ${user.lastName}` },
+        });
     };
 
     return (
@@ -123,7 +111,7 @@ const UserComponent = () => {
 
                 <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <IfUserIsPermitted to="Update User">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users/${id}/edit`}>
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/users/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
@@ -145,25 +133,10 @@ const UserComponent = () => {
                             </IfUserIsPermitted>
                         </MenuList>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                                <ModalHeader>Delete User</ModalHeader>
-
-                                <ModalBody>Are You Sure You Want To Delete?</ModalBody>
-                                <ModalFooter>
-                                    <Button variant="ghost" onClick={onClose}>
-                                        Cancel
-                                    </Button>
-                                    <Button colorScheme="red" onClick={submit} ml={3}>
-                                        Delete
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
+                        <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink as={ReactRouterLink} to={`/admin/modules/user-management/users`}>
+                    <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/user-management/users`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>

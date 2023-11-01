@@ -585,8 +585,10 @@ function SidebarContent(props: { baseRoute: string; routes: any[] }) {
 export function GeneralLinks() {
     let textColor = useColorModeValue("secondaryGray.500", "white");
 
+    const { organizationId } = useParams();
+
     return (
-        <NavLink to="/admin/modules">
+        <NavLink to={`/admin/organizations/${organizationId}/modules`}>
             <Box>
                 <HStack spacing="26px" py="5px" ps="10px">
                     <Flex w="100%" alignItems="center" justifyContent="center">

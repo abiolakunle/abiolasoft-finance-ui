@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const UserFormComponent = () => {
-    const { id } = useParams();
+    const { id, organizationId } = useParams();
     let navigate = useNavigate();
 
     const validationSchema = Yup.object().shape({
@@ -36,9 +36,9 @@ const UserFormComponent = () => {
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/modules/user-management/users/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/user-management/users/${id}`);
                     } else {
-                        navigate("/admin/modules/user-management/users");
+                        navigate(`/admin/organizations/${organizationId}/modules/user-management/users`);
                     }
                 } else {
                     console.error("Error creating item");
@@ -52,7 +52,7 @@ const UserFormComponent = () => {
     useEffect(() => {
         if (id) {
             axiosRequest
-                .get(`UserManagement/GetUserById?id=${id}`)
+                .get(`UserManagement/GetOrganizationAccountPersonById?id=${id}&organizationId=${organizationId}`)
                 .then((response) => {
                     const data = response?.data?.data;
                     if (!!data) {
@@ -225,7 +225,14 @@ const UserFormComponent = () => {
                             <Button isDisabled={!form.isValid || form.isSubmitting} variant="brand" type="submit">
                                 Save
                             </Button>
-                            <ChakraLink as={ReactRouterLink} to={id ? `/admin/modules/user-management/users/${id}` : "/admin/modules/user-management/users"}>
+                            <ChakraLink
+                                as={ReactRouterLink}
+                                to={
+                                    id
+                                        ? `/admin/organizations/${organizationId}/modules/user-management/users/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/user-management/users`
+                                }
+                            >
                                 <Button variant="outline">Cancel</Button>
                             </ChakraLink>
                         </Flex>
