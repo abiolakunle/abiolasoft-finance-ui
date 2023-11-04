@@ -28,7 +28,7 @@ const AppRoutes = () => {
 
     const getAccountByIdentifier = async (key: string, option: "sub-domain" | "first-path" | "local-storage") => {
         await axios
-            .get(`${apiBaseUrl}UserManagement/GetAccountByIdentifier?accountIdentifier=${key}`)
+            .get(`${apiBaseUrl}UserManagement/GetAccountByIdentifier?accountIdentifier=${key}`, { headers: { TenantKey: key } })
             .then((response) => {
                 if (option === "first-path") {
                     localStorage.setItem("tenantKey", key);
