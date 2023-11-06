@@ -12,6 +12,7 @@ import VendorFormComponent from "./vendor-form/VendorFormComponent";
 import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 import BillsComponent from "./bills/BillsComponent";
+import BillFormComponent from "./bill-form/BillFormComponent";
 
 const PurchaseModuleLayout = () => {
     const navRoutes = [
@@ -122,6 +123,13 @@ const PurchaseModuleLayout = () => {
             path: "/vendors/:id/edit",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <VendorFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "New Bill",
+            path: "/bills/new",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <BillFormComponent />,
             excludeFromSideNav: true,
         },
     ];
