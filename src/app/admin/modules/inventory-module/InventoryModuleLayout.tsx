@@ -11,6 +11,7 @@ import InventoryAdjustmentFormComponent from "./inventory-adjustment-form/Invent
 import InventoryAdjustmentComponent from "./inventory-adjustment/InventoryAdjustmentComponent";
 import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
+import ItemSalesComponent from "./item-sales/ItemSalesComponent";
 
 const InventoryModuleLayout = () => {
     const navRoutes = [
@@ -57,6 +58,13 @@ const InventoryModuleLayout = () => {
             path: "/items/:id",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <ItemComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Item Sales",
+            path: "/items/:itemId/sales",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <ItemSalesComponent />,
             excludeFromSideNav: true,
         },
         {
