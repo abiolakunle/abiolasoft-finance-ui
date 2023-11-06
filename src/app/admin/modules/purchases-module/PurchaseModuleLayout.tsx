@@ -9,7 +9,7 @@ import PurchaseOrderFormComponent from "./purchase-order-form/PurchaseOrderFormC
 import PurchaseOrderComponent from "./purchase-order/PurchaseOrderComponent";
 import VendorComponent from "./vendor/VendorComponent";
 import VendorFormComponent from "./vendor-form/VendorFormComponent";
-import { getUserInfo, getUserOrganizationInfo } from "utils/auth";
+import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 
 const PurchaseModuleLayout = () => {
