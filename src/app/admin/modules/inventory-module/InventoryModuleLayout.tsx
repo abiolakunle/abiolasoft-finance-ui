@@ -2,17 +2,17 @@ import { Icon } from "@chakra-ui/react";
 import NavigationComponent from "app-components/navigation-layout/NavigationComponent";
 import { MdBarChart, MdHome, MdList } from "react-icons/md";
 import { Route, Routes, useParams } from "react-router-dom";
-import InventoryAdjustmentsComponent from "./inventory-adjustments/InventoryAdjustmentsComponent";
-import InventoryDashboardComponent from "./inventory-dashboard/InventoryDashboardComponent";
-import ItemComponent from "./item/ItemComponent";
-import ItemsComponent from "./items/ItemsComponent";
-import ItemFormComponent from "./item-form/ItemFormComponent";
-import InventoryAdjustmentFormComponent from "./inventory-adjustment-form/InventoryAdjustmentFormComponent";
-import InventoryAdjustmentComponent from "./inventory-adjustment/InventoryAdjustmentComponent";
+import InventoryAdjustmentsComponent from "./pages/inventory-adjustments/InventoryAdjustmentsComponent";
+import InventoryDashboardComponent from "./pages/inventory-dashboard/InventoryDashboardComponent";
+import ItemComponent from "./pages/item/ItemComponent";
+import ItemsComponent from "./pages/items/ItemsComponent";
+import ItemFormComponent from "./pages/item-form/ItemFormComponent";
+import InventoryAdjustmentFormComponent from "./pages/inventory-adjustment-form/InventoryAdjustmentFormComponent";
+import InventoryAdjustmentComponent from "./pages/inventory-adjustment/InventoryAdjustmentComponent";
 import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
-import ItemSalesComponent from "./item-sales/ItemSalesComponent";
-import ItemPurchasesComponent from "./item-purchases/ItemPurchasesComponent";
+import ItemSalesComponent from "./pages/item-sales/ItemSalesComponent";
+import ItemPurchasesComponent from "./pages/item-purchases/ItemPurchasesComponent";
 
 const InventoryModuleLayout = () => {
     const navRoutes = [

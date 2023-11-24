@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Badge, Box, Button, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
-import ItemPurchasesTableComponent from "./ItemPurchasesTableComponent";
+import { Badge, Box, Button, Flex, Heading, SimpleGrid } from "@chakra-ui/react";
 import { useLocation, useParams } from "react-router-dom";
 import axiosRequest from "utils/api";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import { formatNumberWithCommas } from "utils/number";
+import ItemPurchasesSalesTableComponent from "../../shared-components/item-purchases-sales-table/ItemPurchasesSalesTableComponent";
 
-const ItemPurchasesComponent = () => {
+const ItemSalesComponent = () => {
     const [pageData, setPageData] = useState(null);
     const { itemId } = useParams();
     const [selectedDates, setSelectedDates] = useState<Date[]>([new Date(), new Date()]);
@@ -14,9 +14,7 @@ const ItemPurchasesComponent = () => {
 
     const loadData = (startDate: Date, endDate: Date) => {
         axiosRequest
-            .get(
-                `Purchases/GetItemPurchaseHistory?ItemId=${itemId}&PurchaseOrderStartDate=${startDate.toISOString()}&PurchaseOrderEndDate=${endDate.toISOString()}`
-            )
+            .get(`Sales/GetItemSalesHistory?ItemId=${itemId}&SalesOrderStartDate=${startDate.toISOString()}&SalesOrderEndDate=${endDate.toISOString()}`)
             .then((response) => {
                 if (response.data && response.data.data) {
                     setPageData(response.data.data);
@@ -42,7 +40,7 @@ const ItemPurchasesComponent = () => {
             >
                 <Flex pr="32px" h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
                     <Heading as="h4" size="md">
-                        Purchases - {location.state?.itemName}
+                        Sales - {location.state?.itemName}
                     </Heading>
                     {pageData && (
                         <>
@@ -66,11 +64,11 @@ const ItemPurchasesComponent = () => {
             </Flex>
             <Box pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="20px" mb="20px">
-                    {pageData && <ItemPurchasesTableComponent tableData={pageData.lines} />}
+                    {pageData && <ItemPurchasesSalesTableComponent tableData={pageData.lines} />}
                 </SimpleGrid>
             </Box>
         </>
     );
 };
 
-export default ItemPurchasesComponent;
+export default ItemSalesComponent;
