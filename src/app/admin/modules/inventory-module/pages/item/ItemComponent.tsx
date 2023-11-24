@@ -263,6 +263,13 @@ const ItemComponent = () => {
                                     <StatLabel>Total Ordered</StatLabel>
                                     <StatNumber>{formatNumberWithCommas(item.totalPurchaseOrderQuantity) || "--"}</StatNumber>
                                 </Stat>
+                                <ChakraLink
+                                    state={{ itemName: item.name }}
+                                    as={ReactRouterLink}
+                                    to={`/admin/organizations/${organizationId}/modules/inventory/items/${id}/purchases`}
+                                >
+                                    <Button variant="outline">See Purchases</Button>
+                                </ChakraLink>
                             </Flex>
                         </Box>
                     </Flex>
