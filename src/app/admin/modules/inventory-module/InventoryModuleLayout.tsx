@@ -12,6 +12,7 @@ import InventoryAdjustmentComponent from "./inventory-adjustment/InventoryAdjust
 import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 import ItemSalesComponent from "./item-sales/ItemSalesComponent";
+import ItemPurchasesComponent from "./item-purchases/ItemPurchasesComponent";
 
 const InventoryModuleLayout = () => {
     const navRoutes = [
@@ -65,6 +66,13 @@ const InventoryModuleLayout = () => {
             path: "/items/:itemId/sales",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <ItemSalesComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Item Purchases",
+            path: "/items/:itemId/purchases",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <ItemPurchasesComponent />,
             excludeFromSideNav: true,
         },
         {
