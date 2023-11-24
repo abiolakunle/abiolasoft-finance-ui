@@ -33,7 +33,7 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
 
     const validationSchema = Yup.object().shape({
         vendorId: Yup.string().required("Select a vendor"),
-        number: Yup.string().required("Purchase Order Number is required"),
+        //number: Yup.string().required("Purchase Order Number is required"),
         date: Yup.string().required("Purchase Order Date is required"),
     });
 
