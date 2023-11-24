@@ -19,7 +19,7 @@ type RowObj = {
 const columnHelper = createColumnHelper<RowObj>();
 
 // const columns = columnsDataCheck;
-export default function ItemSalesTableComponent(props: { tableData: any }) {
+export default function ItemPurchasesSalesTableComponent(props: { tableData: any }) {
     const { tableData } = props;
     const textColor = useColorModeValue("secondaryGray.900", "white");
 

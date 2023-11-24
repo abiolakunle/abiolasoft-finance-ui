@@ -26,15 +26,15 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { formatNumberWithCommas } from "utils/number";
 
-export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
+export const BillFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [vendors, setVendors] = useState([]);
     const [items, setItems] = useState([]);
     const [submitStatus, setSubmitStatus] = useState("");
 
     const validationSchema = Yup.object().shape({
         vendorId: Yup.string().required("Select a vendor"),
-        //number: Yup.string().required("Purchase Order Number is required"),
-        date: Yup.string().required("Purchase Order Date is required"),
+        number: Yup.string().required("Bill Number is required"),
+        date: Yup.string().required("Bill Date is required"),
     });
 
     const { organizationId } = useParams();
@@ -45,7 +45,7 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
             number: "",
             referenceNumber: "",
             date: "",
-            expectedDeliveryDate: "",
+            dueDate: "",
             paymentTermsDays: "",
             vendorId: "",
             customerNotes: "",
@@ -63,15 +63,13 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                 return { ...item, description: "", itemName };
             });
             try {
-                const response = await (id
-                    ? axiosRequest.put("Purchases/EditPurchaseOrder", values)
-                    : axiosRequest.post("Purchases/CreatePurchaseOrder", values));
+                const response = await (id ? axiosRequest.put("Purchases/EditBill", values) : axiosRequest.post("Purchases/CreateBill", values));
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/organizations/${organizationId}/modules/purchases/purchase-orders/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/purchases/bills/${id}`);
                     } else {
-                        navigate(`/admin/organizations/${organizationId}/modules/purchases/purchase-orders`);
+                        navigate(`/admin/organizations/${organizationId}/modules/purchases/bills`);
                     }
                 } else {
                     console.error("Error creating item");
@@ -98,17 +96,17 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
         ];
 
         if (id) {
-            initialRequests.push(axiosRequest.get(`Purchases/GetPurchaseOrderById?id=${id}`));
+            initialRequests.push(axiosRequest.get(`Purchases/GetBillById?id=${id}`));
         }
 
         Promise.all(initialRequests)
             .then((response) => {
                 if (id) {
-                    const purchaseOrder = response[2].data?.data;
+                    const bill = response[2].data?.data;
 
-                    form.values.items = purchaseOrder.items;
+                    form.values.items = bill.items;
 
-                    const f = { ...form.values, ...purchaseOrder };
+                    const f = { ...form.values, ...bill };
                     form.setValues(f);
                 }
                 setVendors(response[0].data?.data?.items.sort((a: any, b: any) => a.vendorDisplayName.localeCompare(b.vendorDisplayName)));
@@ -181,7 +179,7 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                 {!viewOnly && (
                     <>
                         <Heading as="h4" size="md">
-                            {id ? "Edit Purchase Order" : "New Purchase Order"}
+                            {id ? "Edit Bill" : "New Bill"}
                         </Heading>
 
                         <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
@@ -189,8 +187,8 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                                 as={ReactRouterLink}
                                 to={
                                     id
-                                        ? `/admin/organizations/${organizationId}/modules/purchases/purchase-orders/${id}`
-                                        : `/admin/organizations/${organizationId}/modules/purchases/purchase-orders`
+                                        ? `/admin/organizations/${organizationId}/modules/purchases/bills/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/purchases/bills`
                                 }
                             >
                                 <CloseButton size="lg" />
@@ -247,7 +245,7 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                                     className="afu-label-input"
                                 >
                                     <Box className="afu-label" minWidth="200px">
-                                        <FormLabel color={viewOnly ? "" : "red"}>Purchase Order#{viewOnly ? "" : "*"}</FormLabel>
+                                        <FormLabel color={viewOnly ? "" : "red"}>Bill#{viewOnly ? "" : "*"}</FormLabel>
                                     </Box>
                                     <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                         <Tooltip
@@ -286,7 +284,7 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                                 className="afu-label-input"
                             >
                                 <Box className="afu-label" minWidth="200px">
-                                    <FormLabel>Reference#</FormLabel>
+                                    <FormLabel>Order Number</FormLabel>
                                 </Box>
                                 <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Input
@@ -346,18 +344,18 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                                 className="afu-label-input"
                             >
                                 <Box className="afu-label" minWidth="200px">
-                                    <FormLabel>Expected Delivery Date</FormLabel>
+                                    <FormLabel>Due Date</FormLabel>
                                 </Box>
                                 <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Input
                                         readOnly={viewOnly}
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         type="date"
-                                        name="expectedDeliveryDate"
+                                        name="dueDate"
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
-                                        value={formatDate(form.values.expectedDeliveryDate)}
+                                        value={formatDate(form.values.dueDate)}
                                         onChange={form.handleChange}
                                     />
                                 </Box>
@@ -559,8 +557,8 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
                                     as={ReactRouterLink}
                                     to={
                                         id
-                                            ? `/admin/organizations/${organizationId}/modules/purchases/purchase-orders/${id}`
-                                            : `/admin/organizations/${organizationId}/modules/purchases/purchase-orders`
+                                            ? `/admin/organizations/${organizationId}/modules/purchases/bills/${id}`
+                                            : `/admin/organizations/${organizationId}/modules/purchases/bills`
                                     }
                                 >
                                     <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">
@@ -577,4 +575,4 @@ export const PurchaseOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean })
     );
 };
 
-export default PurchaseOrderFormComponent;
+export default BillFormComponent;

@@ -11,6 +11,8 @@ import VendorComponent from "./vendor/VendorComponent";
 import VendorFormComponent from "./vendor-form/VendorFormComponent";
 import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
+import BillsComponent from "./bills/BillsComponent";
+import BillFormComponent from "./bill-form/BillFormComponent";
 
 const PurchaseModuleLayout = () => {
     const navRoutes = [
@@ -51,6 +53,15 @@ const PurchaseModuleLayout = () => {
             path: "/purchase-orders",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <PurchaseOrdersComponent />,
+        });
+    }
+
+    if (user?.permissions?.includes("View Bills")) {
+        navRoutes.push({
+            name: "Bills",
+            path: "/bills",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <BillsComponent />,
         });
     }
 
@@ -112,6 +123,13 @@ const PurchaseModuleLayout = () => {
             path: "/vendors/:id/edit",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <VendorFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "New Bill",
+            path: "/bills/new",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <BillFormComponent />,
             excludeFromSideNav: true,
         },
     ];
