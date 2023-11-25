@@ -137,7 +137,7 @@ const UserFormComponent = () => {
                         <FormControl isDisabled={!!id} isInvalid={form.touched.email && !!form.errors.email}>
                             <Flex mb="16px" justifyContent="flex-start" width="100%" gap="20px" alignItems="center" className="afu-label-input">
                                 <Box className="afu-label" minWidth="250px">
-                                    <FormLabel color="red">Email*</FormLabel>
+                                    <FormLabel color={!id ? "red" : ""}>Email{!id && <>*</>}</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Input
