@@ -91,7 +91,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
     useEffect(() => {
         const initialRequests = [
-            axiosRequest.get(`Sales/GetAllVendors?PageIndex=1&PageSize=500`),
+            axiosRequest.get(`Purchases/GetAllVendors?PageIndex=1&PageSize=500`),
             axiosRequest.get(`Sales/GetAllSalespersons?PageIndex=1&PageSize=500`),
             axiosRequest.get(`Inventory/GetAllItems?PageIndex=1&PageSize=500`),
         ];
