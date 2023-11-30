@@ -26,7 +26,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { formatNumberWithCommas } from "utils/number";
 
-const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
+const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
     const [salespersons, setSalespersons] = useState([]);
@@ -55,7 +55,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             items: [{ ...defaultItem }],
         },
         validationSchema,
-        onSubmit: async (values) => {
+        onSubmit: async (values) => { 
             values.status = submitStatus;
 
             values.items = values.items.map((item) => {
@@ -63,13 +63,13 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 return { ...item, description: "", itemName };
             });
             try {
-                const response = await (id ? axiosRequest.put("Sales/EditVendorCredit", values) : axiosRequest.post("Sales/CreateVendorCredit", values));
+                const response = await (id ? axiosRequest.put("Sales/EditCreditNote", values) : axiosRequest.post("Sales/CreateCreditNote", values));
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/organizations/${organizationId}/modules/purchases/vendor-credit/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/credit-notes/${id}`);
                     } else {
-                        navigate(`/admin/organizations/${organizationId}/modules/purchases/vendor-credits`);
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/credit-notes`);
                     }
                 } else {
                     console.error("Error creating credit");
@@ -91,28 +91,28 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
     useEffect(() => {
         const initialRequests = [
-            axiosRequest.get(`Purchases/GetAllVendors?PageIndex=1&PageSize=500`),
+            axiosRequest.get(`Sales/GetAllCustomers?PageIndex=1&PageSize=500`),
             axiosRequest.get(`Sales/GetAllSalespersons?PageIndex=1&PageSize=500`),
             axiosRequest.get(`Inventory/GetAllItems?PageIndex=1&PageSize=500`),
         ];
 
         if (id) {
-            initialRequests.push(axiosRequest.get(`Purchases/GetVendorCreditById?id=${id}`));
+            initialRequests.push(axiosRequest.get(`Sales/GetCreditNoteById?id=${id}`));
         }
 
         Promise.all(initialRequests)
             .then((response) => {
                 if (id) {
-                    const vendorCredit = response[3].data?.data;
+                    const creditNote = response[3].data?.data;
 
-                    form.values.items = vendorCredit.items;
+                    form.values.items = creditNote.items;
 
-                    const f = { ...form.values, ...vendorCredit };
+                    const f = { ...form.values, ...creditNote };
                     form.setValues(f);
                 }
 
-                const sortedVendors = response[0].data?.data?.items.sort((a: any, b: any) => a.vendorDisplayName.localeCompare(b.vendorDisplayName));
-                setCustomers(sortedVendors);
+                const sortedCustomers = response[0].data?.data?.items.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
+                setCustomers(sortedCustomers);
 
                 const sortedSalespersons = response[1].data?.data?.items.sort((a: any, b: any) => a.name.localeCompare(b.name));
                 setSalespersons(sortedSalespersons);
@@ -186,7 +186,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 {!viewOnly && (
                     <>
                         <Heading as="h4" size="md">
-                            {id ? "Edit Vendor Credit" : "New Vendor Credit"}
+                            {id ? "Edit Credit Note" : "New Credit Note"}
                         </Heading>
 
                         <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
@@ -194,8 +194,8 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 as={ReactRouterLink}
                                 to={
                                     id
-                                        ? `/admin/organizations/${organizationId}/modules/sales/sales-orders/${id}`
-                                        : `/admin/organizations/${organizationId}/modules/sales/sales-orders`
+                                        ? `/admin/organizations/${organizationId}/modules/sales/credit-notes/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/sales/credit-notes`
                                 }
                             >
                                 <CloseButton size="lg" />
@@ -218,24 +218,24 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 className="afu-label-input"
                             >
                                 <Box className="afu-label" minWidth="200px">
-                                    <FormLabel color={viewOnly ? "" : "red"}>Vendor Name{viewOnly ? "" : "*"}</FormLabel>
+                                    <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
                                 <Box width="100%" className="afu-input">
                                     <Select
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         name="vendor"
                                         placeholder="Select a vendor"
-                                        value={form.values.companyName}
+                                        value={form.values.customerId}
                                         onChange={form.handleChange}
                                         onBlur={form.handleBlur}
                                     >
                                         {customers.map((vendor, index) => (
-                                            <option key={index} value={vendor.companyName}>
-                                                {vendor.vendorDisplayName}
+                                            <option key={index} value={customersId}>
+                                                {customer.customerDisplayName}
                                             </option>
                                         ))}
                                     </Select>
-                                    {form.touched.companyName && !!form.errors.companyName ? <FormErrorMessage>{form.errors.companyName}</FormErrorMessage> : ""}
+                                    {form.touched.customerId && !!form.errors.customerId ? <FormErrorMessage>{form.errors.customerId}</FormErrorMessage> : ""}
                                 </Box>
                             </Flex>
                         </FormControl>
@@ -252,7 +252,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     className="afu-label-input"
                                 >
                                     <Box className="afu-label" minWidth="200px">
-                                        <FormLabel color={true ? "" : "red"}>Vendor Credit#{true ? "" : "*"}</FormLabel>
+                                        <FormLabel color={true ? "" : "red"}>Credit Note#{true ? "" : "*"}</FormLabel>
                                     </Box>
                                     <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                         <Tooltip
@@ -320,7 +320,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 className="afu-label-input"
                             >
                                 <Box className="afu-label" minWidth="200px">
-                                    <FormLabel color={viewOnly ? "" : "red"}>Vendor Credit Date{viewOnly ? "" : "*"}</FormLabel>
+                                    <FormLabel color={viewOnly ? "" : "red"}>Credit Note Date{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
                                 <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Input
@@ -475,4 +475,4 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     );
 };
 
-export default VendorCreditFormComponent;
+export default CreditNoteFormComponent;

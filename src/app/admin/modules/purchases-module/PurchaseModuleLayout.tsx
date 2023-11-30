@@ -13,8 +13,9 @@ import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 import BillsComponent from "./bills/BillsComponent";
 import BillFormComponent from "./bill-form/BillFormComponent";
-import VendorCreditsComponent from "./vendor-credit/VendorCreditsComponent";
+import VendorCreditsComponent from "./vendor-credits/VendorCreditsComponent";
 import VendorCreditFormComponent from "./vendor-credit-form/VendorCreditFormComponent";
+import VendorCreditComponent from "./vendor-credit/VendorCreditComponent";
 
 
 const PurchaseModuleLayout = () => {
@@ -164,7 +165,7 @@ const PurchaseModuleLayout = () => {
             name: "Vendor Credit",
             path: "/vendor-credits/:id",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
-            component: <VendorCreditFormComponent />,
+            component: <VendorCreditComponent />,
             excludeFromSideNav: true,
         },
     ];

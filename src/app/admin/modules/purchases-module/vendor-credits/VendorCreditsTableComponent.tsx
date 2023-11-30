@@ -50,7 +50,7 @@ function VendorCreditsTableComponent(props: { tableData: any }) {
             id: "number",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    CREDIT NUMBER#
+                    CREDIT NOTE #
                 </Text>
             ),
             cell: (info) => (
