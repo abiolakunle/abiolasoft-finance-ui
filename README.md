@@ -38,6 +38,11 @@ npm start
 
 -   Accounts have identifiers eg. abiolasoft. The identifier is the subdomain of the account, as in abiolasoft.example.com or www.example.com/abiolasoft
 
+-   Local
+    https://localhost:3000/
+
+For netlify local environment link, to access an account like "abiolasoft", you would use the link https://localhost:3000/abiolasoft
+
 -   Developement
     https://development--fingold.netlify.app/
 
