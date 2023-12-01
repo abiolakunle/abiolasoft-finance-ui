@@ -46,10 +46,10 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             id: "",
             number: "",
             date: currentDate(),
-            companyName: "",
-            orderNumber: "",
-            creditNotes: "",
-            discount: 0,
+            customerId: "",
+            salespersonId: "",
+            customerNotes: "",
+            subject: "",
             termsAndConditions: "",
             status: "",
             items: [{ ...defaultItem }],
@@ -130,18 +130,18 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             });
     }, []);
 
-    useEffect(() => {
-        const subTotal = form.values.items.reduce((pre, curr) => {
-            return pre + curr.rate * curr.quantity;
-        }, 0);
+    // useEffect(() => {
+    //     const subTotal = form.values.items.reduce((pre, curr) => {
+    //         return pre + curr.rate * curr.quantity;
+    //     }, 0);
 
-        const total = subTotal - form.values.discount;
-        setSummary({
-            ...summary,
-            subTotal,
-            total,
-        });
-    }, [form.values]);
+    //     const total = subTotal - form.values.discount;
+    //     setSummary({
+    //         ...summary,
+    //         subTotal,
+    //         total,
+    //     });
+    // }, [form.values]);
 
     const lineInputChanged = (event: any, index: string) => {
         const { name, value } = event;
@@ -207,7 +207,7 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px={{ base: "32px", sm: "8px", md: "16px" }} w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <form noValidate onSubmit={form.handleSubmit}>
-                        <FormControl isInvalid={form.touched.companyName && !!form.errors.companyName}>
+                        <FormControl isInvalid={form.touched.customerId && !!form.errors.customerId}>
                             <Flex
                                 flexWrap={{ sm: "wrap", md: "nowrap" }}
                                 mb="16px"
@@ -223,14 +223,14 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <Box width="100%" className="afu-input">
                                     <Select
                                         pointerEvents={viewOnly ? "none" : "all"}
-                                        name="vendor"
-                                        placeholder="Select a vendor"
+                                        name="customer"
+                                        placeholder="Select a customer"
                                         value={form.values.customerId}
                                         onChange={form.handleChange}
-                                        onBlur={form.handleBlur}
+                                        onBlur={form.handleBlur}  
                                     >
-                                        {customers.map((vendor, index) => (
-                                            <option key={index} value={customersId}>
+                                        {customers.map((customer, index) => (
+                                            <option key={index} value={customer.id}>
                                                 {customer.customerDisplayName}
                                             </option>
                                         ))}
@@ -291,7 +291,7 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 className="afu-label-input"
                             >
                                 <Box className="afu-label" minWidth="200px">
-                                    <FormLabel>Order#</FormLabel>
+                                    <FormLabel>Salesperson</FormLabel>
                                 </Box>
                                 <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Input
@@ -302,7 +302,7 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         width="100%"
                                         variant="outline"
                                         borderRadius="8px"
-                                        value={form.values.orderNumber}
+                                        value={form.values.salespersonId}
                                         onChange={form.handleChange}
                                     />
                                 </Box>
@@ -360,11 +360,11 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                             size="sm"
                                             placeholder={
                                                 viewOnly
-                                                    ? form.values.creditNotes || "None"
+                                                    ? form.values.customerNotes || "None"
                                                     : "Enter your notes here..."
                                             }
                                             name="creditNote"
-                                            value={form.values.creditNotes}
+                                            value={form.values.customerNotes}
                                             onChange={form.handleChange}
                                         />
                                     </FormControl>

@@ -7,7 +7,8 @@ import axiosRequest from "utils/api";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@chakra-ui/react";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import DeleteModal from "app-components/delete-modal/DeleteModal";
-import VendorCreditFormComponent from "../vendor-credit-form/VendorCreditFormComponent";
+import CreditNoteFormComponent from "../credit-note-form/CreditNoteFormComponent";
+// import VendorCreditFormComponent from "../vendor-credit-form/VendorCreditFormComponent";
 
 const CreditNoteComponent = () => {
     const { id, organizationId } = useParams();
@@ -125,7 +126,7 @@ const CreditNoteComponent = () => {
                     </ChakraLink>
                 </Flex>
             </Flex>
-            <VendorCreditFormComponent viewOnly={true} />
+            <CreditNoteFormComponent viewOnly={true} />
         </>
     );
 };

@@ -27,7 +27,7 @@ import * as Yup from "yup";
 import { formatNumberWithCommas } from "utils/number";
 
 const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
-    const [customers, setCustomers] = useState([]);
+    const [vendors, setVendors] = useState([]);
     const [items, setItems] = useState([]);
     const [salespersons, setSalespersons] = useState([]);
     const [submitStatus, setSubmitStatus] = useState("");
@@ -46,11 +46,9 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             id: "",
             number: "",
             date: currentDate(),
-            companyName: "",
+            vendorId: "",
             orderNumber: "",
-            creditNotes: "",
-            discount: 0,
-            termsAndConditions: "",
+            notes: "",
             status: "",
             items: [{ ...defaultItem }],
         },
@@ -112,7 +110,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 }
 
                 const sortedVendors = response[0].data?.data?.items.sort((a: any, b: any) => a.vendorDisplayName.localeCompare(b.vendorDisplayName));
-                setCustomers(sortedVendors);
+                setVendors(sortedVendors);
 
                 const sortedSalespersons = response[1].data?.data?.items.sort((a: any, b: any) => a.name.localeCompare(b.name));
                 setSalespersons(sortedSalespersons);
@@ -130,18 +128,18 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             });
     }, []);
 
-    useEffect(() => {
-        const subTotal = form.values.items.reduce((pre, curr) => {
-            return pre + curr.rate * curr.quantity;
-        }, 0);
+    // useEffect(() => {
+    //     const subTotal = form.values.items.reduce((pre, curr) => {
+    //         return pre + curr.rate * curr.quantity;
+    //     }, 0);
 
-        const total = subTotal - form.values.discount;
-        setSummary({
-            ...summary,
-            subTotal,
-            total,
-        });
-    }, [form.values]);
+    //     const total = subTotal - form.values.discount;
+    //     setSummary({
+    //         ...summary,
+    //         subTotal,
+    //         total,
+    //     });
+    // }, [form.values]);
 
     const lineInputChanged = (event: any, index: string) => {
         const { name, value } = event;
@@ -207,7 +205,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px={{ base: "32px", sm: "8px", md: "16px" }} w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <form noValidate onSubmit={form.handleSubmit}>
-                        <FormControl isInvalid={form.touched.companyName && !!form.errors.companyName}>
+                        <FormControl isInvalid={form.touched.vendorId && !!form.errors.vendorId}>
                             <Flex
                                 flexWrap={{ sm: "wrap", md: "nowrap" }}
                                 mb="16px"
@@ -225,17 +223,17 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         pointerEvents={viewOnly ? "none" : "all"}
                                         name="vendor"
                                         placeholder="Select a vendor"
-                                        value={form.values.companyName}
+                                        value={form.values.vendorId}
                                         onChange={form.handleChange}
                                         onBlur={form.handleBlur}
                                     >
-                                        {customers.map((vendor, index) => (
-                                            <option key={index} value={vendor.companyName}>
+                                        {vendors.map((vendor, index) => (
+                                            <option key={index} value={vendor.id}>
                                                 {vendor.vendorDisplayName}
                                             </option>
                                         ))}
                                     </Select>
-                                    {form.touched.companyName && !!form.errors.companyName ? <FormErrorMessage>{form.errors.companyName}</FormErrorMessage> : ""}
+                                    {form.touched.vendorId && !!form.errors.vendorId ? <FormErrorMessage>{form.errors.vendorId}</FormErrorMessage> : ""}
                                 </Box>
                             </Flex>
                         </FormControl>
@@ -360,11 +358,11 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                             size="sm"
                                             placeholder={
                                                 viewOnly
-                                                    ? form.values.creditNotes || "None"
+                                                    ? form.values.notes || "None"
                                                     : "Enter your notes here..."
                                             }
                                             name="creditNote"
-                                            value={form.values.creditNotes}
+                                            value={form.values.notes}
                                             onChange={form.handleChange}
                                         />
                                     </FormControl>
