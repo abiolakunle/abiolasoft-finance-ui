@@ -221,7 +221,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <Box width="100%" className="afu-input">
                                     <Select
                                         pointerEvents={viewOnly ? "none" : "all"}
-                                        name="vendor"
+                                        name="vendorId"
                                         placeholder="Select a vendor"
                                         value={form.values.vendorId}
                                         onChange={form.handleChange}
@@ -278,7 +278,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </FormControl>
                         }
 
-                        <FormControl>
+                        {/* <FormControl>
                             <Flex
                                 mb="16px"
                                 flexWrap={{ sm: "wrap", md: "nowrap" }}
@@ -295,7 +295,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     <Input
                                         readOnly={viewOnly}
                                         pointerEvents={viewOnly ? "none" : "all"}
-                                        name="referenceNumber"
+                                        name="orderNumber"
                                         type="text"
                                         width="100%"
                                         variant="outline"
@@ -305,7 +305,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     />
                                 </Box>
                             </Flex>
-                        </FormControl>
+                        </FormControl> */}
 
                         <FormControl isInvalid={form.touched.date && !!form.errors.date}>
                             <Flex
@@ -338,37 +338,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex>
                         </FormControl>
 
-                        <FormControl>
-                            <Flex
-                                flexWrap={{ sm: "wrap", md: "nowrap" }}
-                                mb="16px"
-                                justifyContent="flex-start"
-                                width="100%"
-                                gap={{ md: "20px", sm: "5px" }}
-                                alignItems="center"
-                                className="afu-label-input"
-                            >
-                                <Box className="afu-label" minWidth="50px">
-                                    <FormLabel>Note</FormLabel>
-                                </Box>
-                                <Box width="100%" className="afu-input">
-                                    <FormControl>
-                                        <Textarea
-                                            readOnly={viewOnly}
-                                            size="sm"
-                                            placeholder={
-                                                viewOnly
-                                                    ? form.values.notes || "None"
-                                                    : "Enter your notes here..."
-                                            }
-                                            name="creditNote"
-                                            value={form.values.notes}
-                                            onChange={form.handleChange}
-                                        />
-                                    </FormControl>
-                                </Box>
-                            </Flex>
-                        </FormControl>
+                        
 
 
                         <LineItemsTableComponent
@@ -379,6 +349,8 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
                         />
+
+                        
 
                         <Flex
                             pt={{ base: "16px", md: "16px", xl: "16px" }}
@@ -421,6 +393,39 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Stack>
                         </Flex>
 
+                        <FormControl>
+                            <Flex
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
+                                <Box className="afu-label" minWidth="50px">
+                                    <FormLabel>Note</FormLabel>
+                                </Box>
+                                <Box width="100%" className="afu-input">
+                                    <FormControl>
+                                        <Textarea
+                                            readOnly={viewOnly}
+                                            size="sm"
+                                            placeholder={
+                                                viewOnly
+                                                    ? form.values.notes || "None"
+                                                    : "Enter your notes here..."
+                                            }
+                                            name="notes"
+                                            value={form.values.notes}
+                                            onChange={form.handleChange}
+                                        />
+                                    </FormControl>
+                                </Box>
+                            </Flex>
+                        </FormControl>
+
+
                         {!viewOnly && (
                             <Flex
                                 pt={{ base: "16px", md: "16px", xl: "16px" }}
@@ -455,8 +460,8 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     as={ReactRouterLink}
                                     to={
                                         id
-                                            ? `/admin/organizations/${organizationId}/modules/sales/sales-orders/${id}`
-                                            : `/admin/organizations/${organizationId}/modules/sales/sales-orders`
+                                            ? `/admin/organizations/${organizationId}/modules/sales/vendor-credits/${id}`
+                                            : `/admin/organizations/${organizationId}/modules/sales/vendor-credits`
                                     }
                                 >
                                     <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">

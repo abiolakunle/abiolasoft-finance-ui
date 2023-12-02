@@ -223,7 +223,7 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <Box width="100%" className="afu-input">
                                     <Select
                                         pointerEvents={viewOnly ? "none" : "all"}
-                                        name="customer"
+                                        name="customerId"
                                         placeholder="Select a customer"
                                         value={form.values.customerId}
                                         onChange={form.handleChange}
@@ -294,17 +294,20 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     <FormLabel>Salesperson</FormLabel>
                                 </Box>
                                 <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
-                                    <Input
-                                        readOnly={viewOnly}
+                                    <Select
                                         pointerEvents={viewOnly ? "none" : "all"}
-                                        name="referenceNumber"
-                                        type="text"
-                                        width="100%"
-                                        variant="outline"
-                                        borderRadius="8px"
+                                        name="salespersonId"
+                                        placeholder="Select a salesperson"
                                         value={form.values.salespersonId}
                                         onChange={form.handleChange}
-                                    />
+                                        onBlur={form.handleBlur}
+                                    >
+                                        {salespersons.map((person, index) => (
+                                            <option key={index} value={person.id}>
+                                                {person.name}
+                                            </option>
+                                        ))}
+                                    </Select>
                                 </Box>
                             </Flex>
                         </FormControl>
@@ -340,37 +343,7 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex>
                         </FormControl>
 
-                        <FormControl>
-                            <Flex
-                                flexWrap={{ sm: "wrap", md: "nowrap" }}
-                                mb="16px"
-                                justifyContent="flex-start"
-                                width="100%"
-                                gap={{ md: "20px", sm: "5px" }}
-                                alignItems="center"
-                                className="afu-label-input"
-                            >
-                                <Box className="afu-label" minWidth="50px">
-                                    <FormLabel>Note</FormLabel>
-                                </Box>
-                                <Box width="100%" className="afu-input">
-                                    <FormControl>
-                                        <Textarea
-                                            readOnly={viewOnly}
-                                            size="sm"
-                                            placeholder={
-                                                viewOnly
-                                                    ? form.values.customerNotes || "None"
-                                                    : "Enter your notes here..."
-                                            }
-                                            name="creditNote"
-                                            value={form.values.customerNotes}
-                                            onChange={form.handleChange}
-                                        />
-                                    </FormControl>
-                                </Box>
-                            </Flex>
-                        </FormControl>
+                        
 
 
                         <LineItemsTableComponent
@@ -381,6 +354,8 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
                         />
+
+                        
 
                         <Flex
                             pt={{ base: "16px", md: "16px", xl: "16px" }}
@@ -423,6 +398,38 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Stack>
                         </Flex>
 
+                        <FormControl>
+                            <Flex
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
+                                <Box className="afu-label" minWidth="50px">
+                                    <FormLabel>Note</FormLabel>
+                                </Box>
+                                <Box width="100%" className="afu-input">
+                                    <FormControl>
+                                        <Textarea
+                                            readOnly={viewOnly}
+                                            size="sm"
+                                            placeholder={
+                                                viewOnly
+                                                    ? form.values.customerNotes || "None"
+                                                    : "Enter your notes here..."
+                                            }
+                                            name="creditNote"
+                                            value={form.values.customerNotes}
+                                            onChange={form.handleChange}
+                                        />
+                                    </FormControl>
+                                </Box>
+                            </Flex> 
+                        </FormControl>
+
                         {!viewOnly && (
                             <Flex
                                 pt={{ base: "16px", md: "16px", xl: "16px" }}
@@ -457,8 +464,8 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     as={ReactRouterLink}
                                     to={
                                         id
-                                            ? `/admin/organizations/${organizationId}/modules/sales/sales-orders/${id}`
-                                            : `/admin/organizations/${organizationId}/modules/sales/sales-orders`
+                                            ? `/admin/organizations/${organizationId}/modules/sales/credit-notes/${id}`
+                                            : `/admin/organizations/${organizationId}/modules/sales/credit-notes`
                                     }
                                 >
                                     <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">
