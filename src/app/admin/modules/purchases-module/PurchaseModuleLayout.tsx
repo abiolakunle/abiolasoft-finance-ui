@@ -17,7 +17,6 @@ import VendorCreditsComponent from "./vendor-credits/VendorCreditsComponent";
 import VendorCreditFormComponent from "./vendor-credit-form/VendorCreditFormComponent";
 import VendorCreditComponent from "./vendor-credit/VendorCreditComponent";
 
-
 const PurchaseModuleLayout = () => {
     const navRoutes = [
         {
@@ -78,16 +77,14 @@ const PurchaseModuleLayout = () => {
         });
     }
 
-    if (user?.permissions?.includes("View Vendors")) {
+    if (user?.permissions?.includes("View Vendor Credits")) {
         navRoutes.push({
             name: "Vendor Credits",
-            path: "/vendorcredits",
+            path: "/vendor-credits",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <VendorCreditsComponent />,
         });
     }
-
-    
 
     const purchaseRoutes = [
         ...navRoutes,

@@ -29,13 +29,11 @@ import { formatNumberWithCommas } from "utils/number";
 const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [vendors, setVendors] = useState([]);
     const [items, setItems] = useState([]);
-    const [salespersons, setSalespersons] = useState([]);
     const [submitStatus, setSubmitStatus] = useState("");
 
     const validationSchema = Yup.object().shape({
         customerId: Yup.string().required("Select a customer"),
         salespersonId: Yup.string().required("Select a salesperson"),
-        //number: Yup.string().required("Sales Order Number is required"),
         date: Yup.string().required("Sales Order Date is required"),
     });
 
@@ -51,6 +49,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             notes: "",
             status: "",
             items: [{ ...defaultItem }],
+            discount: 0,
         },
         validationSchema,
         onSubmit: async (values) => {
@@ -61,7 +60,9 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 return { ...item, description: "", itemName };
             });
             try {
-                const response = await (id ? axiosRequest.put("Sales/EditVendorCredit", values) : axiosRequest.post("Sales/CreateVendorCredit", values));
+                const response = await (id
+                    ? axiosRequest.put("Purchases/EditVendorCredit", values)
+                    : axiosRequest.post("Purchases/CreateVendorCredit", values));
 
                 if (response.status === 200) {
                     if (id) {
@@ -79,7 +80,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     });
 
     const [summary, setSummary] = useState({
-        subTotal: 0, 
+        subTotal: 0,
         discount: 0,
         total: 0,
     });
@@ -90,7 +91,6 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     useEffect(() => {
         const initialRequests = [
             axiosRequest.get(`Purchases/GetAllVendors?PageIndex=1&PageSize=500`),
-            axiosRequest.get(`Sales/GetAllSalespersons?PageIndex=1&PageSize=500`),
             axiosRequest.get(`Inventory/GetAllItems?PageIndex=1&PageSize=500`),
         ];
 
@@ -101,7 +101,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         Promise.all(initialRequests)
             .then((response) => {
                 if (id) {
-                    const vendorCredit = response[3].data?.data;
+                    const vendorCredit = response[2].data?.data;
 
                     form.values.items = vendorCredit.items;
 
@@ -112,11 +112,8 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 const sortedVendors = response[0].data?.data?.items.sort((a: any, b: any) => a.vendorDisplayName.localeCompare(b.vendorDisplayName));
                 setVendors(sortedVendors);
 
-                const sortedSalespersons = response[1].data?.data?.items.sort((a: any, b: any) => a.name.localeCompare(b.name));
-                setSalespersons(sortedSalespersons);
-
                 setItems(
-                    response[2].data?.data?.items
+                    response[1].data?.data?.items
                         .sort((a: any, b: any) => a.name.localeCompare(b.name))
                         .map((v: any) => {
                             return { ...v, price: v.sellingPrice };
@@ -128,18 +125,18 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             });
     }, []);
 
-    // useEffect(() => {
-    //     const subTotal = form.values.items.reduce((pre, curr) => {
-    //         return pre + curr.rate * curr.quantity;
-    //     }, 0);
+    useEffect(() => {
+        const subTotal = form.values.items.reduce((pre, curr) => {
+            return pre + curr.rate * curr.quantity;
+        }, 0);
 
-    //     const total = subTotal - form.values.discount;
-    //     setSummary({
-    //         ...summary,
-    //         subTotal,
-    //         total,
-    //     });
-    // }, [form.values]);
+        const total = subTotal - form.values.discount;
+        setSummary({
+            ...summary,
+            subTotal,
+            total,
+        });
+    }, [form.values]);
 
     const lineInputChanged = (event: any, index: string) => {
         const { name, value } = event;
@@ -192,8 +189,8 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 as={ReactRouterLink}
                                 to={
                                     id
-                                        ? `/admin/organizations/${organizationId}/modules/sales/sales-orders/${id}`
-                                        : `/admin/organizations/${organizationId}/modules/sales/sales-orders`
+                                        ? `/admin/organizations/${organizationId}/modules/purchases/vendor-credits/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/purchases/vendor-credits`
                                 }
                             >
                                 <CloseButton size="lg" />
@@ -338,9 +335,6 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex>
                         </FormControl>
 
-                        
-
-
                         <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
@@ -349,8 +343,6 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
                         />
-
-                        
 
                         <Flex
                             pt={{ base: "16px", md: "16px", xl: "16px" }}
@@ -362,8 +354,6 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             gap="20px"
                             flexDirection={{ sm: "column-reverse", md: "row" }}
                         >
-                            
-
                             <Stack
                                 padding="16px"
                                 borderRadius="8px"
@@ -382,7 +372,6 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         <Text minW="120px" fontWeight="bold">
                                             Discount
                                         </Text>
-                                        
                                     </Flex>
                                     <Text fontWeight="bold">{summary.discount}</Text>
                                 </Flex>
@@ -411,11 +400,7 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         <Textarea
                                             readOnly={viewOnly}
                                             size="sm"
-                                            placeholder={
-                                                viewOnly
-                                                    ? form.values.notes || "None"
-                                                    : "Enter your notes here..."
-                                            }
+                                            placeholder={viewOnly ? form.values.notes || "None" : "Enter your notes here..."}
                                             name="notes"
                                             value={form.values.notes}
                                             onChange={form.handleChange}
@@ -424,7 +409,6 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 </Box>
                             </Flex>
                         </FormControl>
-
 
                         {!viewOnly && (
                             <Flex
@@ -460,8 +444,8 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     as={ReactRouterLink}
                                     to={
                                         id
-                                            ? `/admin/organizations/${organizationId}/modules/sales/vendor-credits/${id}`
-                                            : `/admin/organizations/${organizationId}/modules/sales/vendor-credits`
+                                            ? `/admin/organizations/${organizationId}/modules/purchases/vendor-credits/${id}`
+                                            : `/admin/organizations/${organizationId}/modules/purchases/vendor-credits`
                                     }
                                 >
                                     <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">

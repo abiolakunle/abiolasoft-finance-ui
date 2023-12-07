@@ -36,7 +36,7 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         customerId: Yup.string().required("Select a customer"),
         salespersonId: Yup.string().required("Select a salesperson"),
         //number: Yup.string().required("Sales Order Number is required"),
-        date: Yup.string().required("Sales Order Date is required"),
+        date: Yup.string().required("Credit Note Date is required"),
     });
 
     const { organizationId } = useParams();
@@ -53,9 +53,10 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             termsAndConditions: "",
             status: "",
             items: [{ ...defaultItem }],
+            discount: 0,
         },
         validationSchema,
-        onSubmit: async (values) => { 
+        onSubmit: async (values) => {
             values.status = submitStatus;
 
             values.items = values.items.map((item) => {
@@ -81,7 +82,7 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     });
 
     const [summary, setSummary] = useState({
-        subTotal: 0, 
+        subTotal: 0,
         discount: 0,
         total: 0,
     });
@@ -130,18 +131,18 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             });
     }, []);
 
-    // useEffect(() => {
-    //     const subTotal = form.values.items.reduce((pre, curr) => {
-    //         return pre + curr.rate * curr.quantity;
-    //     }, 0);
+    useEffect(() => {
+        const subTotal = form.values.items.reduce((pre, curr) => {
+            return pre + curr.rate * curr.quantity;
+        }, 0);
 
-    //     const total = subTotal - form.values.discount;
-    //     setSummary({
-    //         ...summary,
-    //         subTotal,
-    //         total,
-    //     });
-    // }, [form.values]);
+        const total = subTotal - form.values.discount;
+        setSummary({
+            ...summary,
+            subTotal,
+            total,
+        });
+    }, [form.values]);
 
     const lineInputChanged = (event: any, index: string) => {
         const { name, value } = event;
@@ -227,7 +228,7 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         placeholder="Select a customer"
                                         value={form.values.customerId}
                                         onChange={form.handleChange}
-                                        onBlur={form.handleBlur}  
+                                        onBlur={form.handleBlur}
                                     >
                                         {customers.map((customer, index) => (
                                             <option key={index} value={customer.id}>
@@ -343,9 +344,6 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </Flex>
                         </FormControl>
 
-                        
-
-
                         <LineItemsTableComponent
                             viewOnly={viewOnly}
                             tableLines={form.values.items}
@@ -354,8 +352,6 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             onTableLineAdded={onTableLineAdded}
                             onTableLineRemoved={onTableLineRemoved}
                         />
-
-                        
 
                         <Flex
                             pt={{ base: "16px", md: "16px", xl: "16px" }}
@@ -367,8 +363,6 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             gap="20px"
                             flexDirection={{ sm: "column-reverse", md: "row" }}
                         >
-                            
-
                             <Stack
                                 padding="16px"
                                 borderRadius="8px"
@@ -387,7 +381,6 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         <Text minW="120px" fontWeight="bold">
                                             Discount
                                         </Text>
-                                        
                                     </Flex>
                                     <Text fontWeight="bold">{summary.discount}</Text>
                                 </Flex>
@@ -416,18 +409,14 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                         <Textarea
                                             readOnly={viewOnly}
                                             size="sm"
-                                            placeholder={
-                                                viewOnly
-                                                    ? form.values.customerNotes || "None"
-                                                    : "Enter your notes here..."
-                                            }
+                                            placeholder={viewOnly ? form.values.customerNotes || "None" : "Enter your notes here..."}
                                             name="creditNote"
                                             value={form.values.customerNotes}
                                             onChange={form.handleChange}
                                         />
                                     </FormControl>
                                 </Box>
-                            </Flex> 
+                            </Flex>
                         </FormControl>
 
                         {!viewOnly && (

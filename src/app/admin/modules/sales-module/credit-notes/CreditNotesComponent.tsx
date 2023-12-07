@@ -45,7 +45,7 @@ const CreditNotesComponent = () => {
                 }}
                 gap="20px"
             >
-                <IfUserIsPermitted to="Create Sales Order">
+                <IfUserIsPermitted to="Create Credit Note">
                     <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/credit-notes/new`}>
                         <Button leftIcon={<Icon as={MdAdd} width="20px" height="20px" color="inherit" />} variant="brand">
                             New

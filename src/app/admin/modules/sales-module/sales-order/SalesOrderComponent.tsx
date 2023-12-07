@@ -4,7 +4,6 @@ import { MdEdit } from "react-icons/md";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import axiosRequest from "utils/api";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@chakra-ui/react";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import DeleteModal from "app-components/delete-modal/DeleteModal";
 import SalesOrderFormComponent from "../sales-order-form/SalesOrderFormComponent";
@@ -13,8 +12,6 @@ const SalesOrderComponent = () => {
     const { id, organizationId } = useParams();
 
     const navigate = useNavigate();
-
-    const toast = useToast();
 
     const redirect = `/admin/organizations/${organizationId}/modules/sales/sales-orders/`;
 
@@ -38,23 +35,6 @@ const SalesOrderComponent = () => {
 
     const convertToInvoice = () => {
         navigate(`/admin/organizations/${organizationId}/modules/sales/invoices/new`, { state: { saleOrderId: id } });
-    };
-
-    const submit = async () => {
-        try {
-            await axiosRequest.delete(`Sales/DeleteSalesOrder`, { data: { id } });
-            toast({
-                title: "Success",
-                description: "Deleted Successfully",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom-right",
-            });
-            navigate(`/admin/organizations/${organizationId}/modules/sales/sales-orders`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
     };
 
     return (
