@@ -17,6 +17,7 @@ import SalesPersonFormComponent from "./salesperson-form/SalesPersonFormComponen
 import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
+import ReceiptsComponent from "./receipts/ReceiptsComponent";
 
 const SalesModuleLayout = () => {
     const navRoutes = [
@@ -56,6 +57,15 @@ const SalesModuleLayout = () => {
             path: "/sales-orders",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <SalesOrdersComponent />,
+        });
+    }
+
+    if (user?.permissions?.includes("View Receipts")) {
+        navRoutes.push({
+            name: "Receipts",
+            path: "/receipts",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <ReceiptsComponent />,
         });
     }
 
