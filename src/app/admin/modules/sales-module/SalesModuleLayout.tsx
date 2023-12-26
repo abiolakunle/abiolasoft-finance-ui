@@ -18,6 +18,8 @@ import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
 import ReceiptsComponent from "./receipts/ReceiptsComponent";
+import { ReceiptFormComponent } from "./receipt-form/ReceiptFormComponent";
+import { ReceiptComponent } from "./receipt/ReceiptComponent";
 
 const SalesModuleLayout = () => {
     const navRoutes = [
@@ -159,6 +161,25 @@ const SalesModuleLayout = () => {
             path: "/sales-orders/:id",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <SalesOrderComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Receipt",
+            path: "/receipts/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <ReceiptComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "New Receipt",
+            path: "/receipts/new",
+            component: <ReceiptFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Edit Receipt",
+            path: "/receipts/:id/edit",
+            component: <ReceiptFormComponent />,
             excludeFromSideNav: true,
         },
         {
