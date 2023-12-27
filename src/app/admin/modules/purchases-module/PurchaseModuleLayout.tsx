@@ -13,6 +13,9 @@ import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 import BillsComponent from "./bills/BillsComponent";
 import BillFormComponent from "./bill-form/BillFormComponent";
+import VendorCreditsComponent from "./vendor-credits/VendorCreditsComponent";
+import VendorCreditFormComponent from "./vendor-credit-form/VendorCreditFormComponent";
+import VendorCreditComponent from "./vendor-credit/VendorCreditComponent";
 
 const PurchaseModuleLayout = () => {
     const navRoutes = [
@@ -74,6 +77,15 @@ const PurchaseModuleLayout = () => {
         });
     }
 
+    if (user?.permissions?.includes("View Vendor Credits")) {
+        navRoutes.push({
+            name: "Vendor Credits",
+            path: "/vendor-credits",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <VendorCreditsComponent />,
+        });
+    }
+
     const purchaseRoutes = [
         ...navRoutes,
         {
@@ -130,6 +142,27 @@ const PurchaseModuleLayout = () => {
             path: "/bills/new",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <BillFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "New Vendor Credit",
+            path: "/vendor-credits/new",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <VendorCreditFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Edit Vendor Credit",
+            path: "/vendor-credits/:id/edit",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <VendorCreditFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Vendor Credit",
+            path: "/vendor-credits/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <VendorCreditComponent />,
             excludeFromSideNav: true,
         },
     ];

@@ -1,41 +1,20 @@
-import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure, useToast } from "@chakra-ui/react";
+import { CloseButton, Button, Flex, Heading, IconButton, Menu, MenuButton, MenuList, MenuItem, useDisclosure } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { MdEdit } from "react-icons/md";
-import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import axiosRequest from "utils/api";
 import IfUserIsPermitted from "app-components/if-user-is-permitted/IfUserIsPermitted";
 import DeleteModal from "app-components/delete-modal/DeleteModal";
-import SalesOrderFormComponent from "../sales-order-form/SalesOrderFormComponent";
+import CreditNoteFormComponent from "../credit-note-form/CreditNoteFormComponent";
 
-const SalesOrderComponent = () => {
+const CreditNoteComponent = () => {
     const { id, organizationId } = useParams();
 
-    const navigate = useNavigate();
+    const redirect = `/admin/organizations/${organizationId}/modules/sales/credit-notes/`;
 
-    const redirect = `/admin/organizations/${organizationId}/modules/sales/sales-orders/`;
-
-    const deleteEndpoint = `Sales/DeleteSalesOrder`;
+    const deleteEndpoint = `Sales/DeleteCreditNote`;
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const instantInvoice = async () => {
-        try {
-            const response = await axiosRequest.post("Sales/ConvertSalesOrderToInvoice", { orderId: id });
-
-            if (response.status === 200) {
-                navigate(`/admin/organizations/${organizationId}/modules/sales/sales-orders/${id}`);
-            } else {
-                console.error("Error creating item");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-
-    const convertToInvoice = () => {
-        navigate(`/admin/organizations/${organizationId}/modules/sales/invoices/new`, { state: { saleOrderId: id } });
-    };
 
     return (
         <>
@@ -53,7 +32,7 @@ const SalesOrderComponent = () => {
                 flexWrap={{ sm: "wrap", md: "nowrap" }}
             >
                 <Heading as="h4" size="md">
-                    Sales Order
+                    Vendor Credit
                 </Heading>
 
                 <Flex
@@ -64,35 +43,22 @@ const SalesOrderComponent = () => {
                     justifyContent={{ xl: "space-between", sm: "flex-end" }}
                     gap="20px"
                 >
-                    <IfUserIsPermitted to="Edit Sales Order">
+                    <IfUserIsPermitted to="Edit Credit Note">
                         <ChakraLink
                             order={{ sm: "1" }}
                             as={ReactRouterLink}
-                            to={`/admin/organizations/${organizationId}/modules/sales/sales-orders/${id}/edit`}
+                            to={`/admin/organizations/${organizationId}/modules/sales/credit-notes/${id}/edit`}
                         >
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
                     </IfUserIsPermitted>
 
                     <Menu>
-                        <IfUserIsPermitted to="Convert Sales Order To Invoice">
-                            <MenuButton order={{ sm: "4", md: "2" }} width="100%" minW="120px" as={Button} rightIcon={<ChevronDownIcon />}>
-                                Convert
-                            </MenuButton>
-
-                            <MenuList>
-                                <MenuItem onClick={convertToInvoice}>Convert to Invoice</MenuItem>
-                                <MenuItem onClick={instantInvoice}>Instant Invoice</MenuItem>
-                            </MenuList>
-                        </IfUserIsPermitted>
-                    </Menu>
-
-                    <Menu>
                         <MenuButton order={{ sm: "2", md: "3" }} width={{ sm: "wrap", xl: "100%" }} as={Button} rightIcon={<ChevronDownIcon />}>
                             More
                         </MenuButton>
                         <MenuList>
-                            <IfUserIsPermitted to="Delete Sales Order">
+                            <IfUserIsPermitted to="Delete Credit Note">
                                 <MenuItem onClick={onOpen}>Delete</MenuItem>
                             </IfUserIsPermitted>
                         </MenuList>
@@ -100,14 +66,14 @@ const SalesOrderComponent = () => {
                         <DeleteModal redirect={redirect} id={id} deleteEndpoint={deleteEndpoint} isOpen={isOpen} onClose={onClose} />
                     </Menu>
 
-                    <ChakraLink order={{ sm: "3", md: "4" }} as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/sales-orders`}>
+                    <ChakraLink order={{ sm: "3", md: "4" }} as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/credit-notes`}>
                         <CloseButton size="lg" />
                     </ChakraLink>
                 </Flex>
             </Flex>
-            <SalesOrderFormComponent viewOnly={true} />
+            <CreditNoteFormComponent viewOnly={true} />
         </>
     );
 };
 
-export default SalesOrderComponent;
+export default CreditNoteComponent;
