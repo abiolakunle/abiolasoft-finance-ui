@@ -139,7 +139,7 @@ export default function LineItemsTableComponent(props: {
                     </Text>
                     <Box textAlign={{ sm: "right", md: "left" }} width="100%">
                         <TableCellSelect options={items} {...info} />
-                        {!viewOnly && (
+                        {/* {!viewOnly && (
                             <IconButton
                                 isDisabled={info.row.id === "0" && data.length === 1}
                                 onClick={() => {
@@ -154,7 +154,7 @@ export default function LineItemsTableComponent(props: {
                                 fontSize="20px"
                                 icon={<MdOutlineDeleteOutline />}
                             />
-                        )}
+                        )} */}
                     </Box>
                 </Flex>
             ),
