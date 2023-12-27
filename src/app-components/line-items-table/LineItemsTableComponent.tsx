@@ -1,6 +1,7 @@
-import { Flex, Box, Text, useColorModeValue, Select, Input, Icon, Button, IconButton } from "@chakra-ui/react";
+import { Flex, Box, Text, useColorModeValue, Select, Input, Icon, Button, IconButton, useDisclosure } from "@chakra-ui/react";
 import { createColumnHelper, SortingState } from "@tanstack/react-table";
 import GeneralTable from "app-components/general-table/GeneralTable";
+import ItemEditModal from "app-components/item-edit-modal/ItemEditModal";
 import { useEffect, useState } from "react";
 import { MdAdd, MdOutlineDeleteOutline } from "react-icons/md";
 import { NumericFormat } from "react-number-format";
@@ -106,6 +107,9 @@ export default function LineItemsTableComponent(props: {
         onTableLineAdded();
         setData(setFunc);
     };
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const [itemToEditId, setItemToEditId] = useState();
 
     useEffect(() => {
         setData([...tableLines]);
@@ -135,6 +139,22 @@ export default function LineItemsTableComponent(props: {
                     </Text>
                     <Box textAlign={{ sm: "right", md: "left" }} width="100%">
                         <TableCellSelect options={items} {...info} />
+                        {/* {!viewOnly && (
+                            <IconButton
+                                isDisabled={info.row.id === "0" && data.length === 1}
+                                onClick={() => {
+                                    setItemToEditId(info.row.original.itemId);
+                                    onOpen();
+                                }}
+                                size="sm"
+                                isRound={true}
+                                variant="outline"
+                                colorScheme="red"
+                                aria-label="Remove"
+                                fontSize="20px"
+                                icon={<MdOutlineDeleteOutline />}
+                            />
+                        )} */}
                     </Box>
                 </Flex>
             ),
@@ -188,7 +208,7 @@ export default function LineItemsTableComponent(props: {
                 </Flex>
             ),
         }),
-        // columnHelper.ac)cessor("tax", {
+        // columnHelper.accessor("tax", {
         //     id: "tax",
         //     header: () => (
         //         <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
@@ -293,6 +313,7 @@ export default function LineItemsTableComponent(props: {
 
     return (
         <>
+            <ItemEditModal itemId={itemToEditId} onSave={() => {}} isOpen={isOpen} onClose={onClose} />
             <Box pointerEvents={viewOnly ? "none" : "all"}>
                 <GeneralTable meta={meta} data={data} columns={columns} classes="responsiveTable" variant="striped" />
             </Box>
