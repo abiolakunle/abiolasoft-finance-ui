@@ -20,6 +20,9 @@ import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent"
 import ReceiptsComponent from "./receipts/ReceiptsComponent";
 import { ReceiptFormComponent } from "./receipt-form/ReceiptFormComponent";
 import { ReceiptComponent } from "./receipt/ReceiptComponent";
+import CreditNotesComponent from "./credit-notes/CreditNotesComponent";
+import CreditNoteComponent from "./credit-note/CreditNoteComponent";
+import CreditNoteFormComponent from "./credit-note-form/CreditNoteFormComponent";
 
 const SalesModuleLayout = () => {
     const navRoutes = [
@@ -77,6 +80,14 @@ const SalesModuleLayout = () => {
             path: "/invoices",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <InvoicesComponent />,
+        });
+    }
+    if (user?.permissions?.includes("View Credit Notes")) {
+        navRoutes.push({
+            name: "Credit Notes",
+            path: "/credit-notes",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <CreditNotesComponent />,
         });
     }
 
@@ -137,6 +148,18 @@ const SalesModuleLayout = () => {
             excludeFromSideNav: true,
         },
         {
+            name: "New Credit Note",
+            path: "/credit-notes/new",
+            component: <CreditNoteFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Edit Credit Note",
+            path: "/credit-notes/:id/edit",
+            component: <CreditNoteFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
             name: "Edit Sales Order",
             path: "/sales-orders/:id/edit",
             component: <SalesOrderFormComponent />,
@@ -187,6 +210,13 @@ const SalesModuleLayout = () => {
             path: "/customer/:id",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <CustomerComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Credit Note",
+            path: "/credit-notes/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <CreditNoteComponent />,
             excludeFromSideNav: true,
         },
     ];

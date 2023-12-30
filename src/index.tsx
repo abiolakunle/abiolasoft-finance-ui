@@ -97,7 +97,7 @@ const App = () => {
 
     if (!responseInterceptorActive) {
         axiosRequest.interceptors.response.use(
-            (response) => {
+            (response) => { 
                 dispatch(hideProgress());
                 return response;
             },

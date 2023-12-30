@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { NumericFormat } from "react-number-format";
 
-const ItemFormComponent = () => {
+const ItemFormComponent = ({ itemId: itemIdFromProp, isNotRoute, onSave }: { itemId?: string; isNotRoute?: boolean; onSave?: Function }) => {
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("Name is required"),
         unit: Yup.string().required("Unit is required"),
@@ -20,7 +20,10 @@ const ItemFormComponent = () => {
         }),
     });
 
-    const { organizationId } = useParams();
+    const { organizationId, id: itemIdFromRoute } = useParams();
+    const id = isNotRoute ? itemIdFromProp : itemIdFromRoute;
+
+    let navigate = useNavigate();
 
     const form = useFormik({
         initialValues: {
@@ -42,10 +45,14 @@ const ItemFormComponent = () => {
             try {
                 const response = await (id ? axiosRequest.put("Inventory/EditItem", values) : axiosRequest.post("Inventory/CreateItem", values));
                 if (response.status === 200) {
-                    if (id) {
-                        navigate(`/admin/organizations/${organizationId}/modules/inventory/items/${id}`);
+                    if (!isNotRoute) {
+                        if (id) {
+                            navigate(`/admin/organizations/${organizationId}/modules/inventory/items/${id}`);
+                        } else {
+                            navigate(`/admin/organizations/${organizationId}/modules/inventory/items`);
+                        }
                     } else {
-                        navigate(`/admin/organizations/${organizationId}/modules/inventory/items`);
+                        onSave(values);
                     }
                 } else {
                     console.error("Error creating item");
@@ -55,9 +62,6 @@ const ItemFormComponent = () => {
             }
         },
     });
-
-    const { id } = useParams();
-    let navigate = useNavigate();
 
     useEffect(() => {
         if (id) {
@@ -91,7 +95,7 @@ const ItemFormComponent = () => {
     return (
         <>
             <Flex
-                pt={{ base: "130px", md: "80px", xl: "130px" }}
+                pt={{ base: isNotRoute ? "0px" : "130px", md: "80px", xl: isNotRoute ? "0px" : "130px" }}
                 my="0px"
                 h="fit-content"
                 align={{ base: "center", xl: "center" }}
@@ -102,7 +106,7 @@ const ItemFormComponent = () => {
                 gap="20px"
             >
                 <Heading as="h4" size="md">
-                    New Item
+                    {id ? "Edit Item" : "New Item"}
                 </Heading>
             </Flex>
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
@@ -402,16 +406,23 @@ const ItemFormComponent = () => {
                             <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting}>
                                 Save
                             </Button>
-                            <ChakraLink
-                                as={ReactRouterLink}
-                                to={
-                                    id
-                                        ? `/admin/organizations/${organizationId}/modules/inventory/items/${id}`
-                                        : `/admin/organizations/${organizationId}/modules/inventory/items`
-                                }
-                            >
-                                <Button variant="outline">Cancel</Button>
-                            </ChakraLink>
+                            {!isNotRoute && (
+                                <ChakraLink
+                                    as={ReactRouterLink}
+                                    to={
+                                        id
+                                            ? `/admin/organizations/${organizationId}/modules/inventory/items/${id}`
+                                            : `/admin/organizations/${organizationId}/modules/inventory/items`
+                                    }
+                                >
+                                    <Button variant="outline">Cancel</Button>
+                                </ChakraLink>
+                            )}
+                            {isNotRoute && (
+                                <Button variant="outline" onClick={() => onSave()}>
+                                    Cancel
+                                </Button>
+                            )}
                         </Flex>
                     </form>
                 </Card>
