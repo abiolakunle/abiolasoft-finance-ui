@@ -56,20 +56,6 @@ export const ReceiptsTableComponent = (props: { tableData: any }) => {
             ),
         }),
 
-        columnHelper.accessor("referenceNumber", {
-            id: "referenceNumber",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    REFERENCE#
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
-
         columnHelper.accessor("customerName", {
             id: "customerName",
             header: () => (
