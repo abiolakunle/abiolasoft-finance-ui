@@ -282,35 +282,6 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             </FormControl>
                         }
 
-                        <FormControl>
-                            <Flex
-                                mb="16px"
-                                flexWrap={{ sm: "wrap", md: "nowrap" }}
-                                justifyContent="flex-start"
-                                gap={{ md: "20px", sm: "5px" }}
-                                width="100%"
-                                alignItems="center"
-                                className="afu-label-input"
-                            >
-                                <Box className="afu-label" minWidth="200px">
-                                    <FormLabel>Reference#</FormLabel>
-                                </Box>
-                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
-                                    <Input
-                                        readOnly={viewOnly}
-                                        pointerEvents={viewOnly ? "none" : "all"}
-                                        name="referenceNumber"
-                                        type="text"
-                                        width="100%"
-                                        variant="outline"
-                                        borderRadius="8px"
-                                        value={form.values.referenceNumber}
-                                        onChange={form.handleChange}
-                                    />
-                                </Box>
-                            </Flex>
-                        </FormControl>
-
                         <FormControl isInvalid={form.touched.date && !!form.errors.date}>
                             <Flex
                                 flexWrap={{ sm: "wrap", md: "nowrap" }}
