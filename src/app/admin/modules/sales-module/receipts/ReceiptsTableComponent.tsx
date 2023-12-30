@@ -69,20 +69,6 @@ export const ReceiptsTableComponent = (props: { tableData: any }) => {
                 </Text>
             ),
         }),
-
-        columnHelper.accessor("status", {
-            id: "status",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    RECEIPT STATUS
-                </Text>
-            ),
-            cell: (info) => (
-                <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
-                </Text>
-            ),
-        }),
     ];
 
     const [data, setData] = React.useState(() => [...tableData]);
