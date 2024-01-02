@@ -32,7 +32,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
     const [salespersons, setSalespersons] = useState([]);
-    const [customerDropdownVisible, toggleCustomerDropDown] = useState(false);
+    const [customerDropdownVisible, setCustomerDropdownVisible] = useState(false);
 
     const validationSchema = Yup.object().shape({
         customerId: !customerDropdownVisible ? Yup.string().notRequired() : Yup.string().required("Select a customer"),
@@ -113,6 +113,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
                     const f = { ...form.values, ...receipt };
                     form.setValues(f);
+                    setCustomerDropdownVisible(!!receipt.customerId);
                 }
 
                 const sortedCustomers = response[0].data?.data?.items.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
@@ -269,9 +270,19 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                             fontSize="20px"
                                             icon={
                                                 customerDropdownVisible ? (
-                                                    <MdOutlineClose onClick={() => toggleCustomerDropDown(false)} />
+                                                    <MdOutlineClose
+                                                        onClick={() => {
+                                                            form.setFieldValue("customerId", "");
+                                                            setCustomerDropdownVisible(false);
+                                                        }}
+                                                    />
                                                 ) : (
-                                                    <MdOutlineSearch onClick={() => toggleCustomerDropDown(true)} />
+                                                    <MdOutlineSearch
+                                                        onClick={() => {
+                                                            form.setFieldValue("customerName", "");
+                                                            setCustomerDropdownVisible(true);
+                                                        }}
+                                                    />
                                                 )
                                             }
                                         />
