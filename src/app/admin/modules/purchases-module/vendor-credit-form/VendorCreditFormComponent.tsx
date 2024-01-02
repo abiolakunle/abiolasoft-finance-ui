@@ -33,7 +33,6 @@ const VendorCreditFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
 
     const validationSchema = Yup.object().shape({
         customerId: Yup.string().required("Select a customer"),
-        salespersonId: Yup.string().required("Select a salesperson"),
         date: Yup.string().required("Sales Order Date is required"),
     });
 
