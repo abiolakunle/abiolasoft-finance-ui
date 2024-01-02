@@ -15,7 +15,7 @@ export const ReceiptComponent = () => {
 
     const toast = useToast();
 
-    const redirect = `/admin/organizations/${organizationId}/modules/receipts/`;
+    const redirect = `/admin/organizations/${organizationId}/modules/sales/receipts/`;
 
     const deleteEndpoint = `Sales/DeleteReceipt`;
 
@@ -83,7 +83,7 @@ export const ReceiptComponent = () => {
                     justifyContent={{ xl: "space-between", sm: "flex-end" }}
                     gap="20px"
                 >
-                    <IfUserIsPermitted to="Edit Reeipt">
+                    <IfUserIsPermitted to="Edit Receipt">
                         <ChakraLink order={{ sm: "1" }} as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/receipts/${id}/edit`}>
                             <IconButton variant="outline" colorScheme="brand" borderRadius="10px" aria-label="Edit" fontSize="20px" icon={<MdEdit />} />
                         </ChakraLink>
