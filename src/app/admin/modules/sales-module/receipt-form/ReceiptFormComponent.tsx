@@ -13,6 +13,7 @@ import {
     CloseButton,
     FormErrorMessage,
     Tooltip,
+    IconButton,
 } from "@chakra-ui/react";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
@@ -25,15 +26,17 @@ import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { formatNumberWithCommas } from "utils/number";
+import { MdOutlineSearch, MdOutlineClose } from "react-icons/md";
 
 export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
     const [salespersons, setSalespersons] = useState([]);
-    const [submitStatus, setSubmitStatus] = useState("");
+    const [customerDropdownVisible, toggleCustomerDropDown] = useState(false);
 
     const validationSchema = Yup.object().shape({
-        customerId: Yup.string().required("Select a customer"),
+        customerId: !customerDropdownVisible ? Yup.string().notRequired() : Yup.string().required("Select a customer"),
+        customerName: customerDropdownVisible ? Yup.string().notRequired() : Yup.string().required("Type the customer name"),
         salespersonId: Yup.string().required("Select a salesperson"),
         date: Yup.string().required("Receipt Date is required"),
     });
@@ -49,6 +52,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             expectedShipmentDate: currentDate(),
             paymentTermsDays: "",
             customerId: "",
+            customerName: "",
             customerNotes: "",
             termsAndConditions: "",
             salespersonId: "",
@@ -58,8 +62,6 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         },
         validationSchema,
         onSubmit: async (values) => {
-            values.status = submitStatus;
-
             values.items = values.items.map((item) => {
                 const itemName = items.find((i) => i.id === item.itemId)?.name;
                 return { ...item, description: "", itemName };
@@ -209,7 +211,9 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
             <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px={{ base: "32px", sm: "8px", md: "16px" }} w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <form noValidate onSubmit={form.handleSubmit}>
-                        <FormControl isInvalid={form.touched.customerId && !!form.errors.customerId}>
+                        <FormControl
+                            isInvalid={(form.touched.customerId && !!form.errors.customerId) || (form.touched.customerName && !!form.errors.customerName)}
+                        >
                             <Flex
                                 flexWrap={{ sm: "wrap", md: "nowrap" }}
                                 mb="16px"
@@ -222,22 +226,66 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
-                                <Box width="100%" className="afu-input">
-                                    <Select
-                                        pointerEvents={viewOnly ? "none" : "all"}
-                                        name="customerId"
-                                        placeholder="Select a customer"
-                                        value={form.values.customerId}
-                                        onChange={form.handleChange}
-                                        onBlur={form.handleBlur}
-                                    >
-                                        {customers.map((customer, index) => (
-                                            <option key={index} value={customer.id}>
-                                                {customer.customerDisplayName}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                    {form.touched.customerId && !!form.errors.customerId ? <FormErrorMessage>{form.errors.customerId}</FormErrorMessage> : ""}
+                                <Box width="calc(40% + 45px)" className="afu-input">
+                                    <Flex alignItems="center" gap="10px">
+                                        {customerDropdownVisible && (
+                                            <Select
+                                                pointerEvents={viewOnly ? "none" : "all"}
+                                                name="customerId"
+                                                placeholder="Select a customer"
+                                                value={form.values.customerId}
+                                                onChange={form.handleChange}
+                                                onBlur={form.handleBlur}
+                                            >
+                                                {customers.map((customer, index) => (
+                                                    <option key={index} value={customer.id}>
+                                                        {customer.customerDisplayName}
+                                                    </option>
+                                                ))}
+                                            </Select>
+                                        )}
+
+                                        {!customerDropdownVisible && (
+                                            <Input
+                                                readOnly={viewOnly}
+                                                pointerEvents={viewOnly ? "none" : "all"}
+                                                name="customerName"
+                                                type="text"
+                                                width="100%"
+                                                variant="outline"
+                                                borderRadius="8px"
+                                                value={form.values.customerName}
+                                                onChange={form.handleChange}
+                                                onBlur={form.handleBlur}
+                                                placeholder="Type the customer's name"
+                                            />
+                                        )}
+                                        <IconButton
+                                            variant="outline"
+                                            colorScheme="brand"
+                                            borderRadius="10px"
+                                            border="0px"
+                                            aria-label="Edit"
+                                            fontSize="20px"
+                                            icon={
+                                                customerDropdownVisible ? (
+                                                    <MdOutlineClose onClick={() => toggleCustomerDropDown(false)} />
+                                                ) : (
+                                                    <MdOutlineSearch onClick={() => toggleCustomerDropDown(true)} />
+                                                )
+                                            }
+                                        />
+                                    </Flex>
+                                    {customerDropdownVisible && form.touched.customerId && !!form.errors.customerId ? (
+                                        <FormErrorMessage>{form.errors.customerId}</FormErrorMessage>
+                                    ) : (
+                                        ""
+                                    )}
+                                    {!customerDropdownVisible && form.touched.customerName && !!form.errors.customerName ? (
+                                        <FormErrorMessage>{form.errors.customerName}</FormErrorMessage>
+                                    ) : (
+                                        ""
+                                    )}
                                 </Box>
                             </Flex>
                         </FormControl>
@@ -551,22 +599,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 gap="20px"
                                 flexWrap={{ sm: "wrap", md: "nowrap" }}
                             >
-                                <Button
-                                    variant="outline"
-                                    type="submit"
-                                    isDisabled={!form.isValid || form.isSubmitting}
-                                    onClick={() => setSubmitStatus("Draft")}
-                                    width={{ sm: "100%", md: "fit-content" }}
-                                >
-                                    Save as Draft
-                                </Button>
-                                <Button
-                                    variant="brand"
-                                    type="submit"
-                                    isDisabled={!form.isValid || form.isSubmitting}
-                                    onClick={() => setSubmitStatus("Confirmed")}
-                                    width={{ sm: "100%", md: "fit-content" }}
-                                >
+                                <Button variant="brand" type="submit" isDisabled={!form.isValid || form.isSubmitting} width={{ sm: "100%", md: "fit-content" }}>
                                     Save
                                 </Button>
                                 <ChakraLink
