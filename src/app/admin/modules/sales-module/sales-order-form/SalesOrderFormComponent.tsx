@@ -35,7 +35,6 @@ const SalesOrderFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const validationSchema = Yup.object().shape({
         customerId: Yup.string().required("Select a customer"),
         salespersonId: Yup.string().required("Select a salesperson"),
-        //number: Yup.string().required("Sales Order Number is required"),
         date: Yup.string().required("Sales Order Date is required"),
     });
 
