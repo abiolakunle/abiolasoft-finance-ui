@@ -16,7 +16,7 @@ import {
     IconButton,
 } from "@chakra-ui/react";
 import Card from "components/card/Card";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
 import LineItemsTableComponent, { defaultItem } from "../../../../../app-components/line-items-table/LineItemsTableComponent";
@@ -34,12 +34,16 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [salespersons, setSalespersons] = useState([]);
     const [customerDropdownVisible, setCustomerDropdownVisible] = useState(false);
 
-    const validationSchema = Yup.object().shape({
-        customerId: !customerDropdownVisible ? Yup.string().notRequired() : Yup.string().required("Select a customer"),
-        customerName: customerDropdownVisible ? Yup.string().notRequired() : Yup.string().required("Type the customer name"),
-        salespersonId: Yup.string().required("Select a salesperson"),
-        date: Yup.string().required("Receipt Date is required"),
-    });
+    const validationSchema = useMemo(
+        () =>
+            Yup.object().shape({
+                customerId: !customerDropdownVisible ? Yup.string().notRequired() : Yup.string().required("Select a customer"),
+                customerName: customerDropdownVisible ? Yup.string().notRequired() : Yup.string().required("Type the customer name"),
+                salespersonId: Yup.string().required("Select a salesperson"),
+                date: Yup.string().required("Receipt Date is required"),
+            }),
+        [customerDropdownVisible]
+    );
 
     const { organizationId } = useParams();
 
@@ -105,13 +109,16 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         }
 
         Promise.all(initialRequests)
-            .then((response) => {
+            .then(async (response) => {
                 if (id) {
                     const receipt = response[3].data?.data;
 
                     const f = { ...form.values, ...receipt, customerName: !!receipt.customerId ? "" : receipt.customerName, items: receipt.items };
-                    form.setValues(f);
                     setCustomerDropdownVisible(!!receipt.customerId);
+
+                    setTimeout(async () => {
+                        await form.setValues(f);
+                    }, 0);
                 }
 
                 const sortedCustomers = response[0].data?.data?.items.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
