@@ -109,9 +109,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 if (id) {
                     const receipt = response[3].data?.data;
 
-                    form.values.items = receipt.items;
-
-                    const f = { ...form.values, ...receipt };
+                    const f = { ...form.values, ...receipt, customerName: !!receipt.customerId ? "" : receipt.customerName, items: receipt.items };
                     form.setValues(f);
                     setCustomerDropdownVisible(!!receipt.customerId);
                 }
@@ -227,7 +225,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
-                                <Box width="calc(40% + 45px)" className="afu-input">
+                                <Box width={`calc(40% ${!viewOnly ? " + 50px" : ""})`} className="afu-input">
                                     <Flex alignItems="center" gap="10px">
                                         {customerDropdownVisible && (
                                             <Select
@@ -261,31 +259,33 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                                 placeholder="Type the customer's name"
                                             />
                                         )}
-                                        <IconButton
-                                            variant="outline"
-                                            colorScheme="brand"
-                                            borderRadius="10px"
-                                            border="0px"
-                                            aria-label="Edit"
-                                            fontSize="20px"
-                                            icon={
-                                                customerDropdownVisible ? (
-                                                    <MdOutlineClose
-                                                        onClick={() => {
-                                                            form.setFieldValue("customerId", "");
-                                                            setCustomerDropdownVisible(false);
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <MdOutlineSearch
-                                                        onClick={() => {
-                                                            form.setFieldValue("customerName", "");
-                                                            setCustomerDropdownVisible(true);
-                                                        }}
-                                                    />
-                                                )
-                                            }
-                                        />
+                                        {!viewOnly && (
+                                            <IconButton
+                                                variant="outline"
+                                                colorScheme="brand"
+                                                borderRadius="10px"
+                                                border="0px"
+                                                aria-label="Edit"
+                                                fontSize="20px"
+                                                icon={
+                                                    customerDropdownVisible ? (
+                                                        <MdOutlineClose
+                                                            onClick={() => {
+                                                                form.setFieldValue("customerId", "");
+                                                                setCustomerDropdownVisible(false);
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <MdOutlineSearch
+                                                            onClick={() => {
+                                                                form.setFieldValue("customerName", "");
+                                                                setCustomerDropdownVisible(true);
+                                                            }}
+                                                        />
+                                                    )
+                                                }
+                                            />
+                                        )}
                                     </Flex>
                                     {customerDropdownVisible && form.touched.customerId && !!form.errors.customerId ? (
                                         <FormErrorMessage>{form.errors.customerId}</FormErrorMessage>
