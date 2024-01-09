@@ -33,7 +33,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
     const [salespersons, setSalespersons] = useState([]);
-    const [customerDropdownVisible, toggleCustomerDropDown] = useState(false);
+    const [customerDropdownVisible, setCustomerDropdownVisible] = useState(false);
 
     const validationSchema = Yup.object().shape({
         customerId: !customerDropdownVisible ? Yup.string().notRequired() : Yup.string().required("Select a customer"),
@@ -110,10 +110,9 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 if (id) {
                     const receipt = response[3].data?.data;
 
-                    form.values.items = receipt.items;
-
-                    const f = { ...form.values, ...receipt };
+                    const f = { ...form.values, ...receipt, customerName: !!receipt.customerId ? "" : receipt.customerName, items: receipt.items };
                     form.setValues(f);
+                    setCustomerDropdownVisible(!!receipt.customerId);
                 }
 
                 const sortedCustomers = response[0].data?.data?.items.sort((a: any, b: any) => a.customerDisplayName.localeCompare(b.customerDisplayName));
@@ -227,7 +226,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 <Box className="afu-label" minWidth="200px">
                                     <FormLabel color={viewOnly ? "" : "red"}>Customer Name{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
-                                <Box width="calc(40% + 45px)" className="afu-input">
+                                <Box width={`calc(40% ${!viewOnly ? " + 50px" : ""})`} className="afu-input">
                                     <Flex alignItems="center" gap="10px">
                                         {customerDropdownVisible && (
                                             <Select
@@ -261,21 +260,33 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                                 placeholder="Type the customer's name"
                                             />
                                         )}
-                                        <IconButton
-                                            variant="outline"
-                                            colorScheme="brand"
-                                            borderRadius="10px"
-                                            border="0px"
-                                            aria-label="Edit"
-                                            fontSize="20px"
-                                            icon={
-                                                customerDropdownVisible ? (
-                                                    <MdOutlineClose onClick={() => toggleCustomerDropDown(false)} />
-                                                ) : (
-                                                    <MdOutlineSearch onClick={() => toggleCustomerDropDown(true)} />
-                                                )
-                                            }
-                                        />
+                                        {!viewOnly && (
+                                            <IconButton
+                                                variant="outline"
+                                                colorScheme="brand"
+                                                borderRadius="10px"
+                                                border="0px"
+                                                aria-label="Edit"
+                                                fontSize="20px"
+                                                icon={
+                                                    customerDropdownVisible ? (
+                                                        <MdOutlineClose
+                                                            onClick={() => {
+                                                                form.setFieldValue("customerId", "");
+                                                                setCustomerDropdownVisible(false);
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <MdOutlineSearch
+                                                            onClick={() => {
+                                                                form.setFieldValue("customerName", "");
+                                                                setCustomerDropdownVisible(true);
+                                                            }}
+                                                        />
+                                                    )
+                                                }
+                                            />
+                                        )}
                                     </Flex>
                                     {customerDropdownVisible && form.touched.customerId && !!form.errors.customerId ? (
                                         <FormErrorMessage>{form.errors.customerId}</FormErrorMessage>
@@ -431,7 +442,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 className="afu-label-input"
                             >
                                 <Box className="afu-label" minWidth="200px">
-                                    <FormLabel>Salesperson</FormLabel>
+                                    <FormLabel color={viewOnly ? "" : "red"}>Salesperson{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
                                 <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Select
