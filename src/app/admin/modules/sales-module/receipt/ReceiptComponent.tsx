@@ -95,7 +95,7 @@ export const ReceiptComponent = () => {
                             </MenuButton>
                             <MenuList>
                                 <IfUserIsPermitted to="Delete Receipt">
-                                    <MenuItem onClick={handlePrintPDF}>Print as PDF</MenuItem>
+                                    <MenuItem onClick={handlePrintPDF}>Download as PDF</MenuItem>
                                     <MenuItem onClick={handleNormalDownload}>Print</MenuItem>
                                 </IfUserIsPermitted>
                             </MenuList>
