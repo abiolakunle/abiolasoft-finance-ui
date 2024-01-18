@@ -27,6 +27,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { formatNumberWithCommas } from "utils/number";
 import { MdOutlineSearch, MdOutlineClose } from "react-icons/md";
+import { RibbonContainer, Ribbon } from "react-ribbons";
 
 export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
@@ -214,9 +215,14 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                     </>
                 )}
             </Flex>
-            <Box maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
+            <Box id="receipt-container" maxW="1024px" pt={{ base: "16px", md: "16px", xl: "16px" }}>
                 <Card px={{ base: "32px", sm: "8px", md: "16px" }} w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
                     <form noValidate onSubmit={form.handleSubmit}>
+                        <Ribbon side="left" type="corner" size="large" backgroundColor="#cc0000" fontFamily="sans-serif" color="#fff" withStripes={true}>
+                            Receipt
+                        </Ribbon>
+                        <br />
+
                         <FormControl
                             isInvalid={(form.touched.customerId && !!form.errors.customerId) || (form.touched.customerName && !!form.errors.customerName)}
                         >
@@ -638,7 +644,7 @@ export const ReceiptFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                     </form>
                 </Card>
             </Box>
-            ;
+            ;``
         </>
     );
 };
