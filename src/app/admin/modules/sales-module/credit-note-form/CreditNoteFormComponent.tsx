@@ -35,7 +35,6 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const validationSchema = Yup.object().shape({
         customerId: Yup.string().required("Select a customer"),
         salespersonId: Yup.string().required("Select a salesperson"),
-        //number: Yup.string().required("Sales Order Number is required"),
         date: Yup.string().required("Credit Note Date is required"),
     });
 
@@ -292,7 +291,7 @@ const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 className="afu-label-input"
                             >
                                 <Box className="afu-label" minWidth="200px">
-                                    <FormLabel>Salesperson</FormLabel>
+                                    <FormLabel color={viewOnly ? "" : "red"}>Salesperson{viewOnly ? "" : "*"}</FormLabel>
                                 </Box>
                                 <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                     <Select
