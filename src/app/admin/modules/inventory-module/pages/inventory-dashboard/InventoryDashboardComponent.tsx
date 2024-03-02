@@ -35,16 +35,14 @@ export default function InventoryDashboardComponent() {
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }} gap="20px" mb="20px">
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
-                    name="Current Inventory Cost Price"
-                    value={info.totalInventoryCostPrice >= 0 ? `₦${formatNumberWithCommas(info.totalInventoryCostPrice)}` : "--"}
-                />
-
-                <MiniStatistics
-                    startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
-                    name="Current Inventory Sales Price"
+                    name="Current Inventory Sales Value"
                     value={info.totalInventorySalesPrice >= 0 ? `₦${formatNumberWithCommas(info.totalInventorySalesPrice)}` : "--"}
                 />
-
+                <MiniStatistics
+                    startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
+                    name="Current Inventory Cost Value"
+                    value={info.totalInventoryCostPrice >= 0 ? `₦${formatNumberWithCommas(info.totalInventoryCostPrice)}` : "--"}
+                />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
                     name="Current Inventory Profit"
