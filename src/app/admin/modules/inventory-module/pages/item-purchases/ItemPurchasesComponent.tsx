@@ -47,7 +47,7 @@ const ItemPurchasesComponent = () => {
                     {pageData && (
                         <>
                             <Badge ml="1" fontSize="0.9em" colorScheme="green">
-                                Quantity sold: &nbsp; {formatNumberWithCommas(pageData.totalQuantity)}
+                                Quantity Purchased: &nbsp; {formatNumberWithCommas(pageData.totalQuantity)}
                             </Badge>
 
                             <Badge ml="1" fontSize="0.9em" colorScheme="green">

@@ -10,59 +10,49 @@ import {
     Select,
     Stack,
     Textarea,
-    InputRightAddon,
-    InputGroup,
-    FormErrorMessage,
     CloseButton,
+    FormErrorMessage,
     Tooltip,
 } from "@chakra-ui/react";
 import Card from "components/card/Card";
 import { useEffect, useState } from "react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useNavigate, useParams } from "react-router-dom";
+import LineItemsTableComponent, { defaultItem } from "../../../../../app-components/line-items-table/LineItemsTableComponent";
+import { HSeparator } from "components/separator/Separator";
+import { currentDate, formatDate } from "utils/dateUtils";
+import axiosRequest from "utils/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { HSeparator } from "components/separator/Separator";
-import axiosRequest from "utils/api";
-import { formatDate } from "utils/dateUtils";
-import LineItemsTableComponent, { defaultItem } from "app-components/line-items-table/LineItemsTableComponent";
 import { formatNumberWithCommas } from "utils/number";
 
-const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
+const CreditNoteFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     const [customers, setCustomers] = useState([]);
     const [items, setItems] = useState([]);
     const [salespersons, setSalespersons] = useState([]);
     const [submitStatus, setSubmitStatus] = useState("");
-    const [summary, setSummary] = useState({
-        subTotal: 0,
-        discount: 0,
-        total: 0,
-    });
 
     const validationSchema = Yup.object().shape({
         customerId: Yup.string().required("Select a customer"),
         salespersonId: Yup.string().required("Select a salesperson"),
-        number: Yup.string().required("Invoice Number is required"),
-        date: Yup.string().required("Invoice Date is required"),
+        date: Yup.string().required("Credit Note Date is required"),
     });
 
-    const { id, organizationId } = useParams();
+    const { organizationId } = useParams();
 
     const form = useFormik({
         initialValues: {
             id: "",
-            customerId: "",
             number: "",
-            date: "",
-            customerDisplayName: "",
+            date: currentDate(),
+            customerId: "",
             salespersonId: "",
             customerNotes: "",
+            subject: "",
             termsAndConditions: "",
             status: "",
-            discount: 0,
-            orderNumber: "",
-            dueDate: "",
             items: [{ ...defaultItem }],
+            discount: 0,
         },
         validationSchema,
         onSubmit: async (values) => {
@@ -73,16 +63,16 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 return { ...item, description: "", itemName };
             });
             try {
-                const response = await (id ? axiosRequest.put("Sales/EditInvoice", values) : axiosRequest.post("Sales/CreateInvoice", values));
+                const response = await (id ? axiosRequest.put("Sales/EditCreditNote", values) : axiosRequest.post("Sales/CreateCreditNote", values));
 
                 if (response.status === 200) {
                     if (id) {
-                        navigate(`/admin/organizations/${organizationId}/modules/sales/invoices/${id}`);
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/credit-notes/${id}`);
                     } else {
-                        navigate(`/admin/organizations/${organizationId}/modules/sales/invoices`);
+                        navigate(`/admin/organizations/${organizationId}/modules/sales/credit-notes`);
                     }
                 } else {
-                    console.error("Error creating item");
+                    console.error("Error creating credit");
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -90,40 +80,34 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
         },
     });
 
+    const [summary, setSummary] = useState({
+        subTotal: 0,
+        discount: 0,
+        total: 0,
+    });
+
+    const { id } = useParams();
     let navigate = useNavigate();
 
     useEffect(() => {
-        const subTotal = form.values.items.reduce((pre, curr) => {
-            return pre + curr.rate * curr.quantity;
-        }, 0);
-
-        const total = subTotal - form.values.discount;
-        setSummary({
-            ...summary,
-            subTotal,
-            total,
-        });
-    }, [form.values]);
-
-    useEffect(() => {
         const initialRequests = [
-            axiosRequest.get(`Sales/GetAllCustomers?PageIndex=1&PageSize=5000`),
-            axiosRequest.get(`Sales/GetAllSalespersons?PageIndex=1&PageSize=5000`),
-            axiosRequest.get(`Inventory/GetAllItems?PageIndex=1&PageSize=5000`),
+            axiosRequest.get(`Sales/GetAllCustomers?PageIndex=1&PageSize=500`),
+            axiosRequest.get(`Sales/GetAllSalespersons?PageIndex=1&PageSize=500`),
+            axiosRequest.get(`Inventory/GetAllItems?PageIndex=1&PageSize=500`),
         ];
 
         if (id) {
-            initialRequests.push(axiosRequest.get(`Sales/GetInvoiceById?id=${id}`));
+            initialRequests.push(axiosRequest.get(`Sales/GetCreditNoteById?id=${id}`));
         }
 
         Promise.all(initialRequests)
             .then((response) => {
                 if (id) {
-                    const invoice = response[3].data?.data;
+                    const creditNote = response[3].data?.data;
 
-                    form.values.items = invoice.items;
+                    form.values.items = creditNote.items;
 
-                    const f = { ...form.values, ...invoice };
+                    const f = { ...form.values, ...creditNote };
                     form.setValues(f);
                 }
 
@@ -145,6 +129,19 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 console.error("Error fetching data:", error);
             });
     }, []);
+
+    useEffect(() => {
+        const subTotal = form.values.items.reduce((pre, curr) => {
+            return pre + curr.rate * curr.quantity;
+        }, 0);
+
+        const total = subTotal - form.values.discount;
+        setSummary({
+            ...summary,
+            subTotal,
+            total,
+        });
+    }, [form.values]);
 
     const lineInputChanged = (event: any, index: string) => {
         const { name, value } = event;
@@ -189,7 +186,7 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                 {!viewOnly && (
                     <>
                         <Heading as="h4" size="md">
-                            {id ? "Edit Invoice" : "New Invoice"}
+                            {id ? "Edit Credit Note" : "New Credit Note"}
                         </Heading>
 
                         <Flex h="fit-content" alignItems="center" justifyContent="space-between" gap="20px">
@@ -197,8 +194,8 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                 as={ReactRouterLink}
                                 to={
                                     id
-                                        ? `/admin/organizations/${organizationId}/modules/sales/invoices/${id}`
-                                        : `/admin/organizations/${organizationId}/modules/sales/invoices`
+                                        ? `/admin/organizations/${organizationId}/modules/sales/credit-notes/${id}`
+                                        : `/admin/organizations/${organizationId}/modules/sales/credit-notes`
                                 }
                             >
                                 <CloseButton size="lg" />
@@ -212,8 +209,8 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                     <form noValidate onSubmit={form.handleSubmit}>
                         <FormControl isInvalid={form.touched.customerId && !!form.errors.customerId}>
                             <Flex
-                                mb="16px"
                                 flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
                                 justifyContent="flex-start"
                                 width="100%"
                                 gap={{ md: "20px", sm: "5px" }}
@@ -247,15 +244,15 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             <FormControl isInvalid={form.touched.number && !!form.errors.number}>
                                 <Flex
                                     mb="16px"
-                                    justifyContent="flex-start"
                                     flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                    justifyContent="flex-start"
                                     width="100%"
                                     gap={{ md: "20px", sm: "5px" }}
                                     alignItems="center"
                                     className="afu-label-input"
                                 >
                                     <Box className="afu-label" minWidth="200px">
-                                        <FormLabel color={viewOnly ? "" : "red"}>Invoice#{viewOnly ? "" : "*"}</FormLabel>
+                                        <FormLabel color={true ? "" : "red"}>Credit Note#{true ? "" : "*"}</FormLabel>
                                     </Box>
                                     <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
                                         <Tooltip
@@ -269,7 +266,6 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                                 pointerEvents={viewOnly ? "none" : "all"}
                                                 name="number"
                                                 type="text"
-                                                isRequired={true}
                                                 width="100%"
                                                 variant="outline"
                                                 borderRadius="8px"
@@ -278,7 +274,6 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                                 onBlur={form.handleBlur}
                                             />
                                         </Tooltip>
-
                                         {form.touched.number && !!form.errors.number ? <FormErrorMessage>{form.errors.number}</FormErrorMessage> : ""}
                                     </Box>
                                 </Flex>
@@ -288,98 +283,8 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                         <FormControl>
                             <Flex
                                 mb="16px"
-                                justifyContent="flex-start"
-                                flexWrap={{ sm: "wrap", md: "nowrap" }}
-                                width="100%"
-                                gap={{ md: "20px", sm: "5px" }}
-                                alignItems="center"
-                                className="afu-label-input"
-                            >
-                                <Box className="afu-label" minWidth="200px">
-                                    <FormLabel>Order Number</FormLabel>
-                                </Box>
-                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
-                                    <Input
-                                        readOnly={viewOnly}
-                                        pointerEvents={viewOnly ? "none" : "all"}
-                                        name="orderNumber"
-                                        type="text"
-                                        isRequired={true}
-                                        width="100%"
-                                        variant="outline"
-                                        borderRadius="8px"
-                                        value={form.values.orderNumber}
-                                        onChange={form.handleChange}
-                                    />
-                                </Box>
-                            </Flex>
-                        </FormControl>
-
-                        <FormControl isInvalid={form.touched.date && !!form.errors.date}>
-                            <Flex
-                                mb="16px"
-                                justifyContent="flex-start"
-                                flexWrap={{ sm: "wrap", md: "nowrap" }}
-                                width="100%"
-                                gap={{ md: "20px", sm: "5px" }}
-                                alignItems="center"
-                                className="afu-label-input"
-                            >
-                                <Box className="afu-label" minWidth="200px">
-                                    <FormLabel color={viewOnly ? "" : "red"}>Invoice Date{viewOnly ? "" : "*"}</FormLabel>
-                                </Box>
-                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
-                                    <Input
-                                        readOnly={viewOnly}
-                                        pointerEvents={viewOnly ? "none" : "all"}
-                                        type="date"
-                                        name="date"
-                                        width="100%"
-                                        variant="outline"
-                                        borderRadius="8px"
-                                        value={formatDate(form.values.date)}
-                                        onChange={form.handleChange}
-                                        onBlur={form.handleBlur}
-                                    />
-                                    {form.touched.date && !!form.errors.date ? <FormErrorMessage>{form.errors.date}</FormErrorMessage> : ""}
-                                </Box>
-                            </Flex>
-                        </FormControl>
-
-                        <FormControl>
-                            <Flex
-                                mb="16px"
                                 flexWrap={{ sm: "wrap", md: "nowrap" }}
                                 justifyContent="flex-start"
-                                width="100%"
-                                gap={{ md: "20px", sm: "5px" }}
-                                alignItems="center"
-                                className="afu-label-input"
-                            >
-                                <Box className="afu-label" minWidth="200px">
-                                    <FormLabel>Due Date</FormLabel>
-                                </Box>
-                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
-                                    <Input
-                                        readOnly={viewOnly}
-                                        pointerEvents={viewOnly ? "none" : "all"}
-                                        type="date"
-                                        name="dueDate"
-                                        width="100%"
-                                        variant="outline"
-                                        borderRadius="8px"
-                                        value={formatDate(form.values.dueDate)}
-                                        onChange={form.handleChange}
-                                    />
-                                </Box>
-                            </Flex>
-                        </FormControl>
-
-                        <FormControl isInvalid={form.touched.salespersonId && !!form.errors.salespersonId}>
-                            <Flex
-                                mb="16px"
-                                justifyContent="flex-start"
-                                flexWrap={{ sm: "wrap", md: "nowrap" }}
                                 gap={{ md: "20px", sm: "5px" }}
                                 width="100%"
                                 alignItems="center"
@@ -403,11 +308,37 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                             </option>
                                         ))}
                                     </Select>
-                                    {form.touched.salespersonId && !!form.errors.salespersonId ? (
-                                        <FormErrorMessage>{form.errors.salespersonId}</FormErrorMessage>
-                                    ) : (
-                                        ""
-                                    )}
+                                </Box>
+                            </Flex>
+                        </FormControl>
+
+                        <FormControl isInvalid={form.touched.date && !!form.errors.date}>
+                            <Flex
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
+                                <Box className="afu-label" minWidth="200px">
+                                    <FormLabel color={viewOnly ? "" : "red"}>Credit Note Date{viewOnly ? "" : "*"}</FormLabel>
+                                </Box>
+                                <Box width={{ sm: "100%", md: "40%" }} className="afu-input">
+                                    <Input
+                                        readOnly={viewOnly}
+                                        pointerEvents={viewOnly ? "none" : "all"}
+                                        type="date"
+                                        name="date"
+                                        width="100%"
+                                        variant="outline"
+                                        borderRadius="8px"
+                                        value={formatDate(form.values.date)}
+                                        onChange={form.handleChange}
+                                        onBlur={form.handleBlur}
+                                    />
+                                    {form.touched.date && !!form.errors.date ? <FormErrorMessage>{form.errors.date}</FormErrorMessage> : ""}
                                 </Box>
                             </Flex>
                         </FormControl>
@@ -431,79 +362,12 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                             gap="20px"
                             flexDirection={{ sm: "column-reverse", md: "row" }}
                         >
-                            <Flex
-                                mb="0px"
-                                direction="column"
-                                justifyContent="flex-start"
-                                width={{ sm: "100%", md: "45%" }}
-                                gap="20px"
-                                alignItems="baseline"
-                                className="afu-label-input"
-                            >
-                                <Flex
-                                    mb="0px"
-                                    direction="column"
-                                    justifyContent="flex-start"
-                                    width="100%"
-                                    gap="0px"
-                                    alignItems="baseline"
-                                    className="afu-label-input"
-                                >
-                                    <Box className="afu-label" minWidth="50px">
-                                        <FormLabel>Terms & Conditions</FormLabel>
-                                    </Box>
-                                    <Box width="100%" className="afu-input">
-                                        <FormControl>
-                                            <Textarea
-                                                readOnly={viewOnly}
-                                                size="sm"
-                                                placeholder={
-                                                    viewOnly
-                                                        ? form.values.customerNotes || "None"
-                                                        : "Enter the terms and conditions of your business to be displayed in your transaction"
-                                                }
-                                                name="termsAndConditions"
-                                                value={form.values.termsAndConditions}
-                                                onChange={form.handleChange}
-                                            />
-                                        </FormControl>
-                                    </Box>
-                                </Flex>
-                                <Flex
-                                    mb="0px"
-                                    direction="column"
-                                    justifyContent="flex-start"
-                                    width="100%"
-                                    gap="0px"
-                                    alignItems="baseline"
-                                    className="afu-label-input"
-                                >
-                                    <Box className="afu-label" minWidth="50px">
-                                        <FormLabel>Customer Notes</FormLabel>
-                                    </Box>
-                                    <Box width="100%" className="afu-input">
-                                        <FormControl>
-                                            <Textarea
-                                                readOnly={viewOnly}
-                                                size="sm"
-                                                placeholder={
-                                                    viewOnly ? form.values.customerNotes || "None" : "Enter any notes to be displayed in your transaction"
-                                                }
-                                                name="customerNotes"
-                                                value={form.values.customerNotes}
-                                                onChange={form.handleChange}
-                                            />
-                                        </FormControl>
-                                    </Box>
-                                </Flex>
-                            </Flex>
-
                             <Stack
                                 padding="16px"
-                                width={{ sm: "100%", md: "50%" }}
                                 borderRadius="8px"
                                 backgroundColor="blackAlpha.50"
                                 direction="column"
+                                width={{ sm: "100%", md: "50%" }}
                                 mt="8px"
                                 mb="auto"
                             >
@@ -511,38 +375,48 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     <Text fontWeight="bold">Sub Total</Text> <Text fontWeight="bold">{"₦" + formatNumberWithCommas(summary.subTotal)}</Text>
                                 </Flex>
 
-                                {/* <Flex width="100%" justifyContent="space-between" alignItems="baseline">
-                                <Flex justifyContent="space-between" alignItems="baseline">
-                                    <Text minW="120px" fontWeight="bold">
-                                        Discount
-                                    </Text>
-                                    <FormControl>
-                                        <InputGroup size="md">
-                                            <Input
-                                                readOnly={viewOnly}
-                                                pointerEvents={viewOnly ? "none" : "all"}
-                                                maxW="100px"
-                                                name="discount"
-                                                type="number"
-
-                                                width="100%"
-                                                variant="outline"
-                                                borderRadius="8px"
-                                                value={form.values.discount}
-                                                onChange={handleInputChange}
-                                            />
-                                            <InputRightAddon children="%" borderRightRadius="8px" />
-                                        </InputGroup>
-                                    </FormControl>
+                                <Flex width="100%" justifyContent="space-between" alignItems="baseline">
+                                    <Flex justifyContent="space-between" alignItems="baseline">
+                                        <Text minW="120px" fontWeight="bold">
+                                            Discount
+                                        </Text>
+                                    </Flex>
+                                    <Text fontWeight="bold">{summary.discount}</Text>
                                 </Flex>
-                                <Text fontWeight="bold">{summary.discount}</Text>
-                            </Flex> */}
                                 <HSeparator mt="16px" />
                                 <Flex width="100%" justifyContent="space-between">
                                     <Text fontWeight="bold">Total </Text> <Text fontWeight="bold">{"₦" + formatNumberWithCommas(summary.total)}</Text>
                                 </Flex>
                             </Stack>
                         </Flex>
+
+                        <FormControl>
+                            <Flex
+                                flexWrap={{ sm: "wrap", md: "nowrap" }}
+                                mb="16px"
+                                justifyContent="flex-start"
+                                width="100%"
+                                gap={{ md: "20px", sm: "5px" }}
+                                alignItems="center"
+                                className="afu-label-input"
+                            >
+                                <Box className="afu-label" minWidth="50px">
+                                    <FormLabel>Note</FormLabel>
+                                </Box>
+                                <Box width="100%" className="afu-input">
+                                    <FormControl>
+                                        <Textarea
+                                            readOnly={viewOnly}
+                                            size="sm"
+                                            placeholder={viewOnly ? form.values.customerNotes || "None" : "Enter your notes here..."}
+                                            name="creditNote"
+                                            value={form.values.customerNotes}
+                                            onChange={form.handleChange}
+                                        />
+                                    </FormControl>
+                                </Box>
+                            </Flex>
+                        </FormControl>
 
                         {!viewOnly && (
                             <Flex
@@ -578,8 +452,8 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
                                     as={ReactRouterLink}
                                     to={
                                         id
-                                            ? `/admin/organizations/${organizationId}/modules/sales/invoices/${id}`
-                                            : "/admin/organizations/${organizationId}/modules/sales/invoices"
+                                            ? `/admin/organizations/${organizationId}/modules/sales/credit-notes/${id}`
+                                            : `/admin/organizations/${organizationId}/modules/sales/credit-notes`
                                     }
                                 >
                                     <Button width={{ sm: "100%", md: "fit-content" }} variant="outline">
@@ -596,4 +470,4 @@ const InvoiceFormComponent = ({ viewOnly }: { viewOnly?: boolean }) => {
     );
 };
 
-export default InvoiceFormComponent;
+export default CreditNoteFormComponent;

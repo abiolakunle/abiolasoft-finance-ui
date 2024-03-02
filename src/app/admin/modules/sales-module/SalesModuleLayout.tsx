@@ -17,6 +17,12 @@ import SalesPersonFormComponent from "./salesperson-form/SalesPersonFormComponen
 import { getUserOrganizationInfo } from "utils/auth";
 import axiosRequest from "utils/api";
 import SalesOrderFormComponent from "./sales-order-form/SalesOrderFormComponent";
+import ReceiptsComponent from "./receipts/ReceiptsComponent";
+import { ReceiptFormComponent } from "./receipt-form/ReceiptFormComponent";
+import { ReceiptComponent } from "./receipt/ReceiptComponent";
+import CreditNotesComponent from "./credit-notes/CreditNotesComponent";
+import CreditNoteComponent from "./credit-note/CreditNoteComponent";
+import CreditNoteFormComponent from "./credit-note-form/CreditNoteFormComponent";
 
 const SalesModuleLayout = () => {
     const navRoutes = [
@@ -59,12 +65,29 @@ const SalesModuleLayout = () => {
         });
     }
 
+    if (user?.permissions?.includes("View Receipts")) {
+        navRoutes.push({
+            name: "Receipts",
+            path: "/receipts",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <ReceiptsComponent />,
+        });
+    }
+
     if (user?.permissions?.includes("View Invoices")) {
         navRoutes.push({
             name: "Invoices",
             path: "/invoices",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <InvoicesComponent />,
+        });
+    }
+    if (user?.permissions?.includes("View Credit Notes")) {
+        navRoutes.push({
+            name: "Credit Notes",
+            path: "/credit-notes",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <CreditNotesComponent />,
         });
     }
 
@@ -125,6 +148,18 @@ const SalesModuleLayout = () => {
             excludeFromSideNav: true,
         },
         {
+            name: "New Credit Note",
+            path: "/credit-notes/new",
+            component: <CreditNoteFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Edit Credit Note",
+            path: "/credit-notes/:id/edit",
+            component: <CreditNoteFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
             name: "Edit Sales Order",
             path: "/sales-orders/:id/edit",
             component: <SalesOrderFormComponent />,
@@ -152,10 +187,36 @@ const SalesModuleLayout = () => {
             excludeFromSideNav: true,
         },
         {
+            name: "Receipt",
+            path: "/receipts/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <ReceiptComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "New Receipt",
+            path: "/receipts/new",
+            component: <ReceiptFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Edit Receipt",
+            path: "/receipts/:id/edit",
+            component: <ReceiptFormComponent />,
+            excludeFromSideNav: true,
+        },
+        {
             name: "Customer",
             path: "/customer/:id",
             icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
             component: <CustomerComponent />,
+            excludeFromSideNav: true,
+        },
+        {
+            name: "Credit Note",
+            path: "/credit-notes/:id",
+            icon: <Icon as={MdList} width="20px" height="20px" color="inherit" />,
+            component: <CreditNoteComponent />,
             excludeFromSideNav: true,
         },
     ];
