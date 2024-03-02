@@ -10,7 +10,9 @@ export default function InventoryDashboardComponent() {
     const brandColor = useColorModeValue("brand.500", "white");
     const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
     const [info, setInfo] = useState({
-        totalInventoryCost: 0,
+        totalInventoryCostPrice: 0,
+        totalInventorySalesPrice: 0,
+        totalInventoryProfit: 0,
     });
 
     useEffect(() => {
@@ -33,8 +35,20 @@ export default function InventoryDashboardComponent() {
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }} gap="20px" mb="20px">
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
-                    name="Current Inventory Cost"
-                    value={info.totalInventoryCost >= 0 ? `₦${formatNumberWithCommas(info.totalInventoryCost)}` : "--"}
+                    name="Current Inventory Cost Price"
+                    value={info.totalInventoryCostPrice >= 0 ? `₦${formatNumberWithCommas(info.totalInventoryCostPrice)}` : "--"}
+                />
+
+                <MiniStatistics
+                    startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
+                    name="Current Inventory Sales Price"
+                    value={info.totalInventorySalesPrice >= 0 ? `₦${formatNumberWithCommas(info.totalInventorySalesPrice)}` : "--"}
+                />
+
+                <MiniStatistics
+                    startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />} />}
+                    name="Current Inventory Profit"
+                    value={info.totalInventoryProfit >= 0 ? `₦${formatNumberWithCommas(info.totalInventoryProfit)}` : "--"}
                 />
             </SimpleGrid>
         </Box>
