@@ -7,6 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { formatDateTime } from "utils/dateUtils";
 import { useEffect } from "react";
 import GeneralTable from "app-components/general-table/GeneralTable";
+import { formatNumberWithCommas } from "utils/number";
 
 type RowObj = {
     date: string;
@@ -14,6 +15,7 @@ type RowObj = {
     vendorName: string;
     referenceNumber: string;
     status: number;
+    totalAmount: number;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -25,11 +27,11 @@ function PurchaseOrdersTableComponent(props: { tableData: any }) {
     const { organizationId } = useParams();
 
     const columns = [
-        columnHelper.accessor("date", {
-            id: "date",
+        columnHelper.accessor("number", {
+            id: "number",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    DATE
+                    PURCHASE ORDER#
                 </Text>
             ),
             cell: (info: any) => (
@@ -40,22 +42,36 @@ function PurchaseOrdersTableComponent(props: { tableData: any }) {
                             as={ReactRouterLink}
                             to={`/admin/organizations/${organizationId}/modules/purchases/purchase-orders/${info.row.original.id}`}
                         >
-                            {formatDateTime(info.getValue())}
+                            {info.getValue()}
                         </ChakraLink>
                     </Text>
                 </Flex>
             ),
         }),
-        columnHelper.accessor("number", {
-            id: "number",
+        columnHelper.accessor("date", {
+            id: "date",
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    PURCHASE ORDER#
+                    DATE
                 </Text>
             ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatDateTime(info.getValue())}
+                </Text>
+            ),
+        }),
+
+        columnHelper.accessor("totalAmount", {
+            id: "totalAmount",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    TOTAL AMOUNT
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {formatNumberWithCommas(info.getValue())}
                 </Text>
             ),
         }),

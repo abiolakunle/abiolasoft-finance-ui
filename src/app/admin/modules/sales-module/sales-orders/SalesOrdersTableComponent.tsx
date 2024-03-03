@@ -7,6 +7,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { formatDateTime } from "utils/dateUtils";
 import { useEffect } from "react";
 import GeneralTable from "app-components/general-table/GeneralTable";
+import { formatNumberWithCommas } from "utils/number";
 
 type RowObj = {
     date: string;
@@ -14,6 +15,7 @@ type RowObj = {
     customerName: string;
     referenceNumber: string;
     status: number;
+    totalAmount: number;
 };
 
 const columnHelper = createColumnHelper<RowObj>();
@@ -24,24 +26,6 @@ function SalesOrdersTableComponent(props: { tableData: any }) {
     const { organizationId } = useParams();
 
     const columns = [
-        columnHelper.accessor("date", {
-            id: "date",
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
-                    DATE
-                </Text>
-            ),
-            cell: (info: any) => (
-                <Flex align="center">
-                    <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
-                    <Text color={textColor} fontSize="sm" fontWeight="700">
-                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/sales-orders/${info.row.original.id}`}>
-                            {formatDateTime(info.getValue())}
-                        </ChakraLink>
-                    </Text>
-                </Flex>
-            ),
-        }),
         columnHelper.accessor("number", {
             id: "number",
             header: () => (
@@ -49,13 +33,43 @@ function SalesOrdersTableComponent(props: { tableData: any }) {
                     SALES ORDER#
                 </Text>
             ),
+            cell: (info: any) => (
+                <Flex align="center">
+                    <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brandScheme" me="10px" />
+                    <Text color={textColor} fontSize="sm" fontWeight="700">
+                        <ChakraLink as={ReactRouterLink} to={`/admin/organizations/${organizationId}/modules/sales/sales-orders/${info.row.original.id}`}>
+                            {info.getValue()}
+                        </ChakraLink>
+                    </Text>
+                </Flex>
+            ),
+        }),
+        columnHelper.accessor("date", {
+            id: "date",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    DATE
+                </Text>
+            ),
             cell: (info) => (
                 <Text color={textColor} fontSize="sm" fontWeight="700">
-                    {info.getValue()}
+                    {formatDateTime(info.getValue())}
                 </Text>
             ),
         }),
-
+        columnHelper.accessor("totalAmount", {
+            id: "totalAmount",
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: "10px", lg: "12px" }} color="gray.400">
+                    TOTAL AMOUNT
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {formatNumberWithCommas(info.getValue())}
+                </Text>
+            ),
+        }),
         columnHelper.accessor("referenceNumber", {
             id: "referenceNumber",
             header: () => (
