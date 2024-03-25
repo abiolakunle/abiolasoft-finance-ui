@@ -27,6 +27,7 @@ const AppRoutes = () => {
     }, [responseInterceptorActive]);
 
     const getAccountByIdentifier = async (key: string, option: "sub-domain" | "first-path" | "local-storage") => {
+        key = key.toLocaleLowerCase();
         await axios
             .get(`${apiBaseUrl}UserManagement/GetAccountByIdentifier?accountIdentifier=${key}`, { headers: { TenantKey: key } })
             .then((response) => {
@@ -97,7 +98,7 @@ const App = () => {
 
     if (!responseInterceptorActive) {
         axiosRequest.interceptors.response.use(
-            (response) => { 
+            (response) => {
                 dispatch(hideProgress());
                 return response;
             },
