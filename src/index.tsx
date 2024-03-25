@@ -27,7 +27,7 @@ const AppRoutes = () => {
     }, [responseInterceptorActive]);
 
     const getAccountByIdentifier = async (key: string, option: "sub-domain" | "first-path" | "local-storage") => {
-        key = key.toLocaleLowerCase();
+        key = key?.toLocaleLowerCase();
         await axios
             .get(`${apiBaseUrl}UserManagement/GetAccountByIdentifier?accountIdentifier=${key}`, { headers: { TenantKey: key } })
             .then((response) => {
