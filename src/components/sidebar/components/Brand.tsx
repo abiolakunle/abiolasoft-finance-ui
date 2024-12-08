@@ -1,4 +1,5 @@
-import { Flex, useColorModeValue, Text } from "@chakra-ui/react";
+import { Flex, useColorModeValue, Text, Image } from "@chakra-ui/react";
+import FinCoreLogo from "assets/img/branding/logo.svg";
 
 import { HSeparator } from "components/separator/Separator";
 
@@ -7,16 +8,19 @@ export function SidebarBrand() {
     let logoColor = useColorModeValue("navy.700", "white");
 
     return (
-        <Flex alignItems="center" flexDirection="column">
-            {/* <HorizonLogo h='26px' w='175px' my='32px' color={logoColor} /> */}
-            <Text className="logo" my="32px" h="26px" fontSize={"2xl"}>
-                <Text as="span" fontWeight={"extrabold"}>
-                    ABIOLASOFT{"  "}
+        <Flex alignItems="left" flexDirection="column">
+            <Flex pl="20px" alignItems="center" flexDirection="row">
+                <Image w="40px" h="40px" src={FinCoreLogo} alt="logo" />
+
+                <Text pl="10px" className="logo" my="32px" h="26px" fontSize={"2xl"}>
+                    <Text as="span" fontWeight={"extrabold"}>
+                        FinCore{"  "}
+                    </Text>
+                    <Text as="span" color={logoColor}>
+                        {/* FINANCE */}
+                    </Text>
                 </Text>
-                <Text as="span" color={logoColor}>
-                    FINANCE
-                </Text>
-            </Text>
+            </Flex>
 
             <HSeparator mb="20px" />
         </Flex>
